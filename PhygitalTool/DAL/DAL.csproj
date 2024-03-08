@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="EF\" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.16" />
     </ItemGroup>
 
     <ItemGroup>
