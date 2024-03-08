@@ -1,6 +1,9 @@
 ﻿namespace UI_CA;
 
-public class ConsoleUI
+public class ConsoleUi
 {
-    
+    public static void Main(string[] args)
+    {
+        
+    }
 }
