@@ -1,15 +1,23 @@
 ﻿namespace Domain.Feedback;
 
 public class Reaction
-// TODO link leggen met de gebruiker die de reactie plaatst
 {
-    public long Id { get; set; }
+    public long reactionId { get; set; }
     public string content { get; set; }
     public ICollection<Like> Likes { get; set; }
+    
+    // Link to the user who posted the reaction
+    public long userId { get; set; }
+    
+    // Link to the post where the reaction belongs to
+    public long postId { get; set; }
 
-    public Reaction(string content, ICollection<Like> likes)
+
+    public Reaction(string content, ICollection<Like> likes, long userId, long postId)
     {
         this.content = content;
         Likes = likes;
+        this.userId = userId;
+        this.postId = postId;
     }
 }
