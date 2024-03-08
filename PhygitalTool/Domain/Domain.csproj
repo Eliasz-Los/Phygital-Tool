@@ -3,7 +3,9 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <Nullable>disable</Nullable>
+        <AssemblyName>Phygital.Domain</AssemblyName>
+        <RootNamespace>Phygital.Domain</RootNamespace>
     </PropertyGroup>
 
 </Project>

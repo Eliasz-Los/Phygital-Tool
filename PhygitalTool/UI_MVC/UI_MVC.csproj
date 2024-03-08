@@ -2,8 +2,10 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
-        <Nullable>enable</Nullable>
+        <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <AssemblyName>Phygital.UI_MVC</AssemblyName>
+        <RootNamespace>Phygital.UI_MVC</RootNamespace>
     </PropertyGroup>
 
 </Project>

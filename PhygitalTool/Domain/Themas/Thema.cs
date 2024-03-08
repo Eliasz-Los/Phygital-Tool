@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Thema;
+namespace Domain.Themas;
 
 public class Thema : IValidatableObject
 {
