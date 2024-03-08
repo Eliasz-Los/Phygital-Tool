@@ -18,9 +18,10 @@ if (!app.Environment.IsDevelopment())
 }
 
 //AddRoles() methods
-builder.Services.AddDefaultIdentity<IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<PhyticalDbContext>();
+
+// builder.Services.AddDefaultIdentity<IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+//     .AddRoles<IdentityRole>()
+//     .AddEntityFrameworkStores<PhyticalDbContext>();
 
 
 app.UseHttpsRedirection();
