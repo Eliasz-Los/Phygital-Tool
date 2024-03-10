@@ -1,4 +1,6 @@
 ﻿using BL;
+using Phygital.Domain.Questionsprocess;
+using Phygital.UI_CA.Extension;
 
 namespace Phygital.UI_CA;
 
@@ -13,8 +15,14 @@ public class ConsoleUi
     
     public void Run()
     {
-        _manager.GetAllFlows();
-        _manager.GetAllThemas();
+        Console.WriteLine("Get all flows");
+        var allFlows = _manager.GetAllFlows();
+        foreach (var flow in allFlows)
+        {
+            Console.WriteLine(flow.StringRepresentation());
+        }
+        
+        // _manager.GetAllThemas();
 
     }
 }
