@@ -1,5 +1,7 @@
+using BL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Phygital.DAL;
 using Phygital.DAL.EF;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<PhyticalDbContext>(
     o => o.UseNpgsql(builder.Configuration.GetConnectionString("PhyticalDbContext")));
+builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<IManager, Manager>();
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 //AddRoles() methods
 // builder.Services.AddDefaultIdentity<IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
