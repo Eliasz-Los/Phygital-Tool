@@ -11,13 +11,4 @@ public class Reaction
     
     // Link to the post where the reaction belongs to
     public long postId { get; set; }
-
-
-    public Reaction(string content, ICollection<Like> likes, long userId, long postId)
-    {
-        this.content = content;
-        Likes = likes;
-        this.userId = userId;
-        this.postId = postId;
-    }
 }
