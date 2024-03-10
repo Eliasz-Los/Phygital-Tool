@@ -2,7 +2,7 @@
 
 namespace Phygital.Domain.Questionsprocess;
 
-public abstract class Info : FlowElement
+public class Info : FlowElement
 {
     public long Id { get; set; }
     public Flow Flow { get; set; }
