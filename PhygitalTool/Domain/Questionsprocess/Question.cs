@@ -1,11 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Phygital.Domain.Datatypes;
+using Phygital.Domain.Themas;
 
 namespace Phygital.Domain.Questionsprocess;
 
 public class Question : FlowElement
 {
     public long Id { get; set; }
+    public Flow Flow { get; set; }
+    public Thema SubThema { get; set; }
     public Questiontype Questiontype { get; set; }
 
     [MaxLength(200)]

@@ -6,19 +6,17 @@ namespace Phygital.Domain.Questionsprocess;
 
 // The flow class can be filled up with flowElements and can be of a certain type (Linear or Cirular)
 public class Flow
-{ // TODO hoodthema toevoegen?
+{ 
     public long Id { get; set; }
     
     // A flow belongs to a specific type (Linear or Circular)
-
     public Flowtype FlowType { get; set; }
-
-
+    
     
     // A flow can either be active or inactive
     public bool IsOpen { get; set; }
     
-    // A flow can consist of one main thema
+    // A flow consists of one main thema
     public Thema Thema { get; set; }
     
     
