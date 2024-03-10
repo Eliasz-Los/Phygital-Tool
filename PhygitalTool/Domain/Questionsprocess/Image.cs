@@ -1,4 +1,4 @@
-﻿namespace Domain.Questionsprocess;
+﻿namespace Phygital.Domain.Questionsprocess;
 
 public class Image : Info
 {
@@ -7,9 +7,4 @@ public class Image : Info
     // TODO image zelf met een url?
     
     public string AltText { get; set; }
-
-    public Image(string altText)
-    {
-        AltText = altText;
-    }
 }

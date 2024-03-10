@@ -1,4 +1,4 @@
-﻿namespace UI_CA;
+﻿namespace Phygital.UI_CA;
 
 public class ConsoleUi
 {

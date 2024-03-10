@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using Domain;
-using Domain.Datatypes;
-using Domain.Questionsprocess;
-using Domain.Themas;
+﻿using Phygital.Domain.Datatypes;
 using Phygital.Domain.Questionsprocess;
+using Phygital.Domain.Themas;
 
 namespace BL;
 

@@ -1,9 +1,7 @@
-﻿using Domain;
-using Domain.Questionsprocess;
-using Domain.Session;
-using Domain.Themas;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Phygital.Domain.Questionsprocess;
+using Phygital.Domain.Session;
+using Phygital.Domain.Themas;
 
 namespace Phygital.DAL.EF;
 

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Domain.Feedback;
+﻿namespace Phygital.Domain.Feedback;
 
 public class Post
     // TODO Image moet nog toegevoegd worden maar weet niet hoe

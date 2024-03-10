@@ -1,12 +1,7 @@
-﻿namespace Domain.Questionsprocess;
+﻿namespace Phygital.Domain.Questionsprocess;
 
 public class Video : Info
 {
     public long Id { get; set; }
     public string Url { get; set; }
-
-    public Video(string url)
-    {
-        Url = url;
-    }
 }

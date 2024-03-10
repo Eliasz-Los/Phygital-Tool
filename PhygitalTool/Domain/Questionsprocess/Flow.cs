@@ -1,7 +1,6 @@
-﻿using Domain;
-using Domain.Datatypes;
-using Domain.Session;
-using Domain.Themas;
+﻿using Phygital.Domain.Datatypes;
+using Phygital.Domain.Session;
+using Phygital.Domain.Themas;
 
 namespace Phygital.Domain.Questionsprocess;
 
@@ -25,31 +24,5 @@ public class Flow
     
     // A Collection of the participations the flow has
     public ICollection<Participation> Participations { get; set; }
-
-
-    // This default constructor sets the flow mode to linear and closes the flow so the administrator can edit it later
-    public Flow()
-    {
-        Flowtype = Flowtype.linear;
-        IsOpen = false;
-    }
-
-    // This constructor is used for flows that don't have participations (yet).
-    public Flow(Flowtype flowtype, bool isOpen, Thema thema, ICollection<FlowElement> flowElements)
-    {
-        Flowtype = flowtype;
-        IsOpen = isOpen;
-        Thema = thema;
-        FlowElements = flowElements;
-    }
-
-    // This constructor is used for flows that do have participation
-    public Flow(Flowtype flowtype, bool isOpen, Thema thema, ICollection<FlowElement> flowElements, ICollection<Participation> participations)
-    {
-        Flowtype = flowtype;
-        IsOpen = isOpen;
-        Thema = thema;
-        FlowElements = flowElements;
-        Participations = participations;
-    }
+    
 }
