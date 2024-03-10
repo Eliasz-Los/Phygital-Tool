@@ -13,6 +13,7 @@ builder.Services.AddDbContext<PhyticalDbContext>(
     o => o.UseNpgsql(builder.Configuration.GetConnectionString("PhyticalDbContext")));
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<IManager, Manager>();
+//real time compilation voor pages om errors te zien
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 //AddRoles() methods
