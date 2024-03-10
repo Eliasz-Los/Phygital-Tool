@@ -13,49 +13,49 @@ public class Manager : IManager
         _repository = repository;
     }
 
-    public Answer GetAnswer(int id)
+    public Answer GetAnswerById(int id)
     {
-        return _repository.ReadAnswer(id);
+        return _repository.ReadAnswerById(id);
     }
 
-    public Flow GetFlow(int id)
+    public Flow GetFlowById(int id)
     {
-        return _repository.ReadFlow(id);
+        return _repository.ReadFlowById(id);
     }
 
-    public FlowElement GetFlowElement(int id)
+    public FlowElement GetFlowElementById(int id)
     {
-        return _repository.ReadFlowElement(id);
+        return _repository.ReadFlowElementById(id);
     }
 
-    public Image GetImage(int id)
+    public Image GetImageById(int id)
     {
-        return _repository.ReadImage(id);
+        return _repository.ReadImageById(id);
     }
 
-    public Info GetInfo(int id)
+    public Info GetInfoById(int id)
     {
-        return _repository.ReadInfo(id);
+        return _repository.ReadInfoById(id);
     }
 
-    public Question GetQuestion(int id)
+    public Question GetQuestionById(int id)
     {
-        return _repository.ReadQuestion(id);
+        return _repository.ReadQuestionById(id);
     }
 
-    public Text GetText(int id)
+    public Text GetTextById(int id)
     {
-        return _repository.ReadText(id);
+        return _repository.ReadTextById(id);
     }
 
-    public Thema GetThema(int id)
+    public Thema GetThemaById(int id)
     {
-        return _repository.ReadThema(id);
+        return _repository.ReadThemaById(id);
     }
 
-    public Video GetVideo(int id)
+    public Video GetVideoById(int id)
     {
-        return _repository.ReadVideo(id);
+        return _repository.ReadVideoById(id);
     }
 
 
@@ -105,47 +105,47 @@ public class Manager : IManager
         return _repository.ReadAllVideos();
     }
 
-    public Flow GetAllFlowsIncludingFlowElement(int id)
+    public Flow GetAllFlowsIncludingFlowElementById(int id)
     {
-        return _repository.ReadAllFlowsIncludingFlowElement(id);
+        return _repository.ReadAllFlowsIncludingFlowElementById(id);
     }
 
-    public IEnumerable<Question> GetAllQuestionsOfFlow(int flowId)
+    public IEnumerable<Question> GetAllQuestionsOfFlowById(int flowId)
     {
-        return _repository.ReadAllQuestionsOfFlow(flowId);
+        return _repository.ReadAllQuestionsOfFlowById(flowId);
     }
 
-    public IEnumerable<Flow> GetAllFlowsOfFlowType(int flowTypeId)
+    public IEnumerable<Flow> GetAllFlowsOfFlowTypeById(int flowTypeId)
     {
-        return _repository.ReadAllFlowsOfFlowType(flowTypeId);
+        return _repository.ReadAllFlowsOfFlowTypeById(flowTypeId);
     }
 
-    public IEnumerable<FlowElement> GetAllFlowElementsOfFlow(int flowId)
+    public IEnumerable<FlowElement> GetAllFlowElementsOfFlowById(int flowId)
     {
-        return _repository.ReadAllFlowElementsOfFlow(flowId);
+        return _repository.ReadAllFlowElementsOfFlowById(flowId);
     }
 
-    public IEnumerable<Answer> GetAllAnswersOfQuestion(int questionId)
+    public IEnumerable<Answer> GetAllAnswersOfQuestionById(int questionId)
     {
-        return _repository.ReadAllAnswersOfQuestion(questionId);
+        return _repository.ReadAllAnswersOfQuestionById(questionId);
     }
 
-    public IEnumerable<Info> GetAllInfosOfThema(int themaId)
+    public IEnumerable<Info> GetAllInfosOfThemaById(int themaId)
     {
-        return _repository.ReadAllInfosOfThema(themaId);
+        return _repository.ReadAllInfosOfThemaById(themaId);
     }
 
-    public IEnumerable<Question> GetAllQuestionsOfThema(int themaId)
+    public IEnumerable<Question> GetAllQuestionsOfThemaById(int themaId)
     {
-        return _repository.ReadAllQuestionsOfThema(themaId);
+        return _repository.ReadAllQuestionsOfThemaById(themaId);
     }
 
-    public void DeleteFlowElement(int flowId, int flowElementId)
+    public void DeleteFlowElementById(int flowId, int flowElementId)
     {
-        _repository.DeleteFlowElement(flowId, flowElementId);
+        _repository.DeleteFlowElementById(flowId, flowElementId);
     }
 
-
+    //TODO write all the adds
     //Add
     public Answer addAnswer(string answerText, Question question)
     {
