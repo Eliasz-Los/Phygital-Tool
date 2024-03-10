@@ -26,11 +26,9 @@ public class PhygitalInitializer
     private static void Seed(PhyticalDbContext context)
     {
         // Info opvullen
-        Text t1 = new Text { Content = "Dit is een tekst" };
-        Text t2 = new Text { Content = "Dit is een andere tekst" };
         
-        Info i1 = new Info { Title = "Jeugdverkiezingen" };
-        Info i2 = new Info { Title = "Vakantie" };
+        Info i1 = new Text { Content = "Dit is een tekst" };
+        Info i2 = new Text { Content = "Dit is een andere tekst" };
         
         // Vragen opvullen
         Question q1 = new Question { Questiontype = Questiontype.singlechoice, Text = "Wat is je favoriete partij?", Active = true, SequenceNumber = 1 };
@@ -50,7 +48,12 @@ public class PhygitalInitializer
     
     
         // Relaties leggen
-
+        i1.SubThema = th1;
+        i2.SubThema = th2;
+        f1.Thema = th1;
+        f1.FlowElements = new List<FlowElement> { i1,i2, q1, q2, q3 , a1, a2, a3 };
+        
+        
         context.SaveChanges();
         context.ChangeTracker.Clear();
     }
