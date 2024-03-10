@@ -10,13 +10,7 @@ public class Thema : IValidatableObject
     public string Title { get; set; }
     public string Description { get; set; }
     public ICollection<Thema> SubThemas { get; set; }
-
-    public Thema(string title, string description, ICollection<Thema> subThemas)
-    {
-        Title = title;
-        Description = description;
-        SubThemas = subThemas;
-    }
+    
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {

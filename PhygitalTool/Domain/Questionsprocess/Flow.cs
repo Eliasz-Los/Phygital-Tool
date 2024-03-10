@@ -8,7 +8,7 @@ public class Flow
 {
     public long Id { get; set; }
 
-    public Flowtype Flowtype { get; set; }
+    public Flowtype FlowType { get; set; }
     
     public bool IsOpen { get; set; }
     

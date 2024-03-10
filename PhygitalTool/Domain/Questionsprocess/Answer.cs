@@ -7,4 +7,6 @@ public class Answer : FlowElement
     public long Id { get; set; }
     [MaxLength(255)]
     public string Text { get; set; }
+    
+    public Question Question { get; set; }
 }
