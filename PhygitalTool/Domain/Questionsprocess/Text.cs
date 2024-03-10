@@ -1,6 +1,4 @@
-﻿using Domain.Questionsprocess;
-
-namespace Phygital.Domain.Questionsprocess;
+﻿namespace Phygital.Domain.Questionsprocess;
 
 public class Text : Info
 {

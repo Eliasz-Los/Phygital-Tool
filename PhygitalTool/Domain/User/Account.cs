@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
-namespace Domain.User;
+namespace Phygital.Domain.User;
 
 public class Account : IdentityUser
 {

@@ -1,4 +1,4 @@
-namespace UI_MVC.Models;
+namespace Phygital.UI_MVC.Models;
 
 public class ErrorViewModel
 {

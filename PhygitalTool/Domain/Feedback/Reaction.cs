@@ -1,4 +1,4 @@
-﻿namespace Domain.Feedback;
+﻿namespace Phygital.Domain.Feedback;
 
 public class Reaction
 {
