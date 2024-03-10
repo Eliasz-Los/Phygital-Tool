@@ -12,9 +12,6 @@ public class PhyticalDbContext : DbContext
     // Questionsprocess package
     public DbSet<Flow> Flows { get; set; }
     public DbSet<FlowElement> FlowElements { get; set; }
-    // public DbSet<Info> Infos { get; set; }
-    // public DbSet<Question> Questions { get; set; }
-    // public DbSet<Answer> Answers { get; set; }
 
     // Session package
     public DbSet<Participation> Participations { get; set; }
@@ -43,15 +40,6 @@ public class PhyticalDbContext : DbContext
         
         modelBuilder.Entity<FlowElement>().ToTable("FlowElement");
         modelBuilder.Entity<FlowElement>().HasIndex(flowElement => flowElement.Id).IsUnique();
-        
-        // modelBuilder.Entity<Info>().ToTable("Info");
-        // modelBuilder.Entity<Info>().HasIndex(info => info.Id).IsUnique();
-        //
-        // modelBuilder.Entity<Question>().ToTable("Question");
-        // modelBuilder.Entity<Question>().HasIndex(question => question.Id).IsUnique();
-        //
-        // modelBuilder.Entity<Answer>().ToTable("Answer");
-        // modelBuilder.Entity<Answer>().HasIndex(answer => answer.Id).IsUnique();
         
         // Session package
         modelBuilder.Entity<Participation>().ToTable("Participation");

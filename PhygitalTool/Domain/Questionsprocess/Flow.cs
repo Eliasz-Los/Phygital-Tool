@@ -16,13 +16,12 @@ public class Flow
     // A flow can either be active or inactive
     public bool IsOpen { get; set; }
     
-    // A flow can consist of many Themes
+    // A flow can consist of one main thema
     public Thema Thema { get; set; }
     
     
     // A list of elements used in the flow
     public ICollection<FlowElement> FlowElements { get; set; }
-    public ICollection<Participation> Participations { get; set; }
     
     // A Collection of the participations the flow has
     public ICollection<Participation> Participations { get; set; }
@@ -36,20 +35,20 @@ public class Flow
     }
 
     // This constructor is used for flows that don't have participations (yet).
-    public Flow(Flowtype flowtype, bool isOpen, ICollection<Thema> themas, ICollection<FlowElement> flowElements)
+    public Flow(Flowtype flowtype, bool isOpen, Thema thema, ICollection<FlowElement> flowElements)
     {
         Flowtype = flowtype;
         IsOpen = isOpen;
-        Themas = themas;
+        Thema = thema;
         FlowElements = flowElements;
     }
 
     // This constructor is used for flows that do have participation
-    public Flow(Flowtype flowtype, bool isOpen, ICollection<Thema> themas, ICollection<FlowElement> flowElements, ICollection<Participation> participations)
+    public Flow(Flowtype flowtype, bool isOpen, Thema thema, ICollection<FlowElement> flowElements, ICollection<Participation> participations)
     {
         Flowtype = flowtype;
         IsOpen = isOpen;
-        Themas = themas;
+        Thema = thema;
         FlowElements = flowElements;
         Participations = participations;
     }
