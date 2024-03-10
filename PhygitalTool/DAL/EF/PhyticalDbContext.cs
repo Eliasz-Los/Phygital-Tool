@@ -49,12 +49,10 @@ public class PhyticalDbContext : DbContext
         modelBuilder.Entity<Answer>().ToTable("Answers").HasIndex(answer => answer.Id).IsUnique();
         
         // Session package
-        modelBuilder.Entity<Participation>().ToTable("Participation");
-        modelBuilder.Entity<Participation>().HasIndex(participation => participation.Id).IsUnique();
+        modelBuilder.Entity<Participation>().ToTable("Participation").HasIndex(participation => participation.Id).IsUnique();
         
         // Themas package
-        modelBuilder.Entity<Thema>().ToTable("Thema");
-        modelBuilder.Entity<Thema>().HasIndex(thema => thema.Id).IsUnique();
+        modelBuilder.Entity<Thema>().ToTable("Thema").HasIndex(thema => thema.Id).IsUnique();
         
         // Relations
         //one flow has many flowelements 
