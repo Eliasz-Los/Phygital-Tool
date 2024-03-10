@@ -18,15 +18,15 @@ public interface IManager
     Video addVideo(string videoLink, Question question);
 
     //ID
-    Answer GetAnswer(int id);
-    Flow GetFlow(int id);
-    FlowElement GetFlowElement(int id);
-    Image GetImage(int id);
-    Info GetInfo(int id);
-    Question GetQuestion(int id);
-    Text GetText(int id);
-    Thema GetThema(int id);
-    Video GetVideo(int id);
+    Answer GetAnswerById(int id);
+    Flow GetFlowById(int id);
+    FlowElement GetFlowElementById(int id);
+    Image GetImageById(int id);
+    Info GetInfoById(int id);
+    Question GetQuestionById(int id);
+    Text GetTextById(int id);
+    Thema GetThemaById(int id);
+    Video GetVideoById(int id);
 
     //ALL
     IEnumerable<Answer> GetAllAnswers();
@@ -38,17 +38,17 @@ public interface IManager
     IEnumerable<Text> GetAllTexts();
     IEnumerable<Thema> GetAllThemas();
     IEnumerable<Video> GetAllVideos();
-    Flow GetAllFlowsIncludingFlowElement(int id);
+    Flow GetAllFlowsIncludingFlowElementById(int id);
 
     //Filter
-    IEnumerable<Question> GetAllQuestionsOfFlow(int flowId);
-    IEnumerable<Flow> GetAllFlowsOfFlowType(int flowTypeId);
-    IEnumerable<FlowElement> GetAllFlowElementsOfFlow(int flowId);
-    IEnumerable<Answer> GetAllAnswersOfQuestion(int questionId);
-    IEnumerable<Info> GetAllInfosOfThema(int themaId);
-    IEnumerable<Question> GetAllQuestionsOfThema(int themaId);
+    IEnumerable<Question> GetAllQuestionsOfFlowById(int flowId);
+    IEnumerable<Flow> GetAllFlowsOfFlowTypeById(int flowTypeId);
+    IEnumerable<FlowElement> GetAllFlowElementsOfFlowById(int flowId);
+    IEnumerable<Answer> GetAllAnswersOfQuestionById(int questionId);
+    IEnumerable<Info> GetAllInfosOfThemaById(int themaId);
+    IEnumerable<Question> GetAllQuestionsOfThemaById(int themaId);
 
     // Delete
-    void DeleteFlowElement(int flowId, int flowElementId);
+    void DeleteFlowElementById(int flowId, int flowElementId);
 
 }
