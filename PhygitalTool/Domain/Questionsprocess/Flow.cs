@@ -1,7 +1,6 @@
-﻿using Domain;
-using Domain.Datatypes;
-using Domain.Session;
-using Domain.Themas;
+﻿using Phygital.Domain.Datatypes;
+using Phygital.Domain.Session;
+using Phygital.Domain.Themas;
 
 namespace Phygital.Domain.Questionsprocess;
 

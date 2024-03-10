@@ -1,6 +1,6 @@
 ﻿using Phygital.Domain.Questionsprocess;
 
-namespace Domain.Session;
+namespace Phygital.Domain.Session;
 
 public class Participation
 {

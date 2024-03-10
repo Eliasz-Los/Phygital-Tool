@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Phygital.Domain.Questionsprocess;
 
-namespace Domain.Themas;
+namespace Phygital.Domain.Themas;
 
 public class Thema : IValidatableObject
 {

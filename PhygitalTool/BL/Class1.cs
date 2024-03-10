@@ -1,4 +1,4 @@
-﻿namespace BL;
+﻿namespace Phygital.BL;
 
 public class Class1
 {

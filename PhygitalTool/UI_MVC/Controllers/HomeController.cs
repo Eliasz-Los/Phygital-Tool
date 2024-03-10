@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using UI_MVC.Models;
+using Phygital.UI_MVC.Models;
 
-namespace UI_MVC.Controllers;
+namespace Phygital.UI_MVC.Controllers;
 
 public class HomeController : Controller
 {

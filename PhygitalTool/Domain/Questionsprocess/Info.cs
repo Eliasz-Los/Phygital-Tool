@@ -1,4 +1,4 @@
-﻿namespace Domain.Questionsprocess;
+﻿namespace Phygital.Domain.Questionsprocess;
 
 public class Info : FlowElement
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Questionsprocess;
+namespace Phygital.Domain.Questionsprocess;
 
 public class Answer : FlowElement
 {

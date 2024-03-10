@@ -1,4 +1,4 @@
-﻿namespace Domain.Datatypes;
+﻿namespace Phygital.Domain.Datatypes;
 
 public enum Questiontype
 {
