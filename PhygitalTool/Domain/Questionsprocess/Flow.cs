@@ -24,31 +24,5 @@ public class Flow
     
     // A Collection of the participations the flow has
     public ICollection<Participation> Participations { get; set; }
-
-
-    // This default constructor sets the flow mode to linear and closes the flow so the administrator can edit it later
-    public Flow()
-    {
-        Flowtype = Flowtype.linear;
-        IsOpen = false;
-    }
-
-    // This constructor is used for flows that don't have participations (yet).
-    public Flow(Flowtype flowtype, bool isOpen, ICollection<Thema> themas, ICollection<FlowElement> flowElements)
-    {
-        Flowtype = flowtype;
-        IsOpen = isOpen;
-        Themas = themas;
-        FlowElements = flowElements;
-    }
-
-    // This constructor is used for flows that do have participation
-    public Flow(Flowtype flowtype, bool isOpen, ICollection<Thema> themas, ICollection<FlowElement> flowElements, ICollection<Participation> participations)
-    {
-        Flowtype = flowtype;
-        IsOpen = isOpen;
-        Themas = themas;
-        FlowElements = flowElements;
-        Participations = participations;
-    }
+    
 }
