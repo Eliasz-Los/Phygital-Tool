@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Domain.Datatypes;
+using Phygital.Domain.Datatypes;
 
-namespace Domain.Questionsprocess;
+namespace Phygital.Domain.Questionsprocess;
 
 public class Question : FlowElement
 {

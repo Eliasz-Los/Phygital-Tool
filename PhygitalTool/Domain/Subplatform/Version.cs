@@ -1,4 +1,4 @@
-﻿namespace Domain.Deelplatform;
+﻿namespace Phygital.Domain.Subplatform;
 
 public class Version
 {

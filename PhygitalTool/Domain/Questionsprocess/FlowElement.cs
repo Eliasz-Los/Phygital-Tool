@@ -1,7 +1,6 @@
-﻿using Domain.Themas;
-using Phygital.Domain.Questionsprocess;
+﻿using Phygital.Domain.Themas;
 
-namespace Domain;
+namespace Phygital.Domain.Questionsprocess;
 
 public class FlowElement
 {

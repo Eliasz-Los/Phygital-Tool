@@ -1,4 +1,4 @@
-﻿namespace Domain.Session;
+﻿namespace Phygital.Domain.Session;
 
 public class Note
 {
