@@ -16,8 +16,9 @@ public class Flow
     // A flow can either be active or inactive
     public bool IsOpen { get; set; }
     
-    // A flow can consist of many Themes
-    public ICollection<Thema> Themas { get; set; }
+    // A flow can consist of one main thema
+    public Thema Thema { get; set; }
+    
     
     // A list of elements used in the flow
     public ICollection<FlowElement> FlowElements { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Phygital.Domain.Questionsprocess;
 
 namespace Domain.Themas;
 
@@ -10,12 +11,17 @@ public class Thema : IValidatableObject
     public string Title { get; set; }
     public string Description { get; set; }
     public ICollection<Thema> SubThemas { get; set; }
+    public ICollection<Flow> Flows { get; set; }
+    public ICollection<FlowElement> FlowElements { get; set; }
 
-    public Thema(string title, string description, ICollection<Thema> subThemas)
+    public Thema(long id, string title, string description, ICollection<Thema> subThemas, ICollection<Flow> flows, ICollection<FlowElement> flowElements)
     {
+        Id = id;
         Title = title;
         Description = description;
         SubThemas = subThemas;
+        Flows = flows;
+        FlowElements = flowElements;
     }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -4,7 +4,7 @@ namespace Domain.Session;
 
 public class Participation
 {
-    public int participationID { get; set; }
+    public long Id { get; set; }
     public TimeOnly participationDuration { get; set; }
     public int amountOfParticipations { get; set; }
     public Installation Installation { get; set; }
