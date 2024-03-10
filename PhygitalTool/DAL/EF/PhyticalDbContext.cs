@@ -9,13 +9,19 @@ public class PhyticalDbContext : DbContext
 {
     // Questionsprocess package
     public DbSet<Flow> Flows { get; set; }
-    public DbSet<FlowElement> FlowElements { get; set; }
+    // public DbSet<FlowElement> FlowElements { get; set; }
+    
+    // public DbSet<Answer> Answers { get; set; }
+    // public DbSet<Question> Questions { get; set; }
+    // public DbSet<Image> Images { get; set; }
+    // public DbSet<Text> Texts { get; set; }
+    // public DbSet<Video> Videos { get; set; }
 
     // Session package
-    public DbSet<Participation> Participations { get; set; }
+    // public DbSet<Participation> Participations { get; set; }
 
     // Themas package
-    public DbSet<Thema> Themas { get; set; }
+    // public DbSet<Thema> Themas { get; set; }
 
     public PhyticalDbContext(DbContextOptions options) : base(options)
     {
@@ -26,7 +32,8 @@ public class PhyticalDbContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseNpgsql("Data Source=Phygital.db");
+            // optionsBuilder.UseNpgsql("Data Source=Phygital.db");
+            optionsBuilder.UseSqlite("Data Source=Phygital.db");
         }
     }
     
@@ -36,52 +43,52 @@ public class PhyticalDbContext : DbContext
         modelBuilder.Entity<Flow>().ToTable("Flow");
         modelBuilder.Entity<Flow>().HasIndex(flow => flow.Id).IsUnique();
         
-        modelBuilder.Entity<FlowElement>().ToTable("FlowElement");
-        modelBuilder.Entity<FlowElement>().HasIndex(flowElement => flowElement.Id).IsUnique();
+        // modelBuilder.Entity<FlowElement>().ToTable("FlowElement");
+        // modelBuilder.Entity<FlowElement>().HasIndex(flowElement => flowElement.Id).IsUnique();
         
         // Session package
-        modelBuilder.Entity<Participation>().ToTable("Participation");
-        modelBuilder.Entity<Participation>().HasIndex(participation => participation.Id).IsUnique();
+        // modelBuilder.Entity<Participation>().ToTable("Participation");
+        // modelBuilder.Entity<Participation>().HasIndex(participation => participation.Id).IsUnique();
         
         // Themas package
-        modelBuilder.Entity<Thema>().ToTable("Thema");
-        modelBuilder.Entity<Thema>().HasIndex(thema => thema.Id).IsUnique();
+        // modelBuilder.Entity<Thema>().ToTable("Thema");
+        // modelBuilder.Entity<Thema>().HasIndex(thema => thema.Id).IsUnique();
         
         // Relations
         // one flow has many flow elements
-        modelBuilder.Entity<Flow>()
-            .HasMany(f => f.FlowElements)
-            .WithOne(fe => fe.Flow);
-        
-        modelBuilder.Entity<FlowElement>()
-            .HasOne(fe => fe.Flow)
-            .WithMany(f => f.FlowElements);
+        // modelBuilder.Entity<Flow>()
+        //     .HasMany(f => f.FlowElements)
+        //     .WithOne(fe => fe.Flow);
+        //
+        // modelBuilder.Entity<FlowElement>()
+        //     .HasOne(fe => fe.Flow)
+        //     .WithMany(f => f.FlowElements);
         
         // one flow has many participations
-        modelBuilder.Entity<Flow>()
-            .HasMany(f => f.Participations)
-            .WithOne(p => p.flow);
-
-        modelBuilder.Entity<Participation>()
-            .HasOne(p => p.flow)
-            .WithMany(f => f.Participations);
+        // modelBuilder.Entity<Flow>()
+        //     .HasMany(f => f.Participations)
+        //     .WithOne(p => p.flow);
+        //
+        // modelBuilder.Entity<Participation>()
+        //     .HasOne(p => p.flow)
+        //     .WithMany(f => f.Participations);
         
         // one thema can be used in multiple flows
-        modelBuilder.Entity<Thema>()
-            .HasMany(t => t.Flows)
-            .WithOne(f => f.Thema);
-        
-        modelBuilder.Entity<Flow>()
-            .HasOne(f => f.Thema)
-            .WithMany(t => t.Flows);
+        // modelBuilder.Entity<Thema>()
+        //     .HasMany(t => t.Flows)
+        //     .WithOne(f => f.Thema);
+        //
+        // modelBuilder.Entity<Flow>()
+        //     .HasOne(f => f.Thema)
+        //     .WithMany(t => t.Flows);
         
         // one subthema can be used in multiple flow elements 
-        modelBuilder.Entity<Thema>()
-            .HasMany(t => t.FlowElements)
-            .WithOne(fe => fe.SubThema);
-
-        modelBuilder.Entity<FlowElement>()
-            .HasOne(t => t.SubThema)
-            .WithMany(fe => fe.FlowElements);
+        // modelBuilder.Entity<Thema>()
+        //     .HasMany(t => t.FlowElements)
+        //     .WithOne(fe => fe.SubThema);
+        //
+        // modelBuilder.Entity<FlowElement>()
+        //     .HasOne(t => t.SubThema)
+        //     .WithMany(fe => fe.FlowElements);
     }
 }

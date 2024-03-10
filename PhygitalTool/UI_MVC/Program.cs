@@ -9,8 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<PhyticalDbContext>(
-    o => o.UseNpgsql(builder.Configuration.GetConnectionString("PhyticalDbContext")));
+// builder.Services.AddDbContext<PhyticalDbContext>(
+//     o => o.UseNpgsql(builder.Configuration.GetConnectionString("PhyticalDbContext")));
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<IManager, Manager>();
 //real time compilation voor pages om errors te zien

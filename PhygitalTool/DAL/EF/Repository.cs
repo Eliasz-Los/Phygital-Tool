@@ -48,7 +48,8 @@ public class Repository : IRepository
 
     public Thema ReadThemaById(int id)
     {
-        return _dbContext.Themas.Find(id);
+        // return _dbContext.Themas.Find(id);
+        throw new NotImplementedException();
     }
 
     public Video ReadVideoById(int id)
@@ -69,7 +70,8 @@ public class Repository : IRepository
 
     public IEnumerable<FlowElement> ReadAllFlowElements()
     {
-        return _dbContext.FlowElements;
+        // return _dbContext.FlowElements;
+        throw new NotImplementedException();
     }
 
     public IEnumerable<Image> ReadAllImages()
@@ -94,7 +96,8 @@ public class Repository : IRepository
 
     public IEnumerable<Thema> ReadAllThemas()
     {
-        return _dbContext.Themas;
+        // return _dbContext.Themas;
+        throw new NotImplementedException();
     }
 
     public IEnumerable<Video> ReadAllVideos()
