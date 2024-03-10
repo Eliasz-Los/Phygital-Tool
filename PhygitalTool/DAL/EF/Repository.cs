@@ -5,6 +5,12 @@ namespace Phygital.DAL.EF;
 
 public class Repository : IRepository
 {
+    private readonly PhyticalDbContext _dbContext;
+    public Repository(PhyticalDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
     public Answer ReadAnswerById(int id)
     {
         throw new NotImplementedException();
@@ -42,7 +48,7 @@ public class Repository : IRepository
 
     public Thema ReadThemaById(int id)
     {
-        throw new NotImplementedException();
+        return _dbContext.Themas.Find(id);
     }
 
     public Video ReadVideoById(int id)
@@ -52,17 +58,18 @@ public class Repository : IRepository
 
     public IEnumerable<Answer> ReadAllAnswers()
     {
+     //   return _dbContext.Answers;
         throw new NotImplementedException();
     }
 
     public IEnumerable<Flow> ReadAllFlows()
     {
-        throw new NotImplementedException();
+        return _dbContext.Flows;
     }
 
     public IEnumerable<FlowElement> ReadAllFlowElements()
     {
-        throw new NotImplementedException();
+        return _dbContext.FlowElements;
     }
 
     public IEnumerable<Image> ReadAllImages()
@@ -87,7 +94,7 @@ public class Repository : IRepository
 
     public IEnumerable<Thema> ReadAllThemas()
     {
-        throw new NotImplementedException();
+        return _dbContext.Themas;
     }
 
     public IEnumerable<Video> ReadAllVideos()

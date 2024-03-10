@@ -1,9 +1,20 @@
-﻿namespace Phygital.UI_CA;
+﻿using BL;
+
+namespace Phygital.UI_CA;
 
 public class ConsoleUi
 {
-    public static void Main(string[] args)
+    private readonly IManager _manager;
+    
+    public ConsoleUi(IManager manager)
     {
-        
+        _manager = manager;
+    }
+    
+    public void Run()
+    {
+        _manager.GetAllFlows();
+        _manager.GetAllThemas();
+
     }
 }
