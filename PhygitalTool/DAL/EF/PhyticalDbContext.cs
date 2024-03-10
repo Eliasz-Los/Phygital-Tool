@@ -26,7 +26,7 @@ public class PhyticalDbContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlite("Data Source=Phygital.db");
+            optionsBuilder.UseNpgsql("Data Source=Phygital.db");
         }
     }
     

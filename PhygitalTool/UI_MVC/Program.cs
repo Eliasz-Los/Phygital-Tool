@@ -1,9 +1,19 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Phygital.DAL.EF;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<PhyticalDbContext>(
+    o => o.UseNpgsql(builder.Configuration.GetConnectionString("PhyticalDbContext")));
+
+//AddRoles() methods
+// builder.Services.AddDefaultIdentity<IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+//     .AddRoles<IdentityRole>()
+//     .AddEntityFrameworkStores<PhyticalDbContext>();
 
 var app = builder.Build();
 
@@ -14,13 +24,6 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
-//AddRoles() methods
-
-// builder.Services.AddDefaultIdentity<IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-//     .AddRoles<IdentityRole>()
-//     .AddEntityFrameworkStores<PhyticalDbContext>();
-
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
