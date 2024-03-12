@@ -48,7 +48,7 @@ public class Manager : IManager
         return _repository.ReadTextById(id);
     }
 
-    public Thema GetThemaById(int id)
+    public Theme GetThemaById(int id)
     {
         return _repository.ReadThemaById(id);
     }
@@ -95,7 +95,7 @@ public class Manager : IManager
         return _repository.ReadAllTexts();
     }
 
-    public IEnumerable<Thema> GetAllThemas()
+    public IEnumerable<Theme> GetAllThemas()
     {
         return _repository.ReadAllThemas();
     }
@@ -182,7 +182,7 @@ public class Manager : IManager
         throw new NotImplementedException();
     }
 
-    public Thema addThema(string themaName)
+    public Theme addThema(string themaName)
     {
         throw new NotImplementedException();
     }

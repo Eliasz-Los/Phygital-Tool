@@ -11,7 +11,7 @@ var builder = new DbContextOptionsBuilder();
 // builder.UseNpgsql("Data Source=Phygital.db");
 builder.UseSqlite("Data Source=Phygital.db");
 
-var dbContext = new PhyticalDbContext(builder.Options);
+var dbContext = new PhygitalDbContext(builder.Options);
 
 var repository = new Repository(dbContext);
 var manager = new Manager(repository);

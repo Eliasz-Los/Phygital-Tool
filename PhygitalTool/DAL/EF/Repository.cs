@@ -1,12 +1,13 @@
-﻿using Phygital.Domain.Questionsprocess;
+﻿using Microsoft.EntityFrameworkCore;
+using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Themas;
 
 namespace Phygital.DAL.EF;
 
 public class Repository : IRepository
 {
-    private readonly PhyticalDbContext _dbContext;
-    public Repository(PhyticalDbContext dbContext)
+    private readonly PhygitalDbContext _dbContext;
+    public Repository(PhygitalDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -46,7 +47,7 @@ public class Repository : IRepository
         throw new NotImplementedException();
     }
 
-    public Thema ReadThemaById(int id)
+    public Theme ReadThemaById(int id)
     {
         // return _dbContext.Themas.Find(id);
         throw new NotImplementedException();
@@ -94,7 +95,7 @@ public class Repository : IRepository
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Thema> ReadAllThemas()
+    public IEnumerable<Theme> ReadAllThemas()
     {
         // return _dbContext.Themas;
         throw new NotImplementedException();
@@ -109,10 +110,12 @@ public class Repository : IRepository
     {
         throw new NotImplementedException();
     }
-
+    
     public IEnumerable<Question> ReadAllQuestionsOfFlowById(int flowId)
     {
-        throw new NotImplementedException();
+        IQueryable<Question> result = _dbContext.Questions;
+        result = result.Where(question => question.Flow.Id == flowId);
+        return result;
     }
 
     public IEnumerable<Flow> ReadAllFlowsOfFlowTypeById(int flowTypeId)

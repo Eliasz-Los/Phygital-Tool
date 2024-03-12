@@ -2,8 +2,8 @@
 
 public class Installation
 {
-    public int installationID { get; set; }
-    public string location { get; set; }
+    public long Id { get; set; }
+    public string Location { get; set; }
     public ICollection<Participation> Participations { get; set; }
 
 }

@@ -21,8 +21,16 @@ public class ConsoleUi
         {
             Console.WriteLine(flow.StringRepresentation());
         }
+
+        Console.WriteLine("Get all questions of flow 1");
+        var allQuestions = _manager.GetAllQuestionsOfFlowById(2);
+        foreach (var question in allQuestions)
+        {
+            Console.WriteLine(question.Text);
+        }
         
-        // _manager.GetAllThemas();
+        
+        
 
     }
 }

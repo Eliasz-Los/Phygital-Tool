@@ -5,7 +5,7 @@ using Phygital.Domain.Themas;
 
 namespace Phygital.DAL.EF;
 
-public class PhyticalDbContext : DbContext
+public class PhygitalDbContext : DbContext
 {
     // Questionsprocess package
     public DbSet<Flow> Flows { get; set; }
@@ -22,9 +22,9 @@ public class PhyticalDbContext : DbContext
     public DbSet<Participation> Participations { get; set; }
 
     // Themas package
-    public DbSet<Thema> Themas { get; set; }
+    public DbSet<Theme> Themas { get; set; }
 
-    public PhyticalDbContext(DbContextOptions options) : base(options)
+    public PhygitalDbContext(DbContextOptions options) : base(options)
     {
         PhygitalInitializer.Initialize(this, true);
     }
@@ -53,8 +53,8 @@ public class PhyticalDbContext : DbContext
         modelBuilder.Entity<Participation>().HasIndex(participation => participation.Id).IsUnique();
         
         // Themas package
-        modelBuilder.Entity<Thema>().ToTable("Thema");
-        modelBuilder.Entity<Thema>().HasIndex(thema => thema.Id).IsUnique();
+        modelBuilder.Entity<Theme>().ToTable("Theme");
+        modelBuilder.Entity<Theme>().HasIndex(thema => thema.Id).IsUnique();
         
         // Relations
         //one flow has many flowelements 
@@ -102,21 +102,21 @@ public class PhyticalDbContext : DbContext
             .WithMany(f => f.Participations);
         
         // one thema can be used in multiple flows
-        modelBuilder.Entity<Thema>()
+        modelBuilder.Entity<Theme>()
             .HasMany(t => t.Flows)
-            .WithOne(f => f.Thema);
+            .WithOne(f => f.Theme);
         
         modelBuilder.Entity<Flow>()
-            .HasOne(f => f.Thema)
+            .HasOne(f => f.Theme)
             .WithMany(t => t.Flows);
         
         // one subthema can be used in multiple flow elements 
-        modelBuilder.Entity<Thema>()
+        modelBuilder.Entity<Theme>()
             .HasMany(t => t.FlowElements)
-            .WithOne(fe => fe.SubThema);
+            .WithOne(fe => fe.SubTheme);
         
         modelBuilder.Entity<FlowElement>()
-            .HasOne(t => t.SubThema)
+            .HasOne(t => t.SubTheme)
             .WithMany(fe => fe.FlowElements);
     }
 }

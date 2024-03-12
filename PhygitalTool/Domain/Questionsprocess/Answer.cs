@@ -8,7 +8,7 @@ public class Answer : FlowElement
 {
     public long Id { get; set; }
     public Flow Flow { get; set; }
-    public Thema SubThema { get; set; }
+    public Theme SubTheme { get; set; }
 
     [MaxLength(255)]
     public string Text { get; set; }

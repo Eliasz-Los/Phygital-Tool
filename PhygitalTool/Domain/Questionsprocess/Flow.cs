@@ -17,7 +17,7 @@ public class Flow
     public bool IsOpen { get; set; }
     
     // A flow consists of one main thema
-    public Thema Thema { get; set; }
+    public Theme Theme { get; set; }
     
     
     // A list of elements used in the flow

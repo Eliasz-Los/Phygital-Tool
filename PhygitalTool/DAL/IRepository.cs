@@ -12,7 +12,7 @@ public interface IRepository
     Info ReadInfoById(int id);
     Question ReadQuestionById(int id);
     Text ReadTextById(int id);
-    Thema ReadThemaById(int id);
+    Theme ReadThemaById(int id);
     Video ReadVideoById(int id);
     IEnumerable<Answer> ReadAllAnswers();
     IEnumerable<Flow> ReadAllFlows();
@@ -21,7 +21,7 @@ public interface IRepository
     IEnumerable<Info> ReadAllInfos();
     IEnumerable<Question> ReadAllQuestions();
     IEnumerable<Text> ReadAllTexts();
-    IEnumerable<Thema> ReadAllThemas();
+    IEnumerable<Theme> ReadAllThemas();
     IEnumerable<Video> ReadAllVideos();
     Flow ReadAllFlowsIncludingFlowElementById(int id);
     IEnumerable<Question> ReadAllQuestionsOfFlowById(int flowId);

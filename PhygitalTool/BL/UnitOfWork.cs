@@ -4,9 +4,9 @@ namespace Phygital.BL;
 
 public class UnitOfWork
 {
-    private readonly PhyticalDbContext _dbContext;
+    private readonly PhygitalDbContext _dbContext;
 
-    public UnitOfWork(PhyticalDbContext dbContext)
+    public UnitOfWork(PhygitalDbContext dbContext)
     {
         _dbContext = dbContext;
     }

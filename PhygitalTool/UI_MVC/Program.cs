@@ -9,8 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// builder.Services.AddDbContext<PhyticalDbContext>(
-//     o => o.UseNpgsql(builder.Configuration.GetConnectionString("PhyticalDbContext")));
+// builder.Services.AddDbContext<PhygitalDbContext>(
+//     o => o.UseNpgsql(builder.Configuration.GetConnectionString("PhygitalDbContext")));
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<IManager, Manager>();
 //real time compilation voor pages om errors te zien
@@ -19,7 +19,7 @@ builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 //AddRoles() methods
 // builder.Services.AddDefaultIdentity<IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
 //     .AddRoles<IdentityRole>()
-//     .AddEntityFrameworkStores<PhyticalDbContext>();
+//     .AddEntityFrameworkStores<PhygitalDbContext>();
 
 var app = builder.Build();
 
