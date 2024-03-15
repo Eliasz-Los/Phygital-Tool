@@ -24,8 +24,11 @@ public class PhygitalInitializer
         }
     }
     
+    
     private static void Seed(PhygitalDbContext context)
     {
+        // In the first part of the seed method we create data to be put into the database
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
         // Filling themes
         var th1 = new Theme { Title = "Politiek" , Description = "Simpele vragen rond politiek"};
         var th2 = new Theme { Title = "Vakantie" , Description = "Simpele vragen rond vakantie"};
@@ -62,9 +65,9 @@ public class PhygitalInitializer
         Answer a6 = new Answer { Text = "Open-VLD" };            
         Answer a7 = new Answer { Text = "Vlaams Belang" };       
                                                                        
-        Option a8 = new Option { OptionText = "Voor" };                
-        Option a9 = new Option { OptionText = "Tegen" };               
-        Option a10 = new Option { OptionText = " " };                  
+        Answer a8 = new Answer { Text = "Voor" };                
+        Answer a9 = new Answer { Text = "Tegen" };               
+        Answer a10 = new Answer { Text = " " };                  
 
         // Vragen opvullen
         var q1 = new SingleChoiceQuestion
@@ -103,9 +106,12 @@ public class PhygitalInitializer
             Theme = th2
         };
 
+        // In the second part of the seed method we create the relations between the different classes
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        
         // flow 1 relations
-        f1.Answers.Add(o1);
-        f1.Answers.Add(o2);
+        f1.Answers.Add(a1);
+        f1.Answers.Add(a2);
         f1.Answers.Add(a3);
         f1.Answers.Add(a4);
         f1.Answers.Add(a5);
@@ -133,16 +139,16 @@ public class PhygitalInitializer
         q2.Flow = f1;
         q3.Flow = f1;
         
-        q1.Options.Add(a1);
-        q1.Answers.Add(a2);
-        q1.Answers.Add(a3);
-        q1.Answers.Add(a4);
-        q1.Answers.Add(a5);
-        q1.Answers.Add(a6);
-        q1.Answers.Add(a7);
+        q1.Options.Add(o1);
+        q1.Options.Add(o2);
+        q1.Options.Add(o3);
+        q1.Options.Add(o4);
+        q1.Options.Add(o5);
+        q1.Options.Add(o6);
+        q1.Options.Add(o7);
         q2.Answer = a10;
-        q3.Answers.Add(a8);
-        q3.Answers.Add(a9);
+        q3.Options.Add(o8);
+        q3.Options.Add(o9);
         a1.Question = q1;
         a2.Question = q1;
         a3.Question = q1;
