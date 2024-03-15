@@ -8,8 +8,7 @@ namespace Phygital.DAL.EF;
 public class PhygitalInitializer
 {
     private static bool _hasBeenInitialized = false;
-    
-    // Initializing database
+
     public static void Initialize(PhygitalDbContext context, bool dropDatabase = false)
     {
         if (!_hasBeenInitialized)
@@ -26,11 +25,11 @@ public class PhygitalInitializer
     
     private static void Seed(PhygitalDbContext context)
     {
-        // Filling themes
+        // Theme's opvullen
         var th1 = new Theme { Title = "Politiek" , Description = "Simpele vragen rond politiek"};
         var th2 = new Theme { Title = "Vakantie" , Description = "Simpele vragen rond vakantie"};
         
-        // Filling info
+        // Info opvullen
         var i1 = new Text
         {
             Content = "Dit is een tekst"
@@ -40,40 +39,27 @@ public class PhygitalInitializer
             Content = "Dit is een andere tekst"
         };
         
-        // Filling answers
-        Option o1 = new Option { OptionText = "CD&V" };
-        Option o2 = new Option { OptionText = "Vooruit" };
-        Option o3 = new Option { OptionText = "NV-A" };
-        Option o4 = new Option { OptionText = "Groen" };
-        Option o5 = new Option { OptionText = "PVDA" };
-        Option o6 = new Option { OptionText = "Open-VLD" };
-        Option o7 = new Option { OptionText = "Vlaams Belang" };
+        // Antwoorden opvullen
+        Answer a1 = new Answer { Text = "CD&V" };
+        Answer a2 = new Answer { Text = "Vooruit" };
+        Answer a3 = new Answer { Text = "NV-A" };
+        Answer a4 = new Answer { Text = "Groen" };
+        Answer a5 = new Answer { Text = "PVDA" };
+        Answer a6 = new Answer { Text = "Open-VLD" };
+        Answer a7 = new Answer { Text = "Vlaams Belang" };
         
-        Option o8 = new Option { OptionText = "Voor" };
-        Option o9 = new Option { OptionText = "Tegen" };
-        Option o10 = new Option { OptionText = " " };
-        
-        // Kan brol zijn maar is effe nodig voor testdate
-        Answer a1 = new Answer { Text = "CD&V" };                
-        Answer a2 = new Answer { Text = "Vooruit" };             
-        Answer a3 = new Answer { Text = "NV-A" };                
-        Answer a4 = new Answer { Text = "Groen" };               
-        Answer a5 = new Answer { Text = "PVDA" };                
-        Answer a6 = new Answer { Text = "Open-VLD" };            
-        Answer a7 = new Answer { Text = "Vlaams Belang" };       
-                                                                       
-        Answer a8 = new Answer { Text = "Voor" };                
-        Answer a9 = new Answer { Text = "Tegen" };               
-        Answer a10 = new Answer { Text = " " };                  
+        Answer a8 = new Answer { Text = "Voor" };
+        Answer a9 = new Answer { Text = "Tegen" };
+        Answer a10 = new Answer { Text = " " };
 
         // Vragen opvullen
         var q1 = new SingleChoiceQuestion
         {
             Text = "Wat is je favoriete partij?", 
             Active = true, SequenceNumber = 1, 
-            Options = new List<Option>()
+            Answers = new List<Answer>()
         };
-        var q2 = new OpenQuestion()
+        var q2 = new OpenQuestion
         {
             Text = "Waarom kiest u voor deze partij?", 
             Active = true, SequenceNumber = 3,
@@ -83,7 +69,7 @@ public class PhygitalInitializer
         {
             Text = "Bent u voor of tegen: BTW van 6 procent op elektriciteit?", 
             Active = true, SequenceNumber = 2, 
-            Options = new List<Option>()
+            Answers = new List<Answer>()
         };
         
         // Flows opmaken
@@ -103,6 +89,9 @@ public class PhygitalInitializer
             Theme = th2
         };
 
+        
+        //TODO: Relaties fixen
+        
         // flow 1 relations
         f1.Answers.Add(a1);
         f1.Answers.Add(a2);
@@ -129,30 +118,31 @@ public class PhygitalInitializer
         f1.SingleChoiceQuestions.Add(q1);
         f1.OpenQuestions.Add(q2);
         f1.SingleChoiceQuestions.Add(q3);
+        
         q1.Flow = f1;
         q2.Flow = f1;
         q3.Flow = f1;
         
-        q1.Options.Add(o1);
-        q1.Options.Add(o2);
-        q1.Options.Add(o3);
-        q1.Options.Add(o4);
-        q1.Options.Add(o5);
-        q1.Options.Add(o6);
-        q1.Options.Add(o7);
+        q1.Answers.Add(a1);
+        q1.Answers.Add(a2);
+        q1.Answers.Add(a3);
+        q1.Answers.Add(a4);
+        q1.Answers.Add(a5);
+        q1.Answers.Add(a6);
+        q1.Answers.Add(a7);
         q2.Answer = a10;
-        q3.Options.Add(o8);
-        q3.Options.Add(o9);
-        a1.Question = q1;
-        a2.Question = q1;
-        a3.Question = q1;
-        a4.Question = q1;
-        a5.Question = q1;
-        a6.Question = q1;
-        a7.Question = q1;
-        a8.Question = q3;
-        a9.Question = q3;
-        a10.Question = q2;
+        q3.Answers.Add(a8);
+        q3.Answers.Add(a9);
+        a1.SingleChoiceQuestion = q1;
+        a2.SingleChoiceQuestion = q1;
+        a3.SingleChoiceQuestion = q1;
+        a4.SingleChoiceQuestion = q1;
+        a5.SingleChoiceQuestion = q1;
+        a6.SingleChoiceQuestion = q1;
+        a7.SingleChoiceQuestion = q1;
+        a8.SingleChoiceQuestion = q3;
+        a9.SingleChoiceQuestion = q3;
+        a10.OpenQuestion = q2;
         
         i1.SubTheme = th1;
         i2.SubTheme = th2;

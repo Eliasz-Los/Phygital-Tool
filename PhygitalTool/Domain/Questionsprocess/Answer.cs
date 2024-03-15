@@ -15,5 +15,9 @@ public class Answer : FlowElement
     public string Text { get; set; }
     
     // Link to the question
-    public Question Question { get; set; }
+    
+    public OpenQuestion OpenQuestion { get; set; }
+    public MultipleChoice MultipleChoice { get; set; }
+    public RangeQuestion RangeQuestion { get; set; }
+    public SingleChoiceQuestion SingleChoiceQuestion { get; set; }
 }
