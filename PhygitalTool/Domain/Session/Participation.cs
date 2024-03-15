@@ -3,7 +3,7 @@
 namespace Phygital.Domain.Session;
 
 
-//Sessie gaat nog wat verandert moeten worden omdat guest zelf geen entiteit is maar een rol van account
+//TODO Sessie gaat nog wat verandert moeten worden omdat guest zelf geen entiteit is maar een rol van account
 public class Participation
 {
     public long Id { get; set; }
