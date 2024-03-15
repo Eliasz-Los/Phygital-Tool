@@ -55,7 +55,6 @@ public class PhygitalDbContext : DbContext
         modelBuilder.Entity<Question>().ToTable("Questions").HasIndex(questions => questions.Id).IsUnique();
         modelBuilder.Entity<Answer>().ToTable("Answers").HasIndex(answer => answer.Id).IsUnique();
         modelBuilder.Entity<Option>().ToTable("Options").HasIndex(option => option.Id).IsUnique();
-
         
         // Session package
         modelBuilder.Entity<Participation>().ToTable("Participation").HasIndex(participation => participation.Id).IsUnique();
@@ -68,7 +67,6 @@ public class PhygitalDbContext : DbContext
         modelBuilder.Entity<Flow>()
             .HasMany(flow => flow.Answers)
             .WithOne(answer => answer.Flow)
-            //not sure about this one 
             .HasForeignKey("flowId");
         
         // Question elements
@@ -113,6 +111,22 @@ public class PhygitalDbContext : DbContext
             .HasMany(q => q.Options)
             .WithOne(a => (SingleChoiceQuestion)a.Question)
             .HasForeignKey("questionId");
+
+        modelBuilder.Entity<MultipleChoice>()
+            .HasMany(m => m.Options)
+            .WithOne(q => (MultipleChoice)q.Question)
+            .HasForeignKey("questionId");
+        
+        modelBuilder.Entity<OpenQuestion>()
+            .HasOne(q => q.Answer)
+            .WithOne( a => a.OpenQuestion)
+            .HasForeignKey("questionId");
+        
+        modelBuilder.Entity<RangeQuestion>()
+            .HasMany( q => q.Options)
+            .WithOne( a => (RangeQuestion)a.Question)
+            .HasForeignKey("questionId");
+        
         
         // one flow has many participations
         modelBuilder.Entity<Flow>()
@@ -137,8 +151,8 @@ public class PhygitalDbContext : DbContext
             .HasMany(t => t.FlowElements)
             .WithOne(fe => fe.SubTheme);
         
-        modelBuilder.Entity<FlowElement>()
-            .HasOne(t => t.SubTheme)
-            .WithMany(fe => fe.FlowElements);
+        // modelBuilder.Entity<FlowElement>()
+        //     .HasOne(t => t.SubTheme)
+        //     .WithMany(fe => fe.FlowElements);
     }
 }

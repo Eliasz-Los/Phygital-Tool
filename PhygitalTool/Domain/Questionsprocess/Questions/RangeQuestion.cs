@@ -14,5 +14,5 @@ public class RangeQuestion : Question
     public bool Active { get; set; }
     public int SequenceNumber { get; set; }
     
-    public Answer Answer { get; set; }
+    public ICollection<Option> Options { get; set; }
 }
