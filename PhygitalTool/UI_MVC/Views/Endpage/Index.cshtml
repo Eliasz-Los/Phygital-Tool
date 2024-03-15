@@ -1,18 +1,30 @@
 ﻿@model dynamic
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Phytical";
     Layout = "_Layout";
 }
 <div class="text-center">
     <h2 class="align-content-center p-4">Bedankt voor het deelnemen aan de bevraging</h2>
-    
-    
+
+    <div class="container-fluid p-2">
+        <div class="row">
+            <h4 class="align-content-center p-3">Wilt u uw contact gegevens delen?</h4>
+        </div>
+        <div class="row align-content-center">
+            <div class="col p-2">
+                <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Home" asp-action="Index">Nee</a>
+            </div>
+            <div class="col p-2">
+                <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Question" asp-action="Index">Ja</a>
+            </div>
+        </div>
+    </div>
+
     <div align="center">
         <h4>Mede mogelijk gemaakt door</h4>
         <img src="images/vlaamseOverheidBanner.jpg" alt="vlaamseOverheidBanner" width="250">
         <img src="images/levuurBanner.jpg" alt="levuurBanner" width="250">
         <img src="images/TreeCompanyBanner.png" alt="treeCompanyBanner" width="250">
     </div>
-
 </div>
