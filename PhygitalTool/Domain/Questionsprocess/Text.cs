@@ -8,6 +8,5 @@ public class Text : Info
     public Flow Flow { get; set; }
     public Theme SubTheme { get; set; }
     public string Title { get; set; }
-
     public string Content { get; set; }
 }
