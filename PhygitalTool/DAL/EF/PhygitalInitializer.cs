@@ -59,7 +59,7 @@ public class PhygitalInitializer
             Active = true, SequenceNumber = 1, 
             Answers = new List<Answer>()
         };
-        var q2 = new OpenQuestion()
+        var q2 = new OpenQuestion
         {
             Text = "Waarom kiest u voor deze partij?", 
             Active = true, SequenceNumber = 3,
@@ -89,6 +89,9 @@ public class PhygitalInitializer
             Theme = th2
         };
 
+        
+        //TODO: Relaties fixen
+        
         // flow 1 relations
         f1.Answers.Add(a1);
         f1.Answers.Add(a2);
@@ -115,6 +118,7 @@ public class PhygitalInitializer
         f1.SingleChoiceQuestions.Add(q1);
         f1.OpenQuestions.Add(q2);
         f1.SingleChoiceQuestions.Add(q3);
+        
         q1.Flow = f1;
         q2.Flow = f1;
         q3.Flow = f1;
@@ -129,16 +133,16 @@ public class PhygitalInitializer
         q2.Answer = a10;
         q3.Answers.Add(a8);
         q3.Answers.Add(a9);
-        a1.Question = q1;
-        a2.Question = q1;
-        a3.Question = q1;
-        a4.Question = q1;
-        a5.Question = q1;
-        a6.Question = q1;
-        a7.Question = q1;
-        a8.Question = q3;
-        a9.Question = q3;
-        a10.Question = q2;
+        a1.SingleChoiceQuestion = q1;
+        a2.SingleChoiceQuestion = q1;
+        a3.SingleChoiceQuestion = q1;
+        a4.SingleChoiceQuestion = q1;
+        a5.SingleChoiceQuestion = q1;
+        a6.SingleChoiceQuestion = q1;
+        a7.SingleChoiceQuestion = q1;
+        a8.SingleChoiceQuestion = q3;
+        a9.SingleChoiceQuestion = q3;
+        a10.OpenQuestion = q2;
         
         i1.SubTheme = th1;
         i2.SubTheme = th2;

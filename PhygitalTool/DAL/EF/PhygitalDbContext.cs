@@ -93,6 +93,7 @@ public class PhygitalDbContext : DbContext
             .WithOne(image => image.Flow)
             .HasForeignKey("flowId");
         
+        
         modelBuilder.Entity<Flow>()
             .HasMany(flow => flow.Videos)
             .WithOne(video => video.Flow)
@@ -104,10 +105,15 @@ public class PhygitalDbContext : DbContext
             .HasForeignKey("flowId");
 
         // one question has one or many answers
-        modelBuilder.Entity<SingleChoiceQuestion>()
-            .HasMany(q => q.Answers)
-            .WithOne(a => (SingleChoiceQuestion)a.Question)
-            .HasForeignKey("questionId");
+        // modelBuilder.Entity<Answer>()
+        //     .HasOne(a => a.SingleChoiceQuestion)
+        //     .WithOne( s => s.Answers)
+        //     .HasForeignKey("questionId");
+        //
+        // modelBuilder.Entity<OpenQuestion>()
+        //     .HasOne(q => q.Answer)
+        //     .WithOne(a => (OpenQuestion)a.)
+        //     .HasForeignKey("questionId");
         
         // one flow has many participations
         modelBuilder.Entity<Flow>()
