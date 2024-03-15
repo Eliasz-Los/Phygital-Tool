@@ -14,7 +14,7 @@ public interface IManager
     Info addInfo(string infoText, Flow flow);
     Question addQuestion(string questionText, Flow flow);
     Text addText(string text, Question question);
-    Thema addThema(string themaName);
+    Theme addThema(string themaName);
     Video addVideo(string videoLink, Question question);
 
     //ID
@@ -25,7 +25,7 @@ public interface IManager
     Info GetInfoById(int id);
     Question GetQuestionById(int id);
     Text GetTextById(int id);
-    Thema GetThemaById(int id);
+    Theme GetThemaById(int id);
     Video GetVideoById(int id);
 
     //ALL
@@ -36,7 +36,7 @@ public interface IManager
     IEnumerable<Info> GetAllInfos();
     IEnumerable<Question> GetAllQuestions();
     IEnumerable<Text> GetAllTexts();
-    IEnumerable<Thema> GetAllThemas();
+    IEnumerable<Theme> GetAllThemas();
     IEnumerable<Video> GetAllVideos();
     Flow GetAllFlowsIncludingFlowElementById(int id);
 

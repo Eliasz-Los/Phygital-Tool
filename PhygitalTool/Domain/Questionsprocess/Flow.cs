@@ -17,12 +17,20 @@ public class Flow
     public bool IsOpen { get; set; }
     
     // A flow consists of one main thema
-    public Thema Thema { get; set; }
+    public Theme Theme { get; set; }
     
     
     // A list of elements used in the flow
-    public ICollection<FlowElement> FlowElements { get; set; }
-    
+   // public ICollection<FlowElement> FlowElements { get; set; }
+   public ICollection<Question> Questions { get; set; }
+   public ICollection<Answer> Answers { get; set; }
+   
+   // info elements
+   public ICollection<Video> Videos { get; set; }
+   public ICollection<Image> Images { get; set; }
+   public ICollection<Text> Texts { get; set; }
+   
+   
     // A Collection of the participations the flow has
     public ICollection<Participation> Participations { get; set; }
     

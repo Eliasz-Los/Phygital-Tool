@@ -1,10 +1,17 @@
-﻿using Phygital.Domain.Questionsprocess;
+﻿using Microsoft.EntityFrameworkCore;
+using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Themas;
 
 namespace Phygital.DAL.EF;
 
 public class Repository : IRepository
 {
+    private readonly PhygitalDbContext _dbContext;
+    public Repository(PhygitalDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
     public Answer ReadAnswerById(int id)
     {
         throw new NotImplementedException();
@@ -40,8 +47,9 @@ public class Repository : IRepository
         throw new NotImplementedException();
     }
 
-    public Thema ReadThemaById(int id)
+    public Theme ReadThemaById(int id)
     {
+        // return _dbContext.Themas.Find(id);
         throw new NotImplementedException();
     }
 
@@ -52,16 +60,18 @@ public class Repository : IRepository
 
     public IEnumerable<Answer> ReadAllAnswers()
     {
+     //   return _dbContext.Answers;
         throw new NotImplementedException();
     }
 
     public IEnumerable<Flow> ReadAllFlows()
     {
-        throw new NotImplementedException();
+        return _dbContext.Flows;
     }
 
     public IEnumerable<FlowElement> ReadAllFlowElements()
     {
+        // return _dbContext.FlowElements;
         throw new NotImplementedException();
     }
 
@@ -85,8 +95,9 @@ public class Repository : IRepository
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Thema> ReadAllThemas()
+    public IEnumerable<Theme> ReadAllThemas()
     {
+        // return _dbContext.Themas;
         throw new NotImplementedException();
     }
 
@@ -99,10 +110,12 @@ public class Repository : IRepository
     {
         throw new NotImplementedException();
     }
-
+    
     public IEnumerable<Question> ReadAllQuestionsOfFlowById(int flowId)
     {
-        throw new NotImplementedException();
+        IQueryable<Question> result = _dbContext.Questions;
+        result = result.Where(question => question.Flow.Id == flowId);
+        return result;
     }
 
     public IEnumerable<Flow> ReadAllFlowsOfFlowTypeById(int flowTypeId)
