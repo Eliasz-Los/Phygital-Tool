@@ -23,6 +23,6 @@ public class Answer : FlowElement
     public SingleChoiceQuestion SingleChoiceQuestion { get; set; }
     
     //foreign key because answer is dependent on the question
-    public long OpenQuestionId { get; set; }
+  //  public long OpenQuestionId { get; set; }
   
 }

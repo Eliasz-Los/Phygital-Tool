@@ -10,7 +10,7 @@ public class PhygitalInitializer
     private static bool _hasBeenInitialized = false;
     
     // Initializing database
-    public static void Initialize(PhygitalDbContext context, bool dropDatabase = false)
+    public static void Initialize(PhygitalDbContext context, bool dropDatabase = true)
     {
         if (!_hasBeenInitialized)
         {
@@ -48,16 +48,20 @@ public class PhygitalInitializer
         {
             FlowType = Flowtype.linear,
             IsOpen = true,
-            Theme = th1,
             SingleChoiceQuestions = new List<SingleChoiceQuestion>(),
-            Answers = new List<Answer>()
+            RangeQuestions = new List<RangeQuestion>(),
+            OpenQuestions = new List<OpenQuestion>(),
+            MultipleChoices = new List<MultipleChoice>(),
+            Answers = new List<Answer>(),
+            Videos = new List<Video>(),
+            Images = new List<Image>(),
+            Texts = new List<Text>()
         };
         
         var f2 = new Flow
         {
             FlowType = Flowtype.circular,
-            IsOpen = true,
-            Theme = th2
+            IsOpen = true
         };
         
         // Vragen opvullen
@@ -67,10 +71,11 @@ public class PhygitalInitializer
             Active = true, SequenceNumber = 1, 
             Options = new List<Option>()
         };
-        var q2 = new OpenQuestion()
+        var q2 = new OpenQuestion
         {
             Text = "Waarom kiest u voor deze partij?", 
-            Active = true, SequenceNumber = 3
+            Active = true, SequenceNumber = 3,
+            Answer = new Answer()
         };
         var q3 = new SingleChoiceQuestion
         {
@@ -91,7 +96,7 @@ public class PhygitalInitializer
         
         Option o8 = new Option { OptionText = "Voor" };
         Option o9 = new Option { OptionText = "Tegen" };
-        Option o10 = new Option { OptionText = "Geen mening" };
+        //Option o10 = new Option { OptionText = "Geen mening" };
         
         // Kan brol zijn maar is effe nodig voor testdate
         var a1 = new Answer { Text = "CD&V"};                
@@ -101,38 +106,22 @@ public class PhygitalInitializer
         var a5 = new Answer { Text = "PVDA" };                
         var a6 = new Answer { Text = "Open-VLD" };            
         var a7 = new Answer { Text = "Vlaams Belang" };       
-                                                                       
+        
         var a8 = new Answer { Text = "Voor" };                
         var a9 = new Answer { Text = "Tegen" };               
-                
+        var a10 = new Answer { Text = "Geen mening"};          
         
         
 
         // In the second part of the seed method we create the relations between the different classes
         /////////////////////////////////////////////////////////////////////////////////////////////////////
        
-        // Adding questions
-        context.SingleChoiceQuestions.Add(q1);
-        context.OpenQuestions.Add(q2);
-        context.SingleChoiceQuestions.Add(q3);
-         
-        context.SaveChanges();
-         
-        var a10 = new Answer { Text = "Geen mening", OpenQuestionId = q2.Id};      
-         
-         // Linking an answer to question
-         a1.SingleChoiceQuestion = q1;
-         a2.SingleChoiceQuestion = q1;
-         a3.SingleChoiceQuestion = q1;
-         a4.SingleChoiceQuestion = q1;
-         a5.SingleChoiceQuestion = q1;
-         a6.SingleChoiceQuestion = q1;
-         a7.SingleChoiceQuestion = q1;
-         a8.SingleChoiceQuestion = q3;
-         a9.SingleChoiceQuestion = q3;
-         a10.OpenQuestion = q2;
-         
-        // Adding the options to the different questions
+        // Adding questions to the flow
+        f1.SingleChoiceQuestions.Add(q1);
+        f1.SingleChoiceQuestions.Add(q3);
+        f1.OpenQuestions.Add(q2);
+        
+        // Adding options to the questions
         q1.Options.Add(o1);
         q1.Options.Add(o2);
         q1.Options.Add(o3);
@@ -140,22 +129,22 @@ public class PhygitalInitializer
         q1.Options.Add(o5);
         q1.Options.Add(o6);
         q1.Options.Add(o7);
-        q2.Answer = a10;
         q3.Options.Add(o8);
         q3.Options.Add(o9);
+        q2.Answer = a10;
         
-       
-        
-        // Linking flows to questions
-        q1.Flow = f1;
-        q2.Flow = f1;
-        q3.Flow = f1;
-        
-        // info classes linked to theme
-        i1.SubTheme = th1;
-        i2.SubTheme = th2;
-        
-        // Adding the flow to the answer
+        // Adding answers to the flow
+        f1.Answers.Add(a1);
+        f1.Answers.Add(a2);
+        f1.Answers.Add(a3);
+        f1.Answers.Add(a4);
+        f1.Answers.Add(a5);
+        f1.Answers.Add(a6);
+        f1.Answers.Add(a7);
+        f1.Answers.Add(a8);
+        f1.Answers.Add(a9);
+        f1.Answers.Add(a10);
+
         a1.Flow = f1;
         a2.Flow = f1;
         a3.Flow = f1;
@@ -167,51 +156,15 @@ public class PhygitalInitializer
         a9.Flow = f1;
         a10.Flow = f1;
         
-        // Adding answers to flow 1
-        f1.Answers.Add(a1);
-        f1.Answers.Add(a2);
-        f1.Answers.Add(a3);
-        f1.Answers.Add(a4);
-        f1.Answers.Add(a5);
-        f1.Answers.Add(a6);
-        f1.Answers.Add(a7);
-        f1.Answers.Add(a8);
-        f1.Answers.Add(a9);
-        f1.Answers.Add(a10);
+        //Adding themes & info to the flow 
+        f1.Theme = th1;
+        f2.Theme = th2;
+        f1.Texts.Add(i1);
+        f1.Texts.Add(i2);
         
-        // // Adding questions to flow 1
-        // f1.SingleChoiceQuestions.Add(q1);
-        // f1.OpenQuestions?.Add(q2);
-        // f1.SingleChoiceQuestions.Add(q3);
-        
-        
-        // context => database
-        // Adding options
-        context.Options.Add(o1);
-        context.Options.Add(o2);
-        context.Options.Add(o3);
-        context.Options.Add(o4);
-        context.Options.Add(o5);
-        context.Options.Add(o6);
-        context.Options.Add(o7);
-        context.Options.Add(o8);
-        context.Options.Add(o9);
-        context.Options.Add(o10);
-        
-        // Adding answers
-        context.Answers.Add(a1);
-        context.Answers.Add(a2);
-        context.Answers.Add(a3);
-        context.Answers.Add(a4);
-        context.Answers.Add(a5);
-        context.Answers.Add(a6);
-        context.Answers.Add(a7);
-        context.Answers.Add(a8);
-        context.Answers.Add(a9);
-        context.Answers.Add(a10);
-        
-      
-        
+        /////////////////////////////////////////
+        // Third part: adding to the Database //
+        ////////////////////////////////////////
         
         // Adding flows
         context.Flows.Add(f1);
@@ -224,6 +177,34 @@ public class PhygitalInitializer
         // Adding infos
         context.Infos.Add(i1);
         context.Infos.Add(i2);
+        
+        // Adding questions
+        context.SingleChoiceQuestions.Add(q1);
+        context.OpenQuestions.Add(q2);
+        context.SingleChoiceQuestions.Add(q3);
+        
+        // adding options
+        context.Options.Add(o1);
+        context.Options.Add(o2);
+        context.Options.Add(o3);
+        context.Options.Add(o4);
+        context.Options.Add(o5);
+        context.Options.Add(o6);
+        context.Options.Add(o7);
+        context.Options.Add(o8);
+        context.Options.Add(o9);
+        
+        // Adding answers
+        context.Answers.Add(a1);
+        context.Answers.Add(a2);
+        context.Answers.Add(a3);
+        context.Answers.Add(a4);
+        context.Answers.Add(a5);
+        context.Answers.Add(a6);
+        context.Answers.Add(a7);
+        context.Answers.Add(a8);
+        context.Answers.Add(a9);
+        context.Answers.Add(a10);
         
         context.SaveChanges();
         context.ChangeTracker.Clear();
