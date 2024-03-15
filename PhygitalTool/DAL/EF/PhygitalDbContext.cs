@@ -14,7 +14,7 @@ public class PhygitalDbContext : DbContext
     public DbSet<Answer> Answers { get; set; }
     
     // Misschien questions niet nodig omdat abstract
-    public DbSet<Question> Questions { get; set; }
+    //public DbSet<Question> Questions { get; set; }
     public DbSet<SingleChoiceQuestion> SingleChoiceQuestions { get; set; }
     public DbSet<RangeQuestion> RangeQuestions { get; set; }
     public DbSet<OpenQuestion> OpenQuestions { get; set; }
@@ -43,6 +43,7 @@ public class PhygitalDbContext : DbContext
         {
             // optionsBuilder.UseNpgsql("Data Source=Phygital.db");
             optionsBuilder.UseSqlite("Data Source=Phygital.db");
+   //         optionsBuilder.LogTo(DbContextOptionsBuilder.EnableSensitiveDataLogging, LogLevel.Information);
         }
     }
     
@@ -52,7 +53,7 @@ public class PhygitalDbContext : DbContext
         modelBuilder.Entity<Flow>().ToTable("Flow").HasIndex(flow => flow.Id).IsUnique();
         modelBuilder.Entity<Info>().ToTable("Infos").HasIndex(info => info.Id).IsUnique();
         // Misschien questions niet nodig omdat abstract
-        modelBuilder.Entity<Question>().ToTable("Questions").HasIndex(questions => questions.Id).IsUnique();
+        //modelBuilder.Entity<Question>().ToTable("Questions").HasIndex(questions => questions.Id).IsUnique();
         modelBuilder.Entity<Answer>().ToTable("Answers").HasIndex(answer => answer.Id).IsUnique();
         modelBuilder.Entity<Option>().ToTable("Options").HasIndex(option => option.Id).IsUnique();
         
@@ -109,22 +110,22 @@ public class PhygitalDbContext : DbContext
         // one question has one or many options
         modelBuilder.Entity<SingleChoiceQuestion>()
             .HasMany(q => q.Options)
-            .WithOne(a => (SingleChoiceQuestion)a.Question)
+            .WithOne(a => a.SingleChoiceQuestion)
             .HasForeignKey("optionId");
 
         modelBuilder.Entity<MultipleChoice>()
             .HasMany(m => m.Options)
-            .WithOne(q => (MultipleChoice)q.Question)
+            .WithOne(q => q.MultipleChoice)
             .HasForeignKey("optionId");
 
         modelBuilder.Entity<OpenQuestion>()
             .HasOne(q => q.Answer)
-            .WithOne(a => (OpenQuestion)a.Question)
+            .WithOne(a => a.OpenQuestion)
             .HasForeignKey<Answer>(a => a.Id);
         
         modelBuilder.Entity<RangeQuestion>()
             .HasMany( q => q.Options)
-            .WithOne( a => (RangeQuestion)a.Question)
+            .WithOne( a => a.RangeQuestion)
             .HasForeignKey("optionId");
         
         

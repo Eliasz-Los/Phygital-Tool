@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.Extensions.Options;
 using Phygital.Domain.Themas;
 
 namespace Phygital.Domain.Questionsprocess.Questions;
@@ -15,4 +16,5 @@ public class OpenQuestion : Question
     public int SequenceNumber { get; set; }
     
     public Answer Answer { get; set; }
+    
 }

@@ -17,9 +17,9 @@ public class Answer : FlowElement
     // Link to the question
     
     // Misschien mag dit weg omdat we nu de abstracte klasse gebruiken
-    // public OpenQuestion OpenQuestion { get; set; }
-    // public MultipleChoice MultipleChoice { get; set; }
-    // public RangeQuestion RangeQuestion { get; set; }
-    // public SingleChoiceQuestion SingleChoiceQuestion { get; set; }
-    public Question Question { get; set; }
+    public OpenQuestion OpenQuestion { get; set; }
+    public MultipleChoice MultipleChoice { get; set; }
+    public RangeQuestion RangeQuestion { get; set; }
+    public SingleChoiceQuestion SingleChoiceQuestion { get; set; }
+  
 }

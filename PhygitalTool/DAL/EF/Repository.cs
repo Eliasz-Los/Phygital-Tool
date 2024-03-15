@@ -114,9 +114,11 @@ public class Repository : IRepository
     
     public IEnumerable<Question> ReadAllQuestionsOfFlowById(int flowId)
     {
-        IQueryable<Question> result = _dbContext.Questions;
+        /*IQueryable<Question> result = _dbContext.Questions;
         result = result.Where(question => question.Flow.Id == flowId);
-        return result;
+        return result;*/
+        throw new NotImplementedException();
+
     }
 
     public IEnumerable<Flow> ReadAllFlowsOfFlowTypeById(int flowTypeId)
