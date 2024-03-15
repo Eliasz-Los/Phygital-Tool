@@ -67,7 +67,7 @@ public class PhygitalInitializer
                                                                        
         Answer a8 = new Answer { Text = "Voor" };                
         Answer a9 = new Answer { Text = "Tegen" };               
-        Answer a10 = new Answer { Text = " " };                  
+        Answer a10 = new Answer { Text = "Geen mening " };                  
 
         // Vragen opvullen
         var q1 = new SingleChoiceQuestion
@@ -157,7 +157,7 @@ public class PhygitalInitializer
         a10.Question = q2;
         
         f1.SingleChoiceQuestions.Add(q1);
-        // f1.OpenQuestions.Add(q2);
+        f1.OpenQuestions.Add(q2);
         f1.SingleChoiceQuestions.Add(q3);
         q1.Flow = f1;
         q2.Flow = f1;
@@ -187,12 +187,9 @@ public class PhygitalInitializer
         context.Options.Add(o9);
         context.Options.Add(o10);
         
-        // context.SingleChoiceQuestions.Add(q1);
-        // context.OpenQuestions.Add(q2);
-        // context.SingleChoiceQuestions.Add(q3);
-        context.Questions.Add(q1);
-        context.Questions.Add(q2);
-        context.Questions.Add(q3);
+        context.SingleChoiceQuestions.Add(q1);
+        context.OpenQuestions.Add(q2);
+        context.SingleChoiceQuestions.Add(q3);
         
         context.Answers.Add(a1);
         context.Answers.Add(a2);
