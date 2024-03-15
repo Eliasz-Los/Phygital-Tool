@@ -11,13 +11,15 @@ public class PhygitalDbContext : DbContext
     // Questionsprocess package
     public DbSet<Flow> Flows { get; set; }
     public DbSet<FlowElement> FlowElements { get; set; }
-    
     public DbSet<Answer> Answers { get; set; }
+    
+    // Misschien questions niet nodig omdat abstract
     public DbSet<Question> Questions { get; set; }
     public DbSet<SingleChoiceQuestion> SingleChoiceQuestions { get; set; }
     public DbSet<RangeQuestion> RangeQuestions { get; set; }
     public DbSet<OpenQuestion> OpenQuestions { get; set; }
     public DbSet<MultipleChoice> MultipleChoices { get; set; }
+    public DbSet<Option> Options { get; set; }
     
     public DbSet<Image> Images { get; set; }
     public DbSet<Text> Texts { get; set; }
@@ -49,8 +51,11 @@ public class PhygitalDbContext : DbContext
         // Questionsprocess package
         modelBuilder.Entity<Flow>().ToTable("Flow").HasIndex(flow => flow.Id).IsUnique();
         modelBuilder.Entity<Info>().ToTable("Infos").HasIndex(info => info.Id).IsUnique();
+        // Misschien questions niet nodig omdat abstract
         modelBuilder.Entity<Question>().ToTable("Questions").HasIndex(questions => questions.Id).IsUnique();
         modelBuilder.Entity<Answer>().ToTable("Answers").HasIndex(answer => answer.Id).IsUnique();
+        modelBuilder.Entity<Option>().ToTable("Options").HasIndex(option => option.Id).IsUnique();
+
         
         // Session package
         modelBuilder.Entity<Participation>().ToTable("Participation").HasIndex(participation => participation.Id).IsUnique();
@@ -93,7 +98,6 @@ public class PhygitalDbContext : DbContext
             .WithOne(image => image.Flow)
             .HasForeignKey("flowId");
         
-        
         modelBuilder.Entity<Flow>()
             .HasMany(flow => flow.Videos)
             .WithOne(video => video.Flow)
@@ -104,16 +108,11 @@ public class PhygitalDbContext : DbContext
             .WithOne(text => text.Flow)
             .HasForeignKey("flowId");
 
-        // one question has one or many answers
-        // modelBuilder.Entity<Answer>()
-        //     .HasOne(a => a.SingleChoiceQuestion)
-        //     .WithOne( s => s.Answers)
-        //     .HasForeignKey("questionId");
-        //
-        // modelBuilder.Entity<OpenQuestion>()
-        //     .HasOne(q => q.Answer)
-        //     .WithOne(a => (OpenQuestion)a.)
-        //     .HasForeignKey("questionId");
+        // one question has one or many options
+        modelBuilder.Entity<SingleChoiceQuestion>()
+            .HasMany(q => q.Options)
+            .WithOne(a => (SingleChoiceQuestion)a.Question)
+            .HasForeignKey("questionId");
         
         // one flow has many participations
         modelBuilder.Entity<Flow>()

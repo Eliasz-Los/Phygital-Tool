@@ -14,5 +14,5 @@ public class SingleChoiceQuestion : Question
     public bool Active { get; set; }
     public int SequenceNumber { get; set; }
     
-    public ICollection<Answer> Answers { get; set; }
+    public ICollection<Option> Options { get; set; }
 }
