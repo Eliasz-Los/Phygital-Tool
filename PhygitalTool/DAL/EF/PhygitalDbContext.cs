@@ -14,7 +14,7 @@ public class PhygitalDbContext : DbContext
     public DbSet<Answer> Answers { get; set; }
     
     // Misschien questions niet nodig omdat abstract
-    //public DbSet<Question> Questions { get; set; }
+    public DbSet<Question> Questions { get; set; }
     public DbSet<SingleChoiceQuestion> SingleChoiceQuestions { get; set; }
     public DbSet<RangeQuestion> RangeQuestions { get; set; }
     public DbSet<OpenQuestion> OpenQuestions { get; set; }
@@ -43,7 +43,7 @@ public class PhygitalDbContext : DbContext
         {
             // optionsBuilder.UseNpgsql("Data Source=Phygital.db");
             optionsBuilder.UseSqlite("Data Source=Phygital.db");
-   //         optionsBuilder.LogTo(DbContextOptionsBuilder.EnableSensitiveDataLogging, LogLevel.Information);
+            optionsBuilder.EnableSensitiveDataLogging();
         }
     }
     
@@ -111,22 +111,25 @@ public class PhygitalDbContext : DbContext
         modelBuilder.Entity<SingleChoiceQuestion>()
             .HasMany(q => q.Options)
             .WithOne(a => a.SingleChoiceQuestion)
-            .HasForeignKey("optionId");
+            .HasForeignKey("singleChoiceQuestionId");
 
         modelBuilder.Entity<MultipleChoice>()
             .HasMany(m => m.Options)
             .WithOne(q => q.MultipleChoice)
-            .HasForeignKey("optionId");
+            .HasForeignKey("multipleChoiceId");
 
         modelBuilder.Entity<OpenQuestion>()
             .HasOne(q => q.Answer)
             .WithOne(a => a.OpenQuestion)
-            .HasForeignKey<Answer>(a => a.Id);
+            .HasForeignKey<Answer>(a => a.OpenQuestionId);
         
         modelBuilder.Entity<RangeQuestion>()
             .HasMany( q => q.Options)
             .WithOne( a => a.RangeQuestion)
-            .HasForeignKey("optionId");
+            .HasForeignKey("rangeQuestionId");
+
+        /*modelBuilder.Entity<Question>().HasKey("singleChoiceQuestionId"
+            , "multipleChoiceId", "openQuestionId", "rangeQuestionId");*/
         
         
         // one flow has many participations

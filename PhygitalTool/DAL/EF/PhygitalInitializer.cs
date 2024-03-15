@@ -70,8 +70,7 @@ public class PhygitalInitializer
         var q2 = new OpenQuestion()
         {
             Text = "Waarom kiest u voor deze partij?", 
-            Active = true, SequenceNumber = 3,
-            Answer =  new Answer()
+            Active = true, SequenceNumber = 3
         };
         var q3 = new SingleChoiceQuestion
         {
@@ -95,23 +94,44 @@ public class PhygitalInitializer
         Option o10 = new Option { OptionText = "Geen mening" };
         
         // Kan brol zijn maar is effe nodig voor testdate
-        Answer a1 = new Answer { Text = "CD&V" };                
-        Answer a2 = new Answer { Text = "Vooruit" };             
-        Answer a3 = new Answer { Text = "NV-A" };                
-        Answer a4 = new Answer { Text = "Groen" };               
-        Answer a5 = new Answer { Text = "PVDA" };                
-        Answer a6 = new Answer { Text = "Open-VLD" };            
-        Answer a7 = new Answer { Text = "Vlaams Belang" };       
+        var a1 = new Answer { Text = "CD&V"};                
+        var a2 = new Answer { Text = "Vooruit" };             
+        var a3 = new Answer { Text = "NV-A" };                
+        var a4 = new Answer { Text = "Groen" };               
+        var a5 = new Answer { Text = "PVDA" };                
+        var a6 = new Answer { Text = "Open-VLD" };            
+        var a7 = new Answer { Text = "Vlaams Belang" };       
                                                                        
-        Answer a8 = new Answer { Text = "Voor" };                
-        Answer a9 = new Answer { Text = "Tegen" };               
-        Answer a10 = new Answer { Text = "Geen mening" };                  
+        var a8 = new Answer { Text = "Voor" };                
+        var a9 = new Answer { Text = "Tegen" };               
+                
         
         
 
         // In the second part of the seed method we create the relations between the different classes
         /////////////////////////////////////////////////////////////////////////////////////////////////////
        
+        // Adding questions
+        context.SingleChoiceQuestions.Add(q1);
+        context.OpenQuestions.Add(q2);
+        context.SingleChoiceQuestions.Add(q3);
+         
+        context.SaveChanges();
+         
+        var a10 = new Answer { Text = "Geen mening", OpenQuestionId = q2.Id};      
+         
+         // Linking an answer to question
+         a1.SingleChoiceQuestion = q1;
+         a2.SingleChoiceQuestion = q1;
+         a3.SingleChoiceQuestion = q1;
+         a4.SingleChoiceQuestion = q1;
+         a5.SingleChoiceQuestion = q1;
+         a6.SingleChoiceQuestion = q1;
+         a7.SingleChoiceQuestion = q1;
+         a8.SingleChoiceQuestion = q3;
+         a9.SingleChoiceQuestion = q3;
+         a10.OpenQuestion = q2;
+         
         // Adding the options to the different questions
         q1.Options.Add(o1);
         q1.Options.Add(o2);
@@ -124,17 +144,7 @@ public class PhygitalInitializer
         q3.Options.Add(o8);
         q3.Options.Add(o9);
         
-        // Linking an answer to question
-        a1.SingleChoiceQuestion = q1;
-        a2.SingleChoiceQuestion = q1;
-        a3.SingleChoiceQuestion = q1;
-        a4.SingleChoiceQuestion = q1;
-        a5.SingleChoiceQuestion = q1;
-        a6.SingleChoiceQuestion = q1;
-        a7.SingleChoiceQuestion = q1;
-        a8.SingleChoiceQuestion = q3;
-        a9.SingleChoiceQuestion = q3;
-        a10.OpenQuestion = q2;
+       
         
         // Linking flows to questions
         q1.Flow = f1;
@@ -169,10 +179,10 @@ public class PhygitalInitializer
         f1.Answers.Add(a9);
         f1.Answers.Add(a10);
         
-        // Adding questions to flow 1
-        f1.SingleChoiceQuestions.Add(q1);
-        f1.OpenQuestions.Add(q2);
-        f1.SingleChoiceQuestions.Add(q3);
+        // // Adding questions to flow 1
+        // f1.SingleChoiceQuestions.Add(q1);
+        // f1.OpenQuestions?.Add(q2);
+        // f1.SingleChoiceQuestions.Add(q3);
         
         
         // context => database
@@ -188,11 +198,6 @@ public class PhygitalInitializer
         context.Options.Add(o9);
         context.Options.Add(o10);
         
-        // Adding questions
-        context.SingleChoiceQuestions.Add(q1);
-        context.OpenQuestions.Add(q2);
-        context.SingleChoiceQuestions.Add(q3);
-        
         // Adding answers
         context.Answers.Add(a1);
         context.Answers.Add(a2);
@@ -204,6 +209,9 @@ public class PhygitalInitializer
         context.Answers.Add(a8);
         context.Answers.Add(a9);
         context.Answers.Add(a10);
+        
+      
+        
         
         // Adding flows
         context.Flows.Add(f1);
