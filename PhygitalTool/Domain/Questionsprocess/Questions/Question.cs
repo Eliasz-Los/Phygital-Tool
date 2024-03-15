@@ -14,6 +14,4 @@ public abstract class Question : FlowElement
     public string Text { get; set; }
     public bool Active { get; set; }
     public int SequenceNumber { get; set; }
-    
-    public ICollection<Answer> Answers { get; set; }
 }

@@ -103,10 +103,10 @@ public class PhygitalDbContext : DbContext
             .WithOne(text => text.Flow)
             .HasForeignKey("flowId");
 
-        // one qsuestion has one or many answers
-        modelBuilder.Entity<Question>()
+        // one question has one or many answers
+        modelBuilder.Entity<SingleChoiceQuestion>()
             .HasMany(q => q.Answers)
-            .WithOne(a => a.Question)
+            .WithOne(a => (SingleChoiceQuestion)a.Question)
             .HasForeignKey("questionId");
         
         // one flow has many participations

@@ -15,22 +15,18 @@ public class ConsoleUi
     
     public void Run()
     {
-        Console.WriteLine("Get all flows");
-        var allFlows = _manager.GetAllFlows();
-        foreach (var flow in allFlows)
-        {
-            Console.WriteLine(flow.StringRepresentation());
-        }
+        // Console.WriteLine("Get all flows");
+        // var allFlows = _manager.GetAllFlows();
+        // foreach (var flow in allFlows)
+        // {
+        //     Console.WriteLine(flow.StringRepresentation());
+        // }
 
-        Console.WriteLine("Get all questions of flow 1");
-        var allQuestions = _manager.GetAllQuestionsOfFlowById(2);
-        foreach (var question in allQuestions)
-        {
-            Console.WriteLine(question.Text);
-        }
-        
-        
-        
-
+        // Console.WriteLine("Get all questions of flow 1");
+        // var allQuestions = _manager.GetAllQuestionsOfFlowById(2);
+        // foreach (var question in allQuestions)
+        // {
+        //     Console.WriteLine(question.Text);
+        // }
     }
 }

@@ -25,14 +25,19 @@ public class PhygitalInitializer
     
     private static void Seed(PhygitalDbContext context)
     {
+        // Theme's opvullen
+        var th1 = new Theme { Title = "Politiek" , Description = "Simpele vragen rond politiek"};
+        var th2 = new Theme { Title = "Vakantie" , Description = "Simpele vragen rond vakantie"};
+        
         // Info opvullen
-        Info i1 = new Text { Content = "Dit is een tekst" };
-        Info i2 = new Text { Content = "Dit is een andere tekst" };
-
-        // Vragen opvullen
-        SingleChoiceQuestion q1 = new SingleChoiceQuestion { Text = "Wat is je favoriete partij?", Active = true, SequenceNumber = 1 };
-        SingleChoiceQuestion q2 = new SingleChoiceQuestion() { Text = "Bent u voor of tegen: BTW van 6 procent op elektriciteit?", Active = true, SequenceNumber = 2 };
-        SingleChoiceQuestion q3 = new SingleChoiceQuestion() { Text = "Bent u voor of tegen: Gratis anticonceptie voor vrouwen tot 25 jaar?", Active = true, SequenceNumber = 3 };
+        var i1 = new Text
+        {
+            Content = "Dit is een tekst"
+        };
+        var i2 = new Text
+        {
+            Content = "Dit is een andere tekst"
+        };
         
         // Antwoorden opvullen
         Answer a1 = new Answer { Text = "CD&V" };
@@ -45,37 +50,98 @@ public class PhygitalInitializer
         
         Answer a8 = new Answer { Text = "Voor" };
         Answer a9 = new Answer { Text = "Tegen" };
+        Answer a10 = new Answer { Text = " " };
 
-        // Theme's opvullen
-        Theme th1 = new Theme { Title = "Politiek" , Description = "Simpele vragen rond politiek"};
-        Theme th2 = new Theme { Title = "Vakantie" , Description = "Simpele vragen rond vakantie"};
-
+        // Vragen opvullen
+        var q1 = new SingleChoiceQuestion
+        {
+            Text = "Wat is je favoriete partij?", 
+            Active = true, SequenceNumber = 1, 
+            Answers = new List<Answer>()
+        };
+        var q2 = new OpenQuestion()
+        {
+            Text = "Waarom kiest u voor deze partij?", 
+            Active = true, SequenceNumber = 3,
+            Answer = new Answer()
+        };
+        var q3 = new SingleChoiceQuestion
+        {
+            Text = "Bent u voor of tegen: BTW van 6 procent op elektriciteit?", 
+            Active = true, SequenceNumber = 2, 
+            Answers = new List<Answer>()
+        };
+        
         // Flows opmaken
         var f1 = new Flow
         {
             FlowType = Flowtype.linear,
             IsOpen = true,
+            Theme = th1,
+            SingleChoiceQuestions = new List<SingleChoiceQuestion>(),
+            Answers = new List<Answer>()
         };
         
         var f2 = new Flow
         {
             FlowType = Flowtype.circular,
             IsOpen = true,
+            Theme = th2
         };
 
-        // Relaties leggen
+        // flow 1 relations
+        f1.Answers.Add(a1);
+        f1.Answers.Add(a2);
+        f1.Answers.Add(a3);
+        f1.Answers.Add(a4);
+        f1.Answers.Add(a5);
+        f1.Answers.Add(a6);
+        f1.Answers.Add(a7);
+        f1.Answers.Add(a8);
+        f1.Answers.Add(a9);
+        f1.Answers.Add(a10);
+        
+        a1.Flow = f1;
+        a2.Flow = f1;
+        a3.Flow = f1;
+        a4.Flow = f1;
+        a5.Flow = f1;
+        a6.Flow = f1;
+        a7.Flow = f1;
+        a8.Flow = f1;
+        a9.Flow = f1;
+        a10.Flow = f1;
+        
+        f1.SingleChoiceQuestions.Add(q1);
+        f1.OpenQuestions.Add(q2);
+        f1.SingleChoiceQuestions.Add(q3);
+        q1.Flow = f1;
+        q2.Flow = f1;
+        q3.Flow = f1;
+        
+        q1.Answers.Add(a1);
+        q1.Answers.Add(a2);
+        q1.Answers.Add(a3);
+        q1.Answers.Add(a4);
+        q1.Answers.Add(a5);
+        q1.Answers.Add(a6);
+        q1.Answers.Add(a7);
+        q2.Answer = a10;
+        q3.Answers.Add(a8);
+        q3.Answers.Add(a9);
+        a1.Question = q1;
+        a2.Question = q1;
+        a3.Question = q1;
+        a4.Question = q1;
+        a5.Question = q1;
+        a6.Question = q1;
+        a7.Question = q1;
+        a8.Question = q3;
+        a9.Question = q3;
+        a10.Question = q2;
+        
         i1.SubTheme = th1;
         i2.SubTheme = th2;
-        
-        // Test flow
-        f1.Theme = th1;
-        f1.SingleChoiceQuestions = new List<SingleChoiceQuestion> { q1, q2, q3 };
-        f1.Answers = new List<Answer> { a1, a2, a3, a4, a5, a6, a7, a8, a9 };
-        f1.Texts = new List<Text> { (Text)i1, (Text)i2 };
-        
-        q1.Answers = new List<Answer> { a1, a2, a3, a4, a5, a6, a7 };
-        q2.Answers = new List<Answer> { a8, a9 };
-        q3.Answers = new List<Answer> { a8, a9 };
         
         // context => database
         context.Flows.Add(f1);
@@ -87,9 +153,9 @@ public class PhygitalInitializer
         context.Infos.Add(i1);
         context.Infos.Add(i2);
         
-        context.Questions.Add(q1);
-        context.Questions.Add(q2);
-        context.Questions.Add(q3);
+        context.SingleChoiceQuestions.Add(q1);
+        context.OpenQuestions.Add(q2);
+        context.SingleChoiceQuestions.Add(q3);
         
         context.Answers.Add(a1);
         context.Answers.Add(a2);
@@ -100,6 +166,7 @@ public class PhygitalInitializer
         context.Answers.Add(a7);
         context.Answers.Add(a8);
         context.Answers.Add(a9);
+        context.Answers.Add(a10);
         
         context.SaveChanges();
         context.ChangeTracker.Clear();

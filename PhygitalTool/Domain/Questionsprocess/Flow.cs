@@ -31,6 +31,7 @@ public class Flow
    public ICollection<Text> Texts { get; set; }
    
    // question elements
+   public ICollection<Question> Questions { get; set; }
    public ICollection<SingleChoiceQuestion> SingleChoiceQuestions { get; set; }
    public ICollection<RangeQuestion> RangeQuestions { get; set; }
    public ICollection<OpenQuestion> OpenQuestions { get; set; }
@@ -39,5 +40,4 @@ public class Flow
    
     // A Collection of the participations the flow has
     public ICollection<Participation> Participations { get; set; }
-    
 }
