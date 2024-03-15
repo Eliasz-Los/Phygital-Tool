@@ -110,22 +110,22 @@ public class PhygitalDbContext : DbContext
         modelBuilder.Entity<SingleChoiceQuestion>()
             .HasMany(q => q.Options)
             .WithOne(a => (SingleChoiceQuestion)a.Question)
-            .HasForeignKey("questionId");
+            .HasForeignKey("optionId");
 
         modelBuilder.Entity<MultipleChoice>()
             .HasMany(m => m.Options)
             .WithOne(q => (MultipleChoice)q.Question)
-            .HasForeignKey("questionId");
-        
+            .HasForeignKey("optionId");
+
         modelBuilder.Entity<OpenQuestion>()
             .HasOne(q => q.Answer)
-            .WithOne( a => a.OpenQuestion)
-            .HasForeignKey("questionId");
+            .WithOne(a => (OpenQuestion)a.Question)
+            .HasForeignKey<Answer>(a => a.Id);
         
         modelBuilder.Entity<RangeQuestion>()
             .HasMany( q => q.Options)
             .WithOne( a => (RangeQuestion)a.Question)
-            .HasForeignKey("questionId");
+            .HasForeignKey("optionId");
         
         
         // one flow has many participations

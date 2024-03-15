@@ -132,12 +132,7 @@ public class PhygitalInitializer
         a9.Flow = f1;
         a10.Flow = f1;
         
-        f1.SingleChoiceQuestions.Add(q1);
-        f1.OpenQuestions.Add(q2);
-        f1.SingleChoiceQuestions.Add(q3);
-        q1.Flow = f1;
-        q2.Flow = f1;
-        q3.Flow = f1;
+       
         
         q1.Options.Add(o1);
         q1.Options.Add(o2);
@@ -149,6 +144,7 @@ public class PhygitalInitializer
         q2.Answer = a10;
         q3.Options.Add(o8);
         q3.Options.Add(o9);
+        
         a1.Question = q1;
         a2.Question = q1;
         a3.Question = q1;
@@ -159,6 +155,13 @@ public class PhygitalInitializer
         a8.Question = q3;
         a9.Question = q3;
         a10.Question = q2;
+        
+        f1.SingleChoiceQuestions.Add(q1);
+        // f1.OpenQuestions.Add(q2);
+        f1.SingleChoiceQuestions.Add(q3);
+        q1.Flow = f1;
+        q2.Flow = f1;
+        q3.Flow = f1;
         
         i1.SubTheme = th1;
         i2.SubTheme = th2;
@@ -173,9 +176,23 @@ public class PhygitalInitializer
         context.Infos.Add(i1);
         context.Infos.Add(i2);
         
-        context.SingleChoiceQuestions.Add(q1);
-        context.OpenQuestions.Add(q2);
-        context.SingleChoiceQuestions.Add(q3);
+        context.Options.Add(o1);
+        context.Options.Add(o2);
+        context.Options.Add(o3);
+        context.Options.Add(o4);
+        context.Options.Add(o5);
+        context.Options.Add(o6);
+        context.Options.Add(o7);
+        context.Options.Add(o8);
+        context.Options.Add(o9);
+        context.Options.Add(o10);
+        
+        // context.SingleChoiceQuestions.Add(q1);
+        // context.OpenQuestions.Add(q2);
+        // context.SingleChoiceQuestions.Add(q3);
+        context.Questions.Add(q1);
+        context.Questions.Add(q2);
+        context.Questions.Add(q3);
         
         context.Answers.Add(a1);
         context.Answers.Add(a2);
