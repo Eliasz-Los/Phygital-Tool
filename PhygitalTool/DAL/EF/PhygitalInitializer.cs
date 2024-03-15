@@ -109,7 +109,7 @@ public class PhygitalInitializer
         // In the second part of the seed method we create the relations between the different classes
         /////////////////////////////////////////////////////////////////////////////////////////////////////
         
-        // flow 1 relations
+        // Adding answers to flow 1
         f1.Answers.Add(a1);
         f1.Answers.Add(a2);
         f1.Answers.Add(a3);
@@ -121,6 +121,7 @@ public class PhygitalInitializer
         f1.Answers.Add(a9);
         f1.Answers.Add(a10);
         
+        // Adding the flow to the annswers
         a1.Flow = f1;
         a2.Flow = f1;
         a3.Flow = f1;
@@ -132,8 +133,7 @@ public class PhygitalInitializer
         a9.Flow = f1;
         a10.Flow = f1;
         
-       
-        
+        // Adding the options to the different questions
         q1.Options.Add(o1);
         q1.Options.Add(o2);
         q1.Options.Add(o3);
@@ -145,6 +145,7 @@ public class PhygitalInitializer
         q3.Options.Add(o8);
         q3.Options.Add(o9);
         
+        // Linking questions to answers
         a1.Question = q1;
         a2.Question = q1;
         a3.Question = q1;
@@ -156,26 +157,34 @@ public class PhygitalInitializer
         a9.Question = q3;
         a10.Question = q2;
         
+        // Adding questions to flow 1
         f1.SingleChoiceQuestions.Add(q1);
         // f1.OpenQuestions.Add(q2);
         f1.SingleChoiceQuestions.Add(q3);
+        
+        // Linking flows to questions
         q1.Flow = f1;
         q2.Flow = f1;
         q3.Flow = f1;
         
+        // idk
         i1.SubTheme = th1;
         i2.SubTheme = th2;
         
         // context => database
+        // Adding flows
         context.Flows.Add(f1);
         context.Flows.Add(f2);
         
+        // Adding themes
         context.Themas.Add(th1);
         context.Themas.Add(th2);
         
+        // Adding infos
         context.Infos.Add(i1);
         context.Infos.Add(i2);
         
+        // Adding options
         context.Options.Add(o1);
         context.Options.Add(o2);
         context.Options.Add(o3);
@@ -187,13 +196,15 @@ public class PhygitalInitializer
         context.Options.Add(o9);
         context.Options.Add(o10);
         
+        // Adding questions
         // context.SingleChoiceQuestions.Add(q1);
         // context.OpenQuestions.Add(q2);
         // context.SingleChoiceQuestions.Add(q3);
-        context.Questions.Add(q1);
-        context.Questions.Add(q2);
-        context.Questions.Add(q3);
+        context.SingleChoiceQuestions.Add(q1);
+        context.OpenQuestions.Add(q2);
+        context.SingleChoiceQuestions.Add(q3);
         
+        // Adding answers
         context.Answers.Add(a1);
         context.Answers.Add(a2);
         context.Answers.Add(a3);
