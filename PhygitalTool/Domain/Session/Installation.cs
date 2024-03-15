@@ -4,6 +4,5 @@ public class Installation
 {
     public long Id { get; set; }
     public string Location { get; set; }
-    public ICollection<Participation> Participations { get; set; }
-
+    public ICollection<Session> Sessions { get; set; }
 }
