@@ -1,4 +1,5 @@
 ﻿using Phygital.Domain.Questionsprocess;
+using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Themas;
 
 namespace Phygital.DAL;
@@ -14,6 +15,7 @@ public interface IRepository
     Text ReadTextById(int id);
     Theme ReadThemaById(int id);
     Video ReadVideoById(int id);
+    
     IEnumerable<Answer> ReadAllAnswers();
     IEnumerable<Flow> ReadAllFlows();
     IEnumerable<FlowElement> ReadAllFlowElements();

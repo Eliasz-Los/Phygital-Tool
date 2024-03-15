@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Phygital.Domain.Questionsprocess;
+using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Session;
 using Phygital.Domain.Themas;
 
@@ -13,6 +14,11 @@ public class PhygitalDbContext : DbContext
     
     public DbSet<Answer> Answers { get; set; }
     public DbSet<Question> Questions { get; set; }
+    public DbSet<SingleChoiceQuestion> SingleChoiceQuestions { get; set; }
+    public DbSet<RangeQuestion> RangeQuestions { get; set; }
+    public DbSet<OpenQuestion> OpenQuestions { get; set; }
+    public DbSet<MultipleChoice> MultipleChoices { get; set; }
+    
     public DbSet<Image> Images { get; set; }
     public DbSet<Text> Texts { get; set; }
     public DbSet<Video> Videos { get; set; }
@@ -41,9 +47,7 @@ public class PhygitalDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Questionsprocess package
-        modelBuilder.Entity<Flow>().ToTable("Flow");
-        modelBuilder.Entity<Flow>().HasIndex(flow => flow.Id).IsUnique();
-        
+        modelBuilder.Entity<Flow>().ToTable("Flow").HasIndex(flow => flow.Id).IsUnique();
         modelBuilder.Entity<Info>().ToTable("Infos").HasIndex(info => info.Id).IsUnique();
         modelBuilder.Entity<Question>().ToTable("Questions").HasIndex(questions => questions.Id).IsUnique();
         modelBuilder.Entity<Answer>().ToTable("Answers").HasIndex(answer => answer.Id).IsUnique();
@@ -62,8 +66,24 @@ public class PhygitalDbContext : DbContext
             //not sure about this one 
             .HasForeignKey("flowId");
         
+        // Question elements
         modelBuilder.Entity<Flow>()
-            .HasMany(flow => flow.Questions)
+            .HasMany(flow => flow.SingleChoiceQuestions)
+            .WithOne(question => question.Flow)
+            .HasForeignKey("flowId");
+        
+        modelBuilder.Entity<Flow>()
+            .HasMany(flow => flow.RangeQuestions)
+            .WithOne(question => question.Flow)
+            .HasForeignKey("flowId");
+        
+        modelBuilder.Entity<Flow>()
+            .HasMany(flow => flow.OpenQuestions)
+            .WithOne(question => question.Flow)
+            .HasForeignKey("flowId");
+        
+        modelBuilder.Entity<Flow>()
+            .HasMany(flow => flow.MultipleChoices)
             .WithOne(question => question.Flow)
             .HasForeignKey("flowId");
         
@@ -83,12 +103,11 @@ public class PhygitalDbContext : DbContext
             .WithOne(text => text.Flow)
             .HasForeignKey("flowId");
 
-        // one on one Question - Answer
+        // one qsuestion has one or many answers
         modelBuilder.Entity<Question>()
-            .HasOne(q => q.Answer)
+            .HasMany(q => q.Answers)
             .WithOne(a => a.Question)
-            //We need to specify the foreign key because the Answer class does not have a QuestionId property
-            .HasForeignKey<Question>("questionId");
+            .HasForeignKey("questionId");
         
         // one flow has many participations
         modelBuilder.Entity<Flow>()
