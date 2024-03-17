@@ -5,7 +5,7 @@ using Phygital.Domain.Themas;
 namespace Phygital.Domain.Questionsprocess;
 
 // The Answer class represents the answer a user has given to a specific question
-public class Answer : FlowElement
+public class Answer 
 {
     public long Id { get; set; }
     public Flow Flow { get; set; }

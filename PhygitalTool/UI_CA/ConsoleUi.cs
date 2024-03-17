@@ -6,24 +6,24 @@ namespace Phygital.UI_CA;
 
 public class ConsoleUi
 {
-    private readonly IManager _manager;
+    private readonly IFlowManager _flowManager;
     
-    public ConsoleUi(IManager manager)
+    public ConsoleUi(IFlowManager flowManager)
     {
-        _manager = manager;
+        _flowManager = flowManager;
     }
     
     public void Run()
     {
-        // Console.WriteLine("Get all flows");
-        // var allFlows = _manager.GetAllFlows();
-        // foreach (var flow in allFlows)
-        // {
-        //     Console.WriteLine(flow.StringRepresentation());
-        // }
+        Console.WriteLine("Get all flows");
+        var allFlows = _flowManager.GetAllFlows();
+        foreach (var flow in allFlows)
+        {
+            Console.WriteLine(flow.StringRepresentation());
+        }
 
         // Console.WriteLine("Get all questions of flow 1");
-        // var allQuestions = _manager.GetAllQuestionsOfFlowById(2);
+        // var allQuestions = _flowManager.GetAllQuestionsOfFlowById(2);
         // foreach (var question in allQuestions)
         // {
         //     Console.WriteLine(question.Text);

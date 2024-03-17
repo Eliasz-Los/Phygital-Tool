@@ -13,8 +13,8 @@ builder.UseSqlite("Data Source=Phygital.db");
 
 var dbContext = new PhygitalDbContext(builder.Options);
 
-var repository = new Repository(dbContext);
-var manager = new Manager(repository);
+var repository = new FlowRepository(dbContext);
+var manager = new FlowManager(repository);
 
 var consoleUi = new ConsoleUi(manager);
 consoleUi.Run();

@@ -22,20 +22,20 @@ public class Flow
     
     
     // A list of elements used in the flow
-   // public ICollection<FlowElement> FlowElements { get; set; }
+    public ICollection<FlowElement> FlowElements { get; set; }
    public ICollection<Answer> Answers { get; set; }
    
    // info elements
-   public ICollection<Video> Videos { get; set; }
-   public ICollection<Image> Images { get; set; }
-   public ICollection<Text> Texts { get; set; }
-   
+   // public ICollection<Video> Videos { get; set; }
+   // public ICollection<Image> Images { get; set; }
+   // public ICollection<Text> Texts { get; set; }
+   //
    // // question elements
    // public ICollection<Question> Questions { get; set; }
-   public ICollection<SingleChoiceQuestion> SingleChoiceQuestions { get; set; }
-   public ICollection<RangeQuestion> RangeQuestions { get; set; }
-   public ICollection<OpenQuestion> OpenQuestions { get; set; }
-   public ICollection<MultipleChoice> MultipleChoices { get; set; }
+   // public ICollection<SingleChoiceQuestion> SingleChoiceQuestions { get; set; }
+   // public ICollection<RangeQuestion> RangeQuestions { get; set; }
+   // public ICollection<OpenQuestion> OpenQuestions { get; set; }
+   // public ICollection<MultipleChoice> MultipleChoices { get; set; }
    
    
     // A Collection of the participations the flow has

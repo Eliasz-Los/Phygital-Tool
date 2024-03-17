@@ -43,19 +43,12 @@ public class PhygitalInitializer
             Content = "Dit is een andere tekst"
         };
         
-        // Flows opmaken
         var f1 = new Flow
         {
             FlowType = Flowtype.linear,
             IsOpen = true,
-            SingleChoiceQuestions = new List<SingleChoiceQuestion>(),
-            RangeQuestions = new List<RangeQuestion>(),
-            OpenQuestions = new List<OpenQuestion>(),
-            MultipleChoices = new List<MultipleChoice>(),
-            Answers = new List<Answer>(),
-            Videos = new List<Video>(),
-            Images = new List<Image>(),
-            Texts = new List<Text>()
+            FlowElements = new List<FlowElement>(),
+            Answers = new List<Answer>()
         };
         
         var f2 = new Flow
@@ -74,13 +67,13 @@ public class PhygitalInitializer
         var q2 = new OpenQuestion
         {
             Text = "Waarom kiest u voor deze partij?", 
-            Active = true, SequenceNumber = 3,
+            Active = true, SequenceNumber = 2,
             Answer = new Answer()
         };
         var q3 = new SingleChoiceQuestion
         {
             Text = "Bent u voor of tegen: BTW van 6 procent op elektriciteit?", 
-            Active = true, SequenceNumber = 2, 
+            Active = true, SequenceNumber = 3, 
             Options = new List<Option>()
         };
         
@@ -116,10 +109,13 @@ public class PhygitalInitializer
         // In the second part of the seed method we create the relations between the different classes
         /////////////////////////////////////////////////////////////////////////////////////////////////////
        
-        // Adding questions to the flow
-        f1.SingleChoiceQuestions.Add(q1);
-        f1.SingleChoiceQuestions.Add(q3);
-        f1.OpenQuestions.Add(q2);
+        // Adding questions & info to the flow
+        f1.FlowElements.Add(q1);
+        f1.FlowElements.Add(q2);
+        f1.FlowElements.Add(q3);
+        
+        f1.FlowElements.Add(i1);
+        f1.FlowElements.Add(i2);
         
         // Adding options to the questions
         q1.Options.Add(o1);
@@ -156,11 +152,9 @@ public class PhygitalInitializer
         a9.Flow = f1;
         a10.Flow = f1;
         
-        //Adding themes & info to the flow 
+        //Adding themes to the flow 
         f1.Theme = th1;
         f2.Theme = th2;
-        f1.Texts.Add(i1);
-        f1.Texts.Add(i2);
         
         /////////////////////////////////////////
         // Third part: adding to the Database //
@@ -174,37 +168,14 @@ public class PhygitalInitializer
         context.Themas.Add(th1);
         context.Themas.Add(th2);
         
-        // Adding infos
-        context.Infos.Add(i1);
-        context.Infos.Add(i2);
-        
-        // Adding questions
-        context.SingleChoiceQuestions.Add(q1);
-        context.OpenQuestions.Add(q2);
-        context.SingleChoiceQuestions.Add(q3);
-        
+        // adding FlowElements
+        context.FlowElements.AddRange( new FlowElement[] {q1,q2,q3,i1,i2});
+       
         // adding options
-        context.Options.Add(o1);
-        context.Options.Add(o2);
-        context.Options.Add(o3);
-        context.Options.Add(o4);
-        context.Options.Add(o5);
-        context.Options.Add(o6);
-        context.Options.Add(o7);
-        context.Options.Add(o8);
-        context.Options.Add(o9);
+        context.AddRange(new Option[] {o1,o2,o3,o4,o5,o6,o7,o8,o9});
         
         // Adding answers
-        context.Answers.Add(a1);
-        context.Answers.Add(a2);
-        context.Answers.Add(a3);
-        context.Answers.Add(a4);
-        context.Answers.Add(a5);
-        context.Answers.Add(a6);
-        context.Answers.Add(a7);
-        context.Answers.Add(a8);
-        context.Answers.Add(a9);
-        context.Answers.Add(a10);
+        context.AddRange(new Answer[] {a1,a2,a3,a4,a5,a6,a7,a8,a9,a10});
         
         context.SaveChanges();
         context.ChangeTracker.Clear();

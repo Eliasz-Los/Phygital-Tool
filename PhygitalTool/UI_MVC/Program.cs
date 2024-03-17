@@ -11,8 +11,8 @@ builder.Services.AddControllersWithViews();
 
 // builder.Services.AddDbContext<PhygitalDbContext>(
 //     o => o.UseNpgsql(builder.Configuration.GetConnectionString("PhygitalDbContext")));
-builder.Services.AddScoped<IRepository, Repository>();
-builder.Services.AddScoped<IManager, Manager>();
+builder.Services.AddScoped<IFlowRepository, FlowRepository>();
+builder.Services.AddScoped<IFlowManager, FlowManager>();
 //real time compilation voor pages om errors te zien
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
