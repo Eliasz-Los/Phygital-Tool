@@ -8,26 +8,44 @@
 
 <h2>Flow page</h2>
 
+@* Follow the sequence in the flow by id *@
 <table class="table">
     <thead>
-    <tr>
-        <th>Id</th>
-        <th>Type</th>
-        <th>Is Open</th>
-        @* <th>Theme</th> *@
-    </tr>
-    </thead>
-    <tbody>
-    @{
-        foreach (var flow in Model)
-        {
-            <tr>
-                <td>@flow.Id</td>
-                <td>@flow.FlowType</td>
-                <td>@flow.IsOpen</td>
-                @* <td>@flow.Theme.Title</td> *@
-            </tr>
-        }
-    }
+        <tr>
+            <th>Vraag</th><th>Antwoorden</th>
+        </tr>
+        </thead>
+        <tbody id="flowElementId">
+    
+        </tbody>
 </table>
 
+<button id="answerQuestion" class="btn btn-warning" type="button">Bevestig</button>
+
+@* <table class="table"> *@
+@*     <thead> *@
+@*     <tr> *@
+@*         <th>Id</th> *@
+@*         <th>Type</th> *@
+@*         <th>Is Open</th> *@
+@*         $1$ <th>Theme</th> #1# *@
+@*     </tr> *@
+@*     </thead> *@
+@*     <tbody> *@
+@*     @{ *@
+@*         foreach (var flow in Model) *@
+@*         { *@
+@*             <tr> *@
+@*                 <td>@flow.Id</td> *@
+@*                 <td>@flow.FlowType</td> *@
+@*                 <td>@flow.IsOpen</td> *@
+@*                 $1$ <td>@flow.Theme.Title</td> #1# *@
+@*             </tr> *@
+@*         } *@
+@*     } *@
+@* </table> *@
+
+@section Scripts
+{
+    <script src="js/Flow/flow.js"></script>
+}

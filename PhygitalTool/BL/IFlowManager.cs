@@ -9,5 +9,6 @@ public interface IFlowManager
 {
 
     IEnumerable<Flow> GetAllFlows();
+    IEnumerable<SingleChoiceQuestion> GetSingleChoiceQuestionsOfFlow(long flowId);
 
 }

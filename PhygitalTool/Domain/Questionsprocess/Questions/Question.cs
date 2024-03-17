@@ -8,5 +8,4 @@ public abstract class Question : FlowElement
 {
     public Flow Flow { get; set; }
     public Theme SubTheme { get; set; }
-    
 }

@@ -7,4 +7,5 @@ namespace Phygital.DAL;
 public interface IFlowRepository
 {
     IEnumerable<Flow> ReadAllFlows();
+    IEnumerable<SingleChoiceQuestion> ReadSingleChoiceQuestionsOfFlow(long flowId);
 }

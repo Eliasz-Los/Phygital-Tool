@@ -17,4 +17,10 @@ public class FlowRepository : IFlowRepository
     {
         return _dbContext.Flows;
     }
+
+    // scq = SingleChoiceQuestion
+    public IEnumerable<SingleChoiceQuestion> ReadSingleChoiceQuestionsOfFlow(long flowId)
+    {
+        return _dbContext.SingleChoiceQuestions.Where(scq => scq.Flow.Id == flowId);
+    }
 }

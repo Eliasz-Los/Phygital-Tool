@@ -19,4 +19,9 @@ public class FlowManager : IFlowManager
     {
         return _flowRepository.ReadAllFlows();
     }
+    
+    public IEnumerable<SingleChoiceQuestion> GetSingleChoiceQuestionsOfFlow(long flowId)
+    {
+        return _flowRepository.ReadSingleChoiceQuestionsOfFlow(flowId);
+    }
 }
