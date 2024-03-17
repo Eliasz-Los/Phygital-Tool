@@ -1,0 +1,33 @@
+﻿@using Phygital.Domain.Questionsprocess;
+@model IEnumerable<Flow>
+
+@{
+    ViewBag.Title = "Phytical";
+    Layout = "_Layout";
+}
+
+<h2>Flow page</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Type</th>
+        <th>Is Open</th>
+        @* <th>Theme</th> *@
+    </tr>
+    </thead>
+    <tbody>
+    @{
+        foreach (var flow in Model)
+        {
+            <tr>
+                <td>@flow.Id</td>
+                <td>@flow.FlowType</td>
+                <td>@flow.IsOpen</td>
+                @* <td>@flow.Theme.Title</td> *@
+            </tr>
+        }
+    }
+</table>
+

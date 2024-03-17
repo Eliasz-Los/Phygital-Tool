@@ -10,7 +10,7 @@ public class PhygitalInitializer
     private static bool _hasBeenInitialized = false;
     
     // Initializing database
-    public static void Initialize(PhygitalDbContext context, bool dropDatabase = true)
+    public static void Initialize(PhygitalDbContext context, bool dropDatabase = false)
     {
         if (!_hasBeenInitialized)
         {

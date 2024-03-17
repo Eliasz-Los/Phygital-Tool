@@ -1,6 +1,5 @@
 using BL;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using Phygital.BL;
 using Phygital.DAL;
 using Phygital.DAL.EF;
 
@@ -9,11 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// builder.Services.AddDbContext<PhygitalDbContext>(
-//     o => o.UseNpgsql(builder.Configuration.GetConnectionString("PhygitalDbContext")));
+
+builder.Services.AddDbContext<PhygitalDbContext>();
 builder.Services.AddScoped<IFlowRepository, FlowRepository>();
 builder.Services.AddScoped<IFlowManager, FlowManager>();
-//real time compilation voor pages om errors te zien
+builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 //AddRoles() methods

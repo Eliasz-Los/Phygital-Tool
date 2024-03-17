@@ -4,9 +4,9 @@ namespace Phygital.UI_MVC.Controllers;
 
 public class ContactController : Controller
 {
-    private readonly ILogger<QuestionController> _logger;
+    private readonly ILogger<FlowController> _logger;
     
-    public ContactController(ILogger<QuestionController> logger)
+    public ContactController(ILogger<FlowController> logger)
     {
         _logger = logger;
     }

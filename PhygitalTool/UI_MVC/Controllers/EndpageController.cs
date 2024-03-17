@@ -5,9 +5,9 @@ namespace Phygital.UI_MVC.Controllers;
 
 public class EndpageController : Controller
 {
-    private readonly ILogger<QuestionController> _logger;
+    private readonly ILogger<FlowController> _logger;
     
-    public EndpageController(ILogger<QuestionController> logger)
+    public EndpageController(ILogger<FlowController> logger)
     {
         _logger = logger;
     }
