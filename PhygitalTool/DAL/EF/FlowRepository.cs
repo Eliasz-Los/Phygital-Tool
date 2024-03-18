@@ -56,4 +56,9 @@ public class FlowRepository : IFlowRepository
             .Where(oq => oq.Flow.Id == flowId);
         return result;
     }
+
+    public IEnumerable<Theme> ReadSubThemasFlow(long flowId)
+    {
+        return _dbContext.Themas.Where(t => t.Flows.Any(f => f.Id == flowId));
+    }
 }

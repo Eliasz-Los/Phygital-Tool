@@ -44,4 +44,9 @@ public class FlowManager : IFlowManager
     {
         return _flowRepository.ReadOpenQuestionsWithAnswerOfFlowById(flowId);
     }
+
+    public IEnumerable<Theme> GetSubThemasFlow(long flowId)
+    {
+        return _flowRepository.ReadSubThemasFlow(flowId);
+    }
 }
