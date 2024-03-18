@@ -12,4 +12,5 @@ public interface IFlowRepository
     IEnumerable<MultipleChoice> ReadMultipleChoiceQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<RangeQuestion> ReadRangeQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<OpenQuestion> ReadOpenQuestionsWithAnswerOfFlowById(long flowId);
+    IEnumerable<Theme> ReadSubThemasFlow(long flowId);
 }

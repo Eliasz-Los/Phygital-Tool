@@ -14,5 +14,6 @@ public interface IFlowManager
     IEnumerable<MultipleChoice> GetMultipleChoiceQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<RangeQuestion> GetRangeQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<OpenQuestion> GetOpenQuestionsWithAnswerOfFlowById(long flowId);
+    IEnumerable<Theme> GetSubThemasFlow(long flowId);
     
 }

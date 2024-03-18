@@ -91,4 +91,20 @@ public class FlowsController : ControllerBase
         }));
     }
     
+    [HttpGet("{flowId}/SubThemas")]
+    public ActionResult<IEnumerable<SubThemasDto>> GetSubThemasFlow(int flowId)
+    {
+        var flows = _flowManager.GetSubThemasFlow(flowId);
+
+        if (!flows.Any())
+        {
+            return NoContent();
+        }
+        return Ok(flows.Select(flow => new SubThemasDto()
+        {
+            Title = flow.Title,
+            Description = flow.Description
+        }));
+    }
+
 }

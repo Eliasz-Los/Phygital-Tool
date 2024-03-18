@@ -8,7 +8,7 @@ const flowId = 1
 
 //please dont tell me it cant be addedd to the previous element
 const openFlowElement = document.getElementById("openFlowElementId")
-
+const subThemasFlowElement = document.getElementById("subThemasFlowElementId")
 function getSingleChoiceQuestionData() {
     fetch(`/api/flows/${flowId}/SingleChoiceQuestions`,
         {
@@ -47,7 +47,7 @@ function getSingleChoiceQuestionData() {
 }
 
 function getSubThemasData() {
-    fetch(`http://localhost:5000/api/flow/${flowId}/SubThemas`,
+    fetch(`http://localhost:5000/api/flows/${flowId}/SubThemas`,
         {
             headers: {
                 "Content-Type": "application/json",
@@ -64,9 +64,14 @@ function getSubThemasData() {
         .then(subThemas => {
             let bodyData = ``;
             for (const subTheme of subThemas) {
-                bodyData += `<tr><td>${subTheme.title}</td><td>${subTheme.description}</td></tr>`
+                bodyData += `<div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">${subTheme.title}</h5>
+                                    <p class="card-text">${subTheme.description}</p>
+                                </div>
+                             </div>`;
             }
-            flowElementBody.innerHTML = bodyData
+            subThemasFlowElement.innerHTML = bodyData
         })
 }
 
@@ -107,11 +112,12 @@ function getOpenQuestionsData() {
 }
 
 
+
 function commitAnswer() {
     // TODO : save answer & go to next flowElement
 }
 
 getSingleChoiceQuestionData();
 getOpenQuestionsData();
-
+getSubThemasData();
 addButton.addEventListener("click", commitAnswer);
