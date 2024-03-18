@@ -5,46 +5,42 @@
     ViewBag.Title = "Phytical";
     Layout = "_Layout";
 }
+@*TODO: Dit pagina misschien behouden voor info classes te tonen 
+TODO: en zodat de gast hier de thema's kan anvinken en door gaan naar details of gwn hier al die flow tonen *@
 
-<h2>Flow page</h2>
-@* Follow the sequence in the flow by id *@
+<h2>Welcome here is info</h2>
+
+@*TODO: getting id from the list then I suppose?*@
 <table class="table">
     <thead>
-        <tr>
-            <th>Vraag</th><th>Antwoorden</th>
-        </tr>
-        </thead>
-        <tbody id="flowElementId">
-    
-        </tbody>
+    <tr>
+        <th>id</th><th>type</th>
+    </tr>
+    </thead>
+    @{
+        foreach (var flow in Model)
+        {
+            <tr>
+                <td id="flowId">@flow.Id</td>
+                <td>@flow.FlowType</td>
+                <td><a  asp-controller="Flow" asp-action="Details" asp-route-id="@flow.Id" class="btn btn-primary">Continue</a></td>
+            </tr>
+        }
+    }
 </table>
+
+@* Follow the sequence in the flow by id *@
+@*TODO: Op details wou de api nie werken idk*@
+<h2>Vragen</h2>
+<div id="flowElementId">
+</div>
+<div id="openFlowElementId">
+</div>
 
 <button id="answerQuestion" class="btn btn-warning" type="button">Bevestig</button>
 
-@* <table class="table"> *@
-@*     <thead> *@
-@*     <tr> *@
-@*         <th>Id</th> *@
-@*         <th>Type</th> *@
-@*         <th>Is Open</th> *@
-@*         $1$ <th>Theme</th> #1# *@
-@*     </tr> *@
-@*     </thead> *@
-@*     <tbody> *@
-@*     @{ *@
-@*         foreach (var flow in Model) *@
-@*         { *@
-@*             <tr> *@
-@*                 <td>@flow.Id</td> *@
-@*                 <td>@flow.FlowType</td> *@
-@*                 <td>@flow.IsOpen</td> *@
-@*                 $1$ <td>@flow.Theme.Title</td> #1# *@
-@*             </tr> *@
-@*         } *@
-@*     } *@
-@* </table> *@
-
 @section Scripts
 {
-    <script src="js/Flow/flow.js"></script>
+    <script src="js/Flow/flow.js" defer></script>
 }
+

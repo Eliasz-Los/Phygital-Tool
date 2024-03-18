@@ -1,0 +1,24 @@
+﻿@using Phygital.Domain.Questionsprocess;
+@model Flow
+
+@{
+    ViewBag.Title = "Phytical";
+    Layout = "_Layout";
+}
+
+<h2>Welcome to our Flow!</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Vraag</th><th>Antwoorden</th>
+    </tr>
+    </thead>
+        <tbody id="flowElementId">
+
+        </tbody>
+</table>
+
+@section Scripts
+{
+    <script src="js/Flow/flow.js" defer></script>
+}

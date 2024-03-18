@@ -9,7 +9,10 @@ public interface IFlowManager
 {
 
     IEnumerable<Flow> GetAllFlows();
-    IEnumerable<SingleChoiceQuestion> GetSingleChoiceQuestionsOfFlow(long flowId);
-    IEnumerable<Theme> GetSubThemasFlow(long flowId);
-
+    Flow GetFlowById(long id);
+    IEnumerable<SingleChoiceQuestion> GetSingleChoiceQuestionsWithOptionsOfFlowById(long flowId);
+    IEnumerable<MultipleChoice> GetMultipleChoiceQuestionsWithOptionsOfFlowById(long flowId);
+    IEnumerable<RangeQuestion> GetRangeQuestionsWithOptionsOfFlowById(long flowId);
+    IEnumerable<OpenQuestion> GetOpenQuestionsWithAnswerOfFlowById(long flowId);
+    
 }
