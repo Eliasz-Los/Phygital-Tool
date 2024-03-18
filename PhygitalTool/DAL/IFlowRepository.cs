@@ -8,4 +8,5 @@ public interface IFlowRepository
 {
     IEnumerable<Flow> ReadAllFlows();
     IEnumerable<SingleChoiceQuestion> ReadSingleChoiceQuestionsOfFlow(long flowId);
+    IEnumerable<Theme> ReadSubThemasFlow(long flowId);
 }
