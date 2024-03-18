@@ -25,4 +25,10 @@ public class FlowController : Controller
         var flows = _flowManager.GetAllFlows();
         return View(flows);
     }
+
+    public IActionResult Details(long id)
+    {
+        var flow = _flowManager.GetFlowById(id);
+        return View(flow);
+    }
 }

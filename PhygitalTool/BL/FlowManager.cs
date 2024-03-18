@@ -19,9 +19,29 @@ public class FlowManager : IFlowManager
     {
         return _flowRepository.ReadAllFlows();
     }
-    
-    public IEnumerable<SingleChoiceQuestion> GetSingleChoiceQuestionsOfFlow(long flowId)
+
+    public Flow GetFlowById(long id)
     {
-        return _flowRepository.ReadSingleChoiceQuestionsOfFlow(flowId);
+        return _flowRepository.ReadFlowById(id);
+    }
+
+    public IEnumerable<SingleChoiceQuestion> GetSingleChoiceQuestionsWithOptionsOfFlowById(long flowId)
+    {
+        return _flowRepository.ReadSingleChoiceQuestionsWithOptionsOfFlowById(flowId);
+    }
+
+    public IEnumerable<MultipleChoice> GetMultipleChoiceQuestionsWithOptionsOfFlowById(long flowId)
+    {
+        return _flowRepository.ReadMultipleChoiceQuestionsWithOptionsOfFlowById(flowId);
+    }
+
+    public IEnumerable<RangeQuestion> GetRangeQuestionsWithOptionsOfFlowById(long flowId)
+    {
+    return _flowRepository.ReadRangeQuestionsWithOptionsOfFlowById(flowId);
+    }
+
+    public IEnumerable<OpenQuestion> GetOpenQuestionsWithAnswerOfFlowById(long flowId)
+    {
+        return _flowRepository.ReadOpenQuestionsWithAnswerOfFlowById(flowId);
     }
 }
