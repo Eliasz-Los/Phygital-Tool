@@ -24,4 +24,9 @@ public class FlowManager : IFlowManager
     {
         return _flowRepository.ReadSingleChoiceQuestionsOfFlow(flowId);
     }
+
+    public IEnumerable<Theme> GetSubThemasFlow(long flowId)
+    {
+        return _flowRepository.ReadSubThemasFlow(flowId);
+    }
 }

@@ -23,4 +23,9 @@ public class FlowRepository : IFlowRepository
     {
         return _dbContext.SingleChoiceQuestions.Where(scq => scq.Flow.Id == flowId);
     }
+
+    public IEnumerable<Theme> ReadSubThemasFlow(long flowId)
+    {
+        return _dbContext.Themas.Where(t => t.Flows.Any(f => f.Id == flowId));
+    }
 }

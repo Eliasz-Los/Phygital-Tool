@@ -10,5 +10,6 @@ public interface IFlowManager
 
     IEnumerable<Flow> GetAllFlows();
     IEnumerable<SingleChoiceQuestion> GetSingleChoiceQuestionsOfFlow(long flowId);
+    IEnumerable<Theme> GetSubThemasFlow(long flowId);
 
 }
