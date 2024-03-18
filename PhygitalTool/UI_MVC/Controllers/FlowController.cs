@@ -21,7 +21,6 @@ public class FlowController : Controller
 
     public IActionResult Index()
     {
-        
         var flows = _flowManager.GetAllFlows();
         return View(flows);
     }
