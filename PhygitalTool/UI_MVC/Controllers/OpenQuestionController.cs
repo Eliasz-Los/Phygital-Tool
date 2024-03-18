@@ -24,5 +24,17 @@ public class OpenQuestionController: Controller
         // TODO question meegeven zodat deze gedisplayed kan worden
         return View();
     }
+    
+    public IActionResult ProcessInput(string userInput)
+    {
+        // When the user presses the button on the page, this method is called and will send the text the user has inputted
+        // to the database as an answer
+        
+        // TODO BL code non existent, maak pls
+    
+        // After the answer has been processed we redirect the user to the next element in the flow
+        // TODO redirect naar ander flowelement
+        return RedirectToAction(""); // Redirect to a success page after processing
+    }
 
 }

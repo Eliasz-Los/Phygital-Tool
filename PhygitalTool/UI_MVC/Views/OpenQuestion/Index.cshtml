@@ -25,15 +25,15 @@ some information about the question, a textfield for the user to put in his answ
         </div>
         <div class="container-fluid p-2">
             <div class="row">
-                <h3 class="align-content-center p-3">Enter you answer here</h3>
+                <h3 class="align-content-center p-3">Vul je antwoord hier in</h3>
             </div>
             <div class="row align-content-center">
                 <div class="col p-2">
-                    <input type="text">
+                    <input id="UserInputField" type="text">
                 </div>
             </div>
             <div class="col p-2">
-                <a type="button" class="btn btn-warning" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
+                <a type="button" class="btn btn-warning" asp-area="" asp-controller="OpenQuestion" asp-action="ProcessInput">Ga verder</a>
             </div>
         </div>
     </div>
