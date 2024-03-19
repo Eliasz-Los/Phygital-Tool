@@ -4,7 +4,7 @@ const flowIdElement = document.getElementById("flowId")
 
 //TODO: get flowId oftewel van tabel hier onder dus of all pre-gezet zoals nu
 // const flowId = parseInt(flowIdElement.innerText)
-const flowId = 1
+const flowId = parseInt(flowIdElement.innerText)
 
 //please dont tell me it cant be addedd to the previous element
 const openFlowElement = document.getElementById("openFlowElementId")

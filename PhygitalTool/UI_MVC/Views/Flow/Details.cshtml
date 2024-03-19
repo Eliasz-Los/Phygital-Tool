@@ -2,23 +2,23 @@
 @model Flow
 
 @{
-    ViewBag.Title = "Phytical";
+    ViewBag.Title = "Flow Process";
     Layout = "_Layout";
 }
 
-<h2>Welcome to our Flow!</h2>
-<table class="table">
-    <thead>
-    <tr>
-        <th>Vraag</th><th>Antwoorden</th>
-    </tr>
-    </thead>
-        <tbody id="flowElementId">
+<h2>Please answer these questions!</h2>
+<div id="flowId">@Model.Id</div>
 
-        </tbody>
-</table>
+<div id="flowElementId"> 
+</div>
+<div id="openFlowElementId">
+</div>
+
+
+
+<a  asp-controller="Endpage" asp-action="Index" class="btn btn-warning">Send in</a>
 
 @section Scripts
 {
-    <script src="js/Flow/flow.js" defer></script>
+    <script src="~/js/Flow/flow.js" defer></script>
 }
