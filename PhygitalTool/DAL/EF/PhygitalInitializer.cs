@@ -76,7 +76,13 @@ public class PhygitalInitializer
             Active = true, SequenceNumber = 3, 
             Options = new List<Option>()
         };
-        
+
+        var q4 = new RangeQuestion
+        {
+            Text = "Wat is uw mening over deze uitspraak: 'De regering moet meer investeren in de zorgsector'",
+            Active = true, SequenceNumber = 4,
+            Options = new List<Option>()
+        };
         
         // Filling options & answers
         Option o1 = new Option { OptionText = "CD&V" };
@@ -89,6 +95,11 @@ public class PhygitalInitializer
         
         Option o8 = new Option { OptionText = "Voor" };
         Option o9 = new Option { OptionText = "Tegen" };
+        
+        Option o10 = new Option { OptionText = "Neutraal" };
+        Option o11 = new Option { OptionText = "Zwaar voor" };
+        Option o12 = new Option { OptionText = "Zwaar tegen" };
+        
         //Option o10 = new Option { OptionText = "Geen mening" };
         
         // Kan brol zijn maar is effe nodig voor testdate
@@ -113,6 +124,7 @@ public class PhygitalInitializer
         f1.FlowElements.Add(q1);
         f1.FlowElements.Add(q2);
         f1.FlowElements.Add(q3);
+        f1.FlowElements.Add(q4);
         
         f1.FlowElements.Add(i1);
         f1.FlowElements.Add(i2);
@@ -128,6 +140,12 @@ public class PhygitalInitializer
         q3.Options.Add(o8);
         q3.Options.Add(o9);
         q2.Answer = a10;
+        q4.Options.Add(o12); //zwaar tegen
+        q4.Options.Add(o9); //tegen
+        q4.Options.Add(o10); //neutraal
+        q4.Options.Add(o8); //voor
+        q4.Options.Add(o11); //zwaar voor
+       
         
         // Adding answers to the flow
         f1.Answers.Add(a1);
