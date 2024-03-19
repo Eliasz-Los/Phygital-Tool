@@ -1,14 +1,11 @@
 const flowElementBody = document.getElementById("flowElementId")
 const addButton = document.getElementById("answerQuestion")
 const flowIdElement = document.getElementById("flowId")
-
-//TODO: get flowId oftewel van tabel hier onder dus of all pre-gezet zoals nu
-// const flowId = parseInt(flowIdElement.innerText)
 const flowId = parseInt(flowIdElement.innerText)
 
-//please dont tell me it cant be addedd to the previous element
 const openFlowElement = document.getElementById("openFlowElementId")
 const subThemasFlowElement = document.getElementById("subThemasFlowElementId")
+const rangeQuestionsElement = document.getElementById("rangeQuestions")
 function getSingleChoiceQuestionData() {
     fetch(`/api/flows/${flowId}/SingleChoiceQuestions`,
         {
@@ -111,7 +108,50 @@ function getOpenQuestionsData() {
 
 }
 
+function getRangeQuestionsData() {
+    fetch(`/api/flows/${flowId}/RangeQuestions`,
+        {
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        })
+        .then(response => {
+            if (response.status === 200) {
+                return response.json()
+            } else {
+                alert("Something went wrong in the backend, check the console for more details!")
+            }
+        })
+        .then(rangeQuestions => {
+            let bodyData = ``;
+            for (let i = 0; i < rangeQuestions.length; i++) {
+                const rangeQuestion = rangeQuestions[i];
+                console.log(rangeQuestion.options)
+                //TODO: Fix volgorde van de options dat getoond wordt
+                let options = rangeQuestion.options.map((option,index) => `data-option-${index}="${option}"`).join('')
+                bodyData += `<div class="card">
+            <div class="card-body">
+                <h5 class="card-title">${rangeQuestion.text}</h5>
+                <div class="form-group">
+                    <input type="range" class="form-control-range" id="formControlRange${i}" min="0" max="${rangeQuestion.options.length -1}" ${options} oninput="updateLabel(this, 'rangeLabel${i}')">
+                    <label id="rangeLabel${i}" for="formControlRange${i}"></label>
+                </div>
+            </div>
+        </div>`
+            }
+            rangeQuestionsElement.innerHTML = bodyData
+        })
+        .catch(error => {
+            console.log(error)
+        });
 
+}
+function updateLabel(rangeInput, labelId) {
+    let label = document.getElementById(labelId);
+    let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
+    label.textContent = optionText;
+}
 
 function commitAnswer() {
     // TODO : save answer & go to next flowElement
@@ -119,5 +159,6 @@ function commitAnswer() {
 
 getSingleChoiceQuestionData();
 getOpenQuestionsData();
+getRangeQuestionsData();
 getSubThemasData();
 addButton.addEventListener("click", commitAnswer);
