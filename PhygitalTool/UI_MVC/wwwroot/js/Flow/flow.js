@@ -6,6 +6,8 @@ const flowId = parseInt(flowIdElement.innerText)
 const openFlowElement = document.getElementById("openFlowElementId")
 const subThemasFlowElement = document.getElementById("subThemasFlowElementId")
 const rangeQuestionsElement = document.getElementById("rangeQuestions")
+const multipleChoiceQuestionsElement = document.getElementById("multipleChoiceQuestions")
+
 function getSingleChoiceQuestionData() {
     fetch(`/api/flows/${flowId}/SingleChoiceQuestions`,
         {
@@ -178,7 +180,7 @@ function getMultipleChoiceQuestionsData() {
             </div>
         </div>`
             }
-            flowElementBody.innerHTML = bodyData
+            multipleChoiceQuestionsElement.innerHTML = bodyData
         })
         .catch(error => {
             console.log(error)
