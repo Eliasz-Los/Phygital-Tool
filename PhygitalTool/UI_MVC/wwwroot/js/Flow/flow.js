@@ -20,7 +20,7 @@ function getSingleChoiceQuestionData() {
             if (response.status === 200) {
                 return response.json()
             } else {
-                alert("Something went wrong ;(")
+                alert("Something went wrong with placing or reading the single choice questions.")
             }
         })
         .then(singleChoiceQuestions => {
@@ -29,9 +29,9 @@ function getSingleChoiceQuestionData() {
                 bodyData += `<div class="card">
             <div class="card-body">
                 <h5 class="card-title">${singleChoiceQuestion.text}</h5>
-                ${singleChoiceQuestion.options.map(option => `<div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="${option}">
-                    <label class="form-check-label" for="${option}">
+                ${singleChoiceQuestion.options.map((option, index) => `<div class="form-check">
+                    <input class="form-check-input" type="radio" name="option${singleChoiceQuestion.id}" id="option${index}" value="${option}">
+                    <label class="form-check-label" for="option${index}">
                         ${option}
                     </label>
                 </div>`).join('')}

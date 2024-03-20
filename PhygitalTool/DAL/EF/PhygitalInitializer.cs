@@ -201,7 +201,7 @@ public class PhygitalInitializer
         context.Themas.Add(th2);
         
         // adding FlowElements
-        context.FlowElements.AddRange( new FlowElement[] {q1,q2,q3,q5, i1,i2});
+        context.FlowElements.AddRange( new FlowElement[] {q1,q2,q3,q4,q5, i1,i2});
        
         // adding options
         context.AddRange(new Option[] {o1,o2,o3,o4,o5,o6,o7,o8,o9,o10,o11,o12,o13,o14});
