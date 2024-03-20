@@ -8,7 +8,7 @@ namespace Phygital.DAL.EF;
 public class PhygitalInitializer
 {
     private static bool _hasBeenInitialized = false;
-
+    
     // Initializing database
     public static void Initialize(PhygitalDbContext context, bool dropDatabase = false)
     {
@@ -23,24 +23,33 @@ public class PhygitalInitializer
             _hasBeenInitialized = true;
         }
     }
-
-
+    
+    
     private static void Seed(PhygitalDbContext context)
     {
         // In the first part of the seed method we create data to be put into the database
         /////////////////////////////////////////////////////////////////////////////////////////////////////
         // Filling themes
-        var th1 = new Theme { Title = "Politiek", Description = "Simpele vragen rond politiek" };
-        var th2 = new Theme { Title = "Vakantie", Description = "Simpele vragen rond vakantie" };
-
+        var th1 = new Theme { Title = "Politiek" , Description = "Simpele vragen rond politiek"};
+        var th2 = new Theme { Title = "Vakantie" , Description = "Simpele vragen rond vakantie"};
+        
         // Filling info
         var i1 = new Text
         {
-            Content = "Dit is een tekst"
+            Content = "Deze vraag heeft betrekking op de politiek op gemeentelijk niveau"
         };
         var i2 = new Text
         {
-            Content = "Dit is een andere tekst"
+            Content = "De volgende vragen gaan over de politieke voorkeur van mensen"
+        };
+        var i3 = new Text
+        {
+            Content =
+                "PFAS zijn door de mens gemaakte stoffen die worden gevonden in de leefomgeving en in mensen. Ze komen in kleine hoeveelheden voor in onder andere de bodem, het oppervlaktewater en bloed van mensen. Dit komt bijvoorbeeld doordat fabrieken ze uitstoten bij productieprocessen waar deze stoffen worden gebruikt."
+        };
+        var i4 = new Text
+        {
+            Content = "De belasting op het gebruik van aardgas gaat omhoog. Dat komt door de inflatiecorrectie. Maar ook door een extra verhoging in de laagste verbruiksschijven van 2,5 cent exclusief btw per m3. Door de belasting op energie te verlagen en die op aardgas te verhogen wil de regering verduurzaming stimuleren."
         };
 
         var f1 = new Flow
@@ -295,29 +304,28 @@ public class PhygitalInitializer
         //Adding themes to the flow
         f1.Theme = th1;
         f2.Theme = th2;
-
+        
         /////////////////////////////////////////
         // Third part: adding to the Database //
         ////////////////////////////////////////
-
+        
         // Adding flows
         context.Flows.Add(f1);
         context.Flows.Add(f2);
-
+        
         // Adding themes
         context.Themas.Add(th1);
         context.Themas.Add(th2);
-
+        
         // adding FlowElements
-        context.FlowElements.AddRange(new FlowElement[] { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, i1, i2 });
-
+        context.FlowElements.AddRange(new FlowElement[] { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, i1, i2,i3,i4 });
         // adding options
         context.AddRange(new Option[]
             { o1, o2, o3, o4, o5, o6, o7, o8, o9, o10, o11, o12, o13, o14, o15, o16, o17, o18, o19, o20, o21, o22, o23, o24});
 
         // Adding answers
-        context.AddRange(new Answer[] { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10 });
-
+        context.AddRange(new Answer[] {a1,a2,a3,a4,a5,a6,a7,a8,a9,a10});
+        
         context.SaveChanges();
         context.ChangeTracker.Clear();
     }
