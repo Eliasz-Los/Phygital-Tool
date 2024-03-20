@@ -209,6 +209,8 @@ public class PhygitalInitializer
         var a8 = new Answer { Text = "Voor" };
         var a9 = new Answer { Text = "Tegen" };
         var a10 = new Answer { Text = "Geen mening" };
+        var a11 = new Answer { Text = " " };
+        var a12 = new Answer { Text = "geen interesse" };
 
 
 // In the second part of the seed method we create the relations between the different classes
@@ -233,6 +235,8 @@ public class PhygitalInitializer
 
         f1.FlowElements.Add(i1);
         f1.FlowElements.Add(i2);
+        f1.FlowElements.Add(i3);
+        f1.FlowElements.Add(i4);
 
 // Adding options to the questions
         q12.Options.Add(o5);
@@ -267,8 +271,8 @@ public class PhygitalInitializer
         q7.Options.Add(o17); //passend
         q8.Options.Add(o8);
         q8.Options.Add(o9);
-        q9.Answer = a10;
-        q10.Answer = a10;
+        q9.Answer = a11;
+        q10.Answer = a12;
         q1.Options.Add(o18);
         q1.Options.Add(o19);
         q1.Options.Add(o20);
@@ -289,6 +293,8 @@ public class PhygitalInitializer
         f1.Answers.Add(a8);
         f1.Answers.Add(a9);
         f1.Answers.Add(a10);
+        f1.Answers.Add(a11);
+        f1.Answers.Add(a12);
 
         a1.Flow = f1;
         a2.Flow = f1;
@@ -300,6 +306,8 @@ public class PhygitalInitializer
         a8.Flow = f1;
         a9.Flow = f1;
         a10.Flow = f1;
+        a11.Flow = f1;
+        a12.Flow = f1;
 
         //Adding themes to the flow
         f1.Theme = th1;
@@ -324,7 +332,7 @@ public class PhygitalInitializer
             { o1, o2, o3, o4, o5, o6, o7, o8, o9, o10, o11, o12, o13, o14, o15, o16, o17, o18, o19, o20, o21, o22, o23, o24});
 
         // Adding answers
-        context.AddRange(new Answer[] {a1,a2,a3,a4,a5,a6,a7,a8,a9,a10});
+        context.AddRange(new Answer[] {a1,a2,a3,a4,a5,a6,a7,a8,a9,a10, a11, a12});
         
         context.SaveChanges();
         context.ChangeTracker.Clear();

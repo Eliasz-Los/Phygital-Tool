@@ -24,21 +24,75 @@ function getSingleChoiceQuestionData() {
             }
         })
         .then(singleChoiceQuestions => {
-            let bodyData = ``;
-            for (const singleChoiceQuestion of singleChoiceQuestions) {
-                bodyData += `<div class="card">
-            <div class="card-body">
-                <h5 class="card-title">${singleChoiceQuestion.text}</h5>
-                ${singleChoiceQuestion.options.map((option, index) => `<div class="form-check">
-                    <input class="form-check-input" type="radio" name="option${singleChoiceQuestion.id}" id="option${index}" value="${option}">
-                    <label class="form-check-label" for="option${index}">
-                        ${option}
-                    </label>
-                </div>`).join('')}
+            var selectedOption = null;
+            let bodyData = `<div id="questionCarousel" class="carousel slide" data-bs-ride="carousel">
+        
+            <div class="carousel-inner">`;
+            for (const [index, singleChoiceQuestion] of singleChoiceQuestions.entries()) {
+                bodyData += `<div class="carousel-item ${index === 0 ? 'active' : ''}">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">${singleChoiceQuestion.text}</h5>
+                    
+                    ${singleChoiceQuestion.options.map((option, index) => `<div class="form-check">
+                        <input class="form-check-input" type="radio" name="option${singleChoiceQuestion.id}" id="option${index}" value="${option}">
+                        <label class="form-check-label" for="option${index}">
+                            ${option}
+                        </label>
+                    </div>`).join('')}
+                </div>
             </div>
         </div>`
             }
+            
+            bodyData += `</div class="p-4">
+         <button id="prevBtn" class="btn btn-warning" >Previous</button>
+          <button id="nextBtn" class="btn btn-warning">Next</button>
+        </div>`;
+            
             flowElementBody.innerHTML = bodyData
+            //listeners
+            // document.getElementById("prevBtn").addEventListener("click", () => {
+            //     var carousel = document.getElementById("questionCarousel");
+            //     var bsCarousel = new bootstrap.Carousel(carousel, {
+            //         interval: false
+            //
+            //     });
+            //     bsCarousel.prev();
+            // });
+            //
+            // document.getElementById("nextBtn").addEventListener("click", () => {
+            //     var carousel = document.getElementById("questionCarousel");
+            //     var bsCarousel = new bootstrap.Carousel(carousel, {
+            //         interval: false
+            //     });
+            //     bsCarousel.next();
+            // });
+           /* singleChoiceQuestions.forEach((singleChoiceQuestion, questionIndex) => {
+                singleChoiceQuestion.options.forEach((option, optionIndex) => {
+                    document.getElementById(`option${questionIndex}_${optionIndex}`).addEventListener('change', (event) => {
+                        selectedOption = event.target.value;
+                    });
+                });
+            });*/
+            
+            var carousel = document.getElementById("questionCarousel");
+            var bsCarousel = new bootstrap.Carousel(carousel, {
+                interval: false
+            });
+            
+            document.getElementById("prevBtn").addEventListener("click", () => {
+                bsCarousel.prev();
+                console.log("selctedOption: ", selectedOption)
+            });
+            document.getElementById("nextBtn").addEventListener("click", () => {
+                bsCarousel.next();
+                console.log("selctedOption: ", selectedOption)
+
+            });
+            
+            
+            
         })
         .catch(error => {
             console.log(error)
@@ -57,7 +111,7 @@ function getSubThemasData() {
             if (response.status === 200) {
                 return response.json()
             } else {
-                alert("Something went wrong ;(")
+                alert("Something went wrong with themes, check the console for more details!")
             }
         })
         .then(subThemas => {
@@ -87,7 +141,7 @@ function getOpenQuestionsData() {
             if (response.status === 200) {
                 return response.json()
             } else {
-                alert("Something went wrong in the backend, check the console for more details!")
+                alert("Something went wrong in the backend openquestions, check the console for more details!")
             }
         })
         .then(openQuestions => {
@@ -122,7 +176,7 @@ function getRangeQuestionsData() {
             if (response.status === 200) {
                 return response.json()
             } else {
-                alert("Something went wrong in the backend, check the console for more details!")
+                alert("Something went wrong with the rangequestions, check the console for more details!")
             }
         })
         .then(rangeQuestions => {
@@ -136,7 +190,8 @@ function getRangeQuestionsData() {
             <div class="card-body">
                 <h5 class="card-title">${rangeQuestion.text}</h5>
                 <div class="form-group">
-                    <input type="range" class="form-control-range" id="formControlRange${i}" min="0" max="${rangeQuestion.options.length -1}" ${options} oninput="updateLabel(this, 'rangeLabel${i}')">
+                    <input type="range" class="form-control-range" id="formControlRange${i}" min="0" max="${rangeQuestion.options.length -1}" 
+                            ${options} oninput="updateLabel(this, 'rangeLabel${i}')">
                     <label id="rangeLabel${i}" for="formControlRange${i}"></label>
                 </div>
             </div>
@@ -162,7 +217,7 @@ function getMultipleChoiceQuestionsData() {
             if (response.status === 200) {
                 return response.json()
             } else {
-                alert("Something went wrong ;(")
+                alert("Something went wrong with multiple choice questions.")
             }
         })
         .then(multipleChoiceQuestions => {
