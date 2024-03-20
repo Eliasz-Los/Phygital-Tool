@@ -38,8 +38,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    // TODO terug aanpassen naar home
     name: "default",
-    pattern: "{controller=OpenQuestion}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

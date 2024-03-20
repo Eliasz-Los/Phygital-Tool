@@ -84,6 +84,13 @@ public class PhygitalInitializer
             Options = new List<Option>()
         };
         
+        var q5 = new MultipleChoice
+        {
+            Text = "Zijn er partijen waar je absoluut niet op zou stemmen?", 
+            Active = true, SequenceNumber = 1, 
+            Options = new List<Option>()
+        };
+        
         // Filling options & answers
         Option o1 = new Option { OptionText = "CD&V" };
         Option o2 = new Option { OptionText = "Vooruit" };
@@ -92,17 +99,16 @@ public class PhygitalInitializer
         Option o5 = new Option { OptionText = "PVDA" };
         Option o6 = new Option { OptionText = "Open-VLD" };
         Option o7 = new Option { OptionText = "Vlaams Belang" };
-        
         Option o8 = new Option { OptionText = "Voor" };
         Option o9 = new Option { OptionText = "Tegen" };
-        
-        Option o10 = new Option { OptionText = "Neutraal" };
-        Option o11 = new Option { OptionText = "Zwaar voor" };
-        Option o12 = new Option { OptionText = "Zwaar tegen" };
+        Option o10 = new Option { OptionText = "Zwaar tegen" };
+        Option o11 = new Option { OptionText = "Tegen" };
+        Option o12 = new Option { OptionText = "Neutraal" };
+        Option o13 = new Option { OptionText = "Voor" };
+        Option o14 = new Option { OptionText = "Zwaar voor" }; 
         
         //Option o10 = new Option { OptionText = "Geen mening" };
         
-        // Kan brol zijn maar is effe nodig voor testdate
         var a1 = new Answer { Text = "CD&V"};                
         var a2 = new Answer { Text = "Vooruit" };             
         var a3 = new Answer { Text = "NV-A" };                
@@ -125,6 +131,7 @@ public class PhygitalInitializer
         f1.FlowElements.Add(q2);
         f1.FlowElements.Add(q3);
         f1.FlowElements.Add(q4);
+        f1.FlowElements.Add(q5);
         
         f1.FlowElements.Add(i1);
         f1.FlowElements.Add(i2);
@@ -140,11 +147,18 @@ public class PhygitalInitializer
         q3.Options.Add(o8);
         q3.Options.Add(o9);
         q2.Answer = a10;
-        q4.Options.Add(o12); //zwaar tegen
-        q4.Options.Add(o9); //tegen
-        q4.Options.Add(o10); //neutraal
-        q4.Options.Add(o8); //voor
-        q4.Options.Add(o11); //zwaar voor
+        q4.Options.Add(o10); //zwaar tegen
+        q4.Options.Add(o11); //tegen
+        q4.Options.Add(o12); //neutraal
+        q4.Options.Add(o13); //voor
+        q4.Options.Add(o14); //zwaar voor
+        q5.Options.Add(o1);
+        q5.Options.Add(o2);
+        q5.Options.Add(o3);
+        q5.Options.Add(o4);
+        q5.Options.Add(o5);
+        q5.Options.Add(o6);
+        q5.Options.Add(o7);
        
         
         // Adding answers to the flow
@@ -187,10 +201,10 @@ public class PhygitalInitializer
         context.Themas.Add(th2);
         
         // adding FlowElements
-        context.FlowElements.AddRange( new FlowElement[] {q1,q2,q3,i1,i2});
+        context.FlowElements.AddRange( new FlowElement[] {q1,q2,q3,q5, i1,i2});
        
         // adding options
-        context.AddRange(new Option[] {o1,o2,o3,o4,o5,o6,o7,o8,o9});
+        context.AddRange(new Option[] {o1,o2,o3,o4,o5,o6,o7,o8,o9,o10,o11,o12,o13,o14});
         
         // Adding answers
         context.AddRange(new Answer[] {a1,a2,a3,a4,a5,a6,a7,a8,a9,a10});

@@ -6,6 +6,8 @@ const flowId = parseInt(flowIdElement.innerText)
 const openFlowElement = document.getElementById("openFlowElementId")
 const subThemasFlowElement = document.getElementById("subThemasFlowElementId")
 const rangeQuestionsElement = document.getElementById("rangeQuestions")
+const multipleChoiceQuestionsElement = document.getElementById("multipleChoiceQuestions")
+
 function getSingleChoiceQuestionData() {
     fetch(`/api/flows/${flowId}/SingleChoiceQuestions`,
         {
@@ -147,6 +149,43 @@ function getRangeQuestionsData() {
         });
 
 }
+
+function getMultipleChoiceQuestionsData() {
+    fetch(`/api/flows/${flowId}/MultipleChoiceQuestions`,
+        {
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        })
+        .then(response => {
+            if (response.status === 200) {
+                return response.json()
+            } else {
+                alert("Something went wrong ;(")
+            }
+        })
+        .then(multipleChoiceQuestions => {
+            let bodyData = ``;
+            for (const multipleChoiceQuestion of multipleChoiceQuestions) {
+                bodyData += `<div class="card">
+            <div class="card-body">
+                <h5 class="card-title">${multipleChoiceQuestion.text}</h5>
+                ${multipleChoiceQuestion.options.map(option => `<div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="${option}">
+                    <label class="form-check-label" for="${option}">
+                        ${option}
+                    </label>
+                </div>`).join('')}
+            </div>
+        </div>`
+            }
+            multipleChoiceQuestionsElement.innerHTML = bodyData
+        })
+        .catch(error => {
+            console.log(error)
+        });
+}
 function updateLabel(rangeInput, labelId) {
     let label = document.getElementById(labelId);
     let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
@@ -160,5 +199,6 @@ function commitAnswer() {
 getSingleChoiceQuestionData();
 getOpenQuestionsData();
 getRangeQuestionsData();
+getMultipleChoiceQuestionsData();
 getSubThemasData();
 addButton.addEventListener("click", commitAnswer);
