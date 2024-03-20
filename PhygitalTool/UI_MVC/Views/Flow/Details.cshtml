@@ -5,14 +5,22 @@
     ViewBag.Title = "Flow Process";
     Layout = "_Layout";
 }
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+
 
 <h2>Please answer these questions!</h2>
 <div id="flowId">@Model.Id</div>
 
-<div id="flowElementId"> 
-</div>
+@*<div id="questionCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div id="singleChoiceQuestions"> 
+        </div>
+        <!-- Carousel items will be added here -->
+    </div>
+    <button id="prevBtn" class="btn btn-warning">Previous</button>
+    <button id="nextBtn" class="btn btn-warning">Next</button>
+</div>*@
+<div id="singleChoiceQuestions"> 
+        </div>
 <div id="openFlowElementId">
 </div>
 <div id="rangeQuestions">
