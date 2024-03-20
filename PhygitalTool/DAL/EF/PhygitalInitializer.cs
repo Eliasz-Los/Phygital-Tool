@@ -8,7 +8,7 @@ namespace Phygital.DAL.EF;
 public class PhygitalInitializer
 {
     private static bool _hasBeenInitialized = false;
-
+    
     // Initializing database
     public static void Initialize(PhygitalDbContext context, bool dropDatabase = false)
     {
@@ -23,8 +23,8 @@ public class PhygitalInitializer
             _hasBeenInitialized = true;
         }
     }
-
-
+    
+    
     private static void Seed(PhygitalDbContext context)
     {
         // In the first part of the seed method we create data to be put into the database
@@ -32,7 +32,7 @@ public class PhygitalInitializer
         // Filling themes
         var th1 = new Theme { Title = "Politiek" , Description = "Simpele vragen rond politiek"};
         var th2 = new Theme { Title = "Vakantie" , Description = "Simpele vragen rond vakantie"};
-
+        
         // Filling info
         var i1 = new Text
         {
@@ -211,6 +211,8 @@ public class PhygitalInitializer
         var a8 = new Answer { Text = "Voor" };
         var a9 = new Answer { Text = "Tegen" };
         var a10 = new Answer { Text = "Geen mening" };
+        var a11 = new Answer { Text = " " };
+        var a12 = new Answer { Text = "geen interesse" };
 
 
 // In the second part of the seed method we create the relations between the different classes
@@ -235,6 +237,8 @@ public class PhygitalInitializer
 
         f1.FlowElements.Add(i1);
         f1.FlowElements.Add(i2);
+        f1.FlowElements.Add(i3);
+        f1.FlowElements.Add(i4);
 
 // Adding options to the questions
         q12.Options.Add(o5);
@@ -262,14 +266,15 @@ public class PhygitalInitializer
         q6.Options.Add(o25); //zwaar tegen
         q6.Options.Add(o26); //tegen
         q6.Options.Add(o12); //neutraal
+        q6.Options.Add(o13); //voor
         q6.Options.Add(o14);
         q7.Options.Add(o15); //te hoog
         q7.Options.Add(o17); //passend
         q7.Options.Add(o16); //te laag
         q8.Options.Add(o8);
         q8.Options.Add(o9);
-        q9.Answer = a10;
-        q10.Answer = a10;
+        q9.Answer = a11;
+        q10.Answer = a12;
         q1.Options.Add(o18);
         q1.Options.Add(o19);
         q1.Options.Add(o20);
@@ -290,6 +295,8 @@ public class PhygitalInitializer
         f1.Answers.Add(a8);
         f1.Answers.Add(a9);
         f1.Answers.Add(a10);
+        f1.Answers.Add(a11);
+        f1.Answers.Add(a12);
 
         a1.Flow = f1;
         a2.Flow = f1;
@@ -301,23 +308,25 @@ public class PhygitalInitializer
         a8.Flow = f1;
         a9.Flow = f1;
         a10.Flow = f1;
+        a11.Flow = f1;
+        a12.Flow = f1;
 
         //Adding themes to the flow
         f1.Theme = th1;
         f2.Theme = th2;
-
+        
         /////////////////////////////////////////
         // Third part: adding to the Database //
         ////////////////////////////////////////
-
+        
         // Adding flows
         context.Flows.Add(f1);
         context.Flows.Add(f2);
-
+        
         // Adding themes
         context.Themas.Add(th1);
         context.Themas.Add(th2);
-
+        
         // adding FlowElements
         context.FlowElements.AddRange(new FlowElement[] { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, i1, i2,i3,i4 });
         // adding options
@@ -325,8 +334,8 @@ public class PhygitalInitializer
             { o1, o2, o3, o4, o5, o6, o7, o8, o9, o10, o11, o12, o13, o14, o15, o16, o17, o18, o19, o20, o21, o22, o23, o24, o25,o26});
 
         // Adding answers
-        context.AddRange(new Answer[] {a1,a2,a3,a4,a5,a6,a7,a8,a9,a10});
-
+        context.AddRange(new Answer[] {a1,a2,a3,a4,a5,a6,a7,a8,a9,a10, a11, a12});
+        
         context.SaveChanges();
         context.ChangeTracker.Clear();
     }
