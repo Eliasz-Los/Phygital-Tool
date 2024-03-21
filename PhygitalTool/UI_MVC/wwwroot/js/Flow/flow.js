@@ -9,9 +9,6 @@ const rangeQuestionsElement = document.getElementById("rangeQuestions")
 const multipleChoiceQuestionsElement = document.getElementById("multipleChoiceQuestions")
 const questionsElement = document.getElementById("questions")
 
-const btnNext = document.getElementById("nextBtn");
-const btnPrev = document.getElementById("prevBtn");
-
 let currentQuestionNumber = 0;
 let totalQuestions = 0;
 let firstQuestion = true;
@@ -58,6 +55,7 @@ function getSingleChoiceQuestionData() {
             console.log(error)
         });
 }
+
 function getOpenQuestionsData() {
     fetch(`/api/flows/${flowId}/OpenQuestions`,
         {
@@ -97,6 +95,7 @@ function getOpenQuestionsData() {
         });
 
 }
+
 function getRangeQuestionsData() {
     fetch(`/api/flows/${flowId}/RangeQuestions`,
         {
@@ -139,6 +138,7 @@ function getRangeQuestionsData() {
         });
 
 }
+
 function getMultipleChoiceQuestionsData() {
     fetch(`/api/flows/${flowId}/MultipleChoiceQuestions`,
         {
@@ -178,6 +178,7 @@ function getMultipleChoiceQuestionsData() {
             console.log(error)
         });
 }
+
 function getSubThemasData() {
     fetch(`http://localhost:5000/api/flows/${flowId}/SubThemas`,
         {
@@ -211,10 +212,13 @@ function updateLabel(rangeInput, labelId) {
     let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
     label.textContent = optionText;
 }
+
+const btnNext = document.getElementById("nextBtn");
+const btnPrev = document.getElementById("prevBtn");
 function updateProgressBar() {
     let progressPerc = 100 * (currentQuestionNumber / totalQuestions) ;
     let progressBar = document.getElementById("progressBar");
-
+    
     progressBar.style.width = progressPerc + "%";
     progressBar.setAttribute("aria-valuenow", progressPerc);
 }
@@ -237,10 +241,10 @@ Promise.all([
         wrap: true
     });
 
-    /* carousel._element.addEventListener('slid.bs.carousel', function () {
-         updateProgressBar()
-     });*/
-
+   /* carousel._element.addEventListener('slid.bs.carousel', function () {
+        updateProgressBar()
+    });*/
+    
     btnNext.addEventListener("click", function() {
         currentQuestionNumber++;
         updateProgressBar();
