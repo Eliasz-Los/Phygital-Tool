@@ -1,18 +1,12 @@
-const singleChoiceQuestionsElement = document.getElementById("singleChoiceQuestions")
 const addButton = document.getElementById("answerQuestion")
 const flowIdElement = document.getElementById("flowId")
 const flowId = parseInt(flowIdElement.innerText)
-
-const openFlowElement = document.getElementById("openFlowElementId")
 const subThemasFlowElement = document.getElementById("subThemasFlowElementId")
-const rangeQuestionsElement = document.getElementById("rangeQuestions")
-const multipleChoiceQuestionsElement = document.getElementById("multipleChoiceQuestions")
 const questionsElement = document.getElementById("questions")
 
 let currentQuestionNumber = 0;
 let totalQuestions = 0;
 let firstQuestion = true;
-// let totalQuestions = singleChoiceQuestions.length + openQuestions.length + rangeQuestions.length + multipleChoiceQuestions.length;
 
 function getSingleChoiceQuestionData() {
     fetch(`/api/flows/${flowId}/SingleChoiceQuestions`,
@@ -136,7 +130,6 @@ function getRangeQuestionsData() {
         .catch(error => {
             console.log(error)
         });
-
 }
 
 function getMultipleChoiceQuestionsData() {
@@ -240,10 +233,6 @@ Promise.all([
         interval: false,
         wrap: true
     });
-
-   /* carousel._element.addEventListener('slid.bs.carousel', function () {
-        updateProgressBar()
-    });*/
     
     btnNext.addEventListener("click", function() {
         currentQuestionNumber++;

@@ -9,26 +9,26 @@
     <h2 class="align-content-center p-4">Vul je contact gegevens hieronder in</h2>
 
     @* TODO asp action toevoegen, asp-for toevoegen, zie personal project for help*@
-    <form method="post" class="align-content-center">
-        <div class="col p-2 justify-content-center">
-            <div class="row p-2">
-                <div class="col-3 p-2 justify-content-center">
-                    <input type="text" class="form-control border border-warning" placeholder="First name">
-                </div>
-                <div class="col-3 p-2 justify-content-center">
-                    <input type="text" class="form-control border border-warning" placeholder="Last name">
-                </div>
-            </div>
+    <form method="post">
 
-            <div class="col-6 p-2 justify-content-center">
-                <input type="text" class="form-control border border-warning" placeholder="Email">
+        <div class="row p-2">
+            <div class="col-3 p-2">
+                <input type="text" class="form-control border border-warning" placeholder="First name">
             </div>
-
-            <div class="col-6 p-2 justify-content-center">
-                <input type="text" class="form-control border border-warning" placeholder="Bericht">
+            <div class="col-3 p-2">
+                <input type="text" class="form-control border border-warning" placeholder="Last name">
             </div>
         </div>
-        <div class="align-content-center col p-2">
+
+        <div class="col-6 p-2">
+            <input type="text" class="form-control border border-warning" placeholder="Email">
+        </div>
+
+        <div class="col-6 p-2">
+            <input type="text" class="form-control border border-warning" placeholder="Bericht">
+        </div>
+
+        <div class="col p-2">
             <a type="button" class="btn btn-warning w-25">Verstuur</a>
         </div>
     </form>
