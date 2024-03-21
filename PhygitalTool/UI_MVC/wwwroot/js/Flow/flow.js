@@ -7,9 +7,11 @@ const openFlowElement = document.getElementById("openFlowElementId")
 const subThemasFlowElement = document.getElementById("subThemasFlowElementId")
 const rangeQuestionsElement = document.getElementById("rangeQuestions")
 const multipleChoiceQuestionsElement = document.getElementById("multipleChoiceQuestions")
+const questionsElement = document.getElementById("questions")
 
 let currentQuestionNumber = 0;
 let totalQuestions = 0;
+let firstQuestion = true;
 // let totalQuestions = singleChoiceQuestions.length + openQuestions.length + rangeQuestions.length + multipleChoiceQuestions.length;
 
 function getSingleChoiceQuestionData() {
@@ -29,10 +31,12 @@ function getSingleChoiceQuestionData() {
         })
         .then(singleChoiceQuestions => {
             let bodyData = ``;
-            totalQuestions += singleChoiceQuestions.length;
+            //totalQuestions += singleChoiceQuestions.length;
             for (let i = 0; i < singleChoiceQuestions.length; i++) {
                 const singleChoiceQuestion = singleChoiceQuestions[i];
-                const isActive = i === 0 ? 'active' : '';
+              totalQuestions +=1;
+                const isActive = firstQuestion ? 'active' : '';
+                if (firstQuestion) firstQuestion = false;
                 bodyData += `<div class="carousel-item ${isActive}">
             <div class="card-body">
                 <h5 class="card-title">${singleChoiceQuestion.text}</h5>
@@ -45,20 +49,7 @@ function getSingleChoiceQuestionData() {
             </div>
         </div>`
             }
-            
-            singleChoiceQuestionsElement.innerHTML = bodyData
-            // Initialize the carousel after a delay to ensure that the HTML has been added to the carousel-inner div
-          
-            var carousel = new bootstrap.Carousel(document.getElementById('carouselExampleControls'), {
-                interval: false,
-                wrap: true
-            });
-                
-            carousel._element.addEventListener('slid.bs.carousel', function () {
-                updateProgressBar()
-            });
-            
-            
+            questionsElement.innerHTML += bodyData
         })
         .catch(error => {
             console.log(error)
@@ -82,17 +73,22 @@ function getOpenQuestionsData() {
         })
         .then(openQuestions => {
             let bodyData = ``;
-            for (const openQuestion of openQuestions) {
-                bodyData += `<div class="card">
+           // totalQuestions += openQuestions.length;
+            for (let i = 0; i < openQuestions.length; i++) {
+                const openQuestion = openQuestions[i];
+             totalQuestions +=1;
+                const isActive = firstQuestion ? 'active' : '';
+                if (firstQuestion) firstQuestion = false;
+                bodyData += `<div class="carousel-item ${isActive}">
             <div class="card-body">
                 <h5 class="card-title">${openQuestion.text}</h5>
                 <div class="form-group">
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <textarea class="form-control" id="exampleFormControlTextarea${i}" rows="3"></textarea>
                 </div>
             </div>
-        </div>`
+            </div>`
             }
-            openFlowElement.innerHTML = bodyData
+            questionsElement.innerHTML += bodyData
         })
         .catch(error => {
             console.log(error)
@@ -119,9 +115,12 @@ function getRangeQuestionsData() {
             let bodyData = ``;
             for (let i = 0; i < rangeQuestions.length; i++) {
                 const rangeQuestion = rangeQuestions[i];
-                console.log(rangeQuestion.options)
+                totalQuestions +=1;
+                const isActive = firstQuestion ? 'active' : '';
+                if (firstQuestion) firstQuestion = false;
+                
                 let options = rangeQuestion.options.map((option,index) => `data-option-${index}="${option}"`).join('')
-                bodyData += `<div class="card">
+                bodyData += `<div class="carousel-item ${isActive}">
             <div class="card-body">
                 <h5 class="card-title">${rangeQuestion.text}</h5>
                 <div class="form-group">
@@ -132,7 +131,7 @@ function getRangeQuestionsData() {
             </div>
         </div>`
             }
-            rangeQuestionsElement.innerHTML = bodyData
+            questionsElement.innerHTML += bodyData
         })
         .catch(error => {
             console.log(error)
@@ -158,11 +157,14 @@ function getMultipleChoiceQuestionsData() {
         .then(multipleChoiceQuestions => {
             let bodyData = ``;
             for (const multipleChoiceQuestion of multipleChoiceQuestions) {
-                bodyData += `<div class="card">
+                totalQuestions +=1;
+                const isActive = firstQuestion ? 'active' : '';
+                if (firstQuestion) firstQuestion = false;
+                bodyData += `<div class="carousel-item ${isActive}">
             <div class="card-body">
                 <h5 class="card-title">${multipleChoiceQuestion.text}</h5>
                 ${multipleChoiceQuestion.options.map(option => `<div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="${option}">
+                    <input class="form-check-input" type="checkbox" name="${multipleChoiceQuestion.text}" id="${option}">
                     <label class="form-check-label" for="${option}">
                         ${option}
                     </label>
@@ -170,7 +172,7 @@ function getMultipleChoiceQuestionsData() {
             </div>
         </div>`
             }
-            multipleChoiceQuestionsElement.innerHTML = bodyData
+            questionsElement.innerHTML += bodyData
         })
         .catch(error => {
             console.log(error)
@@ -228,9 +230,25 @@ function commitAnswer() {
     // TODO : save answer & go to next flowElement
 }
 
-getSingleChoiceQuestionData();
-getOpenQuestionsData();
-getRangeQuestionsData();
-getMultipleChoiceQuestionsData();
+
+/*zo ladt openquestions eerst omdat er minder data is dan bij singel dus ik heb get wat ander gedaan*/
+//tis hier ook zo zodat we die carousel code nie 4x moeten schrijven per question type
+Promise.all([
+    getSingleChoiceQuestionData(),
+    getOpenQuestionsData(),
+    getRangeQuestionsData(),
+    getMultipleChoiceQuestionsData()
+]).then(() => {
+    // Initialize the carousel after all questions have been loaded
+    var carousel = new bootstrap.Carousel(document.getElementById('carouselExampleControls'), {
+        interval: false,
+        wrap: true
+    });
+
+    carousel._element.addEventListener('slid.bs.carousel', function () {
+        updateProgressBar()
+    });
+});
+
 getSubThemasData();
 addButton.addEventListener("click", commitAnswer);
