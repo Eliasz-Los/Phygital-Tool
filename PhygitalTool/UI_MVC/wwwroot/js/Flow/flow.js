@@ -212,19 +212,15 @@ function updateLabel(rangeInput, labelId) {
     let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
     label.textContent = optionText;
 }
+
+const btnNext = document.getElementById("nextBtn");
+const btnPrev = document.getElementById("prevBtn");
 function updateProgressBar() {
-    currentQuestionNumber++;
     let progressPerc = 100 * (currentQuestionNumber / totalQuestions) ;
     let progressBar = document.getElementById("progressBar");
-
-    // Add debugging information
-    console.log('currentQuestionNumber:', currentQuestionNumber);
-    console.log('totalQuestions:', totalQuestions);
-    console.log('progressPerc:', progressPerc);
-    console.log('progressBar:', progressBar);
     
     progressBar.style.width = progressPerc + "%";
-   progressBar.setAttribute("aria-valuenow", progressPerc);
+    progressBar.setAttribute("aria-valuenow", progressPerc);
 }
 function commitAnswer() {
     // TODO : save answer & go to next flowElement
@@ -245,8 +241,20 @@ Promise.all([
         wrap: true
     });
 
-    carousel._element.addEventListener('slid.bs.carousel', function () {
+   /* carousel._element.addEventListener('slid.bs.carousel', function () {
         updateProgressBar()
+    });*/
+    
+    btnNext.addEventListener("click", function() {
+        currentQuestionNumber++;
+        updateProgressBar();
+    });
+
+    btnPrev.addEventListener("click", function() {
+        if (currentQuestionNumber > 0) {
+            currentQuestionNumber--;
+        }
+        updateProgressBar();
     });
 });
 
