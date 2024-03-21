@@ -8,6 +8,10 @@ const subThemasFlowElement = document.getElementById("subThemasFlowElementId")
 const rangeQuestionsElement = document.getElementById("rangeQuestions")
 const multipleChoiceQuestionsElement = document.getElementById("multipleChoiceQuestions")
 
+let currentQuestionNumber = 0;
+let totalQuestions = 0;
+// let totalQuestions = singleChoiceQuestions.length + openQuestions.length + rangeQuestions.length + multipleChoiceQuestions.length;
+
 function getSingleChoiceQuestionData() {
     fetch(`/api/flows/${flowId}/SingleChoiceQuestions`,
         {
@@ -25,8 +29,11 @@ function getSingleChoiceQuestionData() {
         })
         .then(singleChoiceQuestions => {
             let bodyData = ``;
-            for (const singleChoiceQuestion of singleChoiceQuestions) {
-                bodyData += `<div class="card">
+            totalQuestions += singleChoiceQuestions.length;
+            for (let i = 0; i < singleChoiceQuestions.length; i++) {
+                const singleChoiceQuestion = singleChoiceQuestions[i];
+                const isActive = i === 0 ? 'active' : '';
+                bodyData += `<div class="carousel-item ${isActive}">
             <div class="card-body">
                 <h5 class="card-title">${singleChoiceQuestion.text}</h5>
                 ${singleChoiceQuestion.options.map((option, index) => `<div class="form-check">
@@ -38,40 +45,24 @@ function getSingleChoiceQuestionData() {
             </div>
         </div>`
             }
+            
             singleChoiceQuestionsElement.innerHTML = bodyData
+            // Initialize the carousel after a delay to ensure that the HTML has been added to the carousel-inner div
+          
+            var carousel = new bootstrap.Carousel(document.getElementById('carouselExampleControls'), {
+                interval: false,
+                wrap: true
+            });
+                
+            carousel._element.addEventListener('slid.bs.carousel', function () {
+                updateProgressBar()
+            });
+            
+            
         })
         .catch(error => {
             console.log(error)
         });
-}
-
-function getSubThemasData() {
-    fetch(`http://localhost:5000/api/flows/${flowId}/SubThemas`,
-        {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        })
-        .then(response => {
-            if (response.status === 200) {
-                return response.json()
-            } else {
-                alert("Something went wrong with themes, check the console for more details!")
-            }
-        })
-        .then(subThemas => {
-            let bodyData = ``;
-            for (const subTheme of subThemas) {
-                bodyData += `<div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">${subTheme.title}</h5>
-                                    <p class="card-text">${subTheme.description}</p>
-                                </div>
-                             </div>`;
-            }
-            subThemasFlowElement.innerHTML = bodyData
-        })
 }
 
 function getOpenQuestionsData() {
@@ -129,7 +120,6 @@ function getRangeQuestionsData() {
             for (let i = 0; i < rangeQuestions.length; i++) {
                 const rangeQuestion = rangeQuestions[i];
                 console.log(rangeQuestion.options)
-                //TODO: Fix volgorde van de options dat getoond wordt
                 let options = rangeQuestion.options.map((option,index) => `data-option-${index}="${option}"`).join('')
                 bodyData += `<div class="card">
             <div class="card-body">
@@ -187,6 +177,53 @@ function getMultipleChoiceQuestionsData() {
         });
 }
 
+function getSubThemasData() {
+    fetch(`http://localhost:5000/api/flows/${flowId}/SubThemas`,
+        {
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        })
+        .then(response => {
+            if (response.status === 200) {
+                return response.json()
+            } else {
+                alert("Something went wrong with themes, check the console for more details!")
+            }
+        })
+        .then(subThemas => {
+            let bodyData = ``;
+            for (const subTheme of subThemas) {
+                bodyData += `<div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">${subTheme.title}</h5>
+                                    <p class="card-text">${subTheme.description}</p>
+                                </div>
+                             </div>`;
+            }
+            subThemasFlowElement.innerHTML = bodyData
+        })
+}
+function updateLabel(rangeInput, labelId) {
+    let label = document.getElementById(labelId);
+    let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
+    label.textContent = optionText;
+}
+function updateProgressBar() {
+    currentQuestionNumber++;
+    let progressPerc = 100 * (currentQuestionNumber / totalQuestions) ;
+    let progressBar = document.getElementById("progressBar");
+
+    // Add debugging information
+    console.log('currentQuestionNumber:', currentQuestionNumber);
+    console.log('totalQuestions:', totalQuestions);
+    console.log('progressPerc:', progressPerc);
+    console.log('progressBar:', progressBar);
+    
+    progressBar.style.width = progressPerc + "%";
+   progressBar.setAttribute("aria-valuenow", progressPerc);
+}
 function commitAnswer() {
     // TODO : save answer & go to next flowElement
 }

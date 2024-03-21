@@ -8,19 +8,25 @@
 
 
 <h2>Please answer these questions!</h2>
-<div id="flowId">@Model.Id</div>
+<div id="flowId" >@Model.Id</div>
 
-@*<div id="questionCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <div id="singleChoiceQuestions"> 
-        </div>
-        <!-- Carousel items will be added here -->
+
+
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="progress">
+      <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
-    <button id="prevBtn" class="btn btn-warning">Previous</button>
-    <button id="nextBtn" class="btn btn-warning">Next</button>
-</div>*@
-<div id="singleChoiceQuestions"> 
-        </div>
+    <div class="carousel-inner" id="singleChoiceQuestions">
+        @*<div id="singleChoiceQuestions"> </div>*@
+    </div>
+    <button id="prevBtn" class="btn btn-warning" data-bs-target="#carouselExampleControls" data-bs-slide="prev">Previous</button>
+
+    <button id="nextBtn" class="btn btn-warning" data-bs-target="#carouselExampleControls" data-bs-slide="next">Next</button>
+</div>
+
+
+@*<div id="singleChoiceQuestions"> 
+        </div>*@
 <div id="openFlowElementId">
 </div>
 <div id="rangeQuestions">
