@@ -67,4 +67,9 @@ public class FlowRepository : IFlowRepository
     {
         return _dbContext.Themas.Where(t => t.Flows.Any(f => f.Id == flowId)).Select(t => t);
     }
+
+    public Option ReadOptionByText(string optionText)
+    {
+        return _dbContext.Options.FirstOrDefault(o => o.OptionText.ToLower().Equals(optionText.ToLower()));
+    }
 }

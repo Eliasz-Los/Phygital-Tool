@@ -1,4 +1,4 @@
-const addButton = document.getElementById("answerQuestion")
+const addButton = document.getElementById("answerFlow")
 const flowIdElement = document.getElementById("flowId")
 const flowId = parseInt(flowIdElement.innerText)
 const subThemasFlowElement = document.getElementById("subThemasFlowElementId")
@@ -215,9 +215,75 @@ function updateProgressBar() {
     progressBar.style.width = progressPerc + "%";
     progressBar.setAttribute("aria-valuenow", progressPerc);
 }
+
+function getAnswers() {
+    const chosenOptions = [];
+    const openAnswers = [];
+    const carouselItems = document.querySelectorAll('.carousel-item');
+
+    carouselItems.forEach((item, index) => {
+        const questionText = item.querySelector('.card-title').textContent;
+        const answer = { question: questionText, answer: [] };
+
+        // Check if it's a multiple choice question
+        const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
+        if (checkboxes.length > 0) {
+            checkboxes.forEach(checkbox => {
+                chosenOptions.push(checkbox.id);
+            });
+        }
+
+        // Check if it's an open question
+        const textarea = item.querySelector('textarea');
+        if (textarea) {
+            openAnswers.push({questionText: questionText, answer: textarea.value});
+        }
+
+        // Check if it's a single choice question
+        const radioButtons = item.querySelectorAll('input[type="radio"]');
+        if (radioButtons.length > 0) {
+            radioButtons.forEach(radioButton => {
+                if (radioButton.checked) {
+                    chosenOptions.push(radioButton.value);
+                }
+            });
+        }
+
+        // Check if it's a range question
+        const rangeInput = item.querySelector('input[type="range"]');
+        if (rangeInput) {
+            chosenOptions.push(rangeInput.value);
+        }
+    });
+
+    return [chosenOptions, openAnswers];
+}
 function commitAnswer() {
-    // TODO : save answer & go to next flowElement
+    const answers  = getAnswers();
+    const answerObject = {
+        flow: flowId,
+        subtheme: "test",
+        chosenOptions: answers.chosenOptions,
+        answers: answers.openAnswers
+    }
     
+    fetch(`/api/flows/${flowId}/answers`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(answerObject)
+    })
+        .then(response => {
+            if (response === 201) {
+                console.log("Objecten answers gecreeerd: ", response)
+            } else{
+                alert("Problem with commiting answers: " + JSON.stringify(answerObject))                
+            }
+        })
+        .catch(error => {
+            console.log("problem with fetching answers: ", error)
+        });
 }
 
 
@@ -249,8 +315,4 @@ Promise.all([
 });
 
 getSubThemasData();
-
-if (addButton.click()){
-    commitAnswer();
-}
 addButton.addEventListener("click", commitAnswer);

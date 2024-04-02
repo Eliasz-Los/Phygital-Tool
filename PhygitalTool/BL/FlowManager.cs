@@ -50,13 +50,19 @@ public class FlowManager : IFlowManager
         return _flowRepository.ReadSubThemasFlow(flowId);
     }
 
-    public Answer AddAnswerToFlow(Flow flow, string text, Theme subtheme)
+    public Option GetOptionByText(string optionText)
+    {
+        return _flowRepository.ReadOptionByText(optionText);
+    }
+
+    public Answer AddAnswerToFlow(Flow flow, ICollection<Option> chosenOptions, string chosenAnswer, Theme subtheme)
     {
         Answer answer = new Answer
         {
             Flow = flow,
             SubTheme = subtheme,
-            Text = text
+            ChosenOptions = chosenOptions,
+            ChosenAnswer = chosenAnswer
         };
         _flowRepository.CreateAnswer(answer);
         return answer;

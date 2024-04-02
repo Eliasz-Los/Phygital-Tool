@@ -1,5 +1,8 @@
 ﻿using BL;
 using Microsoft.AspNetCore.Mvc;
+using Phygital.BL;
+using Phygital.Domain.Questionsprocess;
+using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.UI_MVC.Models.Dto;
 
 namespace Phygital.UI_MVC.Controllers.Api;
@@ -9,6 +12,7 @@ namespace Phygital.UI_MVC.Controllers.Api;
 public class FlowsController : ControllerBase
 {
     private readonly IFlowManager _flowManager;
+    private readonly UnitOfWork _unitOfWork;
     
     public FlowsController(IFlowManager flowManager)
     {
@@ -87,7 +91,7 @@ public class FlowsController : ControllerBase
             Text = oq.Text,
             SequenceNumber = oq.SequenceNumber,
             Active = oq.Active,
-            Answer = oq.Answer.Text
+            Answer = oq.Answer.ToString()
         }));
     }
     
@@ -105,6 +109,51 @@ public class FlowsController : ControllerBase
             Title = flow.Title,
             Description = flow.Description
         }));
+    }
+
+    [HttpPost("{flowId}/AddAnswers")]
+    public ActionResult PostAnswers(long flowId, [FromBody] List<AnswerDto> answers)
+    {
+        var flow = _flowManager.GetFlowById(flowId);
+
+        if (flow == null)
+        {
+            return NotFound("Flow not found");
+        }
+
+        if (!answers.Any())
+        {
+            return NoContent();
+        }
+
+        foreach (var answerDto in answers)
+        {
+            if (answerDto.ChosenAnswer == null || !answerDto.ChosenOptions.Any() || answerDto.SubTheme == null)
+            {
+                return BadRequest("Invalid answer(s) or Subtheme");
+            }
+
+            var answer = new AnswerDto()
+            {
+                Flow = flow,
+                ChosenOptions = answerDto.ChosenOptions.Select(option =>
+                {
+                    var optionEnt = _flowManager.GetOptionByText(option.OptionText);
+
+                    return new Option { OptionText = optionEnt.OptionText };
+                }).ToList(),
+                ChosenAnswer = answerDto.ChosenAnswer,
+                SubTheme = answerDto.SubTheme
+            };
+            
+            //eerste effe zien of we kunnen uitkrijgen
+          //  _unitOfWork.BeginTransaction();
+            _flowManager.AddAnswerToFlow(answer.Flow, answer.ChosenOptions, answer.ChosenAnswer, answer.SubTheme);
+            //_unitOfWork.Commit();
+        }
+
+        return Ok();
+
     }
 
 }
