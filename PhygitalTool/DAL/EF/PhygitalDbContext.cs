@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Session;
@@ -6,7 +8,7 @@ using Phygital.Domain.Themas;
 
 namespace Phygital.DAL.EF;
 
-public class PhygitalDbContext : DbContext
+public class PhygitalDbContext : IdentityDbContext<IdentityUser>
 {
     // Questionsprocess package
     public DbSet<Flow> Flows { get; set; }
