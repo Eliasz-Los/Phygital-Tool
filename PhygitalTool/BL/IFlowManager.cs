@@ -15,5 +15,5 @@ public interface IFlowManager
     IEnumerable<RangeQuestion> GetRangeQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<OpenQuestion> GetOpenQuestionsWithAnswerOfFlowById(long flowId);
     IEnumerable<Theme> GetSubThemasFlow(long flowId);
-    
+    Answer AddAnswerToFlow(Flow flow, string text, Theme subtheme);
 }

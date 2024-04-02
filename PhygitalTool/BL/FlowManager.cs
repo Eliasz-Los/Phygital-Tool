@@ -49,4 +49,16 @@ public class FlowManager : IFlowManager
     {
         return _flowRepository.ReadSubThemasFlow(flowId);
     }
+
+    public Answer AddAnswerToFlow(Flow flow, string text, Theme subtheme)
+    {
+        Answer answer = new Answer
+        {
+            Flow = flow,
+            SubTheme = subtheme,
+            Text = text
+        };
+        _flowRepository.CreateAnswer(answer);
+        return answer;
+    }
 }

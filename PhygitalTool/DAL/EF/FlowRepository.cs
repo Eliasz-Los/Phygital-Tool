@@ -23,6 +23,12 @@ public class FlowRepository : IFlowRepository
         return _dbContext.Flows.Find(id);
     }
 
+    public void CreateAnswer(Answer answer)
+    {
+        _dbContext.Answers.Add(answer);
+        _dbContext.SaveChanges();
+    }
+
 
     // scq = SingleChoiceQuestion
     public IEnumerable<SingleChoiceQuestion> ReadSingleChoiceQuestionsWithOptionsOfFlowById(long flowId)
