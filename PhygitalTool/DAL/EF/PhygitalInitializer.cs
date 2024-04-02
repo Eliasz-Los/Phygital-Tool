@@ -8,7 +8,7 @@ namespace Phygital.DAL.EF;
 public class PhygitalInitializer
 {
     private static bool _hasBeenInitialized = false;
-    
+
     // Initializing database
     public static void Initialize(PhygitalDbContext context, bool dropDatabase = false)
     {
@@ -23,16 +23,16 @@ public class PhygitalInitializer
             _hasBeenInitialized = true;
         }
     }
-    
-    
+
+
     private static void Seed(PhygitalDbContext context)
     {
         // In the first part of the seed method we create data to be put into the database
         /////////////////////////////////////////////////////////////////////////////////////////////////////
         // Filling themes
-        var th1 = new Theme { Title = "Politiek" , Description = "Simpele vragen rond politiek"};
-        var th2 = new Theme { Title = "Vakantie" , Description = "Simpele vragen rond vakantie"};
-        
+        var th1 = new Theme { Title = "Politiek", Description = "Simpele vragen rond politiek" };
+        var th2 = new Theme { Title = "Vakantie", Description = "Simpele vragen rond vakantie" };
+
         // Filling info
         var i1 = new Text
         {
@@ -49,7 +49,8 @@ public class PhygitalInitializer
         };
         var i4 = new Text
         {
-            Content = "De belasting op het gebruik van aardgas gaat omhoog. Dat komt door de inflatiecorrectie. Maar ook door een extra verhoging in de laagste verbruiksschijven van 2,5 cent exclusief btw per m3. Door de belasting op energie te verlagen en die op aardgas te verhogen wil de regering verduurzaming stimuleren."
+            Content =
+                "De belasting op het gebruik van aardgas gaat omhoog. Dat komt door de inflatiecorrectie. Maar ook door een extra verhoging in de laagste verbruiksschijven van 2,5 cent exclusief btw per m3. Door de belasting op energie te verlagen en die op aardgas te verhogen wil de regering verduurzaming stimuleren."
         };
 
         var f1 = new Flow
@@ -66,156 +67,156 @@ public class PhygitalInitializer
             IsOpen = true
         };
 
-   // Vragen opvullen
-var q1 = new MultipleChoice
-{
-    Text = "Wat is uw favoriete bron voor het verkrijgen van politieke informatie?",
-    Active = true,
-    SequenceNumber = 1,
-    Options = new List<Option>()
-};
+        // Vragen opvullen
+        var q1 = new MultipleChoice
+        {
+            Text = "Wat is uw favoriete bron voor het verkrijgen van politieke informatie?",
+            Active = true,
+            SequenceNumber = 1,
+            Options = new List<Option>()
+        };
 
-var q2 = new OpenQuestion
-{
-    Text = "Waarom kiest u voor deze partij?",
-    Active = true,
-    SequenceNumber = 2,
-    Answer = new Answer()
-};
-var q3 = new SingleChoiceQuestion
-{
-    Text = "Bent u voor of tegen: BTW van 6 procent op elektriciteit?",
-    Active = true,
-    SequenceNumber = 3,
-    Options = new List<Option>()
-};
+        var q2 = new OpenQuestion
+        {
+            Text = "Waarom kiest u voor deze partij?",
+            Active = true,
+            SequenceNumber = 2,
+            Answer = new Answer()
+        };
+        var q3 = new SingleChoiceQuestion
+        {
+            Text = "Bent u voor of tegen: BTW van 6 procent op elektriciteit?",
+            Active = true,
+            SequenceNumber = 3,
+            Options = new List<Option>()
+        };
 
-var q4 = new RangeQuestion
-{
-    Text = "Wat is uw mening over deze uitspraak: 'De regering moet meer investeren in de zorgsector'",
-    Active = true,
-    SequenceNumber = 4,
-    Options = new List<Option>()
-};
+        var q4 = new RangeQuestion
+        {
+            Text = "Wat is uw mening over deze uitspraak: 'De regering moet meer investeren in de zorgsector'",
+            Active = true,
+            SequenceNumber = 4,
+            Options = new List<Option>()
+        };
 
-var q6 = new RangeQuestion()
-{
-    Text = "Hoe tevreden bent u over de huidige regering?",
-    Active = true,
-    SequenceNumber = 6,
-    Options = new List<Option>()
-};
-var q7 = new RangeQuestion()
-{
-    Text = "Wat is uw mening over de huidige belastingtarieven voor bedrijven?",
-    Active = true,
-    SequenceNumber = 7,
-    Options = new List<Option>()
-};
-var q8 = new SingleChoiceQuestion()
-{
-    Text = "Bent u voorstander van een verplichte dienstplicht?",
-    Active = true,
-    SequenceNumber = 8,
-    Options = new List<Option>()
-};
-var q9 = new OpenQuestion()
-{
-    Text = "Waarom bent u voor of tegen de dienstplicht?",
-    Active = true,
-    SequenceNumber = 9,
-    Answer = new Answer()
-};
-var q10 = new OpenQuestion()
-{
-    Text =
-        "Hoe zou u het beleid op het gebied van gendergelijkheid en LGBTQ+-rechten willen zien veranderen of verbeteren?",
-    Active = true,
-    SequenceNumber = 10,
-    Answer = new Answer()
-};
-var q11 = new RangeQuestion()
-{
-    Text = "Kies je eerder voor een linkse, neutrale of rechtse partij?",
-    Active = true,
-    SequenceNumber = 11,
-    Options = new List<Option>()
-};
-var q12 = new SingleChoiceQuestion()
-{
-    Text = "Welke linkse partij?",
-    Active = true,
-    SequenceNumber = 12,
-    Options = new List<Option>()
-};
-var q13 = new SingleChoiceQuestion()
-{
-    Text = "Welke rechtse partij?",
-    Active = true,
-    SequenceNumber = 13,
-    Options = new List<Option>()
-};
-var q14 = new SingleChoiceQuestion()
-{
-    Text = "Welke centrale partij?",
-    Active = true,
-    SequenceNumber = 14,
-    Options = new List<Option>()
-};
+        var q6 = new RangeQuestion()
+        {
+            Text = "Hoe tevreden bent u over de huidige regering?",
+            Active = true,
+            SequenceNumber = 6,
+            Options = new List<Option>()
+        };
+        var q7 = new RangeQuestion()
+        {
+            Text = "Wat is uw mening over de huidige belastingtarieven voor bedrijven?",
+            Active = true,
+            SequenceNumber = 7,
+            Options = new List<Option>()
+        };
+        var q8 = new SingleChoiceQuestion()
+        {
+            Text = "Bent u voorstander van een verplichte dienstplicht?",
+            Active = true,
+            SequenceNumber = 8,
+            Options = new List<Option>()
+        };
+        var q9 = new OpenQuestion()
+        {
+            Text = "Waarom bent u voor of tegen de dienstplicht?",
+            Active = true,
+            SequenceNumber = 9,
+            Answer = new Answer()
+        };
+        var q10 = new OpenQuestion()
+        {
+            Text =
+                "Hoe zou u het beleid op het gebied van gendergelijkheid en LGBTQ+-rechten willen zien veranderen of verbeteren?",
+            Active = true,
+            SequenceNumber = 10,
+            Answer = new Answer()
+        };
+        var q11 = new RangeQuestion()
+        {
+            Text = "Kies je eerder voor een linkse, neutrale of rechtse partij?",
+            Active = true,
+            SequenceNumber = 11,
+            Options = new List<Option>()
+        };
+        var q12 = new SingleChoiceQuestion()
+        {
+            Text = "Welke linkse partij?",
+            Active = true,
+            SequenceNumber = 12,
+            Options = new List<Option>()
+        };
+        var q13 = new SingleChoiceQuestion()
+        {
+            Text = "Welke rechtse partij?",
+            Active = true,
+            SequenceNumber = 13,
+            Options = new List<Option>()
+        };
+        var q14 = new SingleChoiceQuestion()
+        {
+            Text = "Welke centrale partij?",
+            Active = true,
+            SequenceNumber = 14,
+            Options = new List<Option>()
+        };
 
 
 // Filling options & answers
-Option o1 = new Option { OptionText = "CD&V" };
-Option o2 = new Option { OptionText = "Vooruit" };
-Option o3 = new Option { OptionText = "NV-A" };
-Option o4 = new Option { OptionText = "Groen" };
-Option o5 = new Option { OptionText = "PVDA" };
-Option o6 = new Option { OptionText = "Open-VLD" };
-Option o7 = new Option { OptionText = "Vlaams Belang" };
+        Option o1 = new Option { OptionText = "CD&V" };
+        Option o2 = new Option { OptionText = "Vooruit" };
+        Option o3 = new Option { OptionText = "NV-A" };
+        Option o4 = new Option { OptionText = "Groen" };
+        Option o5 = new Option { OptionText = "PVDA" };
+        Option o6 = new Option { OptionText = "Open-VLD" };
+        Option o7 = new Option { OptionText = "Vlaams Belang" };
 
-Option o8 = new Option { OptionText = "Voor" };
-Option o9 = new Option { OptionText = "Tegen" };
+        Option o8 = new Option { OptionText = "Voor" };
+        Option o9 = new Option { OptionText = "Tegen" };
 
-Option o10 = new Option { OptionText = "Zwaar tegen" };
-Option o11 = new Option { OptionText = "Tegen" };
-Option o12 = new Option { OptionText = "Neutraal" };
-Option o13 = new Option { OptionText = "Voor" };
-Option o14 = new Option { OptionText = "Zwaar voor" };
+        Option o10 = new Option { OptionText = "Zwaar tegen" };
+        Option o11 = new Option { OptionText = "Tegen" };
+        Option o12 = new Option { OptionText = "Neutraal" };
+        Option o13 = new Option { OptionText = "Voor" };
+        Option o14 = new Option { OptionText = "Zwaar voor" };
 
-Option o15 = new Option { OptionText = "Te hoog" };
-Option o16 = new Option { OptionText = "Te laag" };
-Option o17 = new Option { OptionText = "Passend" };
+        Option o15 = new Option { OptionText = "Te hoog" };
+        Option o16 = new Option { OptionText = "Te laag" };
+        Option o17 = new Option { OptionText = "Passend" };
 
-Option o18 = new Option { OptionText = "Sociale media" };
-Option o19 = new Option { OptionText = "Nieuwswebsites / kranten" };
-Option o20 = new Option { OptionText = "Televisie" };
-Option o21 = new Option { OptionText = "Radio" };
+        Option o18 = new Option { OptionText = "Sociale media" };
+        Option o19 = new Option { OptionText = "Nieuwswebsites / kranten" };
+        Option o20 = new Option { OptionText = "Televisie" };
+        Option o21 = new Option { OptionText = "Radio" };
 
-Option o22 = new Option { OptionText = "Links" };
-Option o23 = new Option { OptionText = "Neutraal" };
-Option o24 = new Option { OptionText = "Rechts" };
+        Option o22 = new Option { OptionText = "Links" };
+        Option o23 = new Option { OptionText = "Neutraal" };
+        Option o24 = new Option { OptionText = "Rechts" };
 
-Option o25 = new Option { OptionText = "Tevreden" };
-Option o29 = new Option { OptionText = "Neutraal" };
-Option o26 = new Option { OptionText = "Ontevreden" };
+        Option o25 = new Option { OptionText = "Tevreden" };
+        Option o29 = new Option { OptionText = "Neutraal" };
+        Option o26 = new Option { OptionText = "Ontevreden" };
 
-Option o27 = new Option { OptionText = "Voor" };
-Option o28 = new Option { OptionText = "Tegen" };
+        Option o27 = new Option { OptionText = "Voor" };
+        Option o28 = new Option { OptionText = "Tegen" };
 
 
-var a1 = new Answer { Text = "CD&V" };
-var a2 = new Answer { Text = "Vooruit" };
-var a3 = new Answer { Text = "NV-A" };
-var a4 = new Answer { Text = "Groen" };
-var a5 = new Answer { Text = "PVDA" };
-var a6 = new Answer { Text = "Open-VLD" };
-var a7 = new Answer { Text = "Vlaams Belang" };
+        var a1 = new Answer { Text = "CD&V" };
+        var a2 = new Answer { Text = "Vooruit" };
+        var a3 = new Answer { Text = "NV-A" };
+        var a4 = new Answer { Text = "Groen" };
+        var a5 = new Answer { Text = "PVDA" };
+        var a6 = new Answer { Text = "Open-VLD" };
+        var a7 = new Answer { Text = "Vlaams Belang" };
 
-var a8 = new Answer { Text = "Voor" };
-var a9 = new Answer { Text = "Tegen" };
-var a10 = new Answer { Text = "Geen mening" };
-var a11 = new Answer { Text = " " };
-var a12 = new Answer { Text = "geen interesse" };
+        var a8 = new Answer { Text = "Voor" };
+        var a9 = new Answer { Text = "Tegen" };
+        var a10 = new Answer { Text = "Geen mening" };
+        var a11 = new Answer { Text = " " };
+        var a12 = new Answer { Text = "geen interesse" };
 
 
 // In the second part of the seed method we create the relations between the different classes
@@ -309,28 +310,32 @@ var a12 = new Answer { Text = "geen interesse" };
         //Adding themes to the flow
         f1.Theme = th1;
         f2.Theme = th2;
-        
+
         /////////////////////////////////////////
         // Third part: adding to the Database //
         ////////////////////////////////////////
-        
+
         // Adding flows
         context.Flows.Add(f1);
         context.Flows.Add(f2);
-        
+
         // Adding themes
         context.Themas.Add(th1);
         context.Themas.Add(th2);
-        
+
         // adding FlowElements
-        context.FlowElements.AddRange(new FlowElement[] { q1, q2, q3, q4, q6, q7, q8, q9, q10, q11, q12, q13, q14, i1, i2,i3,i4 });
+        context.FlowElements.AddRange(new FlowElement[]
+            { q1, q2, q3, q4, q6, q7, q8, q9, q10, q11, q12, q13, q14, i1, i2, i3, i4 });
         // adding options
         context.AddRange(new Option[]
-            { o1, o2, o3, o4, o5, o6, o7, o8, o9, o10, o11, o12, o13, o14, o15, o16, o17, o18, o19, o20, o21, o22, o23, o24, o25,o26, o27, o28, o29});
+        {
+            o1, o2, o3, o4, o5, o6, o7, o8, o9, o10, o11, o12, o13, o14, o15, o16, o17, o18, o19, o20, o21, o22, o23,
+            o24, o25, o26, o27, o28, o29
+        });
 
         // Adding answers
-        context.AddRange(new Answer[] {a1,a2,a3,a4,a5,a6,a7,a8,a9,a10, a11, a12});
-        
+        context.AddRange(new Answer[] { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 });
+
         context.SaveChanges();
         context.ChangeTracker.Clear();
     }

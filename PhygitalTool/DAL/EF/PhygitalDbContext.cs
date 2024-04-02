@@ -30,7 +30,7 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser>
 
     public PhygitalDbContext(DbContextOptions options) : base(options)
     {
-        PhygitalInitializer.Initialize(this, true);
+        // PhygitalInitializer.Initialize(this, true);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -152,5 +152,15 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser>
             .WithOne(oq => oq.Answer)
             .HasForeignKey<OpenQuestion>("answerId");
 
+    }
+    
+    public bool CreateDatabase(bool dropExisting = false)
+    {
+        if (dropExisting)
+        {
+            Database.EnsureDeleted();
+        }
+
+        return Database.EnsureCreated();
     }
 }
