@@ -3,6 +3,7 @@ using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Session;
 using Phygital.Domain.Themas;
+using Phygital.Domain.User;
 
 namespace Phygital.DAL.EF;
 

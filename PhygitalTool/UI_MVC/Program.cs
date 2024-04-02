@@ -1,7 +1,9 @@
 using BL;
+using Microsoft.AspNetCore.Identity;
 using Phygital.BL;
 using Phygital.DAL;
 using Phygital.DAL.EF;
+using Phygital.Domain.User;
 
 var builder = WebApplication.CreateBuilder(args);
 

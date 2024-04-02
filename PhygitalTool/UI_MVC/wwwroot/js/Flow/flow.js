@@ -217,6 +217,7 @@ function updateProgressBar() {
 }
 function commitAnswer() {
     // TODO : save answer & go to next flowElement
+    
 }
 
 
@@ -248,4 +249,8 @@ Promise.all([
 });
 
 getSubThemasData();
+
+if (addButton.click()){
+    commitAnswer();
+}
 addButton.addEventListener("click", commitAnswer);

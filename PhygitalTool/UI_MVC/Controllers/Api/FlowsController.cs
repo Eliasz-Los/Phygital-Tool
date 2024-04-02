@@ -35,7 +35,7 @@ public class FlowsController : ControllerBase
     }
     
     [HttpGet("{flowId}/MultipleChoiceQuestions")]
-    public ActionResult<IEnumerable<SingleChoiceQuestionDto>> GetMultipleChoiceQuestionsOfFlow(long flowId)
+    public ActionResult<IEnumerable<MultipleChoiceQuestionDto>> GetMultipleChoiceQuestionsOfFlow(long flowId)
     {
         var mcq = _flowManager.GetMultipleChoiceQuestionsWithOptionsOfFlowById(flowId);
     
@@ -54,7 +54,7 @@ public class FlowsController : ControllerBase
     }
     
     [HttpGet("{flowId}/RangeQuestions")]
-    public ActionResult<IEnumerable<SingleChoiceQuestionDto>> GetRangeQuestionsOfFlow(long flowId)
+    public ActionResult<IEnumerable<RangeQuestionDto>> GetRangeQuestionsOfFlow(long flowId)
     {
         var rq = _flowManager.GetRangeQuestionsWithOptionsOfFlowById(flowId);
     
@@ -73,7 +73,7 @@ public class FlowsController : ControllerBase
     }
     
     [HttpGet("{flowId}/OpenQuestions")]
-    public ActionResult<IEnumerable<SingleChoiceQuestionDto>> GetOpenQuestionsOfFlow(long flowId)
+    public ActionResult<IEnumerable<OpenQuestionDto>> GetOpenQuestionsOfFlow(long flowId)
     {
         var oq = _flowManager.GetOpenQuestionsWithAnswerOfFlowById(flowId);
     
