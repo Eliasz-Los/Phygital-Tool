@@ -1,4 +1,6 @@
-﻿function getSubthemesData() {
+﻿
+
+function getSubthemesData() {
     fetch(`/api/Projects/SubThemas`,
         {
             headers: {
@@ -15,8 +17,7 @@
         })
         .then(subThemas => {
             let bodyData = ``;
-            for (let i = 0; i < subThemas.length; i++) {
-                const subThema = subThemas[i];
+            for (const subThema of subThemas) {
                 bodyData += `<tr>
                             <td>${subThema.text}</td>
                             <td>
