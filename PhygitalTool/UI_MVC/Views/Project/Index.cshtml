@@ -1,0 +1,50 @@
+﻿@using Phygital.Domain.Questionsprocess;
+@model IEnumerable<Flow>
+
+@{
+    ViewBag.Title = "Phytical";
+    Layout = "_Layout";
+}
+
+<!-- This page displays some elements to create a flow (name, theme etc) -->
+
+<div class="text-center">
+    <h1 class="align-content-center p-4">Make a new project</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <form class="col-6">
+                <div class="col-6">
+                    <label>Name</label>
+                    <input type="text" class="form-control border border-warning" placeholder="Name">
+                </div>
+                <div class="col-6">
+                    <label>Theme</label>
+                    <input type="text" class="form-control border border-warning" placeholder="Theme">
+                </div>
+                <div class="col-6">
+                    <label>Subtheme</label>
+                    <input type="text" class="form-control border border-warning" placeholder="Subtheme">
+                </div>
+                <div class="col-6">
+                    <a type="button" class="btn btn-warning w-25">Add subtheme</a>
+                </div>
+            </form>
+            <div class="col-6">
+                <h2>Subthemes</h2>
+                <table class="table">
+                    <tr>test</tr>
+                </table>
+            </div>
+        </div>
+        <div class="container-fluid p-2">
+            <div class="row align-content-center">
+                <div class="col p-2">
+                    <a type="button" class="btn btn-warning">Cancel</a>
+                </div>
+                <div class="col p-2">
+                    <a type="button" class="btn btn-warning" asp-area="" asp-controller="Flow" asp-action="Index">Make project</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
