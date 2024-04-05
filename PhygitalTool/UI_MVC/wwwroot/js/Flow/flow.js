@@ -10,6 +10,7 @@ let firstQuestion = true;
 
 const btnNext = document.getElementById("nextBtn");
 const btnPrev = document.getElementById("prevBtn");
+
 function getSingleChoiceQuestionData() {
     fetch(`/api/flows/${flowId}/SingleChoiceQuestions`,
         {
@@ -27,13 +28,12 @@ function getSingleChoiceQuestionData() {
         })
         .then(singleChoiceQuestions => {
             let bodyData = ``;
-            //totalQuestions += singleChoiceQuestions.length;
             for (let i = 0; i < singleChoiceQuestions.length; i++) {
                 const singleChoiceQuestion = singleChoiceQuestions[i];
               totalQuestions +=1;
                 const isActive = firstQuestion ? 'active' : '';
                 if (firstQuestion) firstQuestion = false;
-                bodyData += `<div class="carousel-item ${isActive}">
+                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${singleChoiceQuestion.sequenceNumber}">
             <div class="card-body">
                 <h5 class="card-title">${singleChoiceQuestion.text}</h5>
                 ${singleChoiceQuestion.options.map((option, index) => `<div class="form-check">
@@ -69,13 +69,12 @@ function getOpenQuestionsData() {
         })
         .then(openQuestions => {
             let bodyData = ``;
-           // totalQuestions += openQuestions.length;
             for (let i = 0; i < openQuestions.length; i++) {
                 const openQuestion = openQuestions[i];
              totalQuestions +=1;
                 const isActive = firstQuestion ? 'active' : '';
                 if (firstQuestion) firstQuestion = false;
-                bodyData += `<div class="carousel-item ${isActive}">
+                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${openQuestion.sequenceNumber}">
             <div class="card-body">
                 <h5 class="card-title">${openQuestion.text}</h5>
                 <div class="form-group">
@@ -116,7 +115,7 @@ function getRangeQuestionsData() {
                 if (firstQuestion) firstQuestion = false;
                 
                 let options = rangeQuestion.options.map((option,index) => `data-option-${index}="${option}"`).join('')
-                bodyData += `<div class="carousel-item ${isActive}">
+                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${rangeQuestion.sequenceNumber}">
             <div class="card-body">
                 <h5 class="card-title">${rangeQuestion.text}</h5>
                 <div class="form-group">
@@ -155,7 +154,7 @@ function getMultipleChoiceQuestionsData() {
                 totalQuestions +=1;
                 const isActive = firstQuestion ? 'active' : '';
                 if (firstQuestion) firstQuestion = false;
-                bodyData += `<div class="carousel-item ${isActive}">
+                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${multipleChoiceQuestion.sequenceNumber}">
             <div class="card-body">
                 <h5 class="card-title">${multipleChoiceQuestion.text}</h5>
                 ${multipleChoiceQuestion.options.map(option => `<div class="form-check">
@@ -261,8 +260,8 @@ function getAnswers() {
 function commitAnswer() {
     const answers  = getAnswers();
     const answerObject = answers.map(answer =>({
-        Flow: {Id: flowId}, // Send Flow as an object with an Id property
-        subTheme: {Title: "test"},  // Send SubTheme as an object with a Title property
+        Flow: {Id: flowId}, // Send Flow as an object with an Id property, ik gebruik id om dan die flow uit te krijgen
+        subTheme: {Title: "test"},  // Send SubTheme as an object with a Title property, gebruik ik nie echt
         chosenOptions: answer.chosenOptions.map(option => ({OptionText: option})),   // Send each option as an object with an OptionText property
         chosenAnswer: answer.openAnswer
     }));
@@ -293,6 +292,7 @@ function InitializeFlow() {
         getRangeQuestionsData(),
         getMultipleChoiceQuestionsData()
     ]).then(() => {
+        
         var carousel = new bootstrap.Carousel(document.getElementById('carouselExampleControls'), {
             interval: false,
             wrap: true
