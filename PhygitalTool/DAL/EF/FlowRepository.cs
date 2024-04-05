@@ -15,7 +15,7 @@ public class FlowRepository : IFlowRepository
 
     public IEnumerable<Flow> ReadAllFlows()
     {
-        return _dbContext.Flows;
+        return _dbContext.Flows.Include(f => f.Theme);
     }
 
     public Flow ReadFlowById(long id)

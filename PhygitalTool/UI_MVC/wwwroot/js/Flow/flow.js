@@ -8,6 +8,8 @@ let currentQuestionNumber = 0;
 let totalQuestions = 0;
 let firstQuestion = true;
 
+const btnNext = document.getElementById("nextBtn");
+const btnPrev = document.getElementById("prevBtn");
 function getSingleChoiceQuestionData() {
     fetch(`/api/flows/${flowId}/SingleChoiceQuestions`,
         {
@@ -200,14 +202,13 @@ function getSubThemasData() {
             subThemasFlowElement.innerHTML = bodyData
         })
 }
+
 function updateLabel(rangeInput, labelId) {
     let label = document.getElementById(labelId);
     let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
     label.textContent = optionText;
 }
 
-const btnNext = document.getElementById("nextBtn");
-const btnPrev = document.getElementById("prevBtn");
 function updateProgressBar() {
     let progressPerc = 100 * (currentQuestionNumber / totalQuestions) ;
     let progressBar = document.getElementById("progressBar");
@@ -224,25 +225,19 @@ function getAnswers() {
         const questionText = item.querySelector('.card-title').textContent;
         const answer = { question: questionText, chosenOptions: [], openAnswer: '' };
 
-        // Check if it's a multiple choice question
         const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
-        console.log('checkboxes: ', checkboxes);
         if (checkboxes.length > 0) {
             checkboxes.forEach(checkbox => {
                 answer.chosenOptions.push(checkbox.id);
             });
         }
 
-        // Check if it's an open question
         const textarea = item.querySelector('textarea');
-        console.log('textarea: ', textarea);
         if (textarea) {
             answer.openAnswer = textarea.value;
         }
 
-        // Check if it's a single choice question
         const radioButtons = item.querySelectorAll('input[type="radio"]:checked');
-        console.log('radioButtons: ', radioButtons);
         if (radioButtons.length > 0) {
             radioButtons.forEach(radioButton => {
                 if (radioButton.checked) {
@@ -251,11 +246,10 @@ function getAnswers() {
             });
         }
 
-        // Check if it's a range question
         const rangeInput = item.querySelector('input[type="range"]');
-        console.log('rangeInput: ', rangeInput);
         if (rangeInput) {
-            answer.chosenOptions.push(rangeInput.value);
+            let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
+            answer.chosenOptions.push(optionText);
         }
         console.log('answer: ', answer);
         answers.push(answer);
@@ -263,6 +257,7 @@ function getAnswers() {
 
     return answers;
 }
+
 function commitAnswer() {
     const answers  = getAnswers();
     const answerObject = answers.map(answer =>({
@@ -280,8 +275,6 @@ function commitAnswer() {
         body: JSON.stringify(answerObject)
     })
         .then(response => {
-            console.log("response: ", response )
-            console.log("answerObject: ", answerObject)
             if (response.ok) {
                 console.log("Objecten answers gecreeerd: ", response)
             } else{
@@ -293,33 +286,33 @@ function commitAnswer() {
         });
 }
 
+function InitializeFlow() {
+    Promise.all([
+        getSingleChoiceQuestionData(),
+        getOpenQuestionsData(),
+        getRangeQuestionsData(),
+        getMultipleChoiceQuestionsData()
+    ]).then(() => {
+        var carousel = new bootstrap.Carousel(document.getElementById('carouselExampleControls'), {
+            interval: false,
+            wrap: true
+        });
 
-/*zo ladt openquestions eerst omdat er minder data is dan bij singel dus ik heb get wat ander gedaan*/
-//tis hier ook zo zodat we die carousel code nie 4x moeten schrijven per question type
-Promise.all([
-    getSingleChoiceQuestionData(),
-    getOpenQuestionsData(),
-    getRangeQuestionsData(),
-    getMultipleChoiceQuestionsData()
-]).then(() => {
-    // Initialize the carousel after all questions have been loaded
-    var carousel = new bootstrap.Carousel(document.getElementById('carouselExampleControls'), {
-        interval: false,
-        wrap: true
-    });
-    
-    btnNext.addEventListener("click", function() {
-        currentQuestionNumber++;
-        updateProgressBar();
-    });
+        btnNext.addEventListener("click", function() {
+            currentQuestionNumber++;
+            updateProgressBar();
+        });
 
-    btnPrev.addEventListener("click", function() {
-        if (currentQuestionNumber > 0) {
-            currentQuestionNumber--;
-        }
-        updateProgressBar();
+        btnPrev.addEventListener("click", function() {
+            if (currentQuestionNumber > 0) {
+                currentQuestionNumber--;
+            }
+            updateProgressBar();
+        });
     });
-});
+}
 
+
+InitializeFlow();
 getSubThemasData();
 addButton.addEventListener("click", commitAnswer);
