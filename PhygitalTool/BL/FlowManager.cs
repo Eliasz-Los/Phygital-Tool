@@ -50,6 +50,11 @@ public class FlowManager : IFlowManager
         return _flowRepository.ReadSubThemasFlow(flowId);
     }
 
+    public IEnumerable<Theme> GetAllSubThemas()
+    {
+        return _flowRepository.ReadAllSubThemas();
+    }
+
     public Option GetOptionByText(string optionText)
     {
         return _flowRepository.ReadOptionByText(optionText);
