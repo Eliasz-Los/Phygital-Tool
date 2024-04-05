@@ -18,7 +18,7 @@ public class ProjectsController : ControllerBase
         _flowManager = flowManager;
     }
     
-    [HttpGet("{flowId}/SubThemas")]
+    [HttpGet("SubThemas")]
     public ActionResult<IEnumerable<SubThemasDto>> GetSubThemas()
     {
         var subthemas = _flowManager.GetAllSubThemas();
@@ -33,7 +33,4 @@ public class ProjectsController : ControllerBase
             Description = flow.Description
         }));
     }
-
-
-
 }
