@@ -2,11 +2,12 @@
 
 namespace Phygital.UI_MVC.Controllers;
 
-public class ProjectController: Controller
+public class ThemaController : Controller
+
 {
-    private readonly ILogger<ProjectController> _logger;
-    
-    public ProjectController(ILogger<ProjectController> logger)
+    private readonly ILogger<ThemaController> _logger;
+
+    public ThemaController(ILogger<ThemaController> logger)
     {
         _logger = logger;
     }
