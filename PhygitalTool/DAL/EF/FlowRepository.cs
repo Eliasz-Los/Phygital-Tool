@@ -70,7 +70,7 @@ public class FlowRepository : IFlowRepository
 
     public IEnumerable<Theme> ReadAllSubThemas()
     {
-        return _dbContext.Themas;
+        return _dbContext.Themas.Select(t=>t);
     }
 
     public Option ReadOptionByText(string optionText)

@@ -1,104 +1,115 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+.sttable {
+    display: block;
+    overflow: auto;
+    table-layout: fixed;
+    max-height: 200px;
+}
+.sttable th, .sttable td {
+    text-align: start;
+    width: 100%;
 }
 
 
 /******************* FLOW DETAILS CSS *******************/
 .white-text {
-  color: #ffffff;
+    color: #ffffff;
 }
 
 :root {
-  --yellow-color: #ffc107;
+    --yellow-color: #ffc107;
 }
 
 .yellow-color {
-  background-color: var(--yellow-color);
+    background-color: var(--yellow-color);
 }
 
 .spacing-top {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 .center-carousel {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn-flow-details {
-  width: 125px;
-  border-radius: 8px;
+    width: 125px;
+    border-radius: 8px;
 }
 
 input[type="range"] {
-  /* removing default appearance */
-  -webkit-appearance: none;
-  appearance: none;
-  /* creating a custom design */
-  width: 25%;
-  cursor: pointer;
-  outline: none;
+    /* removing default appearance */
+    -webkit-appearance: none;
+    appearance: none;
+    /* creating a custom design */
+    width: 25%;
+    cursor: pointer;
+    outline: none;
 
-  /*  styling the track  */
-  height: 15px;
-  background: #ccc;
-  border-radius: 16px;
+    /*  styling the track  */
+    height: 15px;
+    background: #ccc;
+    border-radius: 16px;
 
-  overflow: hidden;
+    overflow: hidden;
 }
 
 /* Track: webkit browsers */
 input[type="range"]::-webkit-slider-runnable-track {
-  height: 15px;
-  background: #ccc;
-  border-radius: 16px;
+    height: 15px;
+    background: #ccc;
+    border-radius: 16px;
 }
 
 /* Track: Mozilla Firefox */
 input[type="range"]::-moz-range-track {
-  height: 15px;
-  background: #ccc;
-  border-radius: 16px;
+    height: 15px;
+    background: #ccc;
+    border-radius: 16px;
 }
 
 /* Thumb: webkit */
 input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  height: 15px;
-  width: 15px;
-  background-color: #fff;
-  border-radius: 50%;
-  border: var(--yellow-color);
-  box-shadow: -407px 0 0 400px var(--yellow-color);
+    -webkit-appearance: none;
+    appearance: none;
+    height: 15px;
+    width: 15px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: var(--yellow-color);
+    box-shadow: -407px 0 0 400px var(--yellow-color);
 }
 
 /* Thumb: Firefox */
 input[type="range"]::-moz-range-thumb {
-  height: 15px;
-  width: 15px;
-  background-color: #fff;
-  border-radius: 50%;
-  border: 1px solid var(--yellow-color);
-  box-shadow: -407px 0 0 400px var(--yellow-color);
+    height: 15px;
+    width: 15px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid var(--yellow-color);
+    box-shadow: -407px 0 0 400px var(--yellow-color);
 }

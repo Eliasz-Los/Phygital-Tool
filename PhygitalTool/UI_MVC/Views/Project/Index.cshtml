@@ -19,20 +19,22 @@
                     <label>Naam</label>
                     <input type="text" class="form-control border border-warning mb-3" placeholder="Name">
                     <label>Thema</label>
-                    <input type="text" class="form-control border border-warning mb-3" placeholder="Theme">
+                    <select type="text" class="form-select border border-warning mb-3" id="ThemaSelect">
+
+                    </select>
                 </div>
             </div>
             <div class="col-6 d-flex justify-content-center">
-                <div class="col-6">
+                <div class="col-8 table-responsive">
                     <h5 class="mb-3">Subthemas</h5>
-                    <table class="table table-striped">
-                        <thead>
+                    <table class="sttable table table-striped ">
+                        <thead class="sticky-top bg-white">
                         <tr>
-                            <th scope="col">Thema</th>
-                            <th scope="col">In gebruik</th>
+                            <th class="col-8">Thema</th>
+                            <th class="col-4">Actief</th>
                         </tr>
                         </thead>
-                        <tbody class="SubthemaTable">
+                        <tbody id="SubthemaTable" class="">
 
 
                         </tbody>
@@ -52,3 +54,9 @@
         </form>
     </div>
 </div>
+
+
+@section Scripts
+{
+    <script src="~/js/Project/project.js" defer></script>
+}
