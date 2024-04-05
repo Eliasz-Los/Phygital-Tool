@@ -1,6 +1,4 @@
-﻿
-
-function getSubthemesData() {
+﻿function getSubthemesData() {
     fetch(`/api/Projects/SubThemas`,
         {
             headers: {
@@ -17,7 +15,6 @@ function getSubthemesData() {
         })
         .then(subThemas => {
             let bodyData = ``;
-            // totalQuestions += openQuestions.length;
             for (let i = 0; i < subThemas.length; i++) {
                 const subThema = subThemas[i];
                 bodyData += `<tr>
