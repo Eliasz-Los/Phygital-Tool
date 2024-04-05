@@ -115,7 +115,8 @@ public class FlowsController : ControllerBase
     public ActionResult PostAnswers(long flowId, [FromBody] List<AnswerDto> answers)
     {
         var flow = _flowManager.GetFlowById(flowId);
-
+        var theme = _flowManager.GetSubThemasFlow(flowId);
+        
         if (flow == null)
         {
             return NotFound("Flow not found");
@@ -126,34 +127,30 @@ public class FlowsController : ControllerBase
             return NoContent();
         }
 
+        List<ICollection<Option>> chosenOptionsList = new List<ICollection<Option>>();
+        List<string> chosenAnswers = new List<string>();
+
         foreach (var answerDto in answers)
         {
-            if (answerDto.ChosenAnswer == null || !answerDto.ChosenOptions.Any() || answerDto.SubTheme == null)
-            {
-                return BadRequest("Invalid answer(s) or Subtheme");
-            }
+            //|| answerDto.SubTheme == null
+            // if (string.IsNullOrEmpty(answerDto.ChosenAnswer) && answerDto.ChosenOptions.Count == 0 ) 
+            // {
+            //     return BadRequest($"Invalid answer(s){answerDto.ChosenAnswer}, {answerDto.ChosenOptions} or Subtheme");
+            // }
 
-            var answer = new AnswerDto()
+            chosenOptionsList.Add(answerDto.ChosenOptions.Select(option =>
             {
-                Flow = flow,
-                ChosenOptions = answerDto.ChosenOptions.Select(option =>
-                {
-                    var optionEnt = _flowManager.GetOptionByText(option.OptionText);
+                var optionEnt = _flowManager.GetOptionByText(option.OptionText);
+                //soms is er geen antwoord gegeven van de user, dan is optionEnt null
+                return new Option { OptionText = optionEnt != null ? optionEnt.OptionText : option.OptionText };
+            }).ToList());
 
-                    return new Option { OptionText = optionEnt.OptionText };
-                }).ToList(),
-                ChosenAnswer = answerDto.ChosenAnswer,
-                SubTheme = answerDto.SubTheme
-            };
-            
-            //eerste effe zien of we kunnen uitkrijgen
-          //  _unitOfWork.BeginTransaction();
-            _flowManager.AddAnswerToFlow(answer.Flow, answer.ChosenOptions, answer.ChosenAnswer, answer.SubTheme);
-            //_unitOfWork.Commit();
+            chosenAnswers.Add(answerDto.ChosenAnswer);
         }
 
-        return Ok();
+        _flowManager.AddAnswersToFlow(flow, chosenOptionsList, chosenAnswers,theme.Single() ); //answers[0].SubTheme
 
+        return Ok();
     }
 
 }

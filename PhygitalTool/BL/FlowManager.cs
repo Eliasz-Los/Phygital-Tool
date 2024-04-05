@@ -55,16 +55,20 @@ public class FlowManager : IFlowManager
         return _flowRepository.ReadOptionByText(optionText);
     }
 
-    public Answer AddAnswerToFlow(Flow flow, ICollection<Option> chosenOptions, string chosenAnswer, Theme subtheme)
+    public void AddAnswersToFlow(Flow flow, List<ICollection<Option>> chosenOptionsList, List<string> chosenAnswers, Theme subtheme)
     {
-        Answer answer = new Answer
+        List<Answer> answers = new List<Answer>();
+
+        for (int i = 0; i < chosenOptionsList.Count; i++)
         {
-            Flow = flow,
-            SubTheme = subtheme,
-            ChosenOptions = chosenOptions,
-            ChosenAnswer = chosenAnswer
-        };
-        _flowRepository.CreateAnswer(answer);
-        return answer;
+            Answer answer = new Answer
+            {
+                Flow = flow,
+                SubTheme = subtheme,
+                ChosenOptions = chosenOptionsList[i],
+                ChosenAnswer = chosenAnswers[i]
+            };
+            _flowRepository.CreateAnswer(answer);
+        }
     }
 }

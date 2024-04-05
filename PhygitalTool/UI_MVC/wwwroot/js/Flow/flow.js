@@ -217,57 +217,62 @@ function updateProgressBar() {
 }
 
 function getAnswers() {
-    const chosenOptions = [];
-    const openAnswers = [];
+    const answers = [];
     const carouselItems = document.querySelectorAll('.carousel-item');
 
     carouselItems.forEach((item, index) => {
         const questionText = item.querySelector('.card-title').textContent;
-        const answer = { question: questionText, answer: [] };
+        const answer = { question: questionText, chosenOptions: [], openAnswer: '' };
 
         // Check if it's a multiple choice question
         const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
+        console.log('checkboxes: ', checkboxes);
         if (checkboxes.length > 0) {
             checkboxes.forEach(checkbox => {
-                chosenOptions.push(checkbox.id);
+                answer.chosenOptions.push(checkbox.id);
             });
         }
 
         // Check if it's an open question
         const textarea = item.querySelector('textarea');
+        console.log('textarea: ', textarea);
         if (textarea) {
-            openAnswers.push({questionText: questionText, answer: textarea.value});
+            answer.openAnswer = textarea.value;
         }
 
         // Check if it's a single choice question
-        const radioButtons = item.querySelectorAll('input[type="radio"]');
+        const radioButtons = item.querySelectorAll('input[type="radio"]:checked');
+        console.log('radioButtons: ', radioButtons);
         if (radioButtons.length > 0) {
             radioButtons.forEach(radioButton => {
                 if (radioButton.checked) {
-                    chosenOptions.push(radioButton.value);
+                    answer.chosenOptions.push(radioButton.value);
                 }
             });
         }
 
         // Check if it's a range question
         const rangeInput = item.querySelector('input[type="range"]');
+        console.log('rangeInput: ', rangeInput);
         if (rangeInput) {
-            chosenOptions.push(rangeInput.value);
+            answer.chosenOptions.push(rangeInput.value);
         }
+        console.log('answer: ', answer);
+        answers.push(answer);
     });
 
-    return [chosenOptions, openAnswers];
+    return answers;
 }
 function commitAnswer() {
     const answers  = getAnswers();
-    const answerObject = {
-        flow: flowId,
-        subtheme: "test",
-        chosenOptions: answers.chosenOptions,
-        answers: answers.openAnswers
-    }
+    const answerObject = answers.map(answer =>({
+        Flow: {Id: flowId}, // Send Flow as an object with an Id property
+        subTheme: {Title: "test"},  // Send SubTheme as an object with a Title property
+        chosenOptions: answer.chosenOptions.map(option => ({OptionText: option})),   // Send each option as an object with an OptionText property
+        chosenAnswer: answer.openAnswer
+    }));
     
-    fetch(`/api/flows/${flowId}/answers`, {
+    fetch(`/api/flows/${flowId}/AddAnswers`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -275,7 +280,9 @@ function commitAnswer() {
         body: JSON.stringify(answerObject)
     })
         .then(response => {
-            if (response === 201) {
+            console.log("response: ", response )
+            console.log("answerObject: ", answerObject)
+            if (response.ok) {
                 console.log("Objecten answers gecreeerd: ", response)
             } else{
                 alert("Problem with commiting answers: " + JSON.stringify(answerObject))                

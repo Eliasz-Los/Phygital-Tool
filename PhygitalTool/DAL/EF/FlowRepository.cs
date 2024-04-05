@@ -26,7 +26,7 @@ public class FlowRepository : IFlowRepository
     public void CreateAnswer(Answer answer)
     {
         _dbContext.Answers.Add(answer);
-        _dbContext.SaveChanges();
+       // _dbContext.SaveChanges();
     }
 
 
