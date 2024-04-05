@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Session;
@@ -8,7 +10,7 @@ using Phygital.Domain.Themas;
 
 namespace Phygital.DAL.EF;
 
-public class PhygitalDbContext : IdentityDbContext<IdentityUser>
+public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext //  TODO fix zodat beide gebruikt kunnen worden
 {
     // Questionsprocess package
     public DbSet<Flow> Flows { get; set; }
@@ -30,7 +32,6 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser>
 
     public PhygitalDbContext(DbContextOptions options) : base(options)
     {
-        // PhygitalInitializer.Initialize(this, true);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -40,10 +41,14 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser>
             optionsBuilder.UseSqlite("Data Source=Phygital.db");
             optionsBuilder.EnableSensitiveDataLogging();
         }
+        
+        optionsBuilder.LogTo(message => Debug.WriteLine(message), LogLevel.Information);
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+        
         ///////////////////////////////
         // Questionsprocess package //
         //////////////////////////////
@@ -153,7 +158,6 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser>
             .HasForeignKey<OpenQuestion>("answerId");
 
     }
-    
     public bool CreateDatabase(bool dropExisting = false)
     {
         if (dropExisting)
