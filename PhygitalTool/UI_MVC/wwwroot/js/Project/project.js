@@ -17,9 +17,7 @@ function getSubthemesData() {
         })
         .then(subThemas => {
             let bodyData = ``;
-            // totalQuestions += openQuestions.length;
-            for (let i = 0; i < subThemas.length; i++) {
-                const subThema = subThemas[i];
+            for (const subThema of subThemas) {
                 bodyData += `<tr>
                             <td>${subThema.text}</td>
                             <td>
