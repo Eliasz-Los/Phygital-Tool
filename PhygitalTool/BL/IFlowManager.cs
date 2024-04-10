@@ -18,5 +18,6 @@ public interface IFlowManager
     IEnumerable<Theme> GetAllSubThemas();
     Option GetOptionByText(string optionText);
     void AddAnswersToFlow(Flow flow, List<ICollection<Option>> chosenOptionsList, List<string> chosenAnswers, Theme subtheme);
+    void AddSubThema(Theme subThema);
     
 }

@@ -76,4 +76,9 @@ public class FlowManager : IFlowManager
             _flowRepository.CreateAnswer(answer);
         }
     }
+    public void AddSubThema(Theme subThema)
+    {
+
+        _flowRepository.CreateTheme(subThema);
+    }
 }

@@ -29,6 +29,11 @@ public class FlowRepository : IFlowRepository
        // _dbContext.SaveChanges();
     }
 
+    public void CreateTheme(Theme theme)
+    {
+        _dbContext.Themas.Add(theme);
+    }
+
 
     // scq = SingleChoiceQuestion
     public IEnumerable<SingleChoiceQuestion> ReadSingleChoiceQuestionsWithOptionsOfFlowById(long flowId)
