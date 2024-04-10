@@ -21,12 +21,12 @@ public class PhygitalInitializer
             _hasBeenInitialized = true;
         }
     }
-    
+
     private static void Seed(PhygitalDbContext context)
     {
         // In the first part of the seed method we create data to be put into the database
         /////////////////////////////////////////////////////////////////////////////////////////////////////
-        
+
         // Account
         // var arthur = new Account
         // {
@@ -74,7 +74,7 @@ public class PhygitalInitializer
         // };
         //
         // context.Accounts.AddRange(new Account[] { arthur, jonas, eliasz, josse, willem });
-        
+
         // Filling themes
         var th1 = new Theme { Title = "Politiek", Description = "Simpele vragen rond politiek" };
         var th2 = new Theme { Title = "Vakantie", Description = "Simpele vragen rond vakantie" };
@@ -250,19 +250,19 @@ public class PhygitalInitializer
         Option o28 = new Option { OptionText = "Tegen" };
 
 
-var a1 = new Answer { ChosenAnswer =  "CD&V"  };
-var a2 = new Answer { ChosenAnswer =  "Vooruit"  };
-var a3 = new Answer { ChosenAnswer =  "NV-A"  };
-var a4 = new Answer { ChosenAnswer = "Groen"  };
-var a5 = new Answer { ChosenAnswer = "PVDA" };
-var a6 = new Answer { ChosenAnswer =  "Open-VLD" };
-var a7 = new Answer { ChosenAnswer =  "Vlaams Belang"  };
+        var a1 = new Answer { ChosenAnswer = "CD&V" };
+        var a2 = new Answer { ChosenAnswer = "Vooruit" };
+        var a3 = new Answer { ChosenAnswer = "NV-A" };
+        var a4 = new Answer { ChosenAnswer = "Groen" };
+        var a5 = new Answer { ChosenAnswer = "PVDA" };
+        var a6 = new Answer { ChosenAnswer = "Open-VLD" };
+        var a7 = new Answer { ChosenAnswer = "Vlaams Belang" };
 
-var a8 = new Answer { ChosenAnswer =  "Voor"  };
-var a9 = new Answer { ChosenAnswer =  "Tegen"  };
-var a10 = new Answer { ChosenAnswer =  "Geen mening"  };
-var a11 = new Answer { ChosenAnswer =  " "  };
-var a12 = new Answer { ChosenAnswer =  "geen interesse" };
+        var a8 = new Answer { ChosenAnswer = "Voor" };
+        var a9 = new Answer { ChosenAnswer = "Tegen" };
+        var a10 = new Answer { ChosenAnswer = "Geen mening" };
+        var a11 = new Answer { ChosenAnswer = " " };
+        var a12 = new Answer { ChosenAnswer = "geen interesse" };
 
 
         // In the second part of the seed method we create the relations between the different classes
@@ -282,8 +282,7 @@ var a12 = new Answer { ChosenAnswer =  "geen interesse" };
         f1.FlowElements.Add(q12);
         f1.FlowElements.Add(q13);
         f1.FlowElements.Add(q14);
-
-
+        
         f1.FlowElements.Add(i1);
         f1.FlowElements.Add(i2);
         f1.FlowElements.Add(i3);

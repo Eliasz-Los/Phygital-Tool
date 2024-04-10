@@ -36,7 +36,7 @@ public class PhygitalDbContext : DbContext // IdentityDbContext<IdentityUser>
 
     public PhygitalDbContext(DbContextOptions options) : base(options)
     {
-        PhygitalInitializer.Initialize(this, Convert.ToBoolean(Environment.GetEnvironmentVariable("Rebuild")));
+        PhygitalInitializer.Initialize(this, true);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -52,7 +52,7 @@ public class PhygitalDbContext : DbContext // IdentityDbContext<IdentityUser>
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
+        //base.OnModelCreating(modelBuilder);
         
         //////////////////////
         // Accounts package //
