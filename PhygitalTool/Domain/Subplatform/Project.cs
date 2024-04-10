@@ -4,7 +4,8 @@ namespace Phygital.Domain.Subplatform;
 
 public class Project
 {
+    public long Id { get; set; }
     public string Name { get; set; }
-    public Flow Flow { get; set; }
-    public Version Version { get; set; }
+    public ICollection<Flow> Flows { get; set; }
+    public ICollection<Version> Versions { get; set; }
 }

@@ -1,6 +1,7 @@
 ﻿using Phygital.Domain.Datatypes;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
+using Phygital.Domain.Subplatform;
 using Phygital.Domain.Themas;
 
 namespace BL;
@@ -18,5 +19,5 @@ public interface IFlowManager
     IEnumerable<Theme> GetAllSubThemas();
     Option GetOptionByText(string optionText);
     void AddAnswersToFlow(Flow flow, List<ICollection<Option>> chosenOptionsList, List<string> chosenAnswers, Theme subtheme);
-    
+    void AddProject(Project project);
 }

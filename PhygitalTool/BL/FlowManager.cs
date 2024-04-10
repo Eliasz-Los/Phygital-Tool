@@ -2,6 +2,7 @@
 using Phygital.Domain.Datatypes;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
+using Phygital.Domain.Subplatform;
 using Phygital.Domain.Themas;
 
 namespace BL;
@@ -75,5 +76,10 @@ public class FlowManager : IFlowManager
             };
             _flowRepository.CreateAnswer(answer);
         }
+    }
+
+    public void AddProject(Project project)
+    {
+        
     }
 }

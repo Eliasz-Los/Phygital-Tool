@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
+using Phygital.Domain.Subplatform;
 using Phygital.UI_MVC.Models.Dto;
 
 namespace Phygital.UI_MVC.Controllers.Api;
@@ -33,4 +34,27 @@ public class ProjectsController : ControllerBase
             Description = flow.Description
         }));
     }
+    
+    [HttpPost("AddProject")]
+    public ActionResult PostProject(String name, SubThemasDto mainTheme,[FromBody] List<SubThemasDto> themas)
+    {
+        if (!themas.Any())
+        {
+            return NoContent();
+        }
+
+        foreach (SubThemasDto subthema in themas)
+        {
+            
+        }
+
+        Project project = new Project
+        {
+            Name = name
+        };
+        
+        
+        return Ok();
+    }
+    
 }
