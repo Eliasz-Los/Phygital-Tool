@@ -6,6 +6,7 @@
     Layout = "_Layout";
 }
 
+<!-- This page is what the user will see when they start the desired flow, it displays the flow elements -->
 
 <h2 class="text-center">Please answer the following questions</h2>
 <div id="flowId" class="white-text">@Model.Id</div>
@@ -30,7 +31,7 @@
     </div>
 </div>
 <div class="text-center">
-    <a asp-controller="Endpage" asp-action="Index" class="btn btn-warning btn-flow-details spacing-top">Send in</a>
+        <a asp-controller="Endpage" asp-action="Index" class="btn btn-warning btn-flow-details spacing-top" id="answerFlow">Send in</a>
 </div>
 
 @section Scripts

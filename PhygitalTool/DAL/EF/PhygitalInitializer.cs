@@ -250,19 +250,19 @@ public class PhygitalInitializer
         Option o28 = new Option { OptionText = "Tegen" };
 
 
-        var a1 = new Answer { Text = "CD&V" };
-        var a2 = new Answer { Text = "Vooruit" };
-        var a3 = new Answer { Text = "NV-A" };
-        var a4 = new Answer { Text = "Groen" };
-        var a5 = new Answer { Text = "PVDA" };
-        var a6 = new Answer { Text = "Open-VLD" };
-        var a7 = new Answer { Text = "Vlaams Belang" };
+var a1 = new Answer { ChosenAnswer =  "CD&V"  };
+var a2 = new Answer { ChosenAnswer =  "Vooruit"  };
+var a3 = new Answer { ChosenAnswer =  "NV-A"  };
+var a4 = new Answer { ChosenAnswer = "Groen"  };
+var a5 = new Answer { ChosenAnswer = "PVDA" };
+var a6 = new Answer { ChosenAnswer =  "Open-VLD" };
+var a7 = new Answer { ChosenAnswer =  "Vlaams Belang"  };
 
-        var a8 = new Answer { Text = "Voor" };
-        var a9 = new Answer { Text = "Tegen" };
-        var a10 = new Answer { Text = "Geen mening" };
-        var a11 = new Answer { Text = " " };
-        var a12 = new Answer { Text = "geen interesse" };
+var a8 = new Answer { ChosenAnswer =  "Voor"  };
+var a9 = new Answer { ChosenAnswer =  "Tegen"  };
+var a10 = new Answer { ChosenAnswer =  "Geen mening"  };
+var a11 = new Answer { ChosenAnswer =  " "  };
+var a12 = new Answer { ChosenAnswer =  "geen interesse" };
 
 
         // In the second part of the seed method we create the relations between the different classes

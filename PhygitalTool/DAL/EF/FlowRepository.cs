@@ -23,13 +23,19 @@ public class FlowRepository : IFlowRepository
         return _dbContext.Flows.Find(id);
     }
 
+    public void CreateAnswer(Answer answer)
+    {
+        _dbContext.Answers.Add(answer);
+       // _dbContext.SaveChanges();
+    }
+
 
     // scq = SingleChoiceQuestion
     public IEnumerable<SingleChoiceQuestion> ReadSingleChoiceQuestionsWithOptionsOfFlowById(long flowId)
     {
         IQueryable<SingleChoiceQuestion> scq = _dbContext.SingleChoiceQuestions;
         var result = scq.Include(s => s.Options)
-            .Where(scq => scq.Flow.Id == flowId);
+            .Where(scq => scq.Flow.Id == flowId).Select(scq => scq);
         return result;
     }
 
@@ -37,7 +43,7 @@ public class FlowRepository : IFlowRepository
     {
         IQueryable<MultipleChoice> mcq = _dbContext.MultipleChoices;
         var result = mcq.Include(m => m.Options)
-            .Where(mcq => mcq.Flow.Id == flowId);
+            .Where(mcq => mcq.Flow.Id == flowId).Select(mcq => mcq);
         return result;
     }
 
@@ -45,7 +51,7 @@ public class FlowRepository : IFlowRepository
     {
         IQueryable<RangeQuestion> rq = _dbContext.RangeQuestions;
         var result = rq.Include(r => r.Options)
-            .Where(rq => rq.Flow.Id == flowId);
+            .Where(rq => rq.Flow.Id == flowId).Select(rq => rq);
         return result;
     }
 
@@ -53,12 +59,22 @@ public class FlowRepository : IFlowRepository
     {
         IQueryable<OpenQuestion> oq = _dbContext.OpenQuestions;
         var result = oq.Include(o => o.Answer)
-            .Where(oq => oq.Flow.Id == flowId);
+            .Where(oq => oq.Flow.Id == flowId).Select(oq => oq);
         return result;
     }
 
     public IEnumerable<Theme> ReadSubThemasFlow(long flowId)
     {
-        return _dbContext.Themas.Where(t => t.Flows.Any(f => f.Id == flowId));
+        return _dbContext.Themas.Where(t => t.Flows.Any(f => f.Id == flowId)).Select(t => t);
+    }
+
+    public IEnumerable<Theme> ReadAllSubThemas()
+    {
+        return _dbContext.Themas.Select(t=>t);
+    }
+
+    public Option ReadOptionByText(string optionText)
+    {
+        return _dbContext.Options.FirstOrDefault(o => o.OptionText.ToLower().Equals(optionText.ToLower()));
     }
 }

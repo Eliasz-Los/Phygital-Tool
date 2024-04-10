@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Phygital.BL;
 using Phygital.DAL;
 using Phygital.DAL.EF;
+using Phygital.Domain.User;
 
 var builder = WebApplication.CreateBuilder(args);
 

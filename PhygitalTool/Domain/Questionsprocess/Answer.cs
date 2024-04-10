@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Themas;
 
@@ -10,9 +12,9 @@ public class Answer
     public long Id { get; set; }
     public Flow Flow { get; set; }
     public Theme SubTheme { get; set; }
-
-    [MaxLength(255)]
-    public string Text { get; set; }
+    
+    public ICollection<Option> ChosenOptions { get; set; }
+    public string ChosenAnswer { get; set; }
     
     // Link to the question
     

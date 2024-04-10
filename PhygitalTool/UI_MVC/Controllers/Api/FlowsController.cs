@@ -1,5 +1,8 @@
 ﻿using BL;
 using Microsoft.AspNetCore.Mvc;
+using Phygital.BL;
+using Phygital.Domain.Questionsprocess;
+using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.UI_MVC.Models.Dto;
 
 namespace Phygital.UI_MVC.Controllers.Api;
@@ -9,6 +12,7 @@ namespace Phygital.UI_MVC.Controllers.Api;
 public class FlowsController : ControllerBase
 {
     private readonly IFlowManager _flowManager;
+    private readonly UnitOfWork _unitOfWork;
     
     public FlowsController(IFlowManager flowManager)
     {
@@ -35,7 +39,7 @@ public class FlowsController : ControllerBase
     }
     
     [HttpGet("{flowId}/MultipleChoiceQuestions")]
-    public ActionResult<IEnumerable<SingleChoiceQuestionDto>> GetMultipleChoiceQuestionsOfFlow(long flowId)
+    public ActionResult<IEnumerable<MultipleChoiceQuestionDto>> GetMultipleChoiceQuestionsOfFlow(long flowId)
     {
         var mcq = _flowManager.GetMultipleChoiceQuestionsWithOptionsOfFlowById(flowId);
     
@@ -54,7 +58,7 @@ public class FlowsController : ControllerBase
     }
     
     [HttpGet("{flowId}/RangeQuestions")]
-    public ActionResult<IEnumerable<SingleChoiceQuestionDto>> GetRangeQuestionsOfFlow(long flowId)
+    public ActionResult<IEnumerable<RangeQuestionDto>> GetRangeQuestionsOfFlow(long flowId)
     {
         var rq = _flowManager.GetRangeQuestionsWithOptionsOfFlowById(flowId);
     
@@ -73,7 +77,7 @@ public class FlowsController : ControllerBase
     }
     
     [HttpGet("{flowId}/OpenQuestions")]
-    public ActionResult<IEnumerable<SingleChoiceQuestionDto>> GetOpenQuestionsOfFlow(long flowId)
+    public ActionResult<IEnumerable<OpenQuestionDto>> GetOpenQuestionsOfFlow(long flowId)
     {
         var oq = _flowManager.GetOpenQuestionsWithAnswerOfFlowById(flowId);
     
@@ -87,7 +91,7 @@ public class FlowsController : ControllerBase
             Text = oq.Text,
             SequenceNumber = oq.SequenceNumber,
             Active = oq.Active,
-            Answer = oq.Answer.Text
+            Answer = oq.Answer.ToString()
         }));
     }
     
@@ -105,6 +109,48 @@ public class FlowsController : ControllerBase
             Title = flow.Title,
             Description = flow.Description
         }));
+    }
+
+    [HttpPost("{flowId}/AddAnswers")]
+    public ActionResult PostAnswers(long flowId, [FromBody] List<AnswerDto> answers)
+    {
+        var flow = _flowManager.GetFlowById(flowId);
+        var theme = _flowManager.GetSubThemasFlow(flowId);
+        
+        if (flow == null)
+        {
+            return NotFound("Flow not found");
+        }
+
+        if (!answers.Any())
+        {
+            return NoContent();
+        }
+
+        List<ICollection<Option>> chosenOptionsList = new List<ICollection<Option>>();
+        List<string> chosenAnswers = new List<string>();
+
+        foreach (var answerDto in answers)
+        {
+            //|| answerDto.SubTheme == null
+            // if (string.IsNullOrEmpty(answerDto.ChosenAnswer) && answerDto.ChosenOptions.Count == 0 ) 
+            // {
+            //     return BadRequest($"Invalid answer(s){answerDto.ChosenAnswer}, {answerDto.ChosenOptions} or Subtheme");
+            // }
+
+            chosenOptionsList.Add(answerDto.ChosenOptions.Select(option =>
+            {
+                var optionEnt = _flowManager.GetOptionByText(option.OptionText);
+                //soms is er geen antwoord gegeven van de user, dan is optionEnt null
+                return new Option { OptionText = optionEnt != null ? optionEnt.OptionText : option.OptionText };
+            }).ToList());
+
+            chosenAnswers.Add(answerDto.ChosenAnswer);
+        }
+
+        _flowManager.AddAnswersToFlow(flow, chosenOptionsList, chosenAnswers,theme.Single() ); //answers[0].SubTheme
+
+        return Ok();
     }
 
 }

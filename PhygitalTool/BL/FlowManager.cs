@@ -49,4 +49,31 @@ public class FlowManager : IFlowManager
     {
         return _flowRepository.ReadSubThemasFlow(flowId);
     }
+
+    public IEnumerable<Theme> GetAllSubThemas()
+    {
+        return _flowRepository.ReadAllSubThemas();
+    }
+
+    public Option GetOptionByText(string optionText)
+    {
+        return _flowRepository.ReadOptionByText(optionText);
+    }
+
+    public void AddAnswersToFlow(Flow flow, List<ICollection<Option>> chosenOptionsList, List<string> chosenAnswers, Theme subtheme)
+    {
+        List<Answer> answers = new List<Answer>();
+
+        for (int i = 0; i < chosenOptionsList.Count; i++)
+        {
+            Answer answer = new Answer
+            {
+                Flow = flow,
+                SubTheme = subtheme,
+                ChosenOptions = chosenOptionsList[i],
+                ChosenAnswer = chosenAnswers[i]
+            };
+            _flowRepository.CreateAnswer(answer);
+        }
+    }
 }
