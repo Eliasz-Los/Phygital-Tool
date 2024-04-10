@@ -1,9 +1,11 @@
 ﻿using BL;
 using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
+using Phygital.Domain.Datatypes;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Subplatform;
+using Phygital.Domain.Themas;
 using Phygital.UI_MVC.Models.Dto;
 
 namespace Phygital.UI_MVC.Controllers.Api;
@@ -38,14 +40,25 @@ public class ProjectsController : ControllerBase
     [HttpPost("AddProject")]
     public ActionResult PostProject(String name, SubThemasDto mainTheme,[FromBody] List<SubThemasDto> themas)
     {
-        if (!themas.Any())
+        // ThemeDTO omzetten naar een theme
+        Theme theme = new Theme
         {
-            return NoContent();
-        }
+            Title = mainTheme.Title,
+            Description = mainTheme.Description
+        };
 
+        Flow flow = new Flow
+        {
+            Theme = theme,
+            FlowType = Flowtype.linear
+        };
+
+        Theme hulp = new Theme();
         foreach (SubThemasDto subthema in themas)
         {
-            
+            hulp.Title = subthema.Title;
+            hulp.Description = subthema.Description;
+            theme.SubThemas.Add(hulp);
         }
 
         Project project = new Project

@@ -60,5 +60,35 @@ function fillSubthemesSelect() {
         });
 }
 
+function createProject() {
+    const answers  = getAnswers();
+    const answerObject = answers.map(answer =>({
+        Flow: {Id: flowId}, // Send Flow as an object with an Id property
+        subTheme: {Title: "test"},  // Send SubTheme as an object with a Title property
+        chosenOptions: answer.chosenOptions.map(option => ({OptionText: option})),   // Send each option as an object with an OptionText property
+        chosenAnswer: answer.openAnswer
+    }));
+
+    fetch(`/api/projects/AddProject`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(answerObject)
+    })
+        .then(response => {
+            console.log("response: ", response )
+            console.log("answerObject: ", answerObject)
+            if (response.ok) {
+                console.log("Project werd gecreeerd: ", response)
+            } else{
+                alert("Problem with commiting answers: " + JSON.stringify(answerObject))
+            }
+        })
+        .catch(error => {
+            console.log("problem with fetching: ", error)
+        });
+}
+
 fillSubthemesSelect();
 fillSubthemesTable();
