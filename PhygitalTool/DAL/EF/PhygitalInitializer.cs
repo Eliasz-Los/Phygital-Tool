@@ -1,4 +1,6 @@
-﻿using Phygital.Domain.Datatypes;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using Phygital.Domain.Datatypes;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Themas;
@@ -11,14 +13,37 @@ public class PhygitalInitializer
     private static bool _hasBeenInitialized = false;
 
     // Initializing database
-    public static void Initialize(PhygitalDbContext context, bool dropDatabase = false)
+    // public static void Initialize(PhygitalDbContext context, bool dropDatabase = false)
+    // {
+    //     if (!_hasBeenInitialized)
+    //     {
+    //         if (dropDatabase)
+    //         {
+    //             context.Database.EnsureDeleted();
+    //         }
+    //
+    //         if (context.Database.EnsureCreated())
+    //         {
+    //             Seed(context);
+    //         }
+    //
+    //         _hasBeenInitialized = true;
+    //     }
+    // }
+    
+    public static void InitializeDatabaseAndSeedData(IServiceProvider serviceProvider)
     {
-        if (!_hasBeenInitialized)
+        using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
         {
-            if (dropDatabase) context.Database.EnsureDeleted();
-            if (context.Database.EnsureCreated()) Seed(context);
+            var context = scope.ServiceProvider.GetRequiredService<PhygitalDbContext>();
+            if (context.CreateDatabase(dropExisting: true))
+            {
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-            _hasBeenInitialized = true;
+                SeedIdentity(userManager, roleManager);
+                Seed(context);
+            }
         }
     }
 
@@ -383,5 +408,68 @@ public class PhygitalInitializer
 
         context.SaveChanges();
         context.ChangeTracker.Clear();
+    }
+    
+    public static void SeedIdentity(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+    {
+        // all role types
+        var adminRole = new IdentityRole
+        {
+            Name = CustomIdentityConstraints.AdminRole
+        };
+        roleManager.CreateAsync(adminRole).Wait();
+
+        var subAdminRole = new IdentityRole
+        {
+            Name = CustomIdentityConstraints.SubAdminRole
+        };
+        roleManager.CreateAsync(subAdminRole).Wait();
+
+        var supervisorRole = new IdentityRole
+        {
+            Name = CustomIdentityConstraints.SupervisorRole
+        };
+        roleManager.CreateAsync(supervisorRole).Wait();
+
+        var userRole = new IdentityRole
+        {
+            Name = CustomIdentityConstraints.UserRole
+        };
+        roleManager.CreateAsync(userRole).Wait();
+
+        // hardcoded users
+        var adminPhygital = new IdentityUser
+        {
+            Email = "admin@phygital.be",
+            UserName = "admin", EmailConfirmed = true
+        };
+        userManager.CreateAsync(adminPhygital, "admin").Wait();
+
+        var subAdmin = new IdentityUser
+        {
+            Email = "subadmin@phygital.be",
+            UserName = "subadmin", EmailConfirmed = true
+        };
+        userManager.CreateAsync(subAdmin, "subAdmin").Wait();
+
+        var supervisor = new IdentityUser
+        {
+            Email = "supervisor@phygital.be",
+            UserName = "supervisor", EmailConfirmed = true
+        };
+        userManager.CreateAsync(supervisor, "supervisor").Wait();
+
+        var user = new IdentityUser
+        {
+            Email = "user@phygital.be",
+            UserName = "user", EmailConfirmed = true
+        };
+        userManager.CreateAsync(user, "user").Wait();
+
+        // assign hardcoded users to a role
+        userManager.AddToRoleAsync(adminPhygital, CustomIdentityConstraints.AdminRole).Wait();
+        userManager.AddToRoleAsync(subAdmin, CustomIdentityConstraints.SubAdminRole).Wait();
+        userManager.AddToRoleAsync(supervisor, CustomIdentityConstraints.SupervisorRole).Wait();
+        userManager.AddToRoleAsync(user, CustomIdentityConstraints.UserRole).Wait();
     }
 }
