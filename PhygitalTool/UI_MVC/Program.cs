@@ -1,11 +1,17 @@
 using BL;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Phygital.BL;
 using Phygital.DAL;
 using Phygital.DAL.EF;
-using Phygital.Domain.User;
 
 var builder = WebApplication.CreateBuilder(args);
+
+    // Database connectie
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContext<PhygitalDbContext>(ob => ob.UseSqlite("Data Source = ../Data.db"));
+}
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -15,53 +21,48 @@ builder.Services.AddDbContext<PhygitalDbContext>();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<PhygitalDbContext>();
-
 builder.Services.AddScoped<IFlowRepository, FlowRepository>();
 builder.Services.AddScoped<IFlowManager, FlowManager>();
 builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
 
-builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-
 // cookies
-builder.Services.ConfigureApplicationCookie(cfg =>
-{
-    cfg.Events.OnRedirectToLogin += ctx =>
-    {
-        if (ctx.Request.Path.StartsWithSegments("/api"))
-        {
-            ctx.Response.StatusCode = 401;
-        }
-
-        return Task.CompletedTask;
-    };
-
-    cfg.Events.OnRedirectToAccessDenied += ctx =>
-    {
-        if (ctx.Request.Path.StartsWithSegments("/api"))
-        {
-            ctx.Response.StatusCode = 403;
-        }
-
-        return Task.CompletedTask;
-    };
-});
+// builder.Services.ConfigureApplicationCookie(cfg =>
+// {
+//     cfg.Events.OnRedirectToLogin += ctx =>
+//     {
+//         if (ctx.Request.Path.StartsWithSegments("/api"))
+//         {
+//             ctx.Response.StatusCode = 401;
+//         }
+//
+//         return Task.CompletedTask;
+//     };
+//
+//     cfg.Events.OnRedirectToAccessDenied += ctx =>
+//     {
+//         if (ctx.Request.Path.StartsWithSegments("/api"))
+//         {
+//             ctx.Response.StatusCode = 403;
+//         }
+//
+//         return Task.CompletedTask;
+//     };
+// });
 
 var app = builder.Build();
 
-//TODO error here needs fix !!!
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<PhygitalDbContext>();
-    if (context.CreateDatabase(dropExisting: true))
-    {
-        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-        DataSeeder.SeedIdentity(userManager, roleManager);
-        DataSeeder.Seed(context);
-    }
-}
-
+// using (var scope = app.Services.CreateScope())
+// {
+//     var context = scope.ServiceProvider.GetRequiredService<PhygitalDbContext>();
+//     if (context.CreateDatabase(dropExisting: true))
+//     {
+//         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+//         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+//
+//         DataSeeder.SeedIdentity(userManager, roleManager);
+//         DataSeeder.Seed(context);
+//     }
+// }
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -73,14 +74,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
-
-app.MapRazorPages();
-
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapRazorPages();
 app.Run();
 

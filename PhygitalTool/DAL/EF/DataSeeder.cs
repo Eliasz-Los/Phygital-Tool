@@ -71,7 +71,6 @@ public class DataSeeder
         userManager.AddToRoleAsync(supervisor, CustomIdentityConstraints.SupervisorRole).Wait();
         userManager.AddToRoleAsync(user, CustomIdentityConstraints.UserRole).Wait();
     }
-    
     public static void Seed(PhygitalDbContext context)
     {
         // In the first part of the seed method we create data to be put into the database

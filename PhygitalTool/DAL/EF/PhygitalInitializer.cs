@@ -2,6 +2,7 @@
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Themas;
+using Phygital.Domain.User;
 
 namespace Phygital.DAL.EF;
 
@@ -14,21 +15,66 @@ public class PhygitalInitializer
     {
         if (!_hasBeenInitialized)
         {
-            if (dropDatabase)
-                context.Database.EnsureDeleted();
-
-            if (context.Database.EnsureCreated())
-                Seed(context);
+            if (dropDatabase) context.Database.EnsureDeleted();
+            if (context.Database.EnsureCreated()) Seed(context);
 
             _hasBeenInitialized = true;
         }
     }
-
-
+    
     private static void Seed(PhygitalDbContext context)
     {
         // In the first part of the seed method we create data to be put into the database
         /////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        // Account
+        // var arthur = new Account
+        // {
+        //     Id = "361dc522-3f48-4666-a571-ca1437c2e7b7",
+        //     Name = "Arthur",
+        //     LastName = "Linsen",
+        //     Mail = "arthur.linsen@phygital.be",
+        //     RoleName = "ADMIN"
+        // };
+        //
+        // var jonas = new Account
+        // {
+        //     Id = "56baeecc-8765-4b9a-9075-88157d6307f0",
+        //     Name = "Jonas",
+        //     LastName = "Wuyten",
+        //     Mail = "jonas.wuyten@phygital.be",
+        //     RoleName = "SUBADMIN"
+        // };
+        //
+        // var eliasz = new Account
+        // {
+        //     Id = "8dd72827-87f8-46b5-af23-233fa24cc76e",
+        //     Name = "Eliasz",
+        //     LastName = "Los",
+        //     Mail = "eliasz.los@phygital.be",
+        //     RoleName = "SUPERVISOR"
+        // };
+        //
+        // var josse = new Account
+        // {
+        //     Id = "dd448251-2c08-4150-af67-77cb1947bbd5",
+        //     Name = "Josse",
+        //     LastName = "Dresselaers",
+        //     Mail = "josse.dresselaers@phygital.be",
+        //     RoleName = "USER"
+        // };
+        //
+        // var willem = new Account
+        // {
+        //     Id = "23784981-dda2-4ae0-8c42-5c49d026eff4",
+        //     Name = "Willem",
+        //     LastName = "Kuijpers",
+        //     Mail = "willem.kuijpers@phygital.be",
+        //     RoleName = "DEACTIVATED"
+        // };
+        //
+        // context.Accounts.AddRange(new Account[] { arthur, jonas, eliasz, josse, willem });
+        
         // Filling themes
         var th1 = new Theme { Title = "Politiek", Description = "Simpele vragen rond politiek" };
         var th2 = new Theme { Title = "Vakantie", Description = "Simpele vragen rond vakantie" };
@@ -165,7 +211,7 @@ public class PhygitalInitializer
         };
 
 
-// Filling options & answers
+        // Filling options & answers
         Option o1 = new Option { OptionText = "CD&V" };
         Option o2 = new Option { OptionText = "Vooruit" };
         Option o3 = new Option { OptionText = "NV-A" };
@@ -219,10 +265,10 @@ public class PhygitalInitializer
         var a12 = new Answer { Text = "geen interesse" };
 
 
-// In the second part of the seed method we create the relations between the different classes
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+        // In the second part of the seed method we create the relations between the different classes
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Adding questions & info to the flow
+        // Adding questions & info to the flow
         f1.FlowElements.Add(q1);
         f1.FlowElements.Add(q2);
         f1.FlowElements.Add(q3);
@@ -243,7 +289,7 @@ public class PhygitalInitializer
         f1.FlowElements.Add(i3);
         f1.FlowElements.Add(i4);
 
-// Adding options to the questions
+        // Adding options to the questions
         q12.Options.Add(o5);
         q12.Options.Add(o2);
         q12.Options.Add(o4);

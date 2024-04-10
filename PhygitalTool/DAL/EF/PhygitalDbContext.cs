@@ -7,11 +7,15 @@ using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Session;
 using Phygital.Domain.Themas;
+using Phygital.Domain.User;
 
 namespace Phygital.DAL.EF;
 
-public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext //  TODO fix zodat beide gebruikt kunnen worden
+public class PhygitalDbContext : DbContext // IdentityDbContext<IdentityUser>
 {
+    // Accounts package
+    // public DbSet<Account> Accounts { get; set; }
+    
     // Questionsprocess package
     public DbSet<Flow> Flows { get; set; }
     public DbSet<FlowElement> FlowElements { get; set; }
@@ -32,6 +36,7 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext //
 
     public PhygitalDbContext(DbContextOptions options) : base(options)
     {
+        PhygitalInitializer.Initialize(this, Convert.ToBoolean(Environment.GetEnvironmentVariable("Rebuild")));
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -48,6 +53,11 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext //
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        
+        //////////////////////
+        // Accounts package //
+        //////////////////////
+        // modelBuilder.Entity<IdentityUser>().ToTable("Accounts").HasIndex(user => user.Id).IsUnique();
         
         ///////////////////////////////
         // Questionsprocess package //
