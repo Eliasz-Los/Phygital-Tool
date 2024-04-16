@@ -1,42 +1,48 @@
-﻿<!-- This is the default page the user will see when they go to the phygital tool. This page displays 
+﻿
+<div class="text-center">
+    <h1>Phygital tool</h1>
+    
+</div>
+<!-- This is the default page the user will see when they go to the phygital tool. This page displays 
 information about the question list and wether the user wants to continue -->
+@using System.Security.Cryptography
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
-    ViewData["Title"] = "Phygital";
+    ViewData["Title"] = "Home";
+    var user = await UserManager.GetUserAsync(User);
+    var roles = await UserManager.GetRolesAsync(user);
 }
 
-<div class="text-center">
-    <h1 class="align-content-center p-4">Verkiezingen</h1>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-6">
-                
-                <img src="images/votingCartoon.jpg" alt="votingCartoon" width="400"/>
-            </div>
-            <div class="col-6">
-                <p align="justify">
-                    Deze vragenlijst gaat over de verkiezingen van 2024 en gaat ervoor zorgen dat je beter voorbereid
-                    bent om te gaan stemmen. Zo zal je te weten komen welke partijen zich allemaal verkiesbaar hebben
-                    gesteld in Vlaanderen, waarvoor ze staan en wat hun visie is. Er zullen verschillende type vragen
-                    voorkomen zoals: single choice, multiple choice, open en range. Er zijn geen juiste of foute
-                    antwoorden, het enigste dat je moet doen is je mening geven ongeacht wat anderen ervan zouden vinden.
-                    De tool is volledig anoniem dus je moet geen schrik hebben.
-                </p>
-            </div>
-        </div>
-        <div class="container-fluid p-2">
-            <div class="row">
-                <h3 class="align-content-center p-3">Bent u geïnteresseerd in dit topic ?</h3>
-            </div>
-            <div class="row align-content-center">
-                <div class="col p-2">
-                    <a type="button" class="btn btn-warning">Niet geïntresseerd</a>
-                </div>
-                <div class="col p-2">
-                    <a type="button" class="btn btn-warning" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
-                </div>
-            </div>
-            <img src="images/SenaatPicture.png" alt="SenaatPicture">
-        </div>
-    </div>
-</div>
+
+@* example on how to show specific information to a user based on their role *@
+@{
+    if (User.IsInRole(String.Empty))
+    {
+        <p>Druk op de knop "ga verder" om in te loggen.</p>
+        <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Login">Ga verder</a>
+    }
+    @* if (User.IsInRole("Admin")) *@
+    @* { *@
+    @*     <h2>Hi admin</h2> *@
+    @* } *@
+    @* else if (User.IsInRole("SubAdmin")) *@
+    @* { *@
+    @*     <h2>hi subadmin</h2> *@
+    @* } *@
+    @* else if (User.IsInRole("Supervisor")) *@
+    @* { *@
+    @*     <h2>Hi supervisor</h2> *@
+    @* } *@
+    @* else if (User.IsInRole("User")) *@
+    @* { *@
+    @*     <h2>Hi user</h2> *@
+    @* } *@
+    @* else *@
+    @* { *@
+    @*     <p>Druk op de knop "ga verder" om in te loggen.</p> *@
+    @*     <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Login">Ga verder</a> *@
+    @* } *@
+}

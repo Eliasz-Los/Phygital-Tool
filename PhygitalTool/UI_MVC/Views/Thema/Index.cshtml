@@ -1,0 +1,35 @@
+﻿@using Phygital.Domain.Questionsprocess;
+@model IEnumerable<Flow>
+
+@{
+    ViewBag.Title = "Phygital";
+    Layout = "_Layout";
+}
+
+<!-- This page displays some elements to create a theme -->
+
+<!-- TODO: Finish Add Theme -->
+
+<div class="text-center">
+    <h1 class="align-content-center p-4">Make a new project</h1>
+    <div class="container-fluid">
+        <form class="row">
+            <div class="col-6 d-flex justify-content-center">
+                <div class="col-lg-6">
+                    <label>Thema</label>
+                    <input type="text" class="form-control border border-warning mb-3" placeholder="Name">
+                </div>
+            </div>
+            <div class="container-fluid p-2">
+                <div class="row align-content-center">
+                    <div class="col p-2">
+                        <a type="button" class="btn btn-warning">Annuleer</a>
+                    </div>
+                    <div class="col p-2">
+                        <a type="button" class="btn btn-warning" asp-area="" asp-controller="Flow" asp-action="Index">Maak thema</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
