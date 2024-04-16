@@ -3,6 +3,7 @@ const flowIdElement = document.getElementById("flowId")
 const flowId = parseInt(flowIdElement.innerText)
 const subThemasFlowElement = document.getElementById("subThemasFlowElementId")
 const questionsElement = document.getElementById("questions")
+const infoElements = document.getElementById("flowInfo")
 
 let currentQuestionNumber = 1; // null was juist te kort omdat we beginnen met 1ste vraag waardoor er 1 te kort vr progressbar
 let totalQuestions = 0;
@@ -174,7 +175,7 @@ function getMultipleChoiceQuestionsData() {
 }
 
 function getSubThemasData() {
-    fetch(`http://localhost:5000/api/flows/${flowId}/SubThemas`,
+    fetch(`/api/flows/${flowId}/SubThemas`,
         {
             headers: {
                 "Content-Type": "application/json",
@@ -202,6 +203,37 @@ function getSubThemasData() {
         })
 }
 
+function GetInfoData(){
+    fetch(`/api/flows/${flowId}/TextInfos`,
+        {
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        })
+        .then(response => {
+            if (response.status === 200) {
+                return response.json()
+            } else {
+                alert("Something went wrong with textinfos, check the console for more details!")
+            }
+        })
+        .then(texts => {
+            let bodyData = ``;
+            for (const text of texts) {
+                bodyData += `<div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">${text.title}</h5>
+                                <p class="card-text">${text.content}</p>
+                            </div>
+                        </div>`;
+            }
+            infoElements.innerHTML = bodyData
+        })
+        .catch(error => {
+            console.log(error)
+        });
+}
 function updateLabel(rangeInput, labelId) {
     let label = document.getElementById(labelId);
     let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
@@ -289,6 +321,7 @@ function commitAnswer() {
 
 async function InitializeFlow() {
    await Promise.all([
+       
         getSingleChoiceQuestionData(),
         getOpenQuestionsData(),
         getRangeQuestionsData(),
@@ -325,5 +358,6 @@ questions.forEach(question => {
 });*/
 
 InitializeFlow();
+GetInfoData();
 getSubThemasData();
 addButton.addEventListener("click", commitAnswer);

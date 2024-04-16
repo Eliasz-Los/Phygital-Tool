@@ -17,7 +17,7 @@ public class PhygitalInitializer
         using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
         {
             var context = scope.ServiceProvider.GetRequiredService<PhygitalDbContext>();
-            if (context.CreateDatabase(dropExisting: false))
+            if (context.CreateDatabase(dropExisting: true))
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -88,19 +88,23 @@ public class PhygitalInitializer
         // Filling info
         var i1 = new Text
         {
-            Content = "Deze vraag heeft betrekking op de politiek op gemeentelijk niveau"
+            Title = "Verschillende Partijen",
+            Content = "Sinds de laatste verkiezingen zijn er 7 partijen in de kamer vertegenwoordigd. Dit zijn: CD&V, Vooruit, NV-A, Groen, PVDA, Open-VLD en Vlaams Belang."
         };
         var i2 = new Text
         {
-            Content = "De volgende vragen gaan over de politieke voorkeur van mensen"
+            Title = "LGBT+",
+            Content = "Met rechten wordt het bedoeldd dat ze zelf mogen kiezen met wie ze willen trouwen en dat ze niet gediscrimineerd mogen worden."
         };
         var i3 = new Text
         {
+            Title = "PFAS",
             Content =
                 "PFAS zijn door de mens gemaakte stoffen die worden gevonden in de leefomgeving en in mensen. Ze komen in kleine hoeveelheden voor in onder andere de bodem, het oppervlaktewater en bloed van mensen. Dit komt bijvoorbeeld doordat fabrieken ze uitstoten bij productieprocessen waar deze stoffen worden gebruikt."
         };
         var i4 = new Text
         {
+            Title = "Belastingen",
             Content =
                 "De belasting op het gebruik van aardgas gaat omhoog. Dat komt door de inflatiecorrectie. Maar ook door een extra verhoging in de laagste verbruiksschijven van 2,5 cent exclusief btw per m3. Door de belasting op energie te verlagen en die op aardgas te verhogen wil de regering verduurzaming stimuleren."
         };

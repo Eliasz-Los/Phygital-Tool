@@ -4,6 +4,7 @@ using Phygital.BL;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.UI_MVC.Models.Dto;
+using Phygital.UI_MVC.Models.Dto.Infos;
 
 namespace Phygital.UI_MVC.Controllers.Api;
 
@@ -101,7 +102,7 @@ public class FlowsController : ControllerBase
     }
     
     [HttpGet("{flowId}/SubThemas")]
-    public ActionResult<IEnumerable<SubThemasDto>> GetSubThemasFlow(int flowId)
+    public ActionResult<IEnumerable<SubThemasDto>> GetSubThemasFlow(long flowId)
     {
         var flows = _flowManager.GetSubThemasFlow(flowId);
 
@@ -113,6 +114,22 @@ public class FlowsController : ControllerBase
         {
             Title = flow.Title,
             Description = flow.Description
+        }));
+    }
+
+    [HttpGet("{flowId}/TextInfos")]
+    public ActionResult<IEnumerable<TextDto>> GetTextInfosOfFlow(long flowId)
+    {
+        var texts = _flowManager.GetTextInfosOfFlowById(flowId);
+
+        if (!texts.Any())
+        {
+            return NoContent();
+        }
+        return Ok(texts.Select(text => new TextDto()
+        {
+            Title = text.Title,
+            Content = text.Content
         }));
     }
 
@@ -173,59 +190,3 @@ public class FlowsController : ControllerBase
     }
 
 }
-/*[HttpPost("{flowId}/AddAnswers")]
-public ActionResult PostAnswers(long flowId, [FromBody] List<AnswerDto> answers)
-{
-    var flow = _flowManager.GetFlowById(flowId);
-    var theme = _flowManager.GetSubThemasFlow(flowId);
-    
-    if (flow == null)
-    {
-        return NotFound($"Flow with Id: {flowId} not found");
-    }
-
-    if (!answers.Any())
-    {
-        return NoContent();
-    }
-    
-    List<Answer> answerList = new List<Answer>();
-    
-    foreach (var answerDto in answers)
-    {
-        // Retrieve the specific question using the QuestionId
-        var question = _flowManager.GetQuestionById(answerDto.QuestionId);
-
-        Answer answer = new Answer
-        {
-            Flow = flow,
-            SubTheme = theme.Single(),
-            ChosenOptions = answerDto.ChosenOptions,
-            ChosenAnswer = answerDto.ChosenAnswer
-        };
-
-        // Set the appropriate property in the Answer object
-        switch (question)
-        {
-            case OpenQuestion openQuestion:
-                answer.OpenQuestion = openQuestion;
-                break;
-            case MultipleChoice multipleChoice:
-                answer.MultipleChoice = multipleChoice;
-                break;
-            case RangeQuestion rangeQuestion:
-                answer.RangeQuestion = rangeQuestion;
-                break;
-            case SingleChoiceQuestion singleChoiceQuestion:
-                answer.SingleChoiceQuestion = singleChoiceQuestion;
-                break;
-        }
-
-        answerList.Add(answer);
-    }
-    
-    _unitOfWork.BeginTransaction();
-    _flowManager.AddAnswersToFlow(answerList); 
-    _unitOfWork.Commit();
-    return Ok();
-}*/

@@ -22,15 +22,7 @@ public class FlowRepository : IFlowRepository
     {
         return _dbContext.Flows.Find(id);
     }
-
-    public void CreateAnswer(Answer answer)
-    {
-        _dbContext.Answers.Add(answer);
-       // _dbContext.SaveChanges();
-    }
-
-
-    // scq = SingleChoiceQuestion
+    
     public IEnumerable<SingleChoiceQuestion> ReadSingleChoiceQuestionsWithOptionsOfFlowById(long flowId)
     {
         return _dbContext.SingleChoiceQuestions
@@ -112,4 +104,17 @@ public class FlowRepository : IFlowRepository
     return null;
 
     }
+    
+    public IEnumerable<Text> ReadTextInfosOfFlowById(long flowId)
+    {
+        var result = _dbContext.Texts.Where(t => t.Flow.Id == flowId).ToList();
+        return result; //flow.FlowElements.OfType<Info>();
+
+    }
+ 
+    public void CreateAnswer(Answer answer)
+    {
+        _dbContext.Answers.Add(answer);
+    }
+
 }

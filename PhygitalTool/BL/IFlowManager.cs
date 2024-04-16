@@ -18,6 +18,7 @@ public interface IFlowManager
     IEnumerable<Theme> GetAllSubThemas();
     Option GetOptionByText(string optionText);
     Question GetQuestionById(long questionId);
+    IEnumerable<Text> GetTextInfosOfFlowById(long flowId);
     void AddAnswersToFlow(List<Answer> answers);
     
 }

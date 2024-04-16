@@ -66,6 +66,11 @@ public class FlowManager : IFlowManager
         return _flowRepository.ReadQuestionById(questionId);
     }
 
+    public IEnumerable<Text> GetTextInfosOfFlowById(long flowId)
+    {
+        return _flowRepository.ReadTextInfosOfFlowById(flowId);
+    }
+
     public void AddAnswersToFlow(List<Answer> answers)
     {
         foreach (var answer in answers)

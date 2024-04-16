@@ -8,7 +8,6 @@ public interface IFlowRepository
 {
     IEnumerable<Flow> ReadAllFlows();
     Flow ReadFlowById(long id);
-    void CreateAnswer(Answer answer);
     IEnumerable<SingleChoiceQuestion> ReadSingleChoiceQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<MultipleChoice> ReadMultipleChoiceQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<RangeQuestion> ReadRangeQuestionsWithOptionsOfFlowById(long flowId);
@@ -17,4 +16,6 @@ public interface IFlowRepository
     IEnumerable<Theme> ReadAllSubThemas();
     Option ReadOptionByText(string optionText);
     Question ReadQuestionById(long questionId);
+    IEnumerable<Text> ReadTextInfosOfFlowById(long flowId);
+    void CreateAnswer(Answer answer);
 }
