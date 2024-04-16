@@ -1,6 +1,6 @@
 ﻿namespace Phygital.Domain.User;
 
-public class CustomIdentityConstraints
+public static class CustomIdentityConstraints
 {
     public const string AdminRole = "Admin";
     public const string SubAdminRole = "SubAdmin";

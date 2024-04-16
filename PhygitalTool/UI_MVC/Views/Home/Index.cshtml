@@ -47,9 +47,9 @@ information about the question list and wether the user wants to continue -->
 
 
 @* example on how to show specific information to a user based on their role *@
-@if (User.IsInRole("Admin"))
+@if (User.IsInRole("User"))
 {
-    <h1>Hi admin</h1>
+    <h1>Hi user</h1>
 } else
 {
     <h1>Hi everyone else</h1>

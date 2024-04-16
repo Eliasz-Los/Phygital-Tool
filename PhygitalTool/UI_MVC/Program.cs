@@ -75,19 +75,6 @@ var app = builder.Build();
 
 PhygitalInitializer.InitializeDatabaseAndSeedData(app.Services);
 
-// using (var scope = app.Services.CreateScope())
-// {
-//     var context = scope.ServiceProvider.GetRequiredService<PhygitalDbContext>();
-//     if (context.CreateDatabase(dropExisting: true))
-//     {
-//         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-//         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-//
-//         DataSeeder.SeedIdentity(userManager, roleManager);
-//         DataSeeder.Seed(context);
-//     }
-// }
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

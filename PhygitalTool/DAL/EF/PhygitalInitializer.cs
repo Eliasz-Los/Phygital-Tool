@@ -11,25 +11,6 @@ namespace Phygital.DAL.EF;
 public class PhygitalInitializer
 {
     private static bool _hasBeenInitialized = false;
-
-    // Initializing database
-    // public static void Initialize(PhygitalDbContext context, bool dropDatabase = false)
-    // {
-    //     if (!_hasBeenInitialized)
-    //     {
-    //         if (dropDatabase)
-    //         {
-    //             context.Database.EnsureDeleted();
-    //         }
-    //
-    //         if (context.Database.EnsureCreated())
-    //         {
-    //             Seed(context);
-    //         }
-    //
-    //         _hasBeenInitialized = true;
-    //     }
-    // }
     
     public static void InitializeDatabaseAndSeedData(IServiceProvider serviceProvider)
     {
@@ -40,9 +21,9 @@ public class PhygitalInitializer
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-                SeedIdentity(userManager, roleManager);
+                
                 Seed(context);
+                SeedIdentity(userManager, roleManager);
             }
         }
     }
@@ -417,59 +398,57 @@ public class PhygitalInitializer
         {
             Name = CustomIdentityConstraints.AdminRole
         };
-        roleManager.CreateAsync(adminRole).Wait();
+        roleManager.CreateAsync(adminRole);
 
         var subAdminRole = new IdentityRole
         {
             Name = CustomIdentityConstraints.SubAdminRole
         };
-        roleManager.CreateAsync(subAdminRole).Wait();
+        roleManager.CreateAsync(subAdminRole);
 
         var supervisorRole = new IdentityRole
         {
             Name = CustomIdentityConstraints.SupervisorRole
         };
-        roleManager.CreateAsync(supervisorRole).Wait();
+        roleManager.CreateAsync(supervisorRole);
 
         var userRole = new IdentityRole
         {
             Name = CustomIdentityConstraints.UserRole
         };
-        roleManager.CreateAsync(userRole).Wait();
+        roleManager.CreateAsync(userRole);
 
-        // hardcoded users
+        // hardcoded users implentation and assignment of a role
         var adminPhygital = new IdentityUser
         {
             Email = "admin@phygital.be",
             UserName = "admin", EmailConfirmed = true
         };
-        userManager.CreateAsync(adminPhygital, "admin").Wait();
+        userManager.CreateAsync(adminPhygital, "admin");
+        userManager.AddToRoleAsync(adminPhygital, CustomIdentityConstraints.AdminRole);
 
         var subAdmin = new IdentityUser
         {
             Email = "subadmin@phygital.be",
             UserName = "subadmin", EmailConfirmed = true
         };
-        userManager.CreateAsync(subAdmin, "subAdmin").Wait();
+        userManager.CreateAsync(subAdmin, "subAdmin");
+        userManager.AddToRoleAsync(subAdmin, CustomIdentityConstraints.SubAdminRole);
 
         var supervisor = new IdentityUser
         {
             Email = "supervisor@phygital.be",
             UserName = "supervisor", EmailConfirmed = true
         };
-        userManager.CreateAsync(supervisor, "supervisor").Wait();
+        userManager.CreateAsync(supervisor, "supervisor");
+        userManager.AddToRoleAsync(supervisor, CustomIdentityConstraints.SupervisorRole);
 
         var user = new IdentityUser
         {
             Email = "user@phygital.be",
             UserName = "user", EmailConfirmed = true
         };
-        userManager.CreateAsync(user, "user").Wait();
-
-        // assign hardcoded users to a role
-        userManager.AddToRoleAsync(adminPhygital, CustomIdentityConstraints.AdminRole).Wait();
-        userManager.AddToRoleAsync(subAdmin, CustomIdentityConstraints.SubAdminRole).Wait();
-        userManager.AddToRoleAsync(supervisor, CustomIdentityConstraints.SupervisorRole).Wait();
-        userManager.AddToRoleAsync(user, CustomIdentityConstraints.UserRole).Wait();
+        userManager.CreateAsync(user, "user");
+        userManager.AddToRoleAsync(user, CustomIdentityConstraints.UserRole);
     }
 }
