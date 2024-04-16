@@ -17,7 +17,7 @@ public class PhygitalInitializer
         using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
         {
             var context = scope.ServiceProvider.GetRequiredService<PhygitalDbContext>();
-            if (context.CreateDatabase(dropExisting: true))
+            if (context.CreateDatabase(dropExisting: false))
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -391,7 +391,7 @@ public class PhygitalInitializer
         context.ChangeTracker.Clear();
     }
     
-    public static void SeedIdentity(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+    private static void SeedIdentity(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         // all role types
         var adminRole = new IdentityRole
@@ -424,7 +424,7 @@ public class PhygitalInitializer
             Email = "admin@phygital.be",
             UserName = "admin", EmailConfirmed = true
         };
-        userManager.CreateAsync(adminPhygital, "admin");
+        userManager.CreateAsync(adminPhygital, "Admin@01");
         userManager.AddToRoleAsync(adminPhygital, CustomIdentityConstraints.AdminRole);
 
         var subAdmin = new IdentityUser
@@ -432,7 +432,7 @@ public class PhygitalInitializer
             Email = "subadmin@phygital.be",
             UserName = "subadmin", EmailConfirmed = true
         };
-        userManager.CreateAsync(subAdmin, "subAdmin");
+        userManager.CreateAsync(subAdmin, "SubAdmin@01");
         userManager.AddToRoleAsync(subAdmin, CustomIdentityConstraints.SubAdminRole);
 
         var supervisor = new IdentityUser
@@ -440,7 +440,7 @@ public class PhygitalInitializer
             Email = "supervisor@phygital.be",
             UserName = "supervisor", EmailConfirmed = true
         };
-        userManager.CreateAsync(supervisor, "supervisor");
+        userManager.CreateAsync(supervisor, "Supervisor@01");
         userManager.AddToRoleAsync(supervisor, CustomIdentityConstraints.SupervisorRole);
 
         var user = new IdentityUser
@@ -448,7 +448,7 @@ public class PhygitalInitializer
             Email = "user@phygital.be",
             UserName = "user", EmailConfirmed = true
         };
-        userManager.CreateAsync(user, "user");
+        userManager.CreateAsync(user, "User@01");
         userManager.AddToRoleAsync(user, CustomIdentityConstraints.UserRole);
     }
 }
