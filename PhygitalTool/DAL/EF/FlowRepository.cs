@@ -72,4 +72,39 @@ public class FlowRepository : IFlowRepository
     {
         return _dbContext.Options.FirstOrDefault(o => o.OptionText.ToLower().Equals(optionText.ToLower()));
     }
+
+    public Question ReadQuestionById(long questionId)
+    {
+    // Try to find the question in OpenQuestions
+    var openQuestion = _dbContext.OpenQuestions.Find(questionId);
+    if (openQuestion != null)
+    {
+        return openQuestion;
+    }
+
+    // Try to find the question in SingleChoiceQuestions
+    var singleChoiceQuestion = _dbContext.SingleChoiceQuestions.Find(questionId);
+    if (singleChoiceQuestion != null)
+    {
+        return singleChoiceQuestion;
+    }
+
+    // Try to find the question in MultipleChoices
+    var multipleChoiceQuestion = _dbContext.MultipleChoices.Find(questionId);
+    if (multipleChoiceQuestion != null)
+    {
+        return multipleChoiceQuestion;
+    }
+
+    // Try to find the question in RangeQuestions
+    var rangeQuestion = _dbContext.RangeQuestions.Find(questionId);
+    if (rangeQuestion != null)
+    {
+        return rangeQuestion;
+    }
+
+    // If the question was not found in any of the tables, return null
+    return null;
+
+    }
 }

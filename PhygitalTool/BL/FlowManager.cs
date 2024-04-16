@@ -56,6 +56,11 @@ public class FlowManager : IFlowManager
         return _flowRepository.ReadOptionByText(optionText);
     }
 
+    public Question GetQuestionById(long questionId)
+    {
+        return _flowRepository.ReadQuestionById(questionId);
+    }
+
     public void AddAnswersToFlow(List<Answer> answers)
     {
         foreach (var answer in answers)

@@ -222,7 +222,8 @@ function getAnswers() {
 
     carouselItems.forEach((item, index) => {
         const questionText = item.querySelector('.card-title').textContent;
-        const answer = { question: questionText, chosenOptions: [], openAnswer: '' };
+        const questionId = item.getAttribute('data-card-id');
+        const answer = { question: questionText, chosenOptions: [], openAnswer: '', id : questionId};
 
         const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
         if (checkboxes.length > 0) {
@@ -263,7 +264,8 @@ function commitAnswer() {
         Flow: {Id: flowId}, // Send Flow as an object with an Id property, ik gebruik id om dan die flow uit te krijgen
         subTheme: {Title: "test"},  // Send SubTheme as an object with a Title property, gebruik ik nie echt
         chosenOptions: answer.chosenOptions.map(option => ({OptionText: option})),   // Send each option as an object with an OptionText property
-        chosenAnswer: answer.openAnswer
+        chosenAnswer: answer.openAnswer, 
+        questionId: answer.id
     }));
     
     fetch(`/api/flows/${flowId}/AddAnswers`, {
