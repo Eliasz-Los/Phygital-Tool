@@ -60,29 +60,58 @@ function fillSubthemesSelect() {
         });
 }
 
+
+
+// Function to retrieve selected themes when the button is clicked
+function getSelectedThemes() {
+    const selectElement = document.querySelector("#SubthemaTable");
+    let selectedThemes = [];
+    
+    selectElement.querySelectorAll('option').forEach(option => {
+        if (option.selected) {
+            selectedThemes.push(option.value);
+        }
+    });
+    
+    console.log("Selected Themes:", selectedThemes);
+    return selectedThemes;
+}
+
+
+function getName() {
+    const nameBox = document.querySelector("#nameBox");
+    const name = nameBox.value;
+    return name;
+}
+
+function getMainTheme() {
+    const themeBox = document.querySelector("#ThemaSelect");
+    const mainTheme = themeBox.value;
+    return themeBox;
+}
+
+
 function createProject() {
-    const answers  = getAnswers();
-    const answerObject = answers.map(answer =>({
-        Flow: {Id: flowId}, // Send Flow as an object with an Id property
-        subTheme: {Title: "test"},  // Send SubTheme as an object with a Title property
-        chosenOptions: answer.chosenOptions.map(option => ({OptionText: option})),   // Send each option as an object with an OptionText property
-        chosenAnswer: answer.openAnswer
-    }));
+    const projectModel = {
+        name: getName(), // retrieve name
+        mainTheme: getMainTheme(), // retrieve main theme 
+        subThemes: getSelectedThemes()   // retrieve selected themes
+    };
 
     fetch(`/api/projects/AddProject`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(answerObject)
+        body: JSON.stringify(projectModel)
     })
         .then(response => {
             console.log("response: ", response )
-            console.log("answerObject: ", answerObject)
+            console.log("answerObject: ", projectModel)
             if (response.ok) {
                 console.log("Project werd gecreeerd: ", response)
             } else{
-                alert("Problem with commiting answers: " + JSON.stringify(answerObject))
+                alert("Problem with creating project: " + JSON.stringify(projectModel))
             }
         })
         .catch(error => {

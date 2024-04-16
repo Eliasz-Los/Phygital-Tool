@@ -38,8 +38,12 @@ public class ProjectsController : ControllerBase
     }
     
     [HttpPost("AddProject")]
-    public ActionResult PostProject(String name, SubThemasDto mainTheme,[FromBody] List<SubThemasDto> themas)
+    public ActionResult PostProject([FromBody] ProjectCreationModel model)
     {
+        string name = model.Name;
+        SubThemasDto mainTheme = model.MainTheme;
+        List<SubThemasDto> themas = model.Themas;
+        
         // ThemeDTO convert to thema (mogelijks belachelijk)
         Theme theme = new Theme
         {
