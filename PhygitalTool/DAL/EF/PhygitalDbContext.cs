@@ -36,7 +36,6 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
 
     public PhygitalDbContext(DbContextOptions options) : base(options)
     {
-        // PhygitalInitializer.Initialize(this, true);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
