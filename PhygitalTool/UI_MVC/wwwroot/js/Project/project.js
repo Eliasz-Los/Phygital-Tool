@@ -52,7 +52,7 @@ function fillSubthemesSelect() {
             let bodyData = ``;
             for (const subThema of subThemas) {
                 bodyData += `
-                        <option value="${subThema.id}">${subThema.title}</option>
+                        <option value="${subThema.title}">${subThema.title}</option>
                         `
             }
             output.innerHTML += bodyData;
@@ -86,9 +86,18 @@ function getName() {
 }
 
 function getMainTheme() {
-    const themeBox = document.querySelector("#ThemaSelect");
-    const selectedOption = themeBox.options[themeBox.selectedIndex];
-    return selectedOption.value;
+    const selectElement = document.querySelector("#ThemaSelect");
+    const selectedIndex = selectElement.selectedIndex;
+
+    if (selectedIndex !== -1) {
+        const selectedOption = selectElement.options[selectedIndex];
+        const selectedTheme = selectedOption.value;
+        console.log("Selected Theme:", selectedTheme);
+        return selectedTheme;
+    } else {
+        console.log("No theme selected");
+        return null; // or any default value indicating no selection
+    }
 }
 
 
