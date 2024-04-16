@@ -4,7 +4,7 @@ const flowId = parseInt(flowIdElement.innerText)
 const subThemasFlowElement = document.getElementById("subThemasFlowElementId")
 const questionsElement = document.getElementById("questions")
 
-let currentQuestionNumber = 0;
+let currentQuestionNumber = 1; // null was juist te kort omdat we beginnen met 1ste vraag waardoor er 1 te kort vr progressbar
 let totalQuestions = 0;
 let firstQuestion = true;
 
@@ -33,7 +33,7 @@ function getSingleChoiceQuestionData() {
               totalQuestions +=1;
                 const isActive = firstQuestion ? 'active' : '';
                 if (firstQuestion) firstQuestion = false;
-                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${singleChoiceQuestion.sequenceNumber}">
+                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${singleChoiceQuestion.sequenceNumber}" data-card-id="${singleChoiceQuestion.id}">
             <div class="card-body">
                 <h5 class="card-title">${singleChoiceQuestion.text}</h5>
                 ${singleChoiceQuestion.options.map((option, index) => `<div class="form-check">
@@ -74,7 +74,7 @@ function getOpenQuestionsData() {
              totalQuestions +=1;
                 const isActive = firstQuestion ? 'active' : '';
                 if (firstQuestion) firstQuestion = false;
-                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${openQuestion.sequenceNumber}">
+                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${openQuestion.sequenceNumber}" data-card-id="${openQuestion.id}">
             <div class="card-body">
                 <h5 class="card-title">${openQuestion.text}</h5>
                 <div class="form-group">
@@ -115,7 +115,7 @@ function getRangeQuestionsData() {
                 if (firstQuestion) firstQuestion = false;
                 
                 let options = rangeQuestion.options.map((option,index) => `data-option-${index}="${option}"`).join('')
-                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${rangeQuestion.sequenceNumber}">
+                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${rangeQuestion.sequenceNumber}" data-card-id="${rangeQuestion.id}">
             <div class="card-body">
                 <h5 class="card-title">${rangeQuestion.text}</h5>
                 <div class="form-group">
@@ -154,7 +154,7 @@ function getMultipleChoiceQuestionsData() {
                 totalQuestions +=1;
                 const isActive = firstQuestion ? 'active' : '';
                 if (firstQuestion) firstQuestion = false;
-                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${multipleChoiceQuestion.sequenceNumber}">
+                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${multipleChoiceQuestion.sequenceNumber}" data-card-id="${multipleChoiceQuestion.id}">
             <div class="card-body">
                 <h5 class="card-title">${multipleChoiceQuestion.text}</h5>
                 ${multipleChoiceQuestion.options.map(option => `<div class="form-check">
@@ -275,9 +275,9 @@ function commitAnswer() {
     })
         .then(response => {
             if (response.ok) {
-                console.log("Objecten answers gecreeerd: ", response)
+                console.log("answers objecten werden gecreeerd: \n", response)
             } else{
-                alert("Problem with commiting answers: " + JSON.stringify(answerObject))                
+                alert("Problem with commiting answers: \n" + JSON.stringify(answerObject))                
             }
         })
         .catch(error => {
@@ -285,8 +285,8 @@ function commitAnswer() {
         });
 }
 
-function InitializeFlow() {
-    Promise.all([
+async function InitializeFlow() {
+   await Promise.all([
         getSingleChoiceQuestionData(),
         getOpenQuestionsData(),
         getRangeQuestionsData(),
@@ -311,7 +311,16 @@ function InitializeFlow() {
         });
     });
 }
+/*// Fetch the questions
+const questions = await fetchQuestions();
 
+// Sort the questions by sequence number
+questions.sort((a, b) => a.sequenceNumber - b.sequenceNumber);
+
+// Add the questions to the DOM
+questions.forEach(question => {
+    addQuestionToDOM(question);
+});*/
 
 InitializeFlow();
 getSubThemasData();

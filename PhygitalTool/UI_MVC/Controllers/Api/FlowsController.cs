@@ -32,6 +32,7 @@ public class FlowsController : ControllerBase
     
         return Ok(scq.Select(scq => new SingleChoiceQuestionDto()
         {
+            Id = scq.Id,
             Text = scq.Text,
             SequenceNumber = scq.SequenceNumber,
             Active = scq.Active,
@@ -51,6 +52,7 @@ public class FlowsController : ControllerBase
     
         return Ok(mcq.Select(mcq => new MultipleChoiceQuestionDto()
         {
+            Id = mcq.Id,
             Text = mcq.Text,
             SequenceNumber = mcq.SequenceNumber,
             Active = mcq.Active,
@@ -70,6 +72,7 @@ public class FlowsController : ControllerBase
     
         return Ok(rq.Select(rq => new RangeQuestionDto()
         {
+            Id = rq.Id,
             Text = rq.Text,
             SequenceNumber = rq.SequenceNumber,
             Active = rq.Active,
@@ -89,6 +92,7 @@ public class FlowsController : ControllerBase
     
         return Ok(oq.Select(oq => new OpenQuestionDto()
         {
+            Id = oq.Id,
             Text = oq.Text,
             SequenceNumber = oq.SequenceNumber,
             Active = oq.Active,

@@ -51,7 +51,7 @@ public class PhygitalDbContext : DbContext
         modelBuilder.Entity<Option>().ToTable("Options").HasIndex(option => option.Id).IsUnique();
         
         //flowelement, info and Question is abstract
-        modelBuilder.Entity<FlowElement>().ToTable("FlowElement");
+        modelBuilder.Entity<FlowElement>().ToTable("FlowElement").HasKey(fe => fe.Id);
         modelBuilder.Entity<Info>().ToTable("Infos").HasBaseType<FlowElement>();
         modelBuilder.Entity<Video>().ToTable("Videos").HasBaseType<Info>();
         modelBuilder.Entity<Image>().ToTable("Images").HasBaseType<Info>();
