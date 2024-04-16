@@ -1,9 +1,4 @@
-﻿
-<div class="text-center">
-    <h1>Phygital tool</h1>
-    
-</div>
-<!-- This is the default page the user will see when they go to the phygital tool. This page displays 
+﻿<!-- This is the default page the user will see when they go to the phygital tool. This page displays 
 information about the question list and wether the user wants to continue -->
 @using System.Security.Cryptography
 @using Microsoft.AspNetCore.Identity
@@ -12,37 +7,10 @@ information about the question list and wether the user wants to continue -->
 
 @{
     ViewData["Title"] = "Home";
-    var user = await UserManager.GetUserAsync(User);
-    var roles = await UserManager.GetRolesAsync(user);
 }
 
-
-@* example on how to show specific information to a user based on their role *@
-@{
-    if (User.IsInRole(String.Empty))
-    {
-        <p>Druk op de knop "ga verder" om in te loggen.</p>
-        <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Login">Ga verder</a>
-    }
-    @* if (User.IsInRole("Admin")) *@
-    @* { *@
-    @*     <h2>Hi admin</h2> *@
-    @* } *@
-    @* else if (User.IsInRole("SubAdmin")) *@
-    @* { *@
-    @*     <h2>hi subadmin</h2> *@
-    @* } *@
-    @* else if (User.IsInRole("Supervisor")) *@
-    @* { *@
-    @*     <h2>Hi supervisor</h2> *@
-    @* } *@
-    @* else if (User.IsInRole("User")) *@
-    @* { *@
-    @*     <h2>Hi user</h2> *@
-    @* } *@
-    @* else *@
-    @* { *@
-    @*     <p>Druk op de knop "ga verder" om in te loggen.</p> *@
-    @*     <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Login">Ga verder</a> *@
-    @* } *@
-}
+<div class="text-center">
+    <h1>Phygital tool</h1>
+    <p>Druk op de knop "ga verder" om in te loggen.</p>
+    <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Login">Ga verder</a>
+</div>
