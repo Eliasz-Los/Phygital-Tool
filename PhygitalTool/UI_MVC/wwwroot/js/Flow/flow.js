@@ -4,9 +4,12 @@ const flowId = parseInt(flowIdElement.innerText)
 const subThemasFlowElement = document.getElementById("subThemasFlowElementId")
 const questionsElement = document.getElementById("questions")
 
-let currentQuestionNumber = 0;
+let currentQuestionNumber = 1; // null was juist te kort omdat we beginnen met 1ste vraag waardoor er 1 te kort vr progressbar
 let totalQuestions = 0;
 let firstQuestion = true;
+
+const btnNext = document.getElementById("nextBtn");
+const btnPrev = document.getElementById("prevBtn");
 
 function getSingleChoiceQuestionData() {
     fetch(`/api/flows/${flowId}/SingleChoiceQuestions`,
@@ -25,13 +28,12 @@ function getSingleChoiceQuestionData() {
         })
         .then(singleChoiceQuestions => {
             let bodyData = ``;
-            //totalQuestions += singleChoiceQuestions.length;
             for (let i = 0; i < singleChoiceQuestions.length; i++) {
                 const singleChoiceQuestion = singleChoiceQuestions[i];
               totalQuestions +=1;
                 const isActive = firstQuestion ? 'active' : '';
                 if (firstQuestion) firstQuestion = false;
-                bodyData += `<div class="carousel-item ${isActive}">
+                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${singleChoiceQuestion.sequenceNumber}" data-card-id="${singleChoiceQuestion.id}">
             <div class="card-body">
                 <h5 class="card-title">${singleChoiceQuestion.text}</h5>
                 ${singleChoiceQuestion.options.map((option, index) => `<div class="form-check">
@@ -67,13 +69,12 @@ function getOpenQuestionsData() {
         })
         .then(openQuestions => {
             let bodyData = ``;
-           // totalQuestions += openQuestions.length;
             for (let i = 0; i < openQuestions.length; i++) {
                 const openQuestion = openQuestions[i];
              totalQuestions +=1;
                 const isActive = firstQuestion ? 'active' : '';
                 if (firstQuestion) firstQuestion = false;
-                bodyData += `<div class="carousel-item ${isActive}">
+                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${openQuestion.sequenceNumber}" data-card-id="${openQuestion.id}">
             <div class="card-body">
                 <h5 class="card-title">${openQuestion.text}</h5>
                 <div class="form-group">
@@ -114,7 +115,7 @@ function getRangeQuestionsData() {
                 if (firstQuestion) firstQuestion = false;
                 
                 let options = rangeQuestion.options.map((option,index) => `data-option-${index}="${option}"`).join('')
-                bodyData += `<div class="carousel-item ${isActive}">
+                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${rangeQuestion.sequenceNumber}" data-card-id="${rangeQuestion.id}">
             <div class="card-body">
                 <h5 class="card-title">${rangeQuestion.text}</h5>
                 <div class="form-group">
@@ -153,7 +154,7 @@ function getMultipleChoiceQuestionsData() {
                 totalQuestions +=1;
                 const isActive = firstQuestion ? 'active' : '';
                 if (firstQuestion) firstQuestion = false;
-                bodyData += `<div class="carousel-item ${isActive}">
+                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${multipleChoiceQuestion.sequenceNumber}" data-card-id="${multipleChoiceQuestion.id}">
             <div class="card-body">
                 <h5 class="card-title">${multipleChoiceQuestion.text}</h5>
                 ${multipleChoiceQuestion.options.map(option => `<div class="form-check">
@@ -200,14 +201,13 @@ function getSubThemasData() {
             subThemasFlowElement.innerHTML = bodyData
         })
 }
+
 function updateLabel(rangeInput, labelId) {
     let label = document.getElementById(labelId);
     let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
     label.textContent = optionText;
 }
 
-const btnNext = document.getElementById("nextBtn");
-const btnPrev = document.getElementById("prevBtn");
 function updateProgressBar() {
     let progressPerc = 100 * (currentQuestionNumber / totalQuestions) ;
     let progressBar = document.getElementById("progressBar");
@@ -222,27 +222,22 @@ function getAnswers() {
 
     carouselItems.forEach((item, index) => {
         const questionText = item.querySelector('.card-title').textContent;
-        const answer = { question: questionText, chosenOptions: [], openAnswer: '' };
+        const questionId = item.getAttribute('data-card-id');
+        const answer = { question: questionText, chosenOptions: [], openAnswer: '', id : questionId};
 
-        // Check if it's a multiple choice question
         const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
-        console.log('checkboxes: ', checkboxes);
         if (checkboxes.length > 0) {
             checkboxes.forEach(checkbox => {
                 answer.chosenOptions.push(checkbox.id);
             });
         }
 
-        // Check if it's an open question
         const textarea = item.querySelector('textarea');
-        console.log('textarea: ', textarea);
         if (textarea) {
             answer.openAnswer = textarea.value;
         }
 
-        // Check if it's a single choice question
         const radioButtons = item.querySelectorAll('input[type="radio"]:checked');
-        console.log('radioButtons: ', radioButtons);
         if (radioButtons.length > 0) {
             radioButtons.forEach(radioButton => {
                 if (radioButton.checked) {
@@ -251,11 +246,10 @@ function getAnswers() {
             });
         }
 
-        // Check if it's a range question
         const rangeInput = item.querySelector('input[type="range"]');
-        console.log('rangeInput: ', rangeInput);
         if (rangeInput) {
-            answer.chosenOptions.push(rangeInput.value);
+            let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
+            answer.chosenOptions.push(optionText);
         }
         console.log('answer: ', answer);
         answers.push(answer);
@@ -263,13 +257,15 @@ function getAnswers() {
 
     return answers;
 }
+
 function commitAnswer() {
     const answers  = getAnswers();
     const answerObject = answers.map(answer =>({
-        Flow: {Id: flowId}, // Send Flow as an object with an Id property
-        subTheme: {Title: "test"},  // Send SubTheme as an object with a Title property
+        Flow: {Id: flowId}, // Send Flow as an object with an Id property, ik gebruik id om dan die flow uit te krijgen
+        subTheme: {Title: "test"},  // Send SubTheme as an object with a Title property, gebruik ik nie echt
         chosenOptions: answer.chosenOptions.map(option => ({OptionText: option})),   // Send each option as an object with an OptionText property
-        chosenAnswer: answer.openAnswer
+        chosenAnswer: answer.openAnswer, 
+        questionId: answer.id
     }));
     
     fetch(`/api/flows/${flowId}/AddAnswers`, {
@@ -280,12 +276,10 @@ function commitAnswer() {
         body: JSON.stringify(answerObject)
     })
         .then(response => {
-            console.log("response: ", response )
-            console.log("answerObject: ", answerObject)
             if (response.ok) {
-                console.log("Objecten answers gecreeerd: ", response)
+                console.log("answers objecten werden gecreeerd: \n", response)
             } else{
-                alert("Problem with commiting answers: " + JSON.stringify(answerObject))                
+                alert("Problem with commiting answers: \n" + JSON.stringify(answerObject))                
             }
         })
         .catch(error => {
@@ -293,33 +287,43 @@ function commitAnswer() {
         });
 }
 
+async function InitializeFlow() {
+   await Promise.all([
+        getSingleChoiceQuestionData(),
+        getOpenQuestionsData(),
+        getRangeQuestionsData(),
+        getMultipleChoiceQuestionsData()
+    ]).then(() => {
+        
+        var carousel = new bootstrap.Carousel(document.getElementById('carouselExampleControls'), {
+            interval: false,
+            wrap: true
+        });
 
-/*zo ladt openquestions eerst omdat er minder data is dan bij singel dus ik heb get wat ander gedaan*/
-//tis hier ook zo zodat we die carousel code nie 4x moeten schrijven per question type
-Promise.all([
-    getSingleChoiceQuestionData(),
-    getOpenQuestionsData(),
-    getRangeQuestionsData(),
-    getMultipleChoiceQuestionsData()
-]).then(() => {
-    // Initialize the carousel after all questions have been loaded
-    var carousel = new bootstrap.Carousel(document.getElementById('carouselExampleControls'), {
-        interval: false,
-        wrap: true
-    });
-    
-    btnNext.addEventListener("click", function() {
-        currentQuestionNumber++;
-        updateProgressBar();
-    });
+        btnNext.addEventListener("click", function() {
+            currentQuestionNumber++;
+            updateProgressBar();
+        });
 
-    btnPrev.addEventListener("click", function() {
-        if (currentQuestionNumber > 0) {
-            currentQuestionNumber--;
-        }
-        updateProgressBar();
+        btnPrev.addEventListener("click", function() {
+            if (currentQuestionNumber > 0) {
+                currentQuestionNumber--;
+            }
+            updateProgressBar();
+        });
     });
-});
+}
+/*// Fetch the questions
+const questions = await fetchQuestions();
 
+// Sort the questions by sequence number
+questions.sort((a, b) => a.sequenceNumber - b.sequenceNumber);
+
+// Add the questions to the DOM
+questions.forEach(question => {
+    addQuestionToDOM(question);
+});*/
+
+InitializeFlow();
 getSubThemasData();
 addButton.addEventListener("click", commitAnswer);

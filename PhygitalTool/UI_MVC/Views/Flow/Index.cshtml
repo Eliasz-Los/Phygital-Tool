@@ -8,14 +8,14 @@
 
 <!-- This page displays the flowtypes a user can choose from when starting the application -->
 
-<h2>Welcome here is info</h2>
-<div id="subThemasFlowElementId">
-    </div>
+<h2>Hier zijn meerdere flow keuzes</h2>
+<p>Hieronder vindt u de thema's en informatie over flow</p>
+<div id="subThemasFlowElementId"></div>
 
 <table class="table">
     <thead>
     <tr>
-        <th>id</th><th>type</th>
+        <th>id</th><th>type</th><th>Actief</th><th>Thema</th>
     </tr>
     </thead>
     @{
@@ -24,7 +24,9 @@
             <tr>
                 <td id="flowId">@flow.Id</td>
                 <td>@flow.FlowType</td>
-                <td><a  asp-controller="Flow" asp-action="Details" asp-route-id="@flow.Id" class="btn btn-warning">Continue</a></td>
+                <td>@flow.IsOpen</td>
+                <td>@flow.Theme.Title</td>
+                <td><a  asp-controller="Flow" asp-action="Details" asp-route-id="@flow.Id" class="btn btn-warning">Er aan beginnen!</a></td>
             </tr>
         }
     }

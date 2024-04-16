@@ -16,4 +16,5 @@ public interface IFlowRepository
     IEnumerable<Theme> ReadSubThemasFlow(long flowId);
     IEnumerable<Theme> ReadAllSubThemas();
     Option ReadOptionByText(string optionText);
+    Question ReadQuestionById(long questionId);
 }

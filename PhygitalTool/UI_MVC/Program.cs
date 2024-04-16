@@ -91,3 +91,8 @@ app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Inde
 app.MapRazorPages();
 app.Run();
 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();

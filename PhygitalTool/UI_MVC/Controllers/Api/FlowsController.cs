@@ -14,9 +14,10 @@ public class FlowsController : ControllerBase
     private readonly IFlowManager _flowManager;
     private readonly UnitOfWork _unitOfWork;
     
-    public FlowsController(IFlowManager flowManager)
+    public FlowsController(IFlowManager flowManager, UnitOfWork unitOfWork)
     {
         _flowManager = flowManager;
+        _unitOfWork = unitOfWork;
     }
     
     [HttpGet("{flowId}/SingleChoiceQuestions")]
@@ -31,6 +32,7 @@ public class FlowsController : ControllerBase
     
         return Ok(scq.Select(scq => new SingleChoiceQuestionDto()
         {
+            Id = scq.Id,
             Text = scq.Text,
             SequenceNumber = scq.SequenceNumber,
             Active = scq.Active,
@@ -50,6 +52,7 @@ public class FlowsController : ControllerBase
     
         return Ok(mcq.Select(mcq => new MultipleChoiceQuestionDto()
         {
+            Id = mcq.Id,
             Text = mcq.Text,
             SequenceNumber = mcq.SequenceNumber,
             Active = mcq.Active,
@@ -69,6 +72,7 @@ public class FlowsController : ControllerBase
     
         return Ok(rq.Select(rq => new RangeQuestionDto()
         {
+            Id = rq.Id,
             Text = rq.Text,
             SequenceNumber = rq.SequenceNumber,
             Active = rq.Active,
@@ -88,6 +92,7 @@ public class FlowsController : ControllerBase
     
         return Ok(oq.Select(oq => new OpenQuestionDto()
         {
+            Id = oq.Id,
             Text = oq.Text,
             SequenceNumber = oq.SequenceNumber,
             Active = oq.Active,
@@ -119,38 +124,108 @@ public class FlowsController : ControllerBase
         
         if (flow == null)
         {
-            return NotFound("Flow not found");
+            return NotFound($"Flow with Id: {flowId} not found");
         }
 
         if (!answers.Any())
         {
             return NoContent();
         }
-
-        List<ICollection<Option>> chosenOptionsList = new List<ICollection<Option>>();
-        List<string> chosenAnswers = new List<string>();
-
+        
+        List<Answer> answerList = new List<Answer>();
+        
         foreach (var answerDto in answers)
         {
-            //|| answerDto.SubTheme == null
-            // if (string.IsNullOrEmpty(answerDto.ChosenAnswer) && answerDto.ChosenOptions.Count == 0 ) 
-            // {
-            //     return BadRequest($"Invalid answer(s){answerDto.ChosenAnswer}, {answerDto.ChosenOptions} or Subtheme");
-            // }
-
-            chosenOptionsList.Add(answerDto.ChosenOptions.Select(option =>
+            var question = _flowManager.GetQuestionById(answerDto.QuestionId);
+           
+            Answer answer = new Answer
             {
-                var optionEnt = _flowManager.GetOptionByText(option.OptionText);
-                //soms is er geen antwoord gegeven van de user, dan is optionEnt null
-                return new Option { OptionText = optionEnt != null ? optionEnt.OptionText : option.OptionText };
-            }).ToList());
-
-            chosenAnswers.Add(answerDto.ChosenAnswer);
+                //kan nog aangepast worden
+                Flow = flow,
+                SubTheme = theme.Single(),
+                ChosenOptions = answerDto.ChosenOptions,
+                ChosenAnswer = answerDto.ChosenAnswer
+            };
+            
+            switch (question)
+            {
+                case OpenQuestion openQuestion:
+                    answer.OpenQuestion = openQuestion;
+                    break;
+                case MultipleChoice multipleChoice:
+                    answer.MultipleChoice = multipleChoice;
+                    break;
+                case RangeQuestion rangeQuestion:
+                    answer.RangeQuestion = rangeQuestion;
+                    break;
+                case SingleChoiceQuestion singleChoiceQuestion:
+                    answer.SingleChoiceQuestion = singleChoiceQuestion;
+                    break;
+            }
+            
+            answerList.Add(answer);
         }
-
-        _flowManager.AddAnswersToFlow(flow, chosenOptionsList, chosenAnswers,theme.Single() ); //answers[0].SubTheme
-
+        
+        _unitOfWork.BeginTransaction();
+        _flowManager.AddAnswersToFlow(answerList); 
+        _unitOfWork.Commit();
         return Ok();
     }
 
 }
+/*[HttpPost("{flowId}/AddAnswers")]
+public ActionResult PostAnswers(long flowId, [FromBody] List<AnswerDto> answers)
+{
+    var flow = _flowManager.GetFlowById(flowId);
+    var theme = _flowManager.GetSubThemasFlow(flowId);
+    
+    if (flow == null)
+    {
+        return NotFound($"Flow with Id: {flowId} not found");
+    }
+
+    if (!answers.Any())
+    {
+        return NoContent();
+    }
+    
+    List<Answer> answerList = new List<Answer>();
+    
+    foreach (var answerDto in answers)
+    {
+        // Retrieve the specific question using the QuestionId
+        var question = _flowManager.GetQuestionById(answerDto.QuestionId);
+
+        Answer answer = new Answer
+        {
+            Flow = flow,
+            SubTheme = theme.Single(),
+            ChosenOptions = answerDto.ChosenOptions,
+            ChosenAnswer = answerDto.ChosenAnswer
+        };
+
+        // Set the appropriate property in the Answer object
+        switch (question)
+        {
+            case OpenQuestion openQuestion:
+                answer.OpenQuestion = openQuestion;
+                break;
+            case MultipleChoice multipleChoice:
+                answer.MultipleChoice = multipleChoice;
+                break;
+            case RangeQuestion rangeQuestion:
+                answer.RangeQuestion = rangeQuestion;
+                break;
+            case SingleChoiceQuestion singleChoiceQuestion:
+                answer.SingleChoiceQuestion = singleChoiceQuestion;
+                break;
+        }
+
+        answerList.Add(answer);
+    }
+    
+    _unitOfWork.BeginTransaction();
+    _flowManager.AddAnswersToFlow(answerList); 
+    _unitOfWork.Commit();
+    return Ok();
+}*/

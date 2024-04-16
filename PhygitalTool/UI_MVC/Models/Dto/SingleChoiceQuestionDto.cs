@@ -4,8 +4,8 @@ namespace Phygital.UI_MVC.Models.Dto;
 
 public class SingleChoiceQuestionDto
 {
-    //navigaties mogen nie in DTO's dacht ik
-    //we zetten wel die opties in string dus geen navigatie
+    public long Id { get; set; }
+    //public Theme SubTheme { get; set; }
     public string Text { get; set; }
     public bool Active { get; set; }
     public int SequenceNumber { get; set; }

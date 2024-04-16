@@ -6,11 +6,11 @@
     Layout = "_Layout";
 }
 
-<!-- This page is what the user will see when they start the desired flow, it displays the flow elements -->
-
-<h2 class="text-center">Please answer the following questions</h2>
 <div id="flowId" class="white-text">@Model.Id</div>
+<h2 class="text-center">Antwoord op volgende vragen alstublieft</h2>
+<h3 class="text-center">Hier is vervolgens informatie die u kan helpen</h3>
 
+<div id="flowInfo"></div>
 
 <div id="carouselExampleControls" class="carousel slide spacing-top" data-bs-ride="carousel">
 
@@ -23,15 +23,15 @@
 
     <div class="row">
         <div class="col text-start">
-            <button id="prevBtn" class="btn btn-warning btn-flow-details spacing-top" data-bs-target="#carouselExampleControls" data-bs-slide="prev">Previous</button>
+            <button id="prevBtn" class="btn btn-warning btn-flow-details spacing-top" data-bs-target="#carouselExampleControls" data-bs-slide="prev">Terug</button>
         </div>
         <div class="col text-end">
-            <button id="nextBtn" class="btn btn-warning btn-flow-details spacing-top" data-bs-target="#carouselExampleControls" data-bs-slide="next">Next</button>
+            <button id="nextBtn" class="btn btn-warning btn-flow-details spacing-top" data-bs-target="#carouselExampleControls" data-bs-slide="next">Verder</button>
         </div>
     </div>
 </div>
 <div class="text-center">
-        <a asp-controller="Endpage" asp-action="Index" class="btn btn-warning btn-flow-details spacing-top" id="answerFlow">Send in</a>
+        <a asp-controller="Endpage" asp-action="Index" class="btn btn-warning btn-flow-details spacing-top" id="answerFlow">Verzenden</a>
 </div>
 
 @section Scripts
