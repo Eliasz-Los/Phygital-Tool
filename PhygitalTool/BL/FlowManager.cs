@@ -80,6 +80,6 @@ public class FlowManager : IFlowManager
 
     public void AddProject(Project project)
     {
-        
+        _flowRepository.CreateProject(project);
     }
 }

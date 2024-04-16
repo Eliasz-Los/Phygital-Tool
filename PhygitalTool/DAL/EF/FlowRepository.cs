@@ -32,7 +32,7 @@ public class FlowRepository : IFlowRepository
 
     public void CreateProject(Project project)
     {
-        
+        _dbContext.Projects.Add(project);
     }
 
 

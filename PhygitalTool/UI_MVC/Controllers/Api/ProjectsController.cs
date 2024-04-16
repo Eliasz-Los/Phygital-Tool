@@ -40,20 +40,24 @@ public class ProjectsController : ControllerBase
     [HttpPost("AddProject")]
     public ActionResult PostProject(String name, SubThemasDto mainTheme,[FromBody] List<SubThemasDto> themas)
     {
-        // ThemeDTO omzetten naar een theme
+        // ThemeDTO convert to thema (mogelijks belachelijk)
         Theme theme = new Theme
         {
             Title = mainTheme.Title,
             Description = mainTheme.Description
         };
 
+        // We make a dummy flow to put into the project which contains the main theme and the subthemes (can be edited later by the user)
         Flow flow = new Flow
         {
             Theme = theme,
             FlowType = Flowtype.linear
         };
 
+        // Placeholder for subthemes
         Theme hulp = new Theme();
+        
+        // Add subthemes to the main theme
         foreach (SubThemasDto subthema in themas)
         {
             hulp.Title = subthema.Title;
@@ -61,12 +65,16 @@ public class ProjectsController : ControllerBase
             theme.SubThemas.Add(hulp);
         }
 
+        // Make the project
         Project project = new Project
         {
             Name = name
         };
         
+        // Add standard flow to project
+        project.Flows.Add(flow);
         
+        _flowManager.AddProject(project);
         return Ok();
     }
     
