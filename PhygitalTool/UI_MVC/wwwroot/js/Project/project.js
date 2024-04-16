@@ -1,4 +1,6 @@
-﻿function fillSubthemesTable() {
+﻿const addButton = document.getElementById("addButton");
+
+function fillSubthemesTable() {
     fetch(`/api/projects/subthemas`,
         {
             headers: {
@@ -64,30 +66,29 @@ function fillSubthemesSelect() {
 
 // Function to retrieve selected themes when the button is clicked
 function getSelectedThemes() {
-    const selectElement = document.querySelector("#SubthemaTable");
+    const checkboxes = document.querySelectorAll("#SubthemaTable input[type='checkbox']:checked");
     let selectedThemes = [];
-    
-    selectElement.querySelectorAll('option').forEach(option => {
-        if (option.selected) {
-            selectedThemes.push(option.value);
-        }
+
+    checkboxes.forEach(checkbox => {
+        const themeTitle = checkbox.closest('tr').querySelector('td:first-child').textContent;
+        selectedThemes.push(themeTitle);
     });
-    
+
     console.log("Selected Themes:", selectedThemes);
     return selectedThemes;
 }
 
 
+
 function getName() {
     const nameBox = document.querySelector("#nameBox");
-    const name = nameBox.value;
-    return name;
+    return nameBox.value;
 }
 
 function getMainTheme() {
     const themeBox = document.querySelector("#ThemaSelect");
-    const mainTheme = themeBox.value;
-    return themeBox;
+    const selectedOption = themeBox.options[themeBox.selectedIndex];
+    return selectedOption.value;
 }
 
 
@@ -119,5 +120,7 @@ function createProject() {
         });
 }
 
+
 fillSubthemesSelect();
 fillSubthemesTable();
+addButton.addEventListener("click",createProject);
