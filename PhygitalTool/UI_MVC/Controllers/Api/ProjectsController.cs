@@ -1,8 +1,11 @@
 ﻿using BL;
 using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
+using Phygital.Domain.Datatypes;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
+using Phygital.Domain.Subplatform;
+using Phygital.Domain.Themas;
 using Phygital.UI_MVC.Models.Dto;
 
 namespace Phygital.UI_MVC.Controllers.Api;
@@ -12,10 +15,12 @@ namespace Phygital.UI_MVC.Controllers.Api;
 public class ProjectsController : ControllerBase
 {
     private readonly IFlowManager _flowManager;
+    private readonly UnitOfWork _unitOfWork;
     
-    public ProjectsController(IFlowManager flowManager)
+    public ProjectsController(IFlowManager flowManager, UnitOfWork unitOfWork)
     {
         _flowManager = flowManager;
+        _unitOfWork = unitOfWork;
     }
     
     [HttpGet("subthemas")]
@@ -33,4 +38,54 @@ public class ProjectsController : ControllerBase
             Description = flow.Description
         }));
     }
+    
+    
+    // ID meegeven in javascript
+    [HttpPost("AddProject")]
+    public ActionResult PostProject([FromBody] ProjectCreationModel model)
+    {
+        string name = model.Name;
+        SubThemasDto mainTheme = model.MainTheme;
+        List<SubThemasDto> themas = model.Themas;
+        
+        Theme theme = new Theme
+        {
+            Title = mainTheme.Title,
+            Description = mainTheme.Description,
+            SubThemas = new List<Theme>()
+        };
+
+        // We make a dummy flow to put into the project which contains the main theme and the subthemes (can be edited later by the user)
+        Flow flow = new Flow
+        {
+            Theme = theme,
+            FlowType = Flowtype.linear
+        };
+
+        // Placeholder for subthemes
+        Theme hulp = new Theme();
+        
+        // Add subthemes to the main theme
+        foreach (SubThemasDto subthema in themas)
+        {
+            hulp.Title = subthema.Title;
+            hulp.Description = subthema.Description;
+            theme.SubThemas.Add(hulp);
+        }
+
+        // Make the project
+        Project project = new Project
+        {
+            Name = name,
+            Flows = new List<Flow>()
+        };
+        
+        // Add standard flow to project
+        _unitOfWork.BeginTransaction();
+        project.Flows.Add(flow);
+        _flowManager.AddProject(project);
+        _unitOfWork.Commit();
+        return Ok();
+    }
+    
 }
