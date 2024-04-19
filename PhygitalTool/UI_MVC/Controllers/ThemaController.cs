@@ -16,4 +16,8 @@ public class ThemaController : Controller
     {
         return View();
     }
+    public IActionResult Add()
+    {
+        return View();
+    }
 }

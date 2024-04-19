@@ -34,6 +34,8 @@ public class FlowRepository : IFlowRepository
     public void CreateProject(Project project)
     {
         _dbContext.Projects.Add(project);
+    }
+
     public void CreateTheme(Theme theme)
     {
         _dbContext.Themas.Add(theme);

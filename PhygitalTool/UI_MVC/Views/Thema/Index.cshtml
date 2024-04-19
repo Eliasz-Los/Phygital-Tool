@@ -5,36 +5,34 @@
     ViewBag.Title = "Phygital";
     Layout = "_Layout";
 }
+<div name="outerdiv" class="container-fluid">
+    <div class="text-center">
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <h5 class="mb-3">Themas</h5>
+                <table class="sttable table table-striped ">
+                    <thead class="sticky-top bg-white">
+                    <tr>
+                        <th class="col-4">Thema</th>
+                        <th class="col-4">Wijzig</th>
+                        <th class="col-4">Verwijder</th>
+                    </tr>
+                    </thead>
+                    <tbody id="SubthemaTable" class="">
 
-<!-- This page displays some elements to create a theme -->
 
-<!-- TODO: Finish Add Theme -->
-
-<div class="text-center">
-    <h3 class="align-content-center p-4">Maak nieuw thema</h3>
-    <div class="container-fluid">
-        <form class="">
-            <div class="d-flex justify-content-center">
-                <div class="col-lg-6 text-start">
-                    <label for="ThemaInput">Thema</label>
-                    <input type="text" class="form-control border border-warning mb-3" id="ThemaInput" placeholder="Naam">
-                    <label for="DescriptionArea">Beschrijving</label>
-                    <textarea class="form-control border border-warning mb-3" id="DescriptionArea"rows="5"
-                    placeholder="Beschrijving..."></textarea>
-
-                </div>
-            </div>
-            <div class="container-fluid p-2">
+                    </tbody>
+                </table>
                 <div class="row align-content-center">
                     <div class="col d-flex justify-content-end">
-                        <a onclick="history.back()" type="button" class="btn btn-warning">Annuleer</a>
+                        <a type="button" class="btn btn-warning" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </div>
                     <div class="col d-flex justify-content-start">
-                        <a type="button" class="btn btn-warning" id="submitThema" asp-area="" asp-controller="Project" asp-action="Index" >Maak thema</a>
+                        <a type="button" class="btn btn-warning" asp-area="" asp-controller="Thema" asp-action="Add">Thema aanmaken</a>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
