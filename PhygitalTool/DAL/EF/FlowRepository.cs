@@ -121,17 +121,12 @@ public class FlowRepository : IFlowRepository
     return null;
 
     }
-    
+
     public IEnumerable<Text> ReadTextInfosOfFlowById(long flowId)
     {
         var result = _dbContext.Texts.Where(t => t.Flow.Id == flowId).ToList();
         return result; //flow.FlowElements.OfType<Info>();
 
-    }
- 
-    public void CreateAnswer(Answer answer)
-    {
-        _dbContext.Answers.Add(answer);
     }
 
 }

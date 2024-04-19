@@ -21,5 +21,5 @@ public interface IFlowRepository
     Option ReadOptionByText(string optionText);
     Question ReadQuestionById(long questionId);
     IEnumerable<Text> ReadTextInfosOfFlowById(long flowId);
-    void CreateAnswer(Answer answer);
+
 }
