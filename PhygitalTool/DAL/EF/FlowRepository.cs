@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
+using Phygital.Domain.Subplatform;
 using Phygital.Domain.Themas;
 
 namespace Phygital.DAL.EF;
@@ -30,6 +31,9 @@ public class FlowRepository : IFlowRepository
        // _dbContext.SaveChanges();
     }
 
+    public void CreateProject(Project project)
+    {
+        _dbContext.Projects.Add(project);
     public void CreateTheme(Theme theme)
     {
         _dbContext.Themas.Add(theme);
@@ -121,11 +125,12 @@ public class FlowRepository : IFlowRepository
     return null;
 
     }
-    
+
     public IEnumerable<Text> ReadTextInfosOfFlowById(long flowId)
     {
         var result = _dbContext.Texts.Where(t => t.Flow.Id == flowId).ToList();
         return result; //flow.FlowElements.OfType<Info>();
 
     }
+
 }

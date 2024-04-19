@@ -17,7 +17,7 @@
                 <div class="col-lg-6">
                     <h5 class="mb-3">Project</h5>
                     <label>Naam</label>
-                    <input type="text" class="form-control border border-warning mb-3" placeholder="Name">
+                    <input type="text" class="form-control border border-warning mb-3" placeholder="Name" id="nameBox">
                     <label>Thema</label>
                     <select type="text" class="form-select border border-warning mb-3" id="ThemaSelect">
 
@@ -47,7 +47,7 @@
                         <a type="button" class="btn btn-warning">Annuleer</a>
                     </div>
                     <div class="col d-flex justify-content-start">
-                        <a type="button" class="btn btn-warning" asp-area="" asp-controller="Flow" asp-action="Index">Maak project</a>
+                        <a type="button" id="addButton" class="btn btn-warning" asp-controller="Flow" asp-action="Index">Maak project</a>
                     </div>
                 </div>
             </div>
