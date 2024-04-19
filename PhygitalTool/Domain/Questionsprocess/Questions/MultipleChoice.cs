@@ -3,9 +3,10 @@ using Phygital.Domain.Themas;
 
 namespace Phygital.Domain.Questionsprocess.Questions;
 
+//TODO: id gone want ze deriven id van question en question van flowelement in dbcontext
 public class MultipleChoice : Question
 {
-    public long Id { get; set; }
+    //public long Id { get; set; }
     public Flow Flow { get; set; }
     public Theme SubTheme { get; set; }
     public string Text { get; set; }

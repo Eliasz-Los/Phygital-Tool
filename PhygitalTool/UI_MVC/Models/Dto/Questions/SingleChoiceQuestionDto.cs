@@ -1,15 +1,13 @@
 ﻿using Phygital.Domain.Questionsprocess.Questions;
-using Phygital.Domain.Themas;
 
 namespace Phygital.UI_MVC.Models.Dto;
 
-public class RangeQuestionDto
+public class SingleChoiceQuestionDto
 {
-    public Theme SubTheme { get; set; }
-
+    public long Id { get; set; }
+    //public Theme SubTheme { get; set; }
     public string Text { get; set; }
     public bool Active { get; set; }
     public int SequenceNumber { get; set; }
-    
     public List<String> Options { get; set; }
 }

@@ -1,5 +1,6 @@
 using BL;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Phygital.BL;
 using Phygital.DAL;
 using Phygital.DAL.EF;
@@ -7,22 +8,72 @@ using Phygital.Domain.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
+    // Database connectie
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContext<PhygitalDbContext>(ob => ob.UseSqlite("Data Source = ../Data.db"));
+}
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-
 builder.Services.AddDbContext<PhygitalDbContext>();
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<PhygitalDbContext>();
 builder.Services.AddScoped<IFlowRepository, FlowRepository>();
 builder.Services.AddScoped<IFlowManager, FlowManager>();
 builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
-builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
-//AddRoles() methods
-// builder.Services.AddDefaultIdentity<IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-//     .AddRoles<IdentityRole>()
-//     .AddEntityFrameworkStores<PhygitalDbContext>();
+// identity options (optimal)
+// builder.Services.Configure<IdentityOptions>(options =>
+// {
+//     // Password settings.
+//     options.Password.RequireDigit = true;
+//     options.Password.RequireLowercase = true;
+//     options.Password.RequireNonAlphanumeric = true;
+//     options.Password.RequireUppercase = true;
+//     options.Password.RequiredLength = 6;
+//     options.Password.RequiredUniqueChars = 1;
+//
+//     // Lockout settings.
+//     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+//     options.Lockout.MaxFailedAccessAttempts = 5;
+//     options.Lockout.AllowedForNewUsers = true;
+//
+//     // User settings.
+//     options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+//     options.User.RequireUniqueEmail = false;
+// });
+
+// cookies
+// builder.Services.ConfigureApplicationCookie(cfg =>
+// {
+//     cfg.Events.OnRedirectToLogin += ctx =>
+//     {
+//         if (ctx.Request.Path.StartsWithSegments("/api"))
+//         {
+//             ctx.Response.StatusCode = 401;
+//         }
+//
+//         return Task.CompletedTask;
+//     };
+//
+//     cfg.Events.OnRedirectToAccessDenied += ctx =>
+//     {
+//         if (ctx.Request.Path.StartsWithSegments("/api"))
+//         {
+//             ctx.Response.StatusCode = 403;
+//         }
+//
+//         return Task.CompletedTask;
+//     };
+// });
 
 var app = builder.Build();
+
+PhygitalInitializer.InitializeDatabaseAndSeedData(app.Services);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -34,10 +85,11 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
+app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
+app.Run();
 
 app.MapControllerRoute(
     name: "default",

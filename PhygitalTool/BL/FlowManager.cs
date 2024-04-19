@@ -1,4 +1,5 @@
-﻿using Phygital.DAL;
+﻿using System.ComponentModel.DataAnnotations;
+using Phygital.DAL;
 using Phygital.Domain.Datatypes;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
@@ -60,21 +61,23 @@ public class FlowManager : IFlowManager
         return _flowRepository.ReadOptionByText(optionText);
     }
 
-    public void AddAnswersToFlow(Flow flow, List<ICollection<Option>> chosenOptionsList, List<string> chosenAnswers, Theme subtheme)
+    public Question GetQuestionById(long questionId)
     {
-        List<Answer> answers = new List<Answer>();
+        return _flowRepository.ReadQuestionById(questionId);
+    }
 
-        for (int i = 0; i < chosenOptionsList.Count; i++)
+    public IEnumerable<Text> GetTextInfosOfFlowById(long flowId)
+    {
+        return _flowRepository.ReadTextInfosOfFlowById(flowId);
+    }
+
+    public void AddAnswersToFlow(List<Answer> answers)
+    {
+        foreach (var answer in answers)
         {
-            Answer answer = new Answer
-            {
-                Flow = flow,
-                SubTheme = subtheme,
-                ChosenOptions = chosenOptionsList[i],
-                ChosenAnswer = chosenAnswers[i]
-            };
             _flowRepository.CreateAnswer(answer);
         }
+        
     }
     public void AddSubThema(Theme subThema)
     {

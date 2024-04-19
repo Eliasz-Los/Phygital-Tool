@@ -16,5 +16,5 @@ var dbContext = new PhygitalDbContext(builder.Options);
 var repository = new FlowRepository(dbContext);
 var manager = new FlowManager(repository);
 
-var consoleUi = new ConsoleUi(manager);
+var consoleUi = new ConsoleUi(manager, repository);
 consoleUi.Run();
