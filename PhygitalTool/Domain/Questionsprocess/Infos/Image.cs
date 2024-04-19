@@ -8,8 +8,6 @@ public class Image : Info
     public Flow Flow { get; set; }
     public Theme SubTheme { get; set; }
     public string Title { get; set; }
-
-    // TODO image zelf met een url?
-    
+    public string Url { get; set; }
     public string AltText { get; set; }
 }

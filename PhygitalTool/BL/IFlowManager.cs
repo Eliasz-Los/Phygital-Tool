@@ -25,5 +25,7 @@ public interface IFlowManager
 
     Question GetQuestionById(long questionId);
     IEnumerable<Text> GetTextInfosOfFlowById(long flowId);
+    IEnumerable<Image> GetImageInfosOfFlowById(long flowId);
+    IEnumerable<Video> GetVideoInfosOfFlowById(long flowId);
     void AddAnswersToFlow(List<Answer> answers);
 }
