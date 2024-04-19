@@ -132,6 +132,23 @@ public class FlowsController : ControllerBase
             Content = text.Content
         }));
     }
+    
+    [HttpGet("{flowId}/ImageInfos")]
+    public ActionResult<IEnumerable<ImageDto>> GetImageInfosOfFlow(long flowId)
+    {
+        var images = _flowManager.GetImageInfosOfFlowById(flowId);
+
+        if (!images.Any())
+        {
+            return NoContent();
+        }
+        return Ok(images.Select(image => new ImageDto()
+        {
+            Title = image.Title,
+            Url = image.Url,
+            AltText = image.AltText
+        }));
+    }
 
     [HttpPost("{flowId}/AddAnswers")]
     public ActionResult PostAnswers(long flowId, [FromBody] List<AnswerDto> answers)

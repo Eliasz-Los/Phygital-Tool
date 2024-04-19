@@ -109,6 +109,21 @@ public class PhygitalInitializer
                 "De belasting op het gebruik van aardgas gaat omhoog. Dat komt door de inflatiecorrectie. Maar ook door een extra verhoging in de laagste verbruiksschijven van 2,5 cent exclusief btw per m3. Door de belasting op energie te verlagen en die op aardgas te verhogen wil de regering verduurzaming stimuleren."
         };
 
+        var i5 = new Image
+        {
+            Title = "Belastingschijf",
+            Url = "~/images/belastingschijf.png",
+            AltText = "Belastingschijf van 2024"
+        };
+
+        var i6 = new Video
+        {
+            Title = "Partijen in België",
+            Url = "https://www.youtube.com/watch?v=Fq7LErJRTyo&t=24s",
+            Description =
+                "Dit video zal een korte uitleg geven over de verschillende partijen in België zodat u een beter geïnformeerde keuze kan maken."
+        };
+
         var f1 = new Flow
         {
             FlowType = Flowtype.linear,
@@ -297,6 +312,7 @@ public class PhygitalInitializer
         f1.FlowElements.Add(i2);
         f1.FlowElements.Add(i3);
         f1.FlowElements.Add(i4);
+        f1.FlowElements.Add(i5);
 
         // Adding options to the questions
         q12.Options.Add(o5);
@@ -380,7 +396,7 @@ public class PhygitalInitializer
 
         // adding FlowElements
         context.FlowElements.AddRange(new FlowElement[]
-            { q1, q2, q3, q4, q6, q7, q8, q9, q10, q11, q12, q13, q14, i1, i2, i3, i4 });
+            { q1, q2, q3, q4, q6, q7, q8, q9, q10, q11, q12, q13, q14, i1, i2, i3, i4 , i5});
         // adding options
         context.AddRange(new Option[]
         {

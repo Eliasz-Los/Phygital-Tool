@@ -8,9 +8,6 @@
 
 <div id="flowId" class="white-text">@Model.Id</div>
 <h2 class="text-center">Antwoord op volgende vragen alstublieft</h2>
-<h3 class="text-center">Hier is vervolgens informatie die u kan helpen</h3>
-
-<div id="flowInfo"></div>
 
 <div id="carouselExampleControls" class="carousel slide spacing-top" data-bs-ride="carousel">
 
@@ -33,6 +30,13 @@
 <div class="text-center">
         <a asp-controller="Endpage" asp-action="Index" class="btn btn-warning btn-flow-details spacing-top" id="answerFlow">Verzenden</a>
 </div>
+
+<h3 class="text-center spacing-top">Hier is vervolgens informatie die u kan helpen</h3>
+@*
+<div id="flowInfo" class="row spacing-top"></div>
+*@
+<div class="accordion row spacing-top" id="infoAccordion"> </div>
+
 
 @section Scripts
 {

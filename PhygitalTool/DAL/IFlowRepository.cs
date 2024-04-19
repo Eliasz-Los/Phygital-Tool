@@ -17,5 +17,9 @@ public interface IFlowRepository
     Option ReadOptionByText(string optionText);
     Question ReadQuestionById(long questionId);
     IEnumerable<Text> ReadTextInfosOfFlowById(long flowId);
+    IEnumerable<Image> ReadImageInfosOfFlowById(long flowId);
+    IEnumerable<Video> ReadVideoInfosOfFlowById(long flowId);
     void CreateAnswer(Answer answer);
+
+ 
 }
