@@ -6,8 +6,10 @@ using Microsoft.Extensions.Logging;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Session;
+using Phygital.Domain.Subplatform;
 using Phygital.Domain.Themas;
 using Phygital.Domain.User;
+using Version = Phygital.Domain.Subplatform.Version;
 
 namespace Phygital.DAL.EF;
 
@@ -30,9 +32,16 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
     public DbSet<Text> Texts { get; set; }
     public DbSet<Video> Videos { get; set; }
 
-    
+
+    // Session package
     public DbSet<Participation> Participations { get; set; }
+    
+    // Thema package
     public DbSet<Theme> Themas { get; set; }
+    
+    // Subplatform package
+    public DbSet<Project> Projects { get; set; }
+    public DbSet<Version> Versions { get; set; }
 
     public PhygitalDbContext(DbContextOptions options) : base(options)
     {
@@ -87,6 +96,12 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
         // Themes package //
         ////////////////////
         modelBuilder.Entity<Theme>().ToTable("Theme").HasIndex(thema => thema.Id).IsUnique();
+        
+        /////////////////////////
+        // Subplatform package //
+        /////////////////////////
+        modelBuilder.Entity<Project>().ToTable("Projects").HasIndex(project => project.Id).IsUnique();
+        modelBuilder.Entity<Version>().ToTable("Versions").HasIndex(version => version.Id).IsUnique();
         
         // Relations
         //one flow has many flowelements 
@@ -166,6 +181,23 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
             .WithOne(oq => oq.Answer)
             .HasForeignKey<OpenQuestion>("answerId");
 
+        
+        // Subplatform
+        modelBuilder.Entity<Project>()
+            .HasMany(p => p.Versions)
+            .WithOne(v => v.Project);
+
+        modelBuilder.Entity<Project>()
+            .HasMany<Flow>(p => p.Flows)
+            .WithOne(f => f.Project);
+
+        modelBuilder.Entity<Flow>()
+            .HasOne(f => f.Project)
+            .WithMany(p => p.Flows);
+
+        modelBuilder.Entity<Version>()
+            .HasOne(v => v.Project)
+            .WithMany(p => p.Versions);
     }
     public bool CreateDatabase(bool dropExisting = false)
     {

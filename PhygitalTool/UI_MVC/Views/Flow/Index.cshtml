@@ -8,32 +8,54 @@
 
 <!-- This page displays the flowtypes a user can choose from when starting the application -->
 
-<h2>Hier zijn meerdere flow keuzes</h2>
-<p>Hieronder vindt u de thema's en informatie over flow</p>
-<div id="subThemasFlowElementId"></div>
+@if (User.IsInRole("Supervisor"))
+{
+    <div class="row">
+        <h1>Flows</h1>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>id</th><th>type</th><th>Actief</th><th>Thema</th>
-    </tr>
-    </thead>
-    @{
-        foreach (var flow in Model)
-        {
-            <tr>
-                <td id="flowId">@flow.Id</td>
-                <td>@flow.FlowType</td>
-                <td>@flow.IsOpen</td>
-                <td>@flow.Theme.Title</td>
-                <td><a  asp-controller="Flow" asp-action="Details" asp-route-id="@flow.Id" class="btn btn-warning">Er aan beginnen!</a></td>
-            </tr>
+        <div class="col-6">
+            <div class="card text-center">
+                <h5 class="card-header">Beheer project</h5>
+                <div class="card-body">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <p>Hieronder vindt u de thema's en informatie over flow</p>
+    <div id="subThemasFlowElementId"></div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>id</th><th>type</th><th>Actief</th><th>Thema</th>
+        </tr>
+        </thead>
+        @{
+            foreach (var flow in Model)
+            {
+                <tr>
+                    <td id="flowId">@flow.Id</td>
+                    <td>@flow.FlowType</td>
+                    <td>@flow.IsOpen</td>
+                    <td>@flow.Theme.Title</td>
+                    <td>
+                        <a asp-controller="Flow" asp-action="Details" asp-route-id="@flow.Id" class="btn btn-warning">Er aan beginnen!</a>
+                    </td>
+                </tr>
+            }
         }
-    }
-</table>
+    </table>
+}
+
+@if (User.IsInRole("SubAdmin"))
+{
+    <p>subadmin</p>
+}
 
 @section Scripts
 {
     <script src="~/js/Flow/flow.js" defer></script>
 }
-
