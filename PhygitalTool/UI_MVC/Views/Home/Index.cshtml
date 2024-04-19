@@ -9,8 +9,42 @@ information about the question list and wether the user wants to continue -->
     ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1>Phygital tool</h1>
-    <p>Druk op de knop "ga verder" om in te loggen.</p>
-    <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Login">Ga verder</a>
-</div>
+@if (!User.Identity.IsAuthenticated)
+{
+    <div class="text-center">
+        <h1>Phygital tool</h1>
+        <p>Druk op de knop "ga verder" om in te loggen.</p>
+        <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Login">Ga verder</a>
+    </div>
+}
+
+@if(User.IsInRole("Admin"))
+{
+    <p>Welkom admin</p>
+    //TODO implementation
+    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Maak project</a>
+    //TODO implementation
+    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Voeg subadmin toe</a>
+    
+}
+
+@if (User.IsInRole("SubAdmin"))
+{
+    <p>Welkom subadmin</p>
+    
+    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Start flow</a>
+    //TODO implementation
+    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Beheer flow</a>
+    //TODO implementation
+    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Maak flow</a>
+    //TODO implementation
+    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Beheer project</a>
+    //TODO implementation
+    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Voeg supervisor toe</a>
+}
+
+@if (User.IsInRole("Supervisor"))
+{
+    <p>Welkom supervisor</p>
+    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Start flow</a>
+}
