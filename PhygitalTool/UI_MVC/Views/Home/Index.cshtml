@@ -24,7 +24,7 @@ information about the question list and wether the user wants to continue -->
         <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
 
         @* TODO implementation *@
-        <div class="col-4">
+        <div class="col-4 py-2">
             <div class="card text-center">
                 <h5 class="card-header">Maak project</h5>
                 <div class="card-body">
@@ -62,9 +62,18 @@ information about the question list and wether the user wants to continue -->
         @* TODO implementation : add flow, vragen aan elkaar koppelen, beheer flow *@
         <div class="col-4 py-2">
             <div class="card text-center">
-                <h5 class="card-header">Overzicht van flows</h5>
+                <h5 class="card-header">Overzicht flows</h5>
                 <div class="card-body">
                     <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Overzicht thema's</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Thema" asp-action="Index">Ga verder</a>
                 </div>
             </div>
         </div>
@@ -78,21 +87,21 @@ information about the question list and wether the user wants to continue -->
             </div>
         </div>
 
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Beheer je account</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Manage/Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
         @* TODO implementation *@
         <div class="col-4 py-2">
             <div class="card text-center">
                 <h5 class="card-header">Voeg supervisor toe</h5>
                 <div class="card-body">
                     <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-4 py-2">
-            <div class="card text-center">
-                <h5 class="card-header">Beheer je account</h5>
-                <div class="card-body">
-                    <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Manage/Index">Ga verder</a>
                 </div>
             </div>
         </div>
@@ -103,7 +112,7 @@ information about the question list and wether the user wants to continue -->
 {
     <div class="row justify-content-center">
         <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
-        
+
         <div class="col-4 py-2">
             <div class="card text-center">
                 <h5 class="card-header">Overzicht van flows</h5>

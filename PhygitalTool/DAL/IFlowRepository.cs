@@ -1,4 +1,4 @@
-using Phygital.Domain.Questionsprocess;
+﻿using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Themas;
 
@@ -21,5 +21,4 @@ public interface IFlowRepository
     Option ReadOptionByText(string optionText);
     Question ReadQuestionById(long questionId);
     IEnumerable<Text> ReadTextInfosOfFlowById(long flowId);
-    void CreateAnswer(Answer answer);
 }

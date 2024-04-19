@@ -128,10 +128,4 @@ public class FlowRepository : IFlowRepository
         return result; //flow.FlowElements.OfType<Info>();
 
     }
- 
-    public void CreateAnswer(Answer answer)
-    {
-        _dbContext.Answers.Add(answer);
-    }
-
 }
