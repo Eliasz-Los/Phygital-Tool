@@ -8,32 +8,65 @@
 
 <!-- This page displays the flowtypes a user can choose from when starting the application -->
 
-<h2>Hier zijn meerdere flow keuzes</h2>
-<p>Hieronder vindt u de thema's en informatie over flow</p>
-<div id="subThemasFlowElementId"></div>
+@if (User.IsInRole("Supervisor"))
+{
+    <div class="text-center">
+        <h1 class="p-2">Flows</h1>
+        <div class="row justify-content-center">
+                @{
+                    foreach (var flow in Model)
+                    {
+                        <div class="col-4 py-2">
+                            <div class="card text-center">
+                                <h5 class="card-header">@flow.Theme.Title</h5>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col text-start">
+                                            <p>Flowtype</p>
+                                            <p>Actief</p>
+                                        </div>
+                                        <div class="col text-start">
+                                            <p>@flow.FlowType</p>
+                                            <p>@flow.IsOpen</p>
+                                        </div>
+                                    </div>
+        
+                                </div>
+                                <a asp-controller="Flow" asp-action="Details" asp-route-id="@flow.Id" class="btn btn-warning">Er aan beginnen!</a>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+    </div>
+    
+}
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>id</th><th>type</th><th>Actief</th><th>Thema</th>
-    </tr>
-    </thead>
-    @{
-        foreach (var flow in Model)
-        {
-            <tr>
-                <td id="flowId">@flow.Id</td>
-                <td>@flow.FlowType</td>
-                <td>@flow.IsOpen</td>
-                <td>@flow.Theme.Title</td>
-                <td><a  asp-controller="Flow" asp-action="Details" asp-route-id="@flow.Id" class="btn btn-warning">Er aan beginnen!</a></td>
-            </tr>
+@if (User.IsInRole("SubAdmin"))
+{
+    <p>subadmin</p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>id</th><th>type</th><th>Actief</th><th>Thema</th>
+        </tr>
+        </thead>
+        @{
+            foreach (var flow in Model)
+            {
+                <tr>
+                    <td id="flowId">@flow.Id</td>
+                    <td>@flow.FlowType</td>
+                    <td>@flow.IsOpen</td>
+                    <td>@flow.Theme.Title</td>
+                    <td><a  asp-controller="Flow" asp-action="Details" asp-route-id="@flow.Id" class="btn btn-warning">Er aan beginnen!</a></td>
+                </tr>
+            }
         }
-    }
-</table>
+    </table>
+}
 
 @section Scripts
 {
     <script src="~/js/Flow/flow.js" defer></script>
 }
-

@@ -31,4 +31,12 @@
       <_ContentIncludedByDefault Remove="Views\OpenQuestion\Index.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Data\Information\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\images\belastingschijf.png" />
+    </ItemGroup>
+
 </Project>

@@ -9,12 +9,9 @@ public interface IFlowRepository
 {
     IEnumerable<Flow> ReadAllFlows();
     Flow ReadFlowById(long id);
-
     void CreateAnswer(Answer answer);
     void CreateProject(Project project);
-
     void CreateTheme(Theme theme);
-
     IEnumerable<SingleChoiceQuestion> ReadSingleChoiceQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<MultipleChoice> ReadMultipleChoiceQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<RangeQuestion> ReadRangeQuestionsWithOptionsOfFlowById(long flowId);
@@ -24,5 +21,6 @@ public interface IFlowRepository
     Option ReadOptionByText(string optionText);
     Question ReadQuestionById(long questionId);
     IEnumerable<Text> ReadTextInfosOfFlowById(long flowId);
-
+    IEnumerable<Image> ReadImageInfosOfFlowById(long flowId);
+    IEnumerable<Video> ReadVideoInfosOfFlowById(long flowId);
 }

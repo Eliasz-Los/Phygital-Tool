@@ -62,11 +62,6 @@ public class FlowManager : IFlowManager
         return _flowRepository.ReadOptionByText(optionText);
     }
 
-    public void AddAnswersToFlow(Flow flow, List<ICollection<Option>> chosenOptionsList, List<string> chosenAnswers, Theme subtheme)
-    {
-        throw new NotImplementedException();
-    }
-
     public Question GetQuestionById(long questionId)
     {
         return _flowRepository.ReadQuestionById(questionId);
@@ -75,6 +70,16 @@ public class FlowManager : IFlowManager
     public IEnumerable<Text> GetTextInfosOfFlowById(long flowId)
     {
         return _flowRepository.ReadTextInfosOfFlowById(flowId);
+    }
+
+    public IEnumerable<Image> GetImageInfosOfFlowById(long flowId)
+    {
+        return _flowRepository.ReadImageInfosOfFlowById(flowId);
+    }
+
+    public IEnumerable<Video> GetVideoInfosOfFlowById(long flowId)
+    {
+        return _flowRepository.ReadVideoInfosOfFlowById(flowId);
     }
 
     public void AddAnswersToFlow(List<Answer> answers)
