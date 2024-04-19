@@ -39,6 +39,8 @@ public class ProjectsController : ControllerBase
         }));
     }
     
+    
+    // ID meegeven in javascript
     [HttpPost("AddProject")]
     public ActionResult PostProject([FromBody] ProjectCreationModel model)
     {
@@ -49,7 +51,8 @@ public class ProjectsController : ControllerBase
         Theme theme = new Theme
         {
             Title = mainTheme.Title,
-            Description = mainTheme.Description
+            Description = mainTheme.Description,
+            SubThemas = new List<Theme>()
         };
 
         // We make a dummy flow to put into the project which contains the main theme and the subthemes (can be edited later by the user)
@@ -73,7 +76,8 @@ public class ProjectsController : ControllerBase
         // Make the project
         Project project = new Project
         {
-            Name = name
+            Name = name,
+            Flows = new List<Flow>()
         };
         
         // Add standard flow to project

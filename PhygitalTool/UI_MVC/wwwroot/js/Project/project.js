@@ -19,10 +19,10 @@ function fillSubthemesTable() {
             let output = document.querySelector("#SubthemaTable");
             let bodyData = ``;
             for (const subThema of subThemas) {
-                bodyData += `<tr>
-                            <td>${subThema.title}</td>
-                            <td><input type="checkbox"></td>
-                        </tr>`
+                bodyData += `<tr data-description="${subThema.description}">
+                                <td>${subThema.title}</td>
+                                <td><input type="checkbox"></td>
+                            </tr>`;
                 console.log(subThema);
             }
             output.innerHTML += bodyData;
@@ -52,7 +52,7 @@ function fillSubthemesSelect() {
             let bodyData = ``;
             for (const subThema of subThemas) {
                 bodyData += `
-                        <option value="${subThema.title}">${subThema.title}</option>
+                        <option value="${subThema.title}" data-description="${subThema.description}">${subThema.title}</option>
                         `
             }
             output.innerHTML += bodyData;
@@ -69,8 +69,14 @@ function getSelectedThemes() {
     let selectedThemes = [];
 
     checkboxes.forEach(checkbox => {
-        const themeTitle = checkbox.closest('tr').querySelector('td:first-child').textContent;
-        selectedThemes.push(themeTitle);
+        const themeRow = checkbox.closest('tr');
+        const themeTitle = themeRow.querySelector('td:first-child').textContent;
+        const themeDescription = themeRow.dataset.description; // Access the data-description attribute
+        const themeObject = {
+            title: themeTitle,
+            description: themeDescription
+        };
+        selectedThemes.push(themeObject);
     });
 
     console.log("Selected Themes:", selectedThemes);
@@ -89,9 +95,16 @@ function getMainTheme() {
 
     if (selectedIndex !== -1) {
         const selectedOption = selectElement.options[selectedIndex];
-        const selectedTheme = selectedOption.value;
-        console.log("Selected Theme:", selectedTheme);
-        return selectedTheme;
+        const selectedThemeTitle = selectedOption.value;
+        const selectedThemeDescription = selectedOption.dataset.description; 
+        console.log("Selected Theme Title:", selectedThemeTitle);
+        console.log("Selected Theme Description:", selectedThemeDescription);
+
+        // Return an object containing both title and description
+        return {
+            title: selectedThemeTitle,
+            description: selectedThemeDescription
+        };
     } else {
         console.log("No theme selected");
         return null; // or any default value indicating no selection
@@ -99,11 +112,12 @@ function getMainTheme() {
 }
 
 
+
 function createProject() {
     const projectModel = {
         name: getName(), // retrieve name
         mainTheme: getMainTheme(), // retrieve main theme 
-        subThemes: getSelectedThemes()   // retrieve selected themes
+        themas: getSelectedThemes()   // retrieve selected themes
     };
     console.log(projectModel);
 
@@ -117,7 +131,7 @@ function createProject() {
         })
         .then(response => {
             if (response.ok) {
-                return response.json(); // Parse response JSON
+                console.log("Project gecreeerd: ", response)
             }else{
                 throw new Error("Problem with creating project");
             }
