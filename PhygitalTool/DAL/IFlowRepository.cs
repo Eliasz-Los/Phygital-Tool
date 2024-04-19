@@ -1,4 +1,4 @@
-﻿using Phygital.Domain.Questionsprocess;
+using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Themas;
 
@@ -8,6 +8,10 @@ public interface IFlowRepository
 {
     IEnumerable<Flow> ReadAllFlows();
     Flow ReadFlowById(long id);
+
+    void CreateAnswer(Answer answer);
+    void CreateTheme(Theme theme);
+
     IEnumerable<SingleChoiceQuestion> ReadSingleChoiceQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<MultipleChoice> ReadMultipleChoiceQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<RangeQuestion> ReadRangeQuestionsWithOptionsOfFlowById(long flowId);

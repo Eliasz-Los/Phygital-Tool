@@ -11,25 +11,35 @@
 <!-- TODO: Finish Add Theme -->
 
 <div class="text-center">
-    <h1 class="align-content-center p-4">Make a new project</h1>
+    <h3 class="align-content-center p-4">Maak nieuw thema</h3>
     <div class="container-fluid">
-        <form class="row">
-            <div class="col-6 d-flex justify-content-center">
-                <div class="col-lg-6">
-                    <label>Thema</label>
-                    <input type="text" class="form-control border border-warning mb-3" placeholder="Name">
+        <form class="">
+            <div class="d-flex justify-content-center">
+                <div class="col-lg-6 text-start">
+                    <label for="ThemaInput">Thema</label>
+                    <input type="text" class="form-control border border-warning mb-3" id="ThemaInput" placeholder="Naam">
+                    <label for="DescriptionArea">Beschrijving</label>
+                    <textarea class="form-control border border-warning mb-3" id="DescriptionArea"rows="5"
+                    placeholder="Beschrijving..."></textarea>
+
                 </div>
             </div>
             <div class="container-fluid p-2">
                 <div class="row align-content-center">
-                    <div class="col p-2">
-                        <a type="button" class="btn btn-warning">Annuleer</a>
+                    <div class="col d-flex justify-content-end">
+                        <a onclick="history.back()" type="button" class="btn btn-warning">Annuleer</a>
                     </div>
-                    <div class="col p-2">
-                        <a type="button" class="btn btn-warning" asp-area="" asp-controller="Flow" asp-action="Index">Maak thema</a>
+                    <div class="col d-flex justify-content-start">
+                        <a type="button" class="btn btn-warning" id="submitThema" >Maak thema</a>
+                        <!-- asp-area="" asp-controller="Project" asp-action="Index" -->
                     </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
+@section Scripts
+{
+    <script src="~/js/Thema/thema.js" defer></script>
+}
