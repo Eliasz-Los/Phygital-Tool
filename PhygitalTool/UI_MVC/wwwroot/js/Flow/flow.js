@@ -175,7 +175,7 @@ function getMultipleChoiceQuestionsData() {
         });
 }
 
-function getSubThemasData() {
+function getThemasData() {
     fetch(`/api/flows/${flowId}/SubThemas`,
         {
             headers: {
@@ -190,13 +190,13 @@ function getSubThemasData() {
                 alert("Something went wrong with themes, check the console for more details!")
             }
         })
-        .then(subThemas => {
+        .then(themes => {
             let bodyData = ``;
-            for (const subTheme of subThemas) {
+            for (const theme of themes) {
                 bodyData += `<div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">${subTheme.title}</h5>
-                                    <p class="card-text">${subTheme.description}</p>
+                                    <h5 class="card-title">${theme.title}</h5>
+                                    <p class="card-text">${theme.description}</p>
                                 </div>
                              </div>`;
             }
@@ -204,7 +204,7 @@ function getSubThemasData() {
         })
 }
 
-function GetInfoData(){
+function getInfoData(){
     fetch(`/api/flows/${flowId}/TextInfos`,
         {
             headers: {
@@ -220,10 +220,11 @@ function GetInfoData(){
             }
         })
         .then(texts => {
-            let bodyData = ` <div class="accordion-item">`;
+            let bodyData = ` `;
             for (let i = 0; i < texts.length; i++) {
                 totalInformations++;
                 bodyData += `
+                    <div class="accordion-item">
                     <h2 class="accordion-header" id="heading${totalInformations}">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${totalInformations}" aria-expanded="false" aria-controls="collapse${totalInformations}">
                             ${texts[i].title}
@@ -233,9 +234,8 @@ function GetInfoData(){
                         <div class="accordion-body">
                             ${texts[i].content}
                         </div>
-                    </div>`;
-            } 
-            bodyData += `</div>`;
+                    </div></div>`;
+            }
             infoElements.innerHTML += bodyData
         })
         .catch(error => {
@@ -244,7 +244,7 @@ function GetInfoData(){
 }
 
 
-function GetImagesData(){
+function getImageData(){
     fetch(`/api/flows/${flowId}/ImageInfos`,
         {
             headers: {
@@ -260,10 +260,12 @@ function GetImagesData(){
             }
         })
         .then(images => {
-            let bodyData = `<div class="accordion-item">`;
+            let bodyData = ``;
             for (let i = 0; i < images.length; i++) {
                 totalInformations++;
-                bodyData += `<h2 class="accordion-header" id="heading${totalInformations}">
+                bodyData += `
+                        <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading${totalInformations}">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${totalInformations}" aria-expanded="false" aria-controls="collapse${totalInformations}">
                             ${images[i].title}
                         </button>
@@ -274,9 +276,52 @@ function GetImagesData(){
                          <img src="${images[i].url.replace('~', '')}" class="d-block w-100" alt="${images[i].altText}">
                             ${images[i].altText}
                         </div>
+                    </div>
                     </div>`;
             }
-            bodyData += `</div>`;
+            infoElements.innerHTML += bodyData
+        })
+        .catch(error => {
+            console.log(error)
+        });
+
+}
+
+function getVideoData(){
+    fetch(`/api/flows/${flowId}/VideoInfos`,
+        {
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        })
+        .then(response => {
+            if (response.status === 200) {
+                return response.json()
+            } else {
+                alert("Something went wrong with videos, check the console for more details!")
+            }
+        })
+        .then(videos => {
+            let bodyData = ``;
+            for (let i = 0; i < videos.length; i++) {
+                totalInformations++;
+                bodyData += `
+                        <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading${totalInformations}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${totalInformations}" aria-expanded="false" aria-controls="collapse${totalInformations}">
+                            ${videos[i].title}
+                        </button>
+                    </h2>
+                   
+                    <div id="collapse${totalInformations}" class="accordion-collapse collapse" aria-labelledby="heading${totalInformations}" data-bs-parent="#infoAccordion">
+                        <div class="accordion-body">
+                         <iframe width="560" height="315" src="https://www.youtube.com/embed/${videos[i].url}" title="${videos[i].title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <div class="spacing-top">${videos[i].description}</div>
+                        </div>
+                    </div>
+            </div>`;
+            }
             infoElements.innerHTML += bodyData
         })
         .catch(error => {
@@ -409,7 +454,8 @@ questions.forEach(question => {
 });*/
 
 InitializeFlow();
-GetInfoData();
-GetImagesData();
-getSubThemasData();
+getInfoData();
+getImageData();
+getVideoData();
+getThemasData();
 addButton.addEventListener("click", commitAnswer);

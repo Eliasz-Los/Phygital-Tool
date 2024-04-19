@@ -149,6 +149,23 @@ public class FlowsController : ControllerBase
             AltText = image.AltText
         }));
     }
+    
+    [HttpGet("{flowId}/VideoInfos")]
+    public ActionResult<IEnumerable<VideoDto>> GetVideoInfosOfFlow(long flowId)
+    {
+        var videos = _flowManager.GetVideoInfosOfFlowById(flowId);
+
+        if (!videos.Any())
+        {
+            return NoContent();
+        }
+        return Ok(videos.Select(video => new VideoDto()
+        {
+            Title = video.Title,
+            Url = video.Url,
+            Description = video.Description
+        }));
+    }
 
     [HttpPost("{flowId}/AddAnswers")]
     public ActionResult PostAnswers(long flowId, [FromBody] List<AnswerDto> answers)

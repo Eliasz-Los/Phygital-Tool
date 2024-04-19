@@ -119,7 +119,7 @@ public class PhygitalInitializer
         var i6 = new Video
         {
             Title = "Partijen in België",
-            Url = "https://www.youtube.com/watch?v=Fq7LErJRTyo&t=24s",
+            Url = "Fq7LErJRTyo", //"https://www.youtube.com/watch?v=Fq7LErJRTyo&t=24s"
             Description =
                 "Dit video zal een korte uitleg geven over de verschillende partijen in België zodat u een beter geïnformeerde keuze kan maken."
         };
@@ -313,6 +313,7 @@ public class PhygitalInitializer
         f1.FlowElements.Add(i3);
         f1.FlowElements.Add(i4);
         f1.FlowElements.Add(i5);
+        f1.FlowElements.Add(i6);
 
         // Adding options to the questions
         q12.Options.Add(o5);
@@ -396,7 +397,7 @@ public class PhygitalInitializer
 
         // adding FlowElements
         context.FlowElements.AddRange(new FlowElement[]
-            { q1, q2, q3, q4, q6, q7, q8, q9, q10, q11, q12, q13, q14, i1, i2, i3, i4 , i5});
+            { q1, q2, q3, q4, q6, q7, q8, q9, q10, q11, q12, q13, q14, i1, i2, i3, i4 , i5, i6});
         // adding options
         context.AddRange(new Option[]
         {
