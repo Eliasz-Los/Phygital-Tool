@@ -10,23 +10,41 @@
 
 @if (User.IsInRole("Supervisor"))
 {
-    <div class="row">
-        <h1>Flows</h1>
-
-        <div class="col-6">
-            <div class="card text-center">
-                <h5 class="card-header">Beheer project</h5>
-                <div class="card-body">
-                    
-                </div>
+    <div class="text-center">
+        <h1 class="p-2">Flows</h1>
+        <div class="row justify-content-center">
+                @{
+                    foreach (var flow in Model)
+                    {
+                        <div class="col-4 py-2">
+                            <div class="card text-center">
+                                <h5 class="card-header">@flow.Theme.Title</h5>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col text-start">
+                                            <p>Flowtype</p>
+                                            <p>Actief</p>
+                                        </div>
+                                        <div class="col text-start">
+                                            <p>@flow.FlowType</p>
+                                            <p>@flow.IsOpen</p>
+                                        </div>
+                                    </div>
+        
+                                </div>
+                                <a asp-controller="Flow" asp-action="Details" asp-route-id="@flow.Id" class="btn btn-warning">Er aan beginnen!</a>
+                            </div>
+                        </div>
+                    }
+                }
             </div>
-        </div>
     </div>
+    
+}
 
-
-    <p>Hieronder vindt u de thema's en informatie over flow</p>
-    <div id="subThemasFlowElementId"></div>
-
+@if (User.IsInRole("SubAdmin"))
+{
+    <p>subadmin</p>
     <table class="table">
         <thead>
         <tr>
@@ -41,18 +59,11 @@
                     <td>@flow.FlowType</td>
                     <td>@flow.IsOpen</td>
                     <td>@flow.Theme.Title</td>
-                    <td>
-                        <a asp-controller="Flow" asp-action="Details" asp-route-id="@flow.Id" class="btn btn-warning">Er aan beginnen!</a>
-                    </td>
+                    <td><a  asp-controller="Flow" asp-action="Details" asp-route-id="@flow.Id" class="btn btn-warning">Er aan beginnen!</a></td>
                 </tr>
             }
         }
     </table>
-}
-
-@if (User.IsInRole("SubAdmin"))
-{
-    <p>subadmin</p>
 }
 
 @section Scripts
