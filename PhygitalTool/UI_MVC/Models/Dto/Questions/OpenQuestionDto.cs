@@ -5,6 +5,7 @@ namespace Phygital.UI_MVC.Models.Dto;
 
 public class OpenQuestionDto
 {
+    public long Id { get; set; }
     public Theme SubTheme { get; set; }
     public string Text { get; set; }
     public bool Active { get; set; }

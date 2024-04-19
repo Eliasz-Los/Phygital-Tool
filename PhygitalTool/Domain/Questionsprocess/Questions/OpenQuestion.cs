@@ -6,7 +6,7 @@ namespace Phygital.Domain.Questionsprocess.Questions;
 
 public class OpenQuestion : Question
 {
-    public long Id { get; set; }
+    //public long Id { get; set; }
     public Flow Flow { get; set; }
     public Theme SubTheme { get; set; }
     public string Text { get; set; }

@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Session;
@@ -9,8 +13,11 @@ using Version = Phygital.Domain.Subplatform.Version;
 
 namespace Phygital.DAL.EF;
 
-public class PhygitalDbContext : DbContext
+public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
 {
+    // Accounts package
+    // public DbSet<Account> Accounts { get; set; }
+    
     // Questionsprocess package
     public DbSet<Flow> Flows { get; set; }
     public DbSet<FlowElement> FlowElements { get; set; }
@@ -38,7 +45,6 @@ public class PhygitalDbContext : DbContext
 
     public PhygitalDbContext(DbContextOptions options) : base(options)
     {
-        PhygitalInitializer.Initialize(this, true);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -48,10 +54,19 @@ public class PhygitalDbContext : DbContext
             optionsBuilder.UseSqlite("Data Source=Phygital.db");
             optionsBuilder.EnableSensitiveDataLogging();
         }
+        
+        optionsBuilder.LogTo(message => Debug.WriteLine(message), LogLevel.Information);
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+        
+        //////////////////////
+        // Accounts package //
+        //////////////////////
+        // modelBuilder.Entity<IdentityUser>().ToTable("Accounts").HasIndex(user => user.Id).IsUnique();
+        
         ///////////////////////////////
         // Questionsprocess package //
         //////////////////////////////
@@ -60,7 +75,7 @@ public class PhygitalDbContext : DbContext
         modelBuilder.Entity<Option>().ToTable("Options").HasIndex(option => option.Id).IsUnique();
         
         //flowelement, info and Question is abstract
-        modelBuilder.Entity<FlowElement>().ToTable("FlowElement");
+        modelBuilder.Entity<FlowElement>().ToTable("FlowElement").HasKey(fe => fe.Id);
         modelBuilder.Entity<Info>().ToTable("Infos").HasBaseType<FlowElement>();
         modelBuilder.Entity<Video>().ToTable("Videos").HasBaseType<Info>();
         modelBuilder.Entity<Image>().ToTable("Images").HasBaseType<Info>();
@@ -183,5 +198,14 @@ public class PhygitalDbContext : DbContext
         modelBuilder.Entity<Version>()
             .HasOne(v => v.Project)
             .WithMany(p => p.Versions);
+    }
+    public bool CreateDatabase(bool dropExisting = false)
+    {
+        if (dropExisting)
+        {
+            Database.EnsureDeleted();
+        }
+
+        return Database.EnsureCreated();
     }
 }

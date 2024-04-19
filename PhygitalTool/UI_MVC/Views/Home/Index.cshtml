@@ -1,42 +1,125 @@
 ﻿<!-- This is the default page the user will see when they go to the phygital tool. This page displays 
 information about the question list and wether the user wants to continue -->
+@using System.Security.Cryptography
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
-    ViewData["Title"] = "Phygital";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="align-content-center p-4">Verkiezingen</h1>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-6">
-                
-                <img src="images/votingCartoon.jpg" alt="votingCartoon" width="400"/>
-            </div>
-            <div class="col-6">
-                <p align="justify">
-                    Deze vragenlijst gaat over de verkiezingen van 2024 en gaat ervoor zorgen dat je beter voorbereid
-                    bent om te gaan stemmen. Zo zal je te weten komen welke partijen zich allemaal verkiesbaar hebben
-                    gesteld in Vlaanderen, waarvoor ze staan en wat hun visie is. Er zullen verschillende type vragen
-                    voorkomen zoals: single choice, multiple choice, open en range. Er zijn geen juiste of foute
-                    antwoorden, het enigste dat je moet doen is je mening geven ongeacht wat anderen ervan zouden vinden.
-                    De tool is volledig anoniem dus je moet geen schrik hebben.
-                </p>
+@if (!User.Identity.IsAuthenticated)
+{
+    <div class="text-center">
+        <h1>Phygital tool</h1>
+        <p>Druk op de knop "ga verder" om in te loggen.</p>
+        <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Login">Ga verder</a>
+    </div>
+}
+
+@if (User.IsInRole("Admin"))
+{
+    <div class="row justify-content-center">
+        <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
+
+        @* TODO implementation *@
+        <div class="col-4">
+            <div class="card text-center">
+                <h5 class="card-header">Maak project</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
+                </div>
             </div>
         </div>
-        <div class="container-fluid p-2">
-            <div class="row">
-                <h3 class="align-content-center p-3">Bent u geïnteresseerd in dit topic ?</h3>
-            </div>
-            <div class="row align-content-center">
-                <div class="col p-2">
-                    <a type="button" class="btn btn-warning">Niet geïntresseerd</a>
-                </div>
-                <div class="col p-2">
-                    <a type="button" class="btn btn-warning" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
+
+        @* TODO implementation *@
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Voeg subadmin toe</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
                 </div>
             </div>
-            <img src="images/SenaatPicture.png" alt="SenaatPicture">
+        </div>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Beheer je account</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Manage/Index">Ga verder</a>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+}
+
+@if (User.IsInRole("SubAdmin"))
+{
+    <div class="row">
+        <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
+
+        @* TODO implementation : add flow, vragen aan elkaar koppelen, beheer flow *@
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Overzicht van flows</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Beheer project</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Project" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        @* TODO implementation *@
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Voeg supervisor toe</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Beheer je account</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Manage/Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (User.IsInRole("Supervisor"))
+{
+    <div class="row justify-content-center">
+        <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
+        
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Overzicht van flows</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Beheer je account</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Manage/Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
