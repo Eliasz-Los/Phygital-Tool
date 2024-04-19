@@ -18,33 +18,108 @@ information about the question list and wether the user wants to continue -->
     </div>
 }
 
-@if(User.IsInRole("Admin"))
+@if (User.IsInRole("Admin"))
 {
-    <p>Welkom admin</p>
-    //TODO implementation
-    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Maak project</a>
-    //TODO implementation
-    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Voeg subadmin toe</a>
-    
+    <div class="row justify-content-center">
+        <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
+
+        @* TODO implementation *@
+        <div class="col-4">
+            <div class="card text-center">
+                <h5 class="card-header">Maak project</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        @* TODO implementation *@
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Voeg subadmin toe</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Beheer je account</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Manage/Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 
 @if (User.IsInRole("SubAdmin"))
 {
-    <p>Welkom subadmin</p>
-    
-    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Start flow</a>
-    //TODO implementation
-    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Beheer flow</a>
-    //TODO implementation
-    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Maak flow</a>
-    //TODO implementation
-    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Beheer project</a>
-    //TODO implementation
-    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Voeg supervisor toe</a>
+    <div class="row">
+        <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
+
+        @* TODO implementation : add flow, vragen aan elkaar koppelen, beheer flow *@
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Overzicht van flows</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Beheer project</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Project" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        @* TODO implementation *@
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Voeg supervisor toe</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Beheer je account</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Manage/Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 
 @if (User.IsInRole("Supervisor"))
 {
-    <p>Welkom supervisor</p>
-    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Start flow</a>
+    <div class="row justify-content-center">
+        <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
+        
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Overzicht van flows</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Beheer je account</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Manage/Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+    </div>
 }
