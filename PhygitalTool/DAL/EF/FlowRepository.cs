@@ -133,4 +133,21 @@ public class FlowRepository : IFlowRepository
 
     }
 
+    public IEnumerable<Image> ReadImageInfosOfFlowById(long flowId)
+    {
+        var result = _dbContext.Images.Where(i => i.Flow.Id == flowId).ToList();
+        return result; 
+    }
+
+    public IEnumerable<Video> ReadVideoInfosOfFlowById(long flowId)
+    {
+        var result = _dbContext.Videos.Where(v => v.Flow.Id == flowId).ToList();
+        return result;
+    }
+
+    public void CreateAnswer(Answer answer)
+    {
+        _dbContext.Answers.Add(answer);
+    }
+
 }

@@ -132,6 +132,40 @@ public class FlowsController : ControllerBase
             Content = text.Content
         }));
     }
+    
+    [HttpGet("{flowId}/ImageInfos")]
+    public ActionResult<IEnumerable<ImageDto>> GetImageInfosOfFlow(long flowId)
+    {
+        var images = _flowManager.GetImageInfosOfFlowById(flowId);
+
+        if (!images.Any())
+        {
+            return NoContent();
+        }
+        return Ok(images.Select(image => new ImageDto()
+        {
+            Title = image.Title,
+            Url = image.Url,
+            AltText = image.AltText
+        }));
+    }
+    
+    [HttpGet("{flowId}/VideoInfos")]
+    public ActionResult<IEnumerable<VideoDto>> GetVideoInfosOfFlow(long flowId)
+    {
+        var videos = _flowManager.GetVideoInfosOfFlowById(flowId);
+
+        if (!videos.Any())
+        {
+            return NoContent();
+        }
+        return Ok(videos.Select(video => new VideoDto()
+        {
+            Title = video.Title,
+            Url = video.Url,
+            Description = video.Description
+        }));
+    }
 
     [HttpPost("{flowId}/AddAnswers")]
     public ActionResult PostAnswers(long flowId, [FromBody] List<AnswerDto> answers)

@@ -77,6 +77,16 @@ public class FlowManager : IFlowManager
         return _flowRepository.ReadTextInfosOfFlowById(flowId);
     }
 
+    public IEnumerable<Image> GetImageInfosOfFlowById(long flowId)
+    {
+        return _flowRepository.ReadImageInfosOfFlowById(flowId);
+    }
+
+    public IEnumerable<Video> GetVideoInfosOfFlowById(long flowId)
+    {
+        return _flowRepository.ReadVideoInfosOfFlowById(flowId);
+    }
+
     public void AddAnswersToFlow(List<Answer> answers)
     {
         foreach (var answer in answers)
