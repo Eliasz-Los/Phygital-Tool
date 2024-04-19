@@ -15,10 +15,12 @@ namespace Phygital.UI_MVC.Controllers.Api;
 public class ProjectsController : ControllerBase
 {
     private readonly IFlowManager _flowManager;
+    private readonly UnitOfWork _unitOfWork;
     
-    public ProjectsController(IFlowManager flowManager)
+    public ProjectsController(IFlowManager flowManager, UnitOfWork unitOfWork)
     {
         _flowManager = flowManager;
+        _unitOfWork = unitOfWork;
     }
     
     [HttpGet("subthemas")]
@@ -44,7 +46,6 @@ public class ProjectsController : ControllerBase
         SubThemasDto mainTheme = model.MainTheme;
         List<SubThemasDto> themas = model.Themas;
         
-        // ThemeDTO convert to thema (mogelijks belachelijk)
         Theme theme = new Theme
         {
             Title = mainTheme.Title,
@@ -76,9 +77,10 @@ public class ProjectsController : ControllerBase
         };
         
         // Add standard flow to project
+        _unitOfWork.BeginTransaction();
         project.Flows.Add(flow);
-        
         _flowManager.AddProject(project);
+        _unitOfWork.Commit();
         return Ok();
     }
     

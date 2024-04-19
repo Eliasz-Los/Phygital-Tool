@@ -63,7 +63,6 @@ function fillSubthemesSelect() {
 }
 
 
-
 // Function to retrieve selected themes when the button is clicked
 function getSelectedThemes() {
     const checkboxes = document.querySelectorAll("#SubthemaTable input[type='checkbox']:checked");
@@ -77,7 +76,6 @@ function getSelectedThemes() {
     console.log("Selected Themes:", selectedThemes);
     return selectedThemes;
 }
-
 
 
 function getName() {
@@ -107,29 +105,35 @@ function createProject() {
         mainTheme: getMainTheme(), // retrieve main theme 
         subThemes: getSelectedThemes()   // retrieve selected themes
     };
+    console.log(projectModel);
 
-    fetch(`/api/projects/AddProject`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(projectModel)
-    })
-        .then(response => {
-            console.log("response: ", response )
-            console.log("answerObject: ", projectModel)
-            if (response.ok) {
-                console.log("Project werd gecreeerd: ", response)
-            } else{
-                alert("Problem with creating project: " + JSON.stringify(projectModel))
+    fetch(`/api/Projects/AddProject`,
+        {
+            method: "POST",
+            body: JSON.stringify(projectModel),
+            headers: {
+                "Content-Type": "application/json",
             }
         })
+        .then(response => {
+            if (response.ok) {
+                return response.json(); // Parse response JSON
+            }else{
+                throw new Error("Problem with creating project");
+            }
+        })
+        .then(data => {
+            console.log("Server response:", data);
+            alert("Project created successfully!");
+        })
         .catch(error => {
-            console.log("problem with fetching: ", error)
+            console.error("Error:", error.message);
+            alert("Problem with creating project: " + error.message);
+
         });
 }
 
 
 fillSubthemesSelect();
 fillSubthemesTable();
-addButton.addEventListener("click",createProject);
+addButton.addEventListener("click", createProject);
