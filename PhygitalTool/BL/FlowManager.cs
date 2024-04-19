@@ -62,11 +62,6 @@ public class FlowManager : IFlowManager
         return _flowRepository.ReadOptionByText(optionText);
     }
 
-    public void AddAnswersToFlow(Flow flow, List<ICollection<Option>> chosenOptionsList, List<string> chosenAnswers, Theme subtheme)
-    {
-        throw new NotImplementedException();
-    }
-
     public Question GetQuestionById(long questionId)
     {
         return _flowRepository.ReadQuestionById(questionId);
