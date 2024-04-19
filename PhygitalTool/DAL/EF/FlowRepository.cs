@@ -146,10 +146,4 @@ public class FlowRepository : IFlowRepository
         var result = _dbContext.Videos.Where(v => v.Flow.Id == flowId).ToList();
         return result;
     }
-
-    public void CreateAnswer(Answer answer)
-    {
-        _dbContext.Answers.Add(answer);
-    }
-
 }

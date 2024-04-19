@@ -26,7 +26,4 @@ public interface IFlowRepository
     IEnumerable<Text> ReadTextInfosOfFlowById(long flowId);
     IEnumerable<Image> ReadImageInfosOfFlowById(long flowId);
     IEnumerable<Video> ReadVideoInfosOfFlowById(long flowId);
-    void CreateAnswer(Answer answer);
-
- 
 }
