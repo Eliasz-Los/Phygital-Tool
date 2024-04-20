@@ -17,7 +17,7 @@ public class PhygitalInitializer
         using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
         {
             var context = scope.ServiceProvider.GetRequiredService<PhygitalDbContext>();
-            if (context.CreateDatabase(dropExisting: true))
+            if (context.CreateDatabase(dropExisting: false))
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -119,7 +119,7 @@ public class PhygitalInitializer
         var i6 = new Video
         {
             Title = "Partijen in België",
-            Url = "Fq7LErJRTyo", //"https://www.youtube.com/watch?v=Fq7LErJRTyo&t=24s"
+            Url = "Fq7LErJRTyo", //"https://www.youtube.com/watch?v=Fq7LErJRTyo&t=24s" 
             Description =
                 "Dit video zal een korte uitleg geven over de verschillende partijen in België zodat u een beter geïnformeerde keuze kan maken."
         };
