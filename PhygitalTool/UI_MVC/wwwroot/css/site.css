@@ -113,3 +113,17 @@ input[type="range"]::-moz-range-thumb {
     border: 1px solid var(--yellow-color);
     box-shadow: -407px 0 0 400px var(--yellow-color);
 }
+
+/*Clock for the Circular Flow*/
+.clock {
+    font-size: 2em; /* Adjust the size of the timer text */
+    color: #000; /* Adjust the color of the timer text */
+    background-color: var(--yellow-color); /* Adjust the background color of the timer */
+    border: 2px solid #000; /* Adjust the border of the timer */
+    border-radius: 50%; /* Makes the timer round */
+    width: 50px; /* Adjust the width of the timer */
+    height: 50px; /* Adjust the height of the timer */
+    line-height: 50px; /* Centers the text vertically */
+    text-align: center; /* Centers the text horizontally */
+    margin: 0 auto; /* Centers the timer horizontally */
+}
