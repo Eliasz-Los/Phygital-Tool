@@ -5,10 +5,12 @@ const subThemasFlowElement = document.getElementById("subThemasFlowElementId")
 const questionsElement = document.getElementById("questions")
 const infoElements = document.getElementById("infoAccordion")
 
-let totalQuestions = 0;
+//export let totalQuestions = 0;
+window.totalQuestions = 0;
 let firstQuestion = true;
 let totalInformations = 0;
-
+//export let currentQuestionNumber = 1; // null was juist te kort omdat we beginnen met 1ste vraag waardoor er 1 te kort vr progressbar
+window.currentQuestionNumber = 1;
 
 export function getSingleChoiceQuestionData() {
     fetch(`/api/flows/${flowId}/SingleChoiceQuestions`,
@@ -130,6 +132,13 @@ export function getRangeQuestionsData() {
         .catch(error => {
             console.log(error)
         });
+}
+ function updateLabel(rangeInput, labelId) {
+    window.label =  document.getElementById(labelId);
+    //let label = document.getElementById(labelId);
+    window.optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
+     //let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
+    label.textContent = optionText;
 }
 
 export function getMultipleChoiceQuestionsData() {
@@ -396,4 +405,12 @@ export function commitAnswer() {
         .catch(error => {
             console.log("problem with fetching answers: ", error)
         });
+}
+export function updateProgressBar() {
+    let progressPerc = 100 * (currentQuestionNumber / totalQuestions) ;
+    let progressBar = document.getElementById("progressBar");
+
+    progressBar.style.width = progressPerc + "%";
+    progressBar.setAttribute("aria-valuenow", progressPerc);
+    console.log("progressbarPerc: ", progressPerc);
 }
