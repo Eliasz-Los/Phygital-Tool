@@ -103,7 +103,7 @@ export function getOpenQuestionsData() {
 }*/
 
 //Zo is de functie ook beschikbaar in de window object en beschikbaar over verschillende files, dus global gezet, 
-// anders werkte het niet bij flow.js & circular.js waar ik het nodig had
+// anders werkte het niet bij linear.js & circular.js waar ik het nodig had
 window.updateLabel = function (rangeInput, labelId) {
     let label = document.getElementById(labelId);
     let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);

@@ -12,7 +12,7 @@
 @{
     if (@Model.FlowType == Flowtype.linear)
     {
-        <div id="carouselExampleControls" class="carousel slide spacing-top" data-bs-ride="carousel">
+        <div id="linearFlow" class="carousel slide spacing-top" data-bs-ride="carousel">
             
             <div class="carousel-inner">
                 <div id="questions"></div>
@@ -23,10 +23,10 @@
 
             <div class="row">
                 <div class="col text-start">
-                    <button id="prevBtn" class="btn btn-warning btn-flow-details spacing-top" data-bs-target="#carouselExampleControls" data-bs-slide="prev">Terug</button>
+                    <button id="prevBtn" class="btn btn-warning btn-flow-details spacing-top" data-bs-target="#linearFlow" data-bs-slide="prev">Terug</button>
                 </div>
                 <div class="col text-end">
-                    <button id="nextBtn" class="btn btn-warning btn-flow-details spacing-top" data-bs-target="#carouselExampleControls" data-bs-slide="next">Verder</button>
+                    <button id="nextBtn" class="btn btn-warning btn-flow-details spacing-top" data-bs-target="#linearFlow" data-bs-slide="next">Verder</button>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
         @*//TODO: Add timer here*@
         <div id="timer" class="timer clock ">30</div>
         
-        <div id="circular" class="carousel slide spacing-top" data-bs-ride="carousel">
+        <div id="circularFlow" class="carousel slide spacing-top" data-bs-ride="carousel">
 
             <div class="carousel-inner">
                 <div id="questions"></div>
@@ -47,10 +47,10 @@
 
             <div class="row">
                 <div class="col text-start">
-                    <button id="prevBtn" class="btn btn-warning btn-flow-details spacing-top" data-bs-target="#carouselExampleControls" data-bs-slide="prev">Terug</button>
+                    <button id="prevBtn" class="btn btn-warning btn-flow-details spacing-top" data-bs-target="#circularFlow" data-bs-slide="prev">Terug</button>
                 </div>
                 <div class="col text-end">
-                    <button id="nextBtn" class="btn btn-warning btn-flow-details spacing-top" data-bs-target="#carouselExampleControls" data-bs-slide="next">Verder</button>
+                    <button id="nextBtn" class="btn btn-warning btn-flow-details spacing-top" data-bs-target="#circularFlow" data-bs-slide="next">Verder</button>
                 </div>
             </div>
         </div>
@@ -76,7 +76,7 @@
     @{
         if (Model.FlowType == Flowtype.linear)
         {
-            <script type="module" src="~/js/Flow/flow.js" ></script>
+            <script type="module" src="~/js/Flow/linear.js" ></script>
         }
         else
         {
