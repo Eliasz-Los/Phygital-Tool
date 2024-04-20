@@ -1,10 +1,13 @@
-import { getSingleChoiceQuestionData, getOpenQuestionsData, getRangeQuestionsData, getMultipleChoiceQuestionsData,
+import { getSingleChoiceQuestionData, getOpenQuestionsData, getMultipleChoiceQuestionsData, getRangeQuestionsData,
     getInfoData, getImageData, getVideoData, getAnswers, commitAnswer, updateProgressBar } from './details.js';
 
+const questionsElement = document.getElementById("questions")
 const addButton = document.getElementById("answerFlow")
 const btnNext = document.getElementById("nextBtn");
 const btnPrev = document.getElementById("prevBtn");
-updateProgressBar();
+
+
+
 function InitializeFlow() {
     Promise.allSettled([
         getSingleChoiceQuestionData(),

@@ -71,16 +71,16 @@
 
 @section Scripts
 {   
-    
-    <script type="module" src="~/js/Flow/details.js" defer></script>
+    @*modules zijn automatisch defered*@
+    <script type="module" src="~/js/Flow/details.js" ></script> 
     @{
         if (Model.FlowType == Flowtype.linear)
         {
-            <script type="module" src="~/js/Flow/flow.js" defer></script>
+            <script type="module" src="~/js/Flow/flow.js" ></script>
         }
         else
         {
-            <script src="~/js/Flow/circular.js" defer></script>
+            <script type="module" src="~/js/Flow/circular.js" ></script>
         }
     }
    

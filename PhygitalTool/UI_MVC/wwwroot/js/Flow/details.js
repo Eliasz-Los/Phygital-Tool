@@ -91,6 +91,24 @@ export function getOpenQuestionsData() {
         });
 
 }
+/*function updateLabel(rangeInput, labelId) {
+    console.log("rangeinput",rangeInput.value);
+    console.log("labelId",labelId);
+    let label = document.getElementById(labelId);
+    let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
+    console.log("optionText",optionText);
+    console.log("label",label);
+    label.textContent = optionText;
+    console.log("labelcontent",label.textContent);
+}*/
+
+//Zo is de functie ook beschikbaar in de window object en beschikbaar over verschillende files, dus global gezet, 
+// anders werkte het niet bij flow.js & circular.js waar ik het nodig had
+window.updateLabel = function (rangeInput, labelId) {
+    let label = document.getElementById(labelId);
+    let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
+    label.textContent = optionText;
+}
 
 export function getRangeQuestionsData() {
     fetch(`/api/flows/${flowId}/RangeQuestions`,
@@ -121,7 +139,7 @@ export function getRangeQuestionsData() {
                 <h5 class="card-title">${rangeQuestion.text}</h5>
                 <div class="form-group">
                     <input type="range" class="form-control-range" id="formControlRange${i}" min="0" max="${rangeQuestion.options.length -1}" 
-                            ${options} oninput="updateLabel(this, 'rangeLabel${i}')">
+                            ${options} oninput="window.updateLabel(this, 'rangeLabel${i}')"> <!--oninput="updateLabel(this, 'rangeLabel${i}')"-->
                     <label id="rangeLabel${i}" for="formControlRange${i}"></label>
                 </div>
             </div>
@@ -133,13 +151,8 @@ export function getRangeQuestionsData() {
             console.log(error)
         });
 }
- function updateLabel(rangeInput, labelId) {
-    window.label =  document.getElementById(labelId);
-    //let label = document.getElementById(labelId);
-    window.optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
-     //let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
-    label.textContent = optionText;
-}
+
+
 
 export function getMultipleChoiceQuestionsData() {
     fetch(`/api/flows/${flowId}/MultipleChoiceQuestions`,
@@ -180,7 +193,6 @@ export function getMultipleChoiceQuestionsData() {
             console.log(error)
         });
 }
-
 export function getThemasData() {
     fetch(`/api/flows/${flowId}/SubThemas`,
         {
@@ -209,7 +221,6 @@ export function getThemasData() {
             subThemasFlowElement.innerHTML = bodyData
         })
 }
-
 export function getInfoData(){
     fetch(`/api/flows/${flowId}/TextInfos`,
         {
@@ -248,8 +259,6 @@ export function getInfoData(){
             console.log(error)
         });
 }
-
-
 export function getImageData(){
     fetch(`/api/flows/${flowId}/ImageInfos`,
         {
