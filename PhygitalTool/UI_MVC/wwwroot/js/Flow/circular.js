@@ -102,7 +102,7 @@ questions.forEach(question => {
 });*/
 
 InitializeFlow();
-await getTextData();
-await getImageData();
-await getVideoData();
-addButton.addEventListener("click", await commitAnswer);
+getTextData();
+getImageData();
+getVideoData();
+addButton.addEventListener("click", commitAnswer);

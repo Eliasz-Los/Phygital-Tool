@@ -52,8 +52,8 @@ questions.forEach(question => {
 });*/
 
 InitializeFlow();
-await getTextData();
-await getImageData();
-await getVideoData();
+getTextData();
+getImageData();
+getVideoData();
 getAnswers();
-addButton.addEventListener("click", await commitAnswer);
+addButton.addEventListener("click", commitAnswer);
