@@ -12,7 +12,8 @@
 @{
     if (@Model.FlowType == Flowtype.linear)
     {
-        <div id="linearFlow" class="carousel slide spacing-top" data-bs-ride="carousel">
+        //data-bs-ride="carousel" dit van onder weg zodat de carousel nie beweegt
+        <div id="linearFlow" class="carousel slide spacing-top" >
             
             <div class="carousel-inner">
                 <div id="questions"></div>
@@ -58,7 +59,7 @@
     
 }
 
-<div id ="success-box" class="border-success"></div>
+@*succes message for user*@
 <div id ="end-box" class="btn-outline-dark text-warning"></div>
 <div class="text-center">
         <a asp-controller="Endpage" asp-action="Index" class="btn btn-warning btn-flow-details spacing-top" id="answerFlow">Verzenden</a>

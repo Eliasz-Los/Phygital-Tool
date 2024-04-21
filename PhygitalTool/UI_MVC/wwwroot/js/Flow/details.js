@@ -12,26 +12,24 @@ let totalInformations = 0;
 //export let currentQuestionNumber = 1; // null was juist te kort omdat we beginnen met 1ste vraag waardoor er 1 te kort vr progressbar
 window.currentQuestionNumber = 1;
 
-export function getSingleChoiceQuestionData() {
-    fetch(`/api/flows/${flowId}/SingleChoiceQuestions`,
-        {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        })
-        .then(response => {
-            if (response.status === 200) {
-                return response.json()
-            } else {
-                alert("Something went wrong with placing or reading the single choice questions.")
-            }
-        })
-        .then(singleChoiceQuestions => {
+export async function getSingleChoiceQuestionData() {
+    try{
+        const response = await fetch(`/api/flows/${flowId}/SingleChoiceQuestions`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                }
+            });
+        if(response.status !== 200) {
+            throw new Error("Something went wrong with single choice questions. Status code: " + response.status)
+        }
+            const singleChoiceQuestions = await response.json();
+
             let bodyData = ``;
             for (let i = 0; i < singleChoiceQuestions.length; i++) {
                 const singleChoiceQuestion = singleChoiceQuestions[i];
-                totalQuestions +=1;
+                totalQuestions += 1;
                 const isActive = firstQuestion ? 'active' : '';
                 if (firstQuestion) firstQuestion = false;
                 bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${singleChoiceQuestion.sequenceNumber}" data-card-id="${singleChoiceQuestion.id}">
@@ -47,35 +45,38 @@ export function getSingleChoiceQuestionData() {
         </div>`
             }
             questionsElement.innerHTML += bodyData
-        })
-        .catch(error => {
-            console.log(error)
-        });
+            return singleChoiceQuestions;
+    }
+    catch(error){
+        console.error("error:\t",error)
+        console.error("response:\t",response)
+        alert("Something went wrong with single choice questions.")
+    }
+   
+        
 }
 
-export function getOpenQuestionsData() {
-    fetch(`/api/flows/${flowId}/OpenQuestions`,
-        {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        })
-        .then(response => {
-            if (response.status === 200) {
-                return response.json()
-            } else {
-                alert("Something went wrong in the backend openquestions, check the console for more details!")
-            }
-        })
-        .then(openQuestions => {
-            let bodyData = ``;
-            for (let i = 0; i < openQuestions.length; i++) {
-                const openQuestion = openQuestions[i];
-                totalQuestions +=1;
-                const isActive = firstQuestion ? 'active' : '';
-                if (firstQuestion) firstQuestion = false;
-                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${openQuestion.sequenceNumber}" data-card-id="${openQuestion.id}">
+export async function getOpenQuestionsData() {
+    try{
+        const response = await fetch(`/api/flows/${flowId}/OpenQuestions`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                }
+            });
+        if(response.status !== 200) {
+            throw new Error("Something went wrong with open questions. Status code: " + response.status)
+        }
+        const openQuestions = await response.json();
+
+        let bodyData = ``;
+        for (let i = 0; i < openQuestions.length; i++) {
+            const openQuestion = openQuestions[i];
+            totalQuestions += 1;
+            const isActive = firstQuestion ? 'active' : '';
+            if (firstQuestion) firstQuestion = false;
+            bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${openQuestion.sequenceNumber}" data-card-id="${openQuestion.id}">
             <div class="card-body">
                 <h5 class="card-title">${openQuestion.text}</h5>
                 <div class="form-group">
@@ -83,24 +84,15 @@ export function getOpenQuestionsData() {
                 </div>
             </div>
             </div>`
-            }
-            questionsElement.innerHTML += bodyData
-        })
-        .catch(error => {
-            console.log(error)
-        });
-
+        }
+        questionsElement.innerHTML += bodyData
+        return openQuestions;
+    }catch (error){
+        console.error("error:\t",error)
+        alert("Something went wrong with open questions.")
+    }
+   
 }
-/*function updateLabel(rangeInput, labelId) {
-    console.log("rangeinput",rangeInput.value);
-    console.log("labelId",labelId);
-    let label = document.getElementById(labelId);
-    let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
-    console.log("optionText",optionText);
-    console.log("label",label);
-    label.textContent = optionText;
-    console.log("labelcontent",label.textContent);
-}*/
 
 //Zo is de functie ook beschikbaar in de window object en beschikbaar over verschillende files, dus global gezet, 
 // anders werkte het niet bij linear.js & circular.js waar ik het nodig had
@@ -110,69 +102,67 @@ window.updateLabel = function (rangeInput, labelId) {
     label.textContent = optionText;
 }
 
-export function getRangeQuestionsData() {
-    fetch(`/api/flows/${flowId}/RangeQuestions`,
-        {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        })
-        .then(response => {
-            if (response.status === 200) {
-                return response.json()
-            } else {
-                alert("Something went wrong with the rangequestions, check the console for more details!")
-            }
-        })
-        .then(rangeQuestions => {
-            let bodyData = ``;
-            for (let i = 0; i < rangeQuestions.length; i++) {
-                const rangeQuestion = rangeQuestions[i];
-                totalQuestions +=1;
-                const isActive = firstQuestion ? 'active' : '';
-                if (firstQuestion) firstQuestion = false;
+export async function getRangeQuestionsData() {
+    try {
+        const response = await fetch(`/api/flows/${flowId}/RangeQuestions`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                }
+            });
+        if(response.status !== 200) {
+            throw new Error("Something went wrong with range questions. Status code: " + response.status)
+        }
+        const rangeQuestions = await response.json();
 
-                let options = rangeQuestion.options.map((option,index) => `data-option-${index}="${option}"`).join('')
-                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${rangeQuestion.sequenceNumber}" data-card-id="${rangeQuestion.id}">
+        let bodyData = ``;
+        for (let i = 0; i < rangeQuestions.length; i++) {
+            const rangeQuestion = rangeQuestions[i];
+            totalQuestions += 1;
+            const isActive = firstQuestion ? 'active' : '';
+            if (firstQuestion) firstQuestion = false;
+
+            let options = rangeQuestion.options.map((option, index) => `data-option-${index}="${option}"`).join('')
+            bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${rangeQuestion.sequenceNumber}" data-card-id="${rangeQuestion.id}">
             <div class="card-body">
                 <h5 class="card-title">${rangeQuestion.text}</h5>
                 <div class="form-group">
-                    <input type="range" class="form-control-range" id="formControlRange${i}" min="0" max="${rangeQuestion.options.length -1}" 
+                    <input type="range" class="form-control-range" id="formControlRange${i}" min="0" max="${rangeQuestion.options.length - 1}" 
                             ${options} oninput="window.updateLabel(this, 'rangeLabel${i}')"> <!--oninput="updateLabel(this, 'rangeLabel${i}')"-->
                     <label id="rangeLabel${i}" for="formControlRange${i}"></label>
                 </div>
             </div>
-        </div>`
-            }
-            questionsElement.innerHTML += bodyData
-        })
-        .catch(error => {
-            console.log(error)
-        });
+          </div>`
+        }
+        questionsElement.innerHTML += bodyData
+        return rangeQuestions;
+        
+    }catch (error) {
+        console.error("error:\t", error)
+        alert("Something went wrong with range questions.")
+    }
 }
 
+export async function getMultipleChoiceQuestionsData() {
+    
+    try {
+        const response = await fetch(`/api/flows/${flowId}/MultipleChoiceQuestions`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                }
+            });
 
+        if(response.status !== 200) {
+            throw new Error("Something went wrong with multiple choice questions. Status code: " + response.status)
+        }
+            const multipleChoiceQuestions = await response.json();
 
-export function getMultipleChoiceQuestionsData() {
-    fetch(`/api/flows/${flowId}/MultipleChoiceQuestions`,
-        {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        })
-        .then(response => {
-            if (response.status === 200) {
-                return response.json()
-            } else {
-                alert("Something went wrong with multiple choice questions.")
-            }
-        })
-        .then(multipleChoiceQuestions => {
             let bodyData = ``;
             for (const multipleChoiceQuestion of multipleChoiceQuestions) {
-                totalQuestions +=1;
+                totalQuestions += 1;
                 const isActive = firstQuestion ? 'active' : '';
                 if (firstQuestion) firstQuestion = false;
                 bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${multipleChoiceQuestion.sequenceNumber}" data-card-id="${multipleChoiceQuestion.id}">
@@ -188,27 +178,26 @@ export function getMultipleChoiceQuestionsData() {
         </div>`
             }
             questionsElement.innerHTML += bodyData
-        })
-        .catch(error => {
-            console.log(error)
-        });
+            return multipleChoiceQuestions;
+    }catch (error) {
+        console.error("error:\t", error)
+        alert("Something went wrong with multiple choice questions. Check console for more info.")
+    }
 }
-export function getThemasData() {
-    fetch(`/api/flows/${flowId}/SubThemas`,
-        {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        })
-        .then(response => {
-            if (response.status === 200) {
-                return response.json()
-            } else {
-                alert("Something went wrong with themes, check the console for more details!")
-            }
-        })
-        .then(themes => {
+export async function getThemasData() {
+    try {
+        const response = await fetch(`/api/flows/${flowId}/SubThemas`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                }
+            });
+        if(response.status !== 200) {
+            throw new Error("Something went wrong with subthemas. Status code: " + response.status)
+        }
+            const themes = await response.json();
+        
             let bodyData = ``;
             for (const theme of themes) {
                 bodyData += `<div class="card">
@@ -219,24 +208,26 @@ export function getThemasData() {
                              </div>`;
             }
             subThemasFlowElement.innerHTML = bodyData
-        })
+            return themes;
+    }catch (error) {
+        console.error("error:\t", error)
+        alert("Something went wrong with themas. Check console for more info.")
+    }
 }
-export function getInfoData(){
-    fetch(`/api/flows/${flowId}/TextInfos`,
-        {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        })
-        .then(response => {
-            if (response.status === 200) {
-                return response.json()
-            } else {
-                alert("Something went wrong with textinfos, check the console for more details!")
-            }
-        })
-        .then(texts => {
+export async function getTextData(){
+    try {
+        const response = await fetch(`/api/flows/${flowId}/TextInfos`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                }
+            });
+        if(response.status !== 200) {
+            throw new Error("Something went wrong with texts. Status code: " + response.status)
+        }
+            const texts = await response.json();
+
             let bodyData = ` `;
             for (let i = 0; i < texts.length; i++) {
                 totalInformations++;
@@ -254,27 +245,25 @@ export function getInfoData(){
                     </div></div>`;
             }
             infoElements.innerHTML += bodyData
-        })
-        .catch(error => {
-            console.log(error)
-        });
+            return texts;
+    }catch (error) {
+        console.error("error:\t", error)
+        alert("Something went wrong with texts. Check console for more info.")
+    }
 }
-export function getImageData(){
-    fetch(`/api/flows/${flowId}/ImageInfos`,
-        {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        })
-        .then(response => {
-            if (response.status === 200) {
-                return response.json()
-            } else {
-                alert("Something went wrong with images, check the console for more details!")
-            }
-        })
-        .then(images => {
+export async function getImageData(){
+    try {
+        const response = await fetch(`/api/flows/${flowId}/ImageInfos`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                }
+            });
+        if(response.status !== 200) {
+            throw new Error("Something went wrong with images. Status code: " + response.status)
+        }
+            const images = await response.json();
             let bodyData = ``;
             for (let i = 0; i < images.length; i++) {
                 totalInformations++;
@@ -295,29 +284,27 @@ export function getImageData(){
                     </div>`;
             }
             infoElements.innerHTML += bodyData
-        })
-        .catch(error => {
-            console.log(error)
-        });
-
+            return images;
+    }catch (error) {
+        console.error("error:\t", error)
+        alert("Something went wrong with images. Check console for more info.")
+    }
 }
 
-export function getVideoData(){
-    fetch(`/api/flows/${flowId}/VideoInfos`,
-        {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        })
-        .then(response => {
-            if (response.status === 200) {
-                return response.json()
-            } else {
-                alert("Something went wrong with videos, check the console for more details!")
-            }
-        })
-        .then(videos => {
+export async function getVideoData(){
+    
+    try {
+        const response = await fetch(`/api/flows/${flowId}/VideoInfos`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                }
+            });
+        if(response.status !== 200) {
+            throw new Error("Something went wrong with videos. Status code: " + response.status)
+        }
+            const videos = await response.json();
             let bodyData = ``;
             for (let i = 0; i < videos.length; i++) {
                 totalInformations++;
@@ -338,11 +325,11 @@ export function getVideoData(){
             </div>`;
             }
             infoElements.innerHTML += bodyData
-        })
-        .catch(error => {
-            console.log(error)
-        });
-
+            return videos;
+    }catch (error) {
+        console.error("error:\t", error)
+        alert("Something went wrong with videos. Check console for more info.")
+    }
 }
 
 export function getAnswers() {
@@ -380,40 +367,40 @@ export function getAnswers() {
             let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
             answer.chosenOptions.push(optionText);
         }
-        console.log('answer: ', answer);
+       // console.log('answer: ', answer);
         answers.push(answer);
     });
 
     return answers;
 }
 
-export function commitAnswer() {
+export async function commitAnswer() {
     const answers  = getAnswers();
     const answerObject = answers.map(answer =>({
         Flow: {Id: flowId}, // Send Flow as an object with an Id property, ik gebruik id om dan die flow uit te krijgen
-        subTheme: {Title: "test"},  // Send SubTheme as an object with a Title property, gebruik ik nie echt
+        //subTheme: {Title: "test"},  // Send SubTheme as an object with a Title property, gebruik ik nie echt
         chosenOptions: answer.chosenOptions.map(option => ({OptionText: option})),   // Send each option as an object with an OptionText property
         chosenAnswer: answer.openAnswer,
         questionId: answer.id
     }));
 
-    fetch(`/api/flows/${flowId}/AddAnswers`, {
+    const response = await fetch(`/api/flows/${flowId}/AddAnswers`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(answerObject)
-    })
-        .then(response => {
-            if (response.ok) {
-                console.log("answers objecten werden gecreeerd: \n", response)
-            } else{
-                alert("Problem with commiting answers: \n" + JSON.stringify(answerObject))
-            }
-        })
-        .catch(error => {
-            console.log("problem with fetching answers: ", error)
-        });
+    });
+    
+    try{
+        if(response.status !== 201){
+            throw new Error("Something went wrong with commiting answers.\n" + JSON.stringify(answerObject))
+        }
+        return response.json();
+    }catch (error) {
+        console.error("error:\t", error)
+        alert("Something went wrong with commiting answers. Check console for more info.")
+    }
 }
 export function updateProgressBar() {
     let progressPerc = 100 * (currentQuestionNumber / totalQuestions) ;

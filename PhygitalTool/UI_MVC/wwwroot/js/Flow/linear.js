@@ -1,16 +1,25 @@
 import { getSingleChoiceQuestionData, getOpenQuestionsData, getMultipleChoiceQuestionsData, getRangeQuestionsData,
-    getInfoData, getImageData, getVideoData, getAnswers, commitAnswer, updateProgressBar } from './details.js';
+    getTextData, getImageData, getVideoData, getAnswers, commitAnswer, updateProgressBar } from './details.js';
 
 const addButton = document.getElementById("answerFlow")
 const btnNext = document.getElementById("nextBtn");
 const btnPrev = document.getElementById("prevBtn");
 
+/*let singleChoiceQuestions = getSingleChoiceQuestionData();
+let openQuestions = getOpenQuestionsData();
+let rangeQuestions = getRangeQuestionsData();
+let multipleChoiceQuestions = getMultipleChoiceQuestionsData();
+//effe alles combineren in een array
+let allQuestions = singleChoiceQuestions.concat(openQuestions, rangeQuestions, multipleChoiceQuestions);
+//nu sorteren op sequenceNumber
+allQuestions.sort((a, b) => a.sequenceNumber - b.sequenceNumber);*/
+
 function InitializeFlow() {
-    Promise.allSettled([
+    Promise.all([
         getSingleChoiceQuestionData(),
         getOpenQuestionsData(),
-        getRangeQuestionsData(),
-        getMultipleChoiceQuestionsData()
+        getRangeQuestionsData(), 
+        getMultipleChoiceQuestionsData(),
     ]).then(() => {
         let carousel = new bootstrap.Carousel(document.getElementById('linearFlow'), {
             interval: false,
@@ -43,8 +52,8 @@ questions.forEach(question => {
 });*/
 
 InitializeFlow();
-getInfoData();
-getImageData();
-getVideoData();
+await getTextData();
+await getImageData();
+await getVideoData();
 getAnswers();
-addButton.addEventListener("click", commitAnswer);
+addButton.addEventListener("click", await commitAnswer);

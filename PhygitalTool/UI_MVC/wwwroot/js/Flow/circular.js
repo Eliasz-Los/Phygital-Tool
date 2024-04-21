@@ -1,5 +1,5 @@
 import { getSingleChoiceQuestionData, getOpenQuestionsData, getMultipleChoiceQuestionsData, getRangeQuestionsData,
-    getInfoData, getImageData, getVideoData, getAnswers, commitAnswer, updateProgressBar } from './details.js';
+    getTextData, getImageData, getVideoData, getAnswers, commitAnswer, updateProgressBar } from './details.js';
 
 const addButton = document.getElementById("answerFlow")
 const btnNext = document.getElementById("nextBtn");
@@ -61,7 +61,7 @@ function InitializeFlow() {
         getRangeQuestionsData(),
         getMultipleChoiceQuestionsData()
     ]).then(() => {
-        var carousel = new bootstrap.Carousel(document.getElementById('carouselExampleControls'), {
+        var carousel = new bootstrap.Carousel(document.getElementById('circularFlow'), {
             interval: false,
             wrap: true
         });
@@ -102,8 +102,7 @@ questions.forEach(question => {
 });*/
 
 InitializeFlow();
-getInfoData();
-getImageData();
-getVideoData();
-getThemasData();
-addButton.addEventListener("click", commitAnswer);
+await getTextData();
+await getImageData();
+await getVideoData();
+addButton.addEventListener("click", await commitAnswer);

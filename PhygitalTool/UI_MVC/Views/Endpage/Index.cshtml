@@ -4,6 +4,19 @@
     ViewBag.Title = "Phygital";
     Layout = "_Layout";
 }
+
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Notificatie</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body border-success">
+            Antwoorden zijn succesvol opgeslagen!!!
+        </div>
+    </div>
+</div>
+
 <div class="text-center">
     <h2 class="align-content-center p-4">Bedankt voor het deelnemen aan de bevraging</h2>
 
@@ -28,3 +41,14 @@
         <img src="images/TreeCompanyBanner.png" alt="treeCompanyBanner" width="250">
     </div>
 </div>
+
+@section Scripts
+{
+    <script>
+        window.onload = function() {
+            var toastLiveExample = document.getElementById('liveToast')
+            var toast = new bootstrap.Toast(toastLiveExample)
+            toast.show()
+        }
+    </script>
+}
