@@ -33,6 +33,7 @@
 
     <ItemGroup>
       <Folder Include="Data\Information\" />
+      <Folder Include="wwwroot\js\Flow\Creation\" />
     </ItemGroup>
 
     <ItemGroup>
