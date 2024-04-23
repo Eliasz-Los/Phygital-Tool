@@ -1,3 +1,4 @@
+// scriptje
 function fillSubthemesTable() {
     fetch(`/api/Themas/subthemas`, {
         headers: {
