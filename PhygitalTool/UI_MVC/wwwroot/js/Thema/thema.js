@@ -33,6 +33,13 @@ function addThema() {
         });
 }
 
+function changeThema(){
+
+}
+
+
+
+
 addButton.addEventListener("click", addThema);
 
 

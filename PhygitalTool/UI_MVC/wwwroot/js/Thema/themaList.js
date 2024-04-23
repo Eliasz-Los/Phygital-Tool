@@ -15,13 +15,13 @@ function fillSubthemesTable() {
             }
         })
         .then(subThemas => {
-            let output = document.querySelector("#SubthemaTable");
+            let output = document.getElementById("SubthemaTable");
             let bodyData = ``;
             for (const subThema of subThemas) {
                 bodyData += `<tr data-description="${subThema.description}">
                                 <td>${subThema.title}</td>
                                 <td><a class="bi bi-pencil-square" href=""></a></td>
-                                <td><i class="bi bi-trash" id="delete"></td>
+                                <td><i class="bi bi-trash" id="delete"></i></td>
                             </tr>`;
                 console.log(subThema);
             }

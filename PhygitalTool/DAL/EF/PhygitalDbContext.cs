@@ -199,7 +199,7 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
             .HasOne(v => v.Project)
             .WithMany(p => p.Versions);
     }
-    public bool CreateDatabase(bool dropExisting = false)
+    public bool CreateDatabase(bool dropExisting = true)
     {
         if (dropExisting)
         {
