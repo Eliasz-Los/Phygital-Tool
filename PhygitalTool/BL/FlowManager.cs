@@ -32,6 +32,7 @@ public class FlowManager : IFlowManager
         flow.FlowType = flowtype;
         flow.IsOpen = isOpen;
         flow.Theme.Id = themeId;
+        _flowRepository.UpdateFlow(flow);
     }
 
     public void RemoveFlow(long id)
