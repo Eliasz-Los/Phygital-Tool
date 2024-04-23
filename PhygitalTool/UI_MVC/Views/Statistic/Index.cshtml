@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Phygital.Domain.Statistics.Statistic>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+<h1>Statistics</h1>
+
+@foreach (var outerItem in Model)
+{
+<h3>@outerItem.QuestionText</h3>
+<table>
+    <thead>
+    <tr>
+        <th>Key</th>
+        <th>Value</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var innerItem in outerItem.Answers)
+    {
+    <tr>
+        <td>@innerItem.Key</td>
+        <td>@innerItem.Value</td>
+    </tr>
+    }
+    </tbody>
+</table>
+}

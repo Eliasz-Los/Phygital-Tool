@@ -20,6 +20,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddScoped<IFlowRepository, FlowRepository>();
 builder.Services.AddScoped<IFlowManager, FlowManager>();
 builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IStatisticsRepository, StatisticsRepository>();
+builder.Services.AddScoped<IStatisticsManager, StatisticsManager>();
 
 // identity options (optimal)
 // builder.Services.Configure<IdentityOptions>(options =>
