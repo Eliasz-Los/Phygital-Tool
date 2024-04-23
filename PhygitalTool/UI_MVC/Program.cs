@@ -17,8 +17,24 @@ builder.Services.AddDbContext<PhygitalDbContext>(
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<PhygitalDbContext>();
+// repositories
+builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();
+builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+builder.Services.AddScoped<IFlowElementRepository, FlowElementRepository>();
 builder.Services.AddScoped<IFlowRepository, FlowRepository>();
+builder.Services.AddScoped<IPlatformRepository, PlatformRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+builder.Services.AddScoped<IThemeRepository, ThemeRepository>();
+// managers
+builder.Services.AddScoped<IAnswerManager, AnswerManager>();
+builder.Services.AddScoped<IFeedbackManager, FeedbackManager>();
+builder.Services.AddScoped<IFlowElementManager, FlowElementManager>();
 builder.Services.AddScoped<IFlowManager, FlowManager>();
+builder.Services.AddScoped<IPlatformManager, PlatformManager>();
+builder.Services.AddScoped<IProjectManager, ProjectManager>();
+builder.Services.AddScoped<ISessionManager, SessionManager>();
+builder.Services.AddScoped<IThemeManager, ThemeManager>();
 builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
 
 // identity options (optimal)
