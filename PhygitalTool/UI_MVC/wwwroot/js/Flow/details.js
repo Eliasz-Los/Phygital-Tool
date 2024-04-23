@@ -1,19 +1,18 @@
-const addButton = document.getElementById("answerFlow")
+// Purpose: Fetch data from the backend and display it in the flow details page.
 const flowIdElement = document.getElementById("flowId")
 const flowId = parseInt(flowIdElement.innerText)
 const subThemasFlowElement = document.getElementById("subThemasFlowElementId")
 const questionsElement = document.getElementById("questions")
 const infoElements = document.getElementById("infoAccordion")
 
-let currentQuestionNumber = 1; // null was juist te kort omdat we beginnen met 1ste vraag waardoor er 1 te kort vr progressbar
-let totalQuestions = 0;
+//export let totalQuestions = 0;
+window.totalQuestions = 0;
 let firstQuestion = true;
 let totalInformations = 0;
+//export let currentQuestionNumber = 1; // null was juist te kort omdat we beginnen met 1ste vraag waardoor er 1 te kort vr progressbar
+window.currentQuestionNumber = 1;
 
-const btnNext = document.getElementById("nextBtn");
-const btnPrev = document.getElementById("prevBtn");
-
-function getSingleChoiceQuestionData() {
+export function getSingleChoiceQuestionData() {
     fetch(`/api/flows/${flowId}/SingleChoiceQuestions`,
         {
             headers: {
@@ -32,7 +31,7 @@ function getSingleChoiceQuestionData() {
             let bodyData = ``;
             for (let i = 0; i < singleChoiceQuestions.length; i++) {
                 const singleChoiceQuestion = singleChoiceQuestions[i];
-              totalQuestions +=1;
+                totalQuestions +=1;
                 const isActive = firstQuestion ? 'active' : '';
                 if (firstQuestion) firstQuestion = false;
                 bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${singleChoiceQuestion.sequenceNumber}" data-card-id="${singleChoiceQuestion.id}">
@@ -54,7 +53,7 @@ function getSingleChoiceQuestionData() {
         });
 }
 
-function getOpenQuestionsData() {
+export function getOpenQuestionsData() {
     fetch(`/api/flows/${flowId}/OpenQuestions`,
         {
             headers: {
@@ -73,7 +72,7 @@ function getOpenQuestionsData() {
             let bodyData = ``;
             for (let i = 0; i < openQuestions.length; i++) {
                 const openQuestion = openQuestions[i];
-             totalQuestions +=1;
+                totalQuestions +=1;
                 const isActive = firstQuestion ? 'active' : '';
                 if (firstQuestion) firstQuestion = false;
                 bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${openQuestion.sequenceNumber}" data-card-id="${openQuestion.id}">
@@ -93,7 +92,16 @@ function getOpenQuestionsData() {
 
 }
 
-function getRangeQuestionsData() {
+
+//Zo is de functie ook beschikbaar in de window object en beschikbaar over verschillende files, dus global gezet, 
+// anders werkte het niet bij linear.js & circular.js waar ik het nodig had
+window.updateLabel = function (rangeInput, labelId) {
+    let label = document.getElementById(labelId);
+    let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
+    label.textContent = optionText;
+}
+
+export function getRangeQuestionsData() {
     fetch(`/api/flows/${flowId}/RangeQuestions`,
         {
             headers: {
@@ -115,14 +123,14 @@ function getRangeQuestionsData() {
                 totalQuestions +=1;
                 const isActive = firstQuestion ? 'active' : '';
                 if (firstQuestion) firstQuestion = false;
-                
+
                 let options = rangeQuestion.options.map((option,index) => `data-option-${index}="${option}"`).join('')
                 bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${rangeQuestion.sequenceNumber}" data-card-id="${rangeQuestion.id}">
             <div class="card-body">
                 <h5 class="card-title">${rangeQuestion.text}</h5>
                 <div class="form-group">
                     <input type="range" class="form-control-range" id="formControlRange${i}" min="0" max="${rangeQuestion.options.length -1}" 
-                            ${options} oninput="updateLabel(this, 'rangeLabel${i}')">
+                            ${options} oninput="window.updateLabel(this, 'rangeLabel${i}')"> <!--oninput="updateLabel(this, 'rangeLabel${i}')"-->
                     <label id="rangeLabel${i}" for="formControlRange${i}"></label>
                 </div>
             </div>
@@ -135,7 +143,9 @@ function getRangeQuestionsData() {
         });
 }
 
-function getMultipleChoiceQuestionsData() {
+
+
+export function getMultipleChoiceQuestionsData() {
     fetch(`/api/flows/${flowId}/MultipleChoiceQuestions`,
         {
             headers: {
@@ -174,8 +184,7 @@ function getMultipleChoiceQuestionsData() {
             console.log(error)
         });
 }
-
-function getThemasData() {
+export function getThemasData() {
     fetch(`/api/flows/${flowId}/SubThemas`,
         {
             headers: {
@@ -203,8 +212,7 @@ function getThemasData() {
             subThemasFlowElement.innerHTML = bodyData
         })
 }
-
-function getInfoData(){
+export function getTextData(){
     fetch(`/api/flows/${flowId}/TextInfos`,
         {
             headers: {
@@ -242,9 +250,7 @@ function getInfoData(){
             console.log(error)
         });
 }
-
-
-function getImageData(){
+export function getImageData(){
     fetch(`/api/flows/${flowId}/ImageInfos`,
         {
             headers: {
@@ -287,7 +293,7 @@ function getImageData(){
 
 }
 
-function getVideoData(){
+export function getVideoData(){
     fetch(`/api/flows/${flowId}/VideoInfos`,
         {
             headers: {
@@ -330,21 +336,7 @@ function getVideoData(){
 
 }
 
-function updateLabel(rangeInput, labelId) {
-    let label = document.getElementById(labelId);
-    let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
-    label.textContent = optionText;
-}
-
-function updateProgressBar() {
-    let progressPerc = 100 * (currentQuestionNumber / totalQuestions) ;
-    let progressBar = document.getElementById("progressBar");
-    
-    progressBar.style.width = progressPerc + "%";
-    progressBar.setAttribute("aria-valuenow", progressPerc);
-}
-
-function getAnswers() {
+export function getAnswers() {
     const answers = [];
     const carouselItems = document.querySelectorAll('.carousel-item');
 
@@ -386,16 +378,16 @@ function getAnswers() {
     return answers;
 }
 
-function commitAnswer() {
+export function commitAnswer() {
     const answers  = getAnswers();
     const answerObject = answers.map(answer =>({
         Flow: {Id: flowId}, // Send Flow as an object with an Id property, ik gebruik id om dan die flow uit te krijgen
         subTheme: {Title: "test"},  // Send SubTheme as an object with a Title property, gebruik ik nie echt
         chosenOptions: answer.chosenOptions.map(option => ({OptionText: option})),   // Send each option as an object with an OptionText property
-        chosenAnswer: answer.openAnswer, 
+        chosenAnswer: answer.openAnswer,
         questionId: answer.id
     }));
-    
+
     fetch(`/api/flows/${flowId}/AddAnswers`, {
         method: "POST",
         headers: {
@@ -407,55 +399,18 @@ function commitAnswer() {
             if (response.ok) {
                 console.log("answers objecten werden gecreeerd: \n", response)
             } else{
-                alert("Problem with commiting answers: \n" + JSON.stringify(answerObject))                
+                alert("Problem with commiting answers: \n" + JSON.stringify(answerObject))
             }
         })
         .catch(error => {
             console.log("problem with fetching answers: ", error)
         });
 }
+export function updateProgressBar() {
+    let progressPerc = 100 * (currentQuestionNumber / totalQuestions) ;
+    let progressBar = document.getElementById("progressBar");
 
-async function InitializeFlow() {
-   await Promise.all([
-       
-        getSingleChoiceQuestionData(),
-        getOpenQuestionsData(),
-        getRangeQuestionsData(),
-        getMultipleChoiceQuestionsData()
-    ]).then(() => {
-        
-        var carousel = new bootstrap.Carousel(document.getElementById('carouselExampleControls'), {
-            interval: false,
-            wrap: true
-        });
-
-        btnNext.addEventListener("click", function() {
-            currentQuestionNumber++;
-            updateProgressBar();
-        });
-
-        btnPrev.addEventListener("click", function() {
-            if (currentQuestionNumber > 0) {
-                currentQuestionNumber--;
-            }
-            updateProgressBar();
-        });
-    });
+    progressBar.style.width = progressPerc + "%";
+    progressBar.setAttribute("aria-valuenow", progressPerc);
+    console.log("progressbarPerc: ", progressPerc);
 }
-/*// Fetch the questions
-const questions = await fetchQuestions();
-
-// Sort the questions by sequence number
-questions.sort((a, b) => a.sequenceNumber - b.sequenceNumber);
-
-// Add the questions to the DOM
-questions.forEach(question => {
-    addQuestionToDOM(question);
-});*/
-
-InitializeFlow();
-getInfoData();
-getImageData();
-getVideoData();
-getThemasData();
-addButton.addEventListener("click", commitAnswer);

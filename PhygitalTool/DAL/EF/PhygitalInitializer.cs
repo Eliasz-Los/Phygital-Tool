@@ -119,7 +119,7 @@ public class PhygitalInitializer
         var i6 = new Video
         {
             Title = "Partijen in België",
-            Url = "Fq7LErJRTyo", //"https://www.youtube.com/watch?v=Fq7LErJRTyo&t=24s"
+            Url = "Fq7LErJRTyo", //"https://www.youtube.com/watch?v=Fq7LErJRTyo&t=24s" 
             Description =
                 "Dit video zal een korte uitleg geven over de verschillende partijen in België zodat u een beter geïnformeerde keuze kan maken."
         };
