@@ -8,16 +8,11 @@ using Phygital.Domain.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
-    // Database connectie
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddDbContext<PhygitalDbContext>(ob => ob.UseSqlite("Data Source = ../Data.db"));
-}
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<PhygitalDbContext>();
+builder.Services.AddDbContext<PhygitalDbContext>(
+    o => o.UseNpgsql(builder.Configuration.GetConnectionString("Phygital.db")));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()

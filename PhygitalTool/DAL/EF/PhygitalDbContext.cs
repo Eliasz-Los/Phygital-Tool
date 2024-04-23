@@ -51,7 +51,7 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlite("Data Source=Phygital.db");
+            optionsBuilder.UseNpgsql(connectionString:"Phygital.db");
             optionsBuilder.EnableSensitiveDataLogging();
         }
         
