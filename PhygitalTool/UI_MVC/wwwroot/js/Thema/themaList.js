@@ -1,6 +1,6 @@
 ﻿const addButton = document.getElementById("delete");
 function fillSubthemesTable() {
-    fetch(`/api/projects/subthemas`,
+    fetch(`/api/Themas/subthemas`,
         {
             headers: {
                 "Content-Type": "application/json",
