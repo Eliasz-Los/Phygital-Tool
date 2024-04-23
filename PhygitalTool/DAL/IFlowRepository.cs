@@ -19,7 +19,7 @@ public interface IFlowRepository
     IEnumerable<Theme> ReadSubThemasFlow(long flowId);
     IEnumerable<Theme> ReadAllSubThemas();
 
-    IEnumerable<Theme> DeleteThemeById(long id);
+    void DeleteThemeById(long id);
 
     Option ReadOptionByText(string optionText);
     Question ReadQuestionById(long questionId);

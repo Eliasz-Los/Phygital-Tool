@@ -99,8 +99,8 @@ public class FlowManager : IFlowManager
     {
         _flowRepository.CreateProject(project);
     }
-    public IEnumerable<Theme> GetThemeById(long themeid)
+    public void DeleteThemeById(long themeid)
     {
-       return _flowRepository.DeleteThemeById(themeid);
+       _flowRepository.DeleteThemeById(themeid);
     }
 }

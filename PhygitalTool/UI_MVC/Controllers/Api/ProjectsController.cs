@@ -40,7 +40,6 @@ public class ProjectsController : ControllerBase
     }
     
     
-    // ID meegeven in javascript
     [HttpPost("AddProject")]
     public ActionResult PostProject([FromBody] ProjectCreationModel model)
     {

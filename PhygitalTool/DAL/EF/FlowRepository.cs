@@ -82,9 +82,11 @@ public class FlowRepository : IFlowRepository
         return _dbContext.Themas.Select(t => t);
     }
 
-    public IEnumerable<Theme> DeleteThemeById(long id)
+    public void DeleteThemeById(long id)
     {
-        throw new NotImplementedException();
+        var themeToDelete = _dbContext.Themas.Find(id);
+        _dbContext.Themas.Remove(themeToDelete);
+        _dbContext.SaveChanges();
     }
 
 

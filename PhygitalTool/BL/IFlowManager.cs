@@ -20,7 +20,7 @@ public interface IFlowManager
     Option GetOptionByText(string optionText);
     void AddProject(Project project);
     void AddSubThema(Theme subThema);
-    IEnumerable<Theme> GetThemeById(long id);
+    void DeleteThemeById(long id);
 
     Question GetQuestionById(long questionId);
     IEnumerable<Text> GetTextInfosOfFlowById(long flowId);

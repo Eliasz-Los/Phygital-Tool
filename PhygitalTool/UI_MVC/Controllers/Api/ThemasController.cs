@@ -32,6 +32,7 @@ public class ThemasController : ControllerBase
 
         return Ok(subthemas.Select(subthema => new SubThemasDto()
         {
+            Id = subthema.Id,   
             Title = subthema.Title,
             Description = subthema.Description
         }));
@@ -59,7 +60,14 @@ public class ThemasController : ControllerBase
     [HttpDelete("deleteThemeById/{id}")]
     public IActionResult DeleteThemeById(int id)
     {
-        _flowManager.GetThemeById(id);
-        return Ok();
+        try
+        {
+            _flowManager.DeleteThemeById(id);
+            return Ok(); // Theme deleted successfully, return 200
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "An error occurred while deleting the theme."); // Return 500 for server error
+        }
     }
 }
