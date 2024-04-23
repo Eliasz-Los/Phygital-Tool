@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using BL;
 using Microsoft.EntityFrameworkCore;
+using Phygital.BL.Managers;
 using Phygital.DAL.EF;
 using Phygital.UI_CA;
 
@@ -13,8 +13,10 @@ builder.UseSqlite("Data Source=Phygital.db");
 
 var dbContext = new PhygitalDbContext(builder.Options);
 
-var repository = new FlowRepository(dbContext);
-var manager = new FlowManager(repository);
+var flowRepository = new FlowRepository(dbContext);
+var flowElementRepository = new FlowElementRepository(dbContext);
+var flowManager = new FlowManager(flowRepository);
+var flowElementManager = new FlowElementManager(flowElementRepository);
 
-var consoleUi = new ConsoleUi(manager, repository);
+var consoleUi = new ConsoleUi(flowManager, flowElementManager);
 consoleUi.Run();

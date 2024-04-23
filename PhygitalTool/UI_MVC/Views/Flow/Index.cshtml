@@ -63,7 +63,7 @@
                     <td>@flow.IsOpen</td>
                     <td>@flow.Theme.Title</td>
                     <td>
-                        <a class="bi bi-pencil-square" href=""></a>
+                        <a asp-controller="Flow" asp-action="Edit" asp-route-id="@flow.Id" class="bi bi-pencil-square"></a>
                     </td>
                     <td>
                         <i class="bi bi-trash" id="delete"></i>
@@ -77,10 +77,10 @@
     </table>
     <div class="row align-content-center">
         <div class="col d-flex justify-content-end">
-            <a type="button" class="btn btn-warning" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            <a type="button" class="btn btn-warning" asp-controller="Home" asp-action="Index">Home</a>
         </div>
         <div class="col d-flex justify-content-start">
-            <a type="button" class="btn btn-warning" asp-area="" asp-controller="Flow" asp-action="Add">Flow aanmaken</a>
+            <a type="button" class="btn btn-warning" asp-controller="Flow" asp-action="Add">Flow aanmaken</a>
         </div>
     </div>
 }

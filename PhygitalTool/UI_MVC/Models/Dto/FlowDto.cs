@@ -7,5 +7,6 @@ public class FlowDto
 {
     public long Id { get; set; }
     public Flowtype FlowType { get; set; }
+    public bool IsOpen { get; set; }
     public Theme Theme { get; set; }
 }

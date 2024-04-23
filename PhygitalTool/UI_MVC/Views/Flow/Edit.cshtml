@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Phygital.Domain.Datatypes
+@using Phygital.Domain.Themas
+@model Phygital.Domain.Questionsprocess.Flow
+
+@{
+    ViewBag.Title = "Edit flow";
+    Layout = "_Layout";
+}
+
+<div>
+    <h2>Edit flow</h2>
+    <form asp-controller="Flow" asp-action="Edit" asp-route-id="@Model.Id" method="POST">
+        <div class="form-group">
+            <label asp-for="Id">Id</label>
+            <input asp-for="Id" class="form-control" readonly/>
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="IsOpen">(In)Actief</label>
+            <select asp-for="IsOpen" asp-items="@(new SelectList(Enum.GetValues<Flowtype>()))" class="form-control"></select>
+            <span asp-validation-for="IsOpen" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Theme">Thema</label>
+            <select asp-for="Theme.Id" class="form-control">
+                @foreach (var theme in (IEnumerable<Theme>)ViewBag.Themes)
+                {
+                    <option value="@theme.Id">@theme.Title</option>
+                }
+            </select>
+            <span asp-validation-for="Theme" class="text-danger"></span>
+        </div>
+
+        <div class="row align-content-center py-3">
+            <div class="col d-flex justify-content-end">
+                <input type="submit" value="Save" class="btn btn-warning"/>
+            </div>
+            <div class="col d-flex justify-content-start">
+                <a asp-action="Index" class="btn btn-warning">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
