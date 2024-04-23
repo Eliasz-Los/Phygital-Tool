@@ -1,4 +1,4 @@
-﻿function fillSubthemesTable() {
+function fillSubthemesTable() {
     fetch(`/api/Themas/subthemas`, {
         headers: {
             "Content-Type": "application/json",
