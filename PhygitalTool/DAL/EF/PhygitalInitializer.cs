@@ -17,7 +17,7 @@ public class PhygitalInitializer
         using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
         {
             var context = scope.ServiceProvider.GetRequiredService<PhygitalDbContext>();
-            if (context.CreateDatabase(dropExisting: false))
+            if (context.CreateDatabase(dropExisting: true))
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
