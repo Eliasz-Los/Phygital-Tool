@@ -32,10 +32,10 @@ public class ProjectsController : ControllerBase
         {
             return NoContent();
         }
-        return Ok(subthemas.Select(flow => new SubThemasDto()
+        return Ok(subthemas.Select(subthema => new SubThemasDto()
         {
-            Title = flow.Title,
-            Description = flow.Description
+            Title = subthema.Title,
+            Description = subthema.Description
         }));
     }
     

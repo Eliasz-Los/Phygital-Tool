@@ -82,6 +82,12 @@ public class FlowRepository : IFlowRepository
         return _dbContext.Themas.Select(t => t);
     }
 
+    public IEnumerable<Theme> DeleteThemeById(long id)
+    {
+        throw new NotImplementedException();
+    }
+
+
     public Option ReadOptionByText(string optionText)
     {
         return _dbContext.Options.FirstOrDefault(o => o.OptionText.ToLower().Equals(optionText.ToLower()));
