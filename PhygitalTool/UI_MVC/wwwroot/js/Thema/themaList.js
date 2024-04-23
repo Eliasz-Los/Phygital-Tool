@@ -43,25 +43,26 @@
 
 
 function deleteSubtheme(idTheme) {
-    return fetch("/api/Themas/" + idTheme, {
+    return fetch("/api/Themas/deleteSubTheme/" + idTheme, {
         method: 'DELETE'
     })
         .then(function (response) {
+            // Check if deletion was successful
             if (!response.ok) {
-                throw Error(
-                    'Unable to DELETE the theme: ' +
-                    response.status +
-                    ' ' +
-                    response.statusText
-                );
+                throw Error('Unable to DELETE the theme: ' + response.status + ' ' + response.statusText);
             }
-            return response.json();
+            location.reload();
         })
-        .catch(function (e) {
-            console.error(e);
-            throw e;
+        .then(function () {
+            console.log("Deletion successful");
+        })
+        .catch(function (error) {
+            console.error("Error deleting theme:", error);
+            throw error;
         });
 }
+
+
 
 
 fillSubthemesTable();
