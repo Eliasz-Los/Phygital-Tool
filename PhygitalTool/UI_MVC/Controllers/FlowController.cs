@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
 using Phygital.Domain;
+using Phygital.Domain.Questionsprocess;
+using Phygital.UI_MVC.Models.Dto;
 
 namespace Phygital.UI_MVC.Controllers;
 
@@ -17,7 +19,6 @@ public class FlowController : Controller
         _flowManager = flowManager;
         _uow = uow;
     }
-    
 
     public IActionResult Index()
     {
@@ -30,15 +31,32 @@ public class FlowController : Controller
         var flow = _flowManager.GetFlowById(id);
         return View(flow);
     }
-
+    
     public IActionResult Add()
     {
         return View();
     }
 
+    [HttpGet]
     public IActionResult Edit(long id)
     {
         var flow = _flowManager.GetFlowById(id);
+        var themes = _flowManager.GetAllThemas();
+        ViewBag.Themes = themes;
         return View(flow);
+    }
+    
+    [HttpPost]
+    public IActionResult Edit(long id, FlowDto flow)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View();
+        }
+        else
+        {
+            _flowManager.ChangeFlow(flow.Id, flow.FlowType, flow.IsOpen, flow.Theme.Id);
+            return RedirectToAction("Details", "Flow", new {id = flow.Id});
+        }
     }
 }

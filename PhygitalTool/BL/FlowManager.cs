@@ -16,7 +16,6 @@ public class FlowManager : IFlowManager
         _flowRepository = flowRepository;
     }
 
-
     public IEnumerable<Flow> GetAllFlows()
     {
         return _flowRepository.ReadAllFlows();
@@ -25,6 +24,19 @@ public class FlowManager : IFlowManager
     public Flow GetFlowById(long id)
     {
         return _flowRepository.ReadFlowById(id);
+    }
+
+    public void ChangeFlow(long id, Flowtype flowtype, bool isOpen, long themeId)
+    {
+        var flow = _flowRepository.ReadFlowById(id);
+        flow.FlowType = flowtype;
+        flow.IsOpen = isOpen;
+        flow.Theme.Id = themeId;
+    }
+
+    public void RemoveFlow(long id)
+    {
+        _flowRepository.DeleteFlow(id);
     }
 
     public IEnumerable<SingleChoiceQuestion> GetSingleChoiceQuestionsWithOptionsOfFlowById(long flowId)
@@ -55,6 +67,11 @@ public class FlowManager : IFlowManager
     public IEnumerable<Theme> GetAllSubThemas()
     {
         return _flowRepository.ReadAllSubThemas();
+    }
+    
+    public IEnumerable<Theme> GetAllThemas()
+    {
+        return _flowRepository.ReadAllThemas();
     }
 
     public Option GetOptionByText(string optionText)

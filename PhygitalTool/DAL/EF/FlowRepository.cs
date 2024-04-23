@@ -25,6 +25,19 @@ public class FlowRepository : IFlowRepository
         return _dbContext.Flows.Find(id);
     }
     
+    public void UpdateFlow(Flow flow)
+    {
+        _dbContext.Flows.Update(flow);
+        _dbContext.SaveChanges();
+    }
+
+    public void DeleteFlow(long id)
+    {
+        var flowsToDelete = _dbContext.Flows.Find(id);
+        _dbContext.Flows.Remove(flowsToDelete);
+        _dbContext.SaveChanges();
+    }
+    
     public void CreateAnswer(Answer answer)
     {
         _dbContext.Answers.Add(answer);
@@ -82,6 +95,11 @@ public class FlowRepository : IFlowRepository
         return _dbContext.Themas.Select(t => t);
     }
 
+    public IEnumerable<Theme> ReadAllThemas()
+    {
+        return _dbContext.Themas.Select(t => t);
+    }
+    
     public IEnumerable<Theme> DeleteThemeById(long id)
     {
         throw new NotImplementedException();

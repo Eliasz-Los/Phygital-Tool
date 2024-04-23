@@ -12,12 +12,15 @@ public interface IFlowRepository
     void CreateAnswer(Answer answer);
     void CreateProject(Project project);
     void CreateTheme(Theme theme);
+    void UpdateFlow(Flow flow);
+    void DeleteFlow(long id);
     IEnumerable<SingleChoiceQuestion> ReadSingleChoiceQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<MultipleChoice> ReadMultipleChoiceQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<RangeQuestion> ReadRangeQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<OpenQuestion> ReadOpenQuestionsWithAnswerOfFlowById(long flowId);
     IEnumerable<Theme> ReadSubThemasFlow(long flowId);
     IEnumerable<Theme> ReadAllSubThemas();
+    IEnumerable<Theme> ReadAllThemas();
 
     IEnumerable<Theme> DeleteThemeById(long id);
 
