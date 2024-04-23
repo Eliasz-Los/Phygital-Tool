@@ -35,4 +35,10 @@ public class FlowController : Controller
     {
         return View();
     }
+
+    public IActionResult Edit(long id)
+    {
+        var flow = _flowManager.GetFlowById(id);
+        return View(flow);
+    }
 }
