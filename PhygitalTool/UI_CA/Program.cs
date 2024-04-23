@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using BL;
 using Microsoft.EntityFrameworkCore;
+using Phygital.BL.Managers;
 using Phygital.DAL.EF;
 using Phygital.UI_CA;
 

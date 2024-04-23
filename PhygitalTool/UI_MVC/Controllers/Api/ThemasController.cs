@@ -1,5 +1,4 @@
-﻿using BL;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
 using Phygital.DAL.EF;
 using Phygital.Domain.Themas;
