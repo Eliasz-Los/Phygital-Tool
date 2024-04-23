@@ -10,19 +10,19 @@ namespace Phygital.UI_MVC.Controllers.Api;
 [Route("/api/[controller]")]
 public class ThemasController : ControllerBase
 {
-    private readonly IFlowManager _flowManager;
+    private readonly IThemeManager _themeManager;
     private readonly UnitOfWork _unitOfWork;
 
-    public ThemasController(IFlowManager flowManager, UnitOfWork unitOfWork)
+    public ThemasController(IThemeManager themeManager, UnitOfWork unitOfWork)
     {
-        _flowManager = flowManager;
+        _themeManager = themeManager;
         _unitOfWork = unitOfWork;
     }
 
     [HttpGet("subthemas")]
     public ActionResult<IEnumerable<SubThemasDto>> GetSubThemas()
     {
-        var subthemas = _flowManager.GetAllSubThemas();
+        var subthemas = _themeManager.GetAllSubThemas();
 
         if (!subthemas.Any())
         {
@@ -50,7 +50,7 @@ public class ThemasController : ControllerBase
             Description = newSubThema.Description
         };
         _unitOfWork.BeginTransaction();
-        _flowManager.AddSubThema(subThema);
+        _themeManager.AddSubThema(subThema);
         _unitOfWork.Commit();
         return Ok(subThema);
     }
@@ -58,7 +58,7 @@ public class ThemasController : ControllerBase
     [HttpDelete("deleteThemeById/{id}")]
     public IActionResult DeleteThemeById(int id)
     {
-        _flowManager.GetThemeById(id);
+        _themeManager.GetThemeById(id);
         return Ok();
     }
 }

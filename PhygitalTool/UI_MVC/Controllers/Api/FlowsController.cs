@@ -12,18 +12,24 @@ namespace Phygital.UI_MVC.Controllers.Api;
 public class FlowsController : ControllerBase
 {
     private readonly IFlowManager _flowManager;
+    private readonly IFlowElementManager _flowElementManager;
+    private readonly IThemeManager _themeManager;
+    private readonly IAnswerManager _answerManager;
     private readonly UnitOfWork _unitOfWork;
-    
-    public FlowsController(IFlowManager flowManager, UnitOfWork unitOfWork)
+
+    public FlowsController(IFlowManager flowManager, IFlowElementManager flowElementManager, IThemeManager themeManager, IAnswerManager answerManager, UnitOfWork unitOfWork)
     {
         _flowManager = flowManager;
+        _flowElementManager = flowElementManager;
+        _themeManager = themeManager;
+        _answerManager = answerManager;
         _unitOfWork = unitOfWork;
     }
-    
+
     [HttpGet("{flowId}/SingleChoiceQuestions")]
     public ActionResult<IEnumerable<SingleChoiceQuestionDto>> GetSingleChoiceQuestionsOfFlow(long flowId)
     {
-        var scq = _flowManager.GetSingleChoiceQuestionsWithOptionsOfFlowById(flowId);
+        var scq = _flowElementManager.GetSingleChoiceQuestionsWithOptionsOfFlowById(flowId);
     
         if (!scq.Any())
         {
@@ -43,7 +49,7 @@ public class FlowsController : ControllerBase
     [HttpGet("{flowId}/MultipleChoiceQuestions")]
     public ActionResult<IEnumerable<MultipleChoiceQuestionDto>> GetMultipleChoiceQuestionsOfFlow(long flowId)
     {
-        var mcq = _flowManager.GetMultipleChoiceQuestionsWithOptionsOfFlowById(flowId);
+        var mcq = _flowElementManager.GetMultipleChoiceQuestionsWithOptionsOfFlowById(flowId);
     
         if (!mcq.Any())
         {
@@ -63,7 +69,7 @@ public class FlowsController : ControllerBase
     [HttpGet("{flowId}/RangeQuestions")]
     public ActionResult<IEnumerable<RangeQuestionDto>> GetRangeQuestionsOfFlow(long flowId)
     {
-        var rq = _flowManager.GetRangeQuestionsWithOptionsOfFlowById(flowId);
+        var rq = _flowElementManager.GetRangeQuestionsWithOptionsOfFlowById(flowId);
     
         if (!rq.Any())
         {
@@ -83,7 +89,7 @@ public class FlowsController : ControllerBase
     [HttpGet("{flowId}/OpenQuestions")]
     public ActionResult<IEnumerable<OpenQuestionDto>> GetOpenQuestionsOfFlow(long flowId)
     {
-        var oq = _flowManager.GetOpenQuestionsWithAnswerOfFlowById(flowId);
+        var oq = _flowElementManager.GetOpenQuestionsWithAnswerOfFlowById(flowId);
     
         if (!oq.Any())
         {
@@ -103,7 +109,7 @@ public class FlowsController : ControllerBase
     [HttpGet("{flowId}/SubThemas")]
     public ActionResult<IEnumerable<SubThemasDto>> GetSubThemasFlow(long flowId)
     {
-        var flows = _flowManager.GetSubThemasFlow(flowId);
+        var flows = _themeManager.GetSubThemasFlow(flowId);
 
         if (!flows.Any())
         {
@@ -119,7 +125,7 @@ public class FlowsController : ControllerBase
     [HttpGet("{flowId}/TextInfos")]
     public ActionResult<IEnumerable<TextDto>> GetTextInfosOfFlow(long flowId)
     {
-        var texts = _flowManager.GetTextInfosOfFlowById(flowId);
+        var texts = _flowElementManager.GetTextInfosOfFlowById(flowId);
 
         if (!texts.Any())
         {
@@ -135,7 +141,7 @@ public class FlowsController : ControllerBase
     [HttpGet("{flowId}/ImageInfos")]
     public ActionResult<IEnumerable<ImageDto>> GetImageInfosOfFlow(long flowId)
     {
-        var images = _flowManager.GetImageInfosOfFlowById(flowId);
+        var images = _flowElementManager.GetImageInfosOfFlowById(flowId);
 
         if (!images.Any())
         {
@@ -152,7 +158,7 @@ public class FlowsController : ControllerBase
     [HttpGet("{flowId}/VideoInfos")]
     public ActionResult<IEnumerable<VideoDto>> GetVideoInfosOfFlow(long flowId)
     {
-        var videos = _flowManager.GetVideoInfosOfFlowById(flowId);
+        var videos = _flowElementManager.GetVideoInfosOfFlowById(flowId);
 
         if (!videos.Any())
         {
@@ -170,7 +176,7 @@ public class FlowsController : ControllerBase
     public ActionResult PostAnswers(long flowId, [FromBody] List<AnswerDto> answers)
     {
         var flow = _flowManager.GetFlowById(flowId);
-        var theme = _flowManager.GetSubThemasFlow(flowId);
+        var theme = _themeManager.GetSubThemasFlow(flowId);
         
         if (flow == null)
         {
@@ -186,7 +192,7 @@ public class FlowsController : ControllerBase
         
         foreach (var answerDto in answers)
         {
-            var question = _flowManager.GetQuestionById(answerDto.QuestionId);
+            var question = _flowElementManager.GetQuestionById(answerDto.QuestionId);
            
             Answer answer = new Answer
             {
@@ -217,7 +223,7 @@ public class FlowsController : ControllerBase
         }
         
         _unitOfWork.BeginTransaction();
-        _flowManager.AddAnswersToFlow(answerList); 
+        _answerManager.AddAnswersToFlow(answerList); 
         _unitOfWork.Commit();
         return Ok();
     }
