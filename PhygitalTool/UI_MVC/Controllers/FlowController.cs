@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BL;
+using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
-using Phygital.Domain;
-using Phygital.Domain.Questionsprocess;
 using Phygital.UI_MVC.Models.Dto;
 
 namespace Phygital.UI_MVC.Controllers;

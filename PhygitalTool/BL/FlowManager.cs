@@ -1,12 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BL;
 using Phygital.DAL;
 using Phygital.Domain.Datatypes;
 using Phygital.Domain.Questionsprocess;
-using Phygital.Domain.Questionsprocess.Questions;
-using Phygital.Domain.Subplatform;
-using Phygital.Domain.Themas;
 
-namespace BL;
+namespace Phygital.BL;
 
 public class FlowManager : IFlowManager
 {
@@ -27,80 +24,13 @@ public class FlowManager : IFlowManager
         return _flowRepository.ReadFlowById(id);
     }
 
-    public IEnumerable<SingleChoiceQuestion> GetSingleChoiceQuestionsWithOptionsOfFlowById(long flowId)
+    public void ChangeFlow(long id, Flowtype flowtype, bool isOpen, long themeId)
     {
-        return _flowRepository.ReadSingleChoiceQuestionsWithOptionsOfFlowById(flowId);
+        throw new NotImplementedException();
     }
 
-    public IEnumerable<MultipleChoice> GetMultipleChoiceQuestionsWithOptionsOfFlowById(long flowId)
+    public void RemoveFlow(long id)
     {
-        return _flowRepository.ReadMultipleChoiceQuestionsWithOptionsOfFlowById(flowId);
-    }
-
-    public IEnumerable<RangeQuestion> GetRangeQuestionsWithOptionsOfFlowById(long flowId)
-    {
-    return _flowRepository.ReadRangeQuestionsWithOptionsOfFlowById(flowId);
-    }
-
-    public IEnumerable<OpenQuestion> GetOpenQuestionsWithAnswerOfFlowById(long flowId)
-    {
-        return _flowRepository.ReadOpenQuestionsWithAnswerOfFlowById(flowId);
-    }
-
-    public IEnumerable<Theme> GetSubThemasFlow(long flowId)
-    {
-        return _flowRepository.ReadSubThemasFlow(flowId);
-    }
-
-    public IEnumerable<Theme> GetAllSubThemas()
-    {
-        return _flowRepository.ReadAllSubThemas();
-    }
-
-    public Option GetOptionByText(string optionText)
-    {
-        return _flowRepository.ReadOptionByText(optionText);
-    }
-
-    public Question GetQuestionById(long questionId)
-    {
-        return _flowRepository.ReadQuestionById(questionId);
-    }
-
-    public IEnumerable<Text> GetTextInfosOfFlowById(long flowId)
-    {
-        return _flowRepository.ReadTextInfosOfFlowById(flowId);
-    }
-
-    public IEnumerable<Image> GetImageInfosOfFlowById(long flowId)
-    {
-        return _flowRepository.ReadImageInfosOfFlowById(flowId);
-    }
-
-    public IEnumerable<Video> GetVideoInfosOfFlowById(long flowId)
-    {
-        return _flowRepository.ReadVideoInfosOfFlowById(flowId);
-    }
-
-    public void AddAnswersToFlow(List<Answer> answers)
-    {
-        foreach (var answer in answers)
-        {
-            _flowRepository.CreateAnswer(answer);
-        }
-        
-    }
-    public void AddSubThema(Theme subThema)
-    {
-        _flowRepository.CreateTheme(subThema);
-    }
-
-    public void AddProject(Project project)
-    {
-        _flowRepository.CreateProject(project);
-    }
-    public void DeleteThemeById(long themeid)
-    {
-       _flowRepository.DeleteThemeById(themeid);
+        throw new NotImplementedException();
     }
 }

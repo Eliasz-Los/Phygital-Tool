@@ -9,4 +9,5 @@ public interface IThemeManager
     IEnumerable<Theme> GetAllSubThemas();
     IEnumerable<Theme> GetSubThemasFlow(long flowId);
     void AddSubThema(Theme subThema);
+    void DeleteThemeById(int id);
 }

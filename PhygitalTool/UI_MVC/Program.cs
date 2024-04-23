@@ -1,3 +1,4 @@
+using BL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Phygital.BL;
@@ -5,6 +6,7 @@ using Phygital.BL.Managers;
 using Phygital.DAL;
 using Phygital.DAL.EF;
 using Phygital.Domain.User;
+using FlowManager = Phygital.BL.Managers.FlowManager;
 
 var builder = WebApplication.CreateBuilder(args);
 

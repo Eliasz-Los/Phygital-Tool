@@ -36,4 +36,9 @@ public class ThemeManager : IThemeManager
     {
         _themeRepository.CreateTheme(subThema);
     }
+
+    public void DeleteThemeById(int id)
+    {
+        throw new NotImplementedException();
+    }
 }

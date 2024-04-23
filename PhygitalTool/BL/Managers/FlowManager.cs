@@ -1,4 +1,5 @@
-﻿using Phygital.DAL;
+﻿using BL;
+using Phygital.DAL;
 using Phygital.Domain.Datatypes;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
@@ -23,6 +24,11 @@ public class FlowManager : IFlowManager
     public Flow GetFlowById(long id)
     {
         return _flowRepository.ReadFlowById(id);
+    }
+
+    public void AddAnswersToFlow(List<Answer> answers)
+    {
+        throw new NotImplementedException();
     }
 
     public void ChangeFlow(long id, Flowtype flowtype, bool isOpen, long themeId)
