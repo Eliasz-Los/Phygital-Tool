@@ -23,7 +23,7 @@ public class PhygitalInitializer
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 
                 Seed(context);
-                SeedIdentity(userManager, roleManager);
+                SeedIdentity(userManager, roleManager).GetAwaiter().GetResult();
             }
         }
     }
@@ -412,64 +412,64 @@ public class PhygitalInitializer
         context.ChangeTracker.Clear();
     }
     
-    private static void SeedIdentity(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+    private static async Task SeedIdentity(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         // all role types
         var adminRole = new IdentityRole
         {
             Name = CustomIdentityConstraints.AdminRole
         };
-        roleManager.CreateAsync(adminRole);
+        await roleManager.CreateAsync(adminRole);
 
         var subAdminRole = new IdentityRole
         {
             Name = CustomIdentityConstraints.SubAdminRole
         };
-        roleManager.CreateAsync(subAdminRole);
+        await roleManager.CreateAsync(subAdminRole);
 
         var supervisorRole = new IdentityRole
         {
             Name = CustomIdentityConstraints.SupervisorRole
         };
-        roleManager.CreateAsync(supervisorRole);
+        await roleManager.CreateAsync(supervisorRole);
 
         var userRole = new IdentityRole
         {
             Name = CustomIdentityConstraints.UserRole
         };
-        roleManager.CreateAsync(userRole);
+        await roleManager.CreateAsync(userRole);
 
         // hardcoded users implentation and assignment of a role
         var adminPhygital = new IdentityUser
         {
             Email = "admin@phygital.be",
-            UserName = "admin", EmailConfirmed = true
+            UserName = "admin@phygital.be", EmailConfirmed = true
         };
-        userManager.CreateAsync(adminPhygital, "Admin@01");
-        userManager.AddToRoleAsync(adminPhygital, CustomIdentityConstraints.AdminRole);
+        await userManager.CreateAsync(adminPhygital, "Admin@01");
+        await userManager.AddToRoleAsync(adminPhygital, CustomIdentityConstraints.AdminRole);
 
         var subAdmin = new IdentityUser
         {
             Email = "subadmin@phygital.be",
-            UserName = "subadmin", EmailConfirmed = true
+            UserName = "subadmin@phygital.be", EmailConfirmed = true
         };
-        userManager.CreateAsync(subAdmin, "SubAdmin@01");
-        userManager.AddToRoleAsync(subAdmin, CustomIdentityConstraints.SubAdminRole);
+        await userManager.CreateAsync(subAdmin, "Subadmin@01");
+        await userManager.AddToRoleAsync(subAdmin, CustomIdentityConstraints.SubAdminRole);
 
         var supervisor = new IdentityUser
         {
             Email = "supervisor@phygital.be",
-            UserName = "supervisor", EmailConfirmed = true
+            UserName = "supervisor@phygital.be", EmailConfirmed = true
         };
-        userManager.CreateAsync(supervisor, "Supervisor@01");
-        userManager.AddToRoleAsync(supervisor, CustomIdentityConstraints.SupervisorRole);
+        await userManager.CreateAsync(supervisor, "Supervisor@01");
+        await userManager.AddToRoleAsync(supervisor, CustomIdentityConstraints.SupervisorRole);
 
         var user = new IdentityUser
         {
             Email = "user@phygital.be",
-            UserName = "user", EmailConfirmed = true
+            UserName = "user@phygital.be", EmailConfirmed = true
         };
-        userManager.CreateAsync(user, "User@01");
-        userManager.AddToRoleAsync(user, CustomIdentityConstraints.UserRole);
+        await userManager.CreateAsync(user, "User@01");
+        await userManager.AddToRoleAsync(user, CustomIdentityConstraints.UserRole);
     }
 }
