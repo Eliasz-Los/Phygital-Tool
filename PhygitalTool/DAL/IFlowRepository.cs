@@ -18,6 +18,9 @@ public interface IFlowRepository
     IEnumerable<OpenQuestion> ReadOpenQuestionsWithAnswerOfFlowById(long flowId);
     IEnumerable<Theme> ReadSubThemasFlow(long flowId);
     IEnumerable<Theme> ReadAllSubThemas();
+
+    IEnumerable<Theme> DeleteThemeById(long id);
+
     Option ReadOptionByText(string optionText);
     Question ReadQuestionById(long questionId);
     IEnumerable<Text> ReadTextInfosOfFlowById(long flowId);
