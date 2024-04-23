@@ -1,6 +1,6 @@
 ﻿const addButton = document.getElementById("delete");
 function fillSubthemesTable() {
-    fetch(`/api/projects/subthemas`,
+    fetch(`/api/Themas/subthemas`,
         {
             headers: {
                 "Content-Type": "application/json",
@@ -15,7 +15,7 @@ function fillSubthemesTable() {
             }
         })
         .then(subThemas => {
-            let output = document.querySelector("#SubthemaTable");
+            let output = document.getElementById("SubthemaTable");
             let bodyData = ``;
             for (const subThema of subThemas) {
                 bodyData += `<tr data-description="${subThema.description}">

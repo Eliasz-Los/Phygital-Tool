@@ -30,4 +30,9 @@ public class FlowController : Controller
         var flow = _flowManager.GetFlowById(id);
         return View(flow);
     }
+
+    public IActionResult Add()
+    {
+        return View();
+    }
 }
