@@ -1,7 +1,4 @@
 ﻿using Phygital.BL;
-using Phygital.DAL;
-using Phygital.DAL.EF;
-using Phygital.Domain.Questionsprocess;
 using Phygital.UI_CA.Extension;
 
 namespace Phygital.UI_CA;
@@ -9,12 +6,12 @@ namespace Phygital.UI_CA;
 public class ConsoleUi
 {
     private readonly IFlowManager _flowManager;
-    private readonly FlowRepository _flowRepository;
+    private readonly IFlowElementManager _flowElementManager;
     
-    public ConsoleUi(IFlowManager flowManager, FlowRepository repository)
+    public ConsoleUi(IFlowManager flowManager, IFlowElementManager flowElementManager)
     {
         _flowManager = flowManager;
-        _flowRepository = repository;
+        _flowElementManager = flowElementManager;
     }
     
     public void Run()
@@ -27,7 +24,7 @@ public class ConsoleUi
         }
 
         Console.WriteLine("Get scq of flow 1");
-        var scq = _flowManager.GetSingleChoiceQuestionsWithOptionsOfFlowById(1);
+        var scq = _flowElementManager.GetSingleChoiceQuestionsWithOptionsOfFlowById(1);
         foreach (var question in scq)
         {
             Console.WriteLine(question.StringRepresentation());
