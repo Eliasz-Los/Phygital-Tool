@@ -20,54 +20,65 @@ public class StatisticsRepository : IStatisticsRepository
     public IEnumerable<Statistic> GetFlowStatistics(long flowId)
     {
         var flow = _flowRepository.ReadFlowById(flowId);
-
- 
+        
         var openQuestions = _flowRepository.ReadOpenQuestionsWithAnswerOfFlowById(flowId);
         var singleChoiceQuestions = _flowRepository.ReadSingleChoiceQuestionsWithOptionsOfFlowById(flowId);
-        var multipleChoiceQuestions = _flowRepository.ReadMultipleChoiceQuestionsWithOptionsOfFlowById(flowId);
-        var rangeQuestions = _flowRepository.ReadRangeQuestionsWithOptionsOfFlowById(flowId);
-        var options = _dbContext.Options;
-        
-        /*var answers = _dbContext.Answers
-            .Where(a => a.Flow.Id == flowId)
-            .ToList();*/
-        var answers = _dbContext.Answers.Where( a => a.Flow != null && a.Flow.Id == flowId)
-            .Select(a => new
-            {
-                Answer = a,
-                MultipleChoice = a.MultipleChoice,
-                SingleChoice = a.SingleChoiceQuestion,
-                Range = a.RangeQuestion,
-                Open = a.OpenQuestion
-            })
-            .ToList()
-            .Select(a => a.Answer)
+        var multipleChoiceQuestions = _dbContext.MultipleChoices
+            .Include(mc => mc.Options)
+            .ThenInclude(o => o.Answer)
+            .Where(mc => mc.Flow.Id == flowId)
             .ToList();
+        var rangeQuestions = _flowRepository.ReadRangeQuestionsWithOptionsOfFlowById(flowId);
         
-        if (flow == null)
-        {
-            throw new Exception($"No Flow with ID {flowId} exists.");
-        }
+        var answers = _dbContext.Answers
+            .Include(a => a.ChosenOptions)
+            .Where(a => a.Flow != null && a.Flow.Id == flowId && a.MultipleChoice != null || a.SingleChoiceQuestion != null || a.RangeQuestion != null || a.OpenQuestion != null)
+            .ToList();
 
         var stats = new List<Statistic>();
+        
+        //group answers by question
+        var groupedAnswers = answers.GroupBy(a => a.MultipleChoice?.Text ?? a.SingleChoiceQuestion?.Text ?? a.RangeQuestion?.Text ?? a.OpenQuestion?.Text);
 
-        foreach (var question in multipleChoiceQuestions)
+
+        foreach (var group in groupedAnswers)
+        {
+            var stat = new Statistic();
+            stat.QuestionText = group.Key;
+
+            foreach (var answer in group)
+            {
+                foreach (var option in answer.ChosenOptions)
+                {
+                    if (stat.Answers.ContainsKey(option.OptionText))
+                    {
+                        stat.Answers[option.OptionText]++;
+                    }
+                    else
+                    {
+                        stat.Answers[option.OptionText] = 1;
+                    }
+                }
+            }
+
+            stats.Add(stat);
+        }
+
+
+        /*foreach (var question in multipleChoiceQuestions)
         {
             var statistic = new Statistic();
             statistic.QuestionText = question.Text;
             foreach (var option in question.Options)
             {
-                //option answers id coonection
-                
-                var answerCount = answers.Count(a => a.MultipleChoice!= null && a.MultipleChoice.Id == option.MultipleChoice.Id);
-                //var answerCount = answers.Count(a => a.ChosenAnswer == option.OptionText);
-            
+               //var answerCount = answers.Count(a => a != null && option.Answer != null && a.Id == option.Answer.Id);
+               //var answerCount = answers.Count(a => a.MultipleChoice!= null && a.MultipleChoice.Id == option.MultipleChoice.Id);
+               var answerCount = answers.Count(a => a.ChosenOptions.Contains(option)); // && a.Id == option.Answer.Id
                 statistic.Answers.Add(option.OptionText, answerCount);
-               
             }
             stats.Add(statistic);
         }
-        
+
         foreach (var question in singleChoiceQuestions)
         {
             var statistic = new Statistic();
@@ -93,7 +104,7 @@ public class StatisticsRepository : IStatisticsRepository
                 statistic.Answers.Add(option.OptionText, answerCount);
             }
             stats.Add(statistic);
-        }
+        }*/
         
         /*TODO: GEEN ID in openquestion, object not set to en instance*/
 
@@ -115,64 +126,6 @@ public class StatisticsRepository : IStatisticsRepository
             }
             stats.Add(statistic);
         }*/
-        
-        
-        /*foreach (var question in questions)
-        {
-            var statistic = new Statistic();
-
-            if (question is MultipleChoice multipleChoiceQuestion)
-            {
-                statistic.QuestionText = multipleChoiceQuestion.Text;
-                // process multiple choice question
-                foreach (var option in multipleChoiceQuestion.Options)
-                {
-                    var answerCount = answers.Count(a => a.ChosenAnswer == option.OptionText);
-                    statistic.Answers.Add(option.OptionText, answerCount);
-                }
-            }
-            else if (question is SingleChoiceQuestion singleChoiceQuestion)
-            {
-                statistic.QuestionText = singleChoiceQuestion.Text;
-                // process single choice question
-                foreach (var option in singleChoiceQuestion.Options)
-                {
-                    var answerCount = answers.Count(a => a.ChosenAnswer == option.OptionText);
-                    statistic.Answers.Add(option.OptionText, answerCount);
-                }
-            }
-            else if (question is RangeQuestion rangeQuestion)
-            {
-                statistic.QuestionText = rangeQuestion.Text;
-                // process range question
-                foreach (var option in rangeQuestion.Options) 
-                {
-                    var answerCount = answers.Count(a => a.ChosenAnswer == option.OptionText);
-                    statistic.Answers.Add(option.OptionText, answerCount);
-                }
-            }
-            else if (question is OpenQuestion openQuestion)
-            {
-                statistic.QuestionText = openQuestion.Text;
-                // process open question
-                var openAnswers = answers.Where(a => a.OpenQuestion.Id == openQuestion.Id);
-                foreach (var answer in openAnswers)
-                {
-                    if (statistic.Answers.ContainsKey(answer.ChosenAnswer))
-                    {
-                        statistic.Answers[answer.ChosenAnswer]++;
-                    }
-                    else
-                    {
-                        statistic.Answers.Add(answer.ChosenAnswer, 1);
-                    }
-                }
-                
-            }
-
-            stats.Add(statistic);
-        }*/
-
         return stats;
     }
 }
