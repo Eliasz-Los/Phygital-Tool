@@ -1,5 +1,4 @@
-﻿using BL;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
 using Phygital.Domain.Datatypes;
 using Phygital.Domain.Questionsprocess;
@@ -14,19 +13,21 @@ namespace Phygital.UI_MVC.Controllers.Api;
 [Route("/api/[controller]")]
 public class ProjectsController : ControllerBase
 {
-    private readonly IFlowManager _flowManager;
+    private readonly IThemeManager _themeManager;
+    private readonly IProjectManager _projectManager;
     private readonly UnitOfWork _unitOfWork;
-    
-    public ProjectsController(IFlowManager flowManager, UnitOfWork unitOfWork)
+
+    public ProjectsController(IThemeManager themeManager, IProjectManager projectManager, UnitOfWork unitOfWork)
     {
-        _flowManager = flowManager;
+        _themeManager = themeManager;
+        _projectManager = projectManager;
         _unitOfWork = unitOfWork;
     }
-    
+
     [HttpGet("subthemas")]
     public ActionResult<IEnumerable<SubThemasDto>> GetSubThemas()
     {
-        var subthemas = _flowManager.GetAllSubThemas();
+        var subthemas = _themeManager.GetAllSubThemas();
 
         if (!subthemas.Any())
         {
@@ -40,7 +41,6 @@ public class ProjectsController : ControllerBase
     }
     
     
-    // ID meegeven in javascript
     [HttpPost("AddProject")]
     public ActionResult PostProject([FromBody] ProjectCreationModel model)
     {
@@ -83,7 +83,7 @@ public class ProjectsController : ControllerBase
         // Add standard flow to project
         _unitOfWork.BeginTransaction();
         project.Flows.Add(flow);
-        _flowManager.AddProject(project);
+        _projectManager.AddProject(project);
         _unitOfWork.Commit();
         return Ok();
     }

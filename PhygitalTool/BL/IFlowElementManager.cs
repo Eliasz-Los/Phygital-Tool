@@ -1,0 +1,17 @@
+﻿using Phygital.Domain.Questionsprocess;
+using Phygital.Domain.Questionsprocess.Questions;
+
+namespace Phygital.BL;
+
+public interface IFlowElementManager
+{
+    IEnumerable<SingleChoiceQuestion> GetSingleChoiceQuestionsWithOptionsOfFlowById(long flowId);
+    IEnumerable<MultipleChoice> GetMultipleChoiceQuestionsWithOptionsOfFlowById(long flowId);
+    IEnumerable<RangeQuestion> GetRangeQuestionsWithOptionsOfFlowById(long flowId);
+    IEnumerable<OpenQuestion> GetOpenQuestionsWithAnswerOfFlowById(long flowId);
+    Question GetQuestionById(long questionId);
+    IEnumerable<Text> GetTextInfosOfFlowById(long flowId);
+    IEnumerable<Image> GetImageInfosOfFlowById(long flowId);
+    IEnumerable<Video> GetVideoInfosOfFlowById(long flowId);
+    Option GetOptionByText(string optionText);
+}
