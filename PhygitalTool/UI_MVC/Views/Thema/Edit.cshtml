@@ -1,42 +1,30 @@
-﻿@using Phygital.Domain.Questionsprocess;
-@model IEnumerable<Flow>
-
+﻿
 @{
-    ViewBag.Title = "Phygital";
+    ViewBag.Title = "Edit Thema";
     Layout = "_Layout";
 }
 
-<!-- This page displays some elements to change a theme -->
 
-<div class="text-center">
-    <h3 class="align-content-center p-4">Maak nieuw thema</h3>
-    <div class="container-fluid">
-        <form class="">
-            <div class="d-flex justify-content-center">
-                <div class="col-lg-6 text-start">
-                    <label for="ThemaInput">Thema</label>
-                    <input type="text" class="form-control border border-warning mb-3" id="ThemaInput" placeholder="Naam">
-                    <label for="DescriptionArea">Beschrijving</label>
-                    <textarea class="form-control border border-warning mb-3" id="DescriptionArea"rows="5"
-                    placeholder="Beschrijving..."></textarea>
+<div>
+    <h2>Edit Thema</h2>
+    <form asp-controller="Thema" asp-action="Edit" asp-route-id="@Model.Id" method="POST">
+        <div class="form-group">
+            <label asp-for="Id">Id</label>
+            <input asp-for="Id" class="form-control" readonly/>
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>
 
-                </div>
+        <div class="form-group">
+            <label asp-for="Theme">Thema</label>
+        </div>
+
+        <div class="row align-content-center py-3">
+            <div class="col d-flex justify-content-end">
+                <input type="submit" value="Save" class="btn btn-warning"/>
             </div>
-            <div class="container-fluid p-2">
-                <div class="row align-content-center">
-                    <div class="col d-flex justify-content-end">
-                        <a onclick="history.back()" type="button" class="btn btn-warning">Annuleer</a>
-                    </div>
-                    <div class="col d-flex justify-content-start">
-                        <a type="button" class="btn btn-warning" id="submitThema" asp-area="" asp-controller="Thema" asp-action="Index" >Maak thema</a>
-                    </div>
-                </div>
+            <div class="col d-flex justify-content-start">
+                <a asp-action="Index" class="btn btn-warning">Cancel</a>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
-
-@section Scripts
-{
-    <script src="~/js/Thema/thema.js" defer></script>
-}
