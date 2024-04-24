@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Statistics;
 
@@ -25,11 +26,24 @@ public class StatisticsRepository : IStatisticsRepository
         var singleChoiceQuestions = _flowRepository.ReadSingleChoiceQuestionsWithOptionsOfFlowById(flowId);
         var multipleChoiceQuestions = _flowRepository.ReadMultipleChoiceQuestionsWithOptionsOfFlowById(flowId);
         var rangeQuestions = _flowRepository.ReadRangeQuestionsWithOptionsOfFlowById(flowId);
+        var options = _dbContext.Options;
         
-        var answers = _dbContext.Answers
+        /*var answers = _dbContext.Answers
             .Where(a => a.Flow.Id == flowId)
+            .ToList();*/
+        var answers = _dbContext.Answers.Where( a => a.Flow != null && a.Flow.Id == flowId)
+            .Select(a => new
+            {
+                Answer = a,
+                MultipleChoice = a.MultipleChoice,
+                SingleChoice = a.SingleChoiceQuestion,
+                Range = a.RangeQuestion,
+                Open = a.OpenQuestion
+            })
+            .ToList()
+            .Select(a => a.Answer)
             .ToList();
-
+        
         if (flow == null)
         {
             throw new Exception($"No Flow with ID {flowId} exists.");
@@ -43,9 +57,13 @@ public class StatisticsRepository : IStatisticsRepository
             statistic.QuestionText = question.Text;
             foreach (var option in question.Options)
             {
+                //option answers id coonection
                 
-                var answerCount = answers.Count(a => a.ChosenAnswer == option.OptionText);
+                var answerCount = answers.Count(a => a.MultipleChoice!= null && a.MultipleChoice.Id == option.MultipleChoice.Id);
+                //var answerCount = answers.Count(a => a.ChosenAnswer == option.OptionText);
+            
                 statistic.Answers.Add(option.OptionText, answerCount);
+               
             }
             stats.Add(statistic);
         }
@@ -56,7 +74,9 @@ public class StatisticsRepository : IStatisticsRepository
             statistic.QuestionText = question.Text;
             foreach (var option in question.Options)
             {
-                var answerCount = answers.Count(a => a.ChosenAnswer == option.OptionText);
+                var answerCount = answers.Count(a => a.SingleChoiceQuestion!= null && a.SingleChoiceQuestion.Id == option.SingleChoiceQuestion.Id);
+
+                //var answerCount = answers.Count(a => a.ChosenAnswer == option.OptionText);
                 statistic.Answers.Add(option.OptionText, answerCount);
             }
             stats.Add(statistic);
@@ -68,7 +88,8 @@ public class StatisticsRepository : IStatisticsRepository
             statistic.QuestionText = question.Text;
             foreach (var option in question.Options)
             {
-                var answerCount = answers.Count(a => a.ChosenAnswer == option.OptionText);
+                //var answerCount = answers.Count(a => a.ChosenAnswer == option.OptionText);
+                var answerCount = answers.Count(a => a.RangeQuestion!= null && a.RangeQuestion.Id == option.RangeQuestion.Id);
                 statistic.Answers.Add(option.OptionText, answerCount);
             }
             stats.Add(statistic);
