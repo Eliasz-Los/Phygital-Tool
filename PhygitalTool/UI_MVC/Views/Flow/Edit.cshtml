@@ -10,7 +10,7 @@
 
 <div>
     <h2>Edit flow</h2>
-    <form asp-controller="Flow" asp-action="Edit" asp-route-id="@Model.Id" method="POST">
+    <form asp-controller="Flow" asp-action="Edit" asp-route-id="@Model.Id" method="POST"> @* TODO: Post -> PUT ofzo? - Jonas *@
         <div class="form-group">
             <label asp-for="Id">Id</label>
             <input asp-for="Id" class="form-control" readonly/>
