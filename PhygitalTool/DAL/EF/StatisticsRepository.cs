@@ -17,9 +17,83 @@ public class StatisticsRepository : IStatisticsRepository
     }
 
 
-    public IEnumerable<Statistic> GetFlowStatistics(long flowId)
+public IEnumerable<Statistic> GetFlowStatistics(long flowId)
+{
+    // Retrieve all answers for the specified flow
+    var answers = _dbContext.Answers
+        .Include(a => a.ChosenOptions)
+        .Include(a => a.OpenQuestion)
+        .Include(a => a.MultipleChoice)
+        .Include(a => a.RangeQuestion)
+        .Include(a => a.SingleChoiceQuestion)
+        .Where(a => a.Flow.Id == flowId && (a.MultipleChoice != null || a.SingleChoiceQuestion != null || a.RangeQuestion != null || a.OpenQuestion != null))
+        .ToList();
+
+    var groupedAnswers = answers.GroupBy(a => a.MultipleChoice?.Text ?? a.SingleChoiceQuestion?.Text ?? a.RangeQuestion?.Text ?? a.OpenQuestion?.Text);
+    
+    // Initialize a list to hold the statistics
+    List<Statistic> statistics = new List<Statistic>();
+
+    // Iterate over each group of answers
+    foreach (var group in groupedAnswers)
     {
-        var flow = _flowRepository.ReadFlowById(flowId);
+        // Initialize a new statistic for this group
+        var stat = new Statistic();
+        stat.QuestionText = group.Key;
+        
+        foreach (var answer in group)
+        {
+            /*// Initialize a new statistic for this answer
+            Statistic statistic = new Statistic
+            {
+                QuestionText = answer.OpenQuestion?.Text ?? answer.MultipleChoice?.Text ?? answer.RangeQuestion?.Text ?? answer.SingleChoiceQuestion?.Text
+            };*/
+
+            // If the answer is a multiple choice or single choice question, count the chosen options
+            if (answer.MultipleChoice != null || answer.SingleChoiceQuestion != null || answer.RangeQuestion != null)
+            {
+                foreach (var option in answer.ChosenOptions)
+                {
+                    if (stat.Answers.ContainsKey(option.OptionText))
+                    {
+                        stat.Answers[option.OptionText]++;
+                    }
+                    else
+                    {
+                        stat.Answers[option.OptionText] = 1;
+                    }
+                }
+            
+            }
+            // If the answer is an open question or range question, count the chosen answer
+            else if (answer.OpenQuestion != null)
+            {
+                if (stat.Answers.ContainsKey(answer.ChosenAnswer))
+                {
+                    stat.Answers[answer.ChosenAnswer]++;
+                }
+                else
+                {
+                    stat.Answers[answer.ChosenAnswer] = 1;
+                }
+            }
+
+            // Add the statistic to the list
+            statistics.Add(stat);
+        }
+
+    }
+    // Iterate over each answer
+    
+    // Return the list of statistics
+    return statistics;
+}
+
+}
+
+
+//TODO: the beginning of the method
+/*   var flow = _flowRepository.ReadFlowById(flowId);
         
         var openQuestions = _flowRepository.ReadOpenQuestionsWithAnswerOfFlowById(flowId);
         var singleChoiceQuestions = _flowRepository.ReadSingleChoiceQuestionsWithOptionsOfFlowById(flowId);
@@ -37,7 +111,10 @@ public class StatisticsRepository : IStatisticsRepository
 
         var stats = new List<Statistic>();
         
-        //group answers by question
+        
+        return stats;*/
+     //TODO: works the best
+        /*//group answers by question
         var groupedAnswers = answers.GroupBy(a => a.MultipleChoice?.Text ?? a.SingleChoiceQuestion?.Text ?? a.RangeQuestion?.Text ?? a.OpenQuestion?.Text);
 
 
@@ -62,9 +139,9 @@ public class StatisticsRepository : IStatisticsRepository
             }
 
             stats.Add(stat);
-        }
-
-
+        }*/
+        
+        //TODO: works badly
         /*foreach (var question in multipleChoiceQuestions)
         {
             var statistic = new Statistic();
@@ -107,7 +184,7 @@ public class StatisticsRepository : IStatisticsRepository
         }*/
         
         /*TODO: GEEN ID in openquestion, object not set to en instance*/
-
+        //should work only for open quesitons
         /*foreach (var question in openQuestions)
         {
             var statistic = new Statistic();
@@ -126,9 +203,4 @@ public class StatisticsRepository : IStatisticsRepository
             }
             stats.Add(statistic);
         }*/
-        return stats;
-    }
-}
-
-    
     
