@@ -23,8 +23,4 @@ public class Answer
     public MultipleChoice MultipleChoice { get; set; }
     public RangeQuestion RangeQuestion { get; set; }
     public SingleChoiceQuestion SingleChoiceQuestion { get; set; }
-    
-    //foreign key because answer is dependent on the question
-  //  public long OpenQuestionId { get; set; }
-  
 }
