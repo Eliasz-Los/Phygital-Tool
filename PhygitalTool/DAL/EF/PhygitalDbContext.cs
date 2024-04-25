@@ -180,6 +180,14 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
             .HasOne(a => a.OpenQuestion)
             .WithOne(oq => oq.Answer)
             .HasForeignKey<OpenQuestion>("answerId");
+        
+        // Answers has many options chosen by user
+        modelBuilder.Entity<Answer>()
+            .HasMany(a => a.ChosenOptions)
+            .WithOne(o => o.Answer);
+        modelBuilder.Entity<Option>()
+            .HasOne(o => o.Answer)
+            .WithMany(a => a.ChosenOptions);
 
         
         // Subplatform
@@ -199,7 +207,7 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
             .HasOne(v => v.Project)
             .WithMany(p => p.Versions);
     }
-    public bool CreateDatabase(bool dropExisting = false)
+    public bool CreateDatabase(bool dropExisting = true)
     {
         if (dropExisting)
         {
