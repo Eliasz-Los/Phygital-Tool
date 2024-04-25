@@ -12,4 +12,7 @@ public class Option
     public SingleChoiceQuestion SingleChoiceQuestion { get; set; }
     
     public string OptionText { get; set; }
+    
+    //om answer te koppelen aan GEKOZEN optie(s)
+    public Answer Answer { get; set; }
 }

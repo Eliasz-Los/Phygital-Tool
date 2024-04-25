@@ -8,8 +8,8 @@
 
 <!-- This page displays the flowtypes a user can choose from when starting the application -->
 
-@if (User.IsInRole("Supervisor"))
-{
+@*@if (User.IsInRole("Supervisor"))
+{*@
     <div class="text-center">
         <h1 class="p-2">Flows</h1>
         <div class="row justify-content-center">
@@ -39,7 +39,7 @@
             }
         </div>
     </div>
-}
+@*}*@
 
 @if (User.IsInRole("SubAdmin"))
 {

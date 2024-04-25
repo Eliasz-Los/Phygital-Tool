@@ -180,6 +180,14 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
             .HasOne(a => a.OpenQuestion)
             .WithOne(oq => oq.Answer)
             .HasForeignKey<OpenQuestion>("answerId");
+        
+        // Answers has many options chosen by user
+        modelBuilder.Entity<Answer>()
+            .HasMany(a => a.ChosenOptions)
+            .WithOne(o => o.Answer);
+        modelBuilder.Entity<Option>()
+            .HasOne(o => o.Answer)
+            .WithMany(a => a.ChosenOptions);
 
         
         // Subplatform

@@ -38,6 +38,8 @@ builder.Services.AddScoped<IProjectManager, ProjectManager>();
 builder.Services.AddScoped<ISessionManager, SessionManager>();
 builder.Services.AddScoped<IThemeManager, ThemeManager>();
 builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IStatisticsRepository, StatisticsRepository>();
+builder.Services.AddScoped<IStatisticsManager, StatisticsManager>();
 
 // identity options (optimal)
 // builder.Services.Configure<IdentityOptions>(options =>
