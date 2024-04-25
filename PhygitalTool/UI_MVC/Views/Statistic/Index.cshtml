@@ -19,9 +19,13 @@
     </ul>
 </nav>
 
-<div class="row justify-content-center col-3 spacing-top">
-    <button id="download-csv" class="btn btn-outline-primary">Download Data in CSV format</button>
-    <button id="download-excel" class="btn btn-outline-success">Download Data in EXCEL format</button>
+<div class="row mt-3 mb-3 justify-content-center">
+    <div class="col-md-2">
+        <button id="download-csv" class="btn btn-outline-primary w-100">Download Data in CSV format</button>
+    </div>
+    <div class="col-md-2">
+        <button id="download-excel" class="btn btn-outline-success w-100">Download Data in EXCEL format</button>
+    </div>
 </div>
 
 
@@ -66,6 +70,7 @@
     @*Excel library writer*@
     <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
     <script src="~/js/Statistic/chart.js" defer></script>
+    <script src="~/js/Statistic/dataFileMaker.js" defer></script>
 }
 
 
