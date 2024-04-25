@@ -29,7 +29,7 @@ public IEnumerable<Statistic> GetFlowStatistics(long flowId)
         .Where(a => a.Flow.Id == flowId && (a.MultipleChoice != null || a.SingleChoiceQuestion != null || a.RangeQuestion != null || a.OpenQuestion != null))
         .ToList();
 
-    var groupedAnswers = answers.GroupBy(a => a.MultipleChoice?.Text ?? a.SingleChoiceQuestion?.Text ?? a.RangeQuestion?.Text ?? a.OpenQuestion?.Text);
+    var groupedAnswers = answers.GroupBy(a => a.MultipleChoice?.Text ?? a.SingleChoiceQuestion?.Text ?? a.RangeQuestion?.Text ?? a.OpenQuestion?.Text).Distinct();
     
     // Initialize a list to hold the statistics
     List<Statistic> statistics = new List<Statistic>();
@@ -43,13 +43,7 @@ public IEnumerable<Statistic> GetFlowStatistics(long flowId)
         
         foreach (var answer in group)
         {
-            /*// Initialize a new statistic for this answer
-            Statistic statistic = new Statistic
-            {
-                QuestionText = answer.OpenQuestion?.Text ?? answer.MultipleChoice?.Text ?? answer.RangeQuestion?.Text ?? answer.SingleChoiceQuestion?.Text
-            };*/
-
-            // If the answer is a multiple choice or single choice question, count the chosen options
+            // If the answer is a multiple, range or single question, count the chosen options
             if (answer.MultipleChoice != null || answer.SingleChoiceQuestion != null || answer.RangeQuestion != null)
             {
                 foreach (var option in answer.ChosenOptions)
@@ -78,10 +72,10 @@ public IEnumerable<Statistic> GetFlowStatistics(long flowId)
                 }
             }
 
-            // Add the statistic to the list
-            statistics.Add(stat);
+            
         }
-
+        // Add the statistic to the list
+        statistics.Add(stat);
     }
     // Iterate over each answer
     
