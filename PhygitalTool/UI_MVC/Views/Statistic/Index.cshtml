@@ -19,6 +19,12 @@
     </ul>
 </nav>
 
+<div class="row justify-content-center col-3 spacing-top">
+    <button id="download-csv" class="btn btn-outline-primary">Download Data in CSV format</button>
+    <button id="download-excel" class="btn btn-outline-success">Download Data in EXCEL format</button>
+</div>
+
+
 <section class="tab-content">
     <section class="container tab-pane fade show active " id="plain-data">
         @foreach (var outerItem in Model)
@@ -55,7 +61,10 @@
 
 @section Scripts 
 {
+    @*for graphs*@
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    @*Excel library writer*@
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
     <script src="~/js/Statistic/chart.js" defer></script>
 }
 
