@@ -12,7 +12,8 @@ public class FlowController : Controller
     private readonly IThemeManager _themeManager;
     private readonly UnitOfWork _uow;
 
-    public FlowController(ILogger<FlowController> logger, IFlowManager flowManager, IThemeManager themeManager, UnitOfWork uow)
+    public FlowController(ILogger<FlowController> logger, IFlowManager flowManager, IThemeManager themeManager,
+        UnitOfWork uow)
     {
         _logger = logger;
         _flowManager = flowManager;
@@ -31,7 +32,7 @@ public class FlowController : Controller
         var flow = _flowManager.GetFlowById(id);
         return View(flow);
     }
-    
+
     public IActionResult Add()
     {
         return View();
@@ -45,18 +46,36 @@ public class FlowController : Controller
         ViewBag.Themes = themes;
         return View(flow);
     }
-    
+
     [HttpPost]
     public IActionResult Edit(long id, FlowDto flow)
     {
-        if (!ModelState.IsValid)
+        try
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            _uow.BeginTransaction();
+            _flowManager.ChangeFlow(flow.Id, flow.FlowType, flow.IsOpen, flow.Theme.Id);
+            _uow.Commit();
+            return RedirectToAction("Index", new { id = flow.Id });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error updating flow with id {Id}", id);
+            ModelState.AddModelError("", "An error occurred while updating the flow.");
             return View();
         }
-        else
-        {
-            _flowManager.ChangeFlow(flow.Id, flow.FlowType, flow.IsOpen, flow.Theme.Id);
-            return RedirectToAction("Details", "Flow", new {id = flow.Id});
-        }
+    }
+
+    [HttpPost]
+    public IActionResult Delete(long id)
+    {
+        _uow.BeginTransaction();
+        _flowManager.RemoveFlow(id);
+        _uow.Commit();
+        return RedirectToAction("Index");
     }
 }

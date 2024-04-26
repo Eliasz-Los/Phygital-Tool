@@ -1,0 +1,76 @@
+﻿@using System.Text.RegularExpressions
+@using Microsoft.CodeAnalysis.Scripting
+@model IEnumerable<Phygital.Domain.Statistics.Statistic>
+
+@{
+    ViewBag.Title = "Phygital";
+    Layout = "_Layout";
+}
+<h1>Statistics of Flow</h1>
+
+<nav aria-label="statistic-page">
+    <ul class="nav nav-tabs">
+        <li class="nav-item ">
+            <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#plain-data" >Plain data</a> @*href="#plain-data"*@
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#charts" href="#charts">Visual Data</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="row mt-3 mb-3 justify-content-center">
+    <div class="col-md-2">
+        <button id="download-csv" class="btn btn-outline-primary w-100">Download Data in CSV format</button>
+    </div>
+    <div class="col-md-2">
+        <button id="download-excel" class="btn btn-outline-success w-100">Download Data in EXCEL format</button>
+    </div>
+</div>
+
+
+<section class="tab-content">
+    <section class="container tab-pane fade show active " id="plain-data">
+        @foreach (var outerItem in Model)
+        {
+            <h3>@outerItem.QuestionText</h3>
+            <table class="table table-hover" id="table-@outerItem.QuestionText">
+                <thead class="table-active">
+                <tr>
+                    <th>Keuze</th>
+                    <th>Aantal</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var innerItem in outerItem.Answers)
+                {
+                    <tr>
+                        <td>@innerItem.Key</td>
+                        <td>@innerItem.Value</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </section>
+    <section class ="container tab-pane fade" id="charts">
+        @foreach (var outerItem in Model)
+        {
+        <h3>@outerItem.QuestionText</h3>
+        <canvas id="chart-@outerItem.QuestionText"></canvas>
+        }
+        
+    </section>
+</section>
+
+@section Scripts 
+{
+    @*for graphs*@
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    @*Excel library writer*@
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="~/js/Statistic/chart.js" defer></script>
+    <script src="~/js/Statistic/dataFileMaker.js" defer></script>
+}
+
+
