@@ -15,9 +15,9 @@ public class StatisticController : Controller
         _statisticsManager = statisticsManager;
     }
     // GET
-    public IActionResult Index()
+    public IActionResult Index(long id)
     {
-        var stats = _statisticsManager.GetFlowStatistics(1);
+        var stats = _statisticsManager.GetFlowStatistics(id);
         return View(stats);
     }
 }

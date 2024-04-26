@@ -50,6 +50,7 @@
             <th>type</th>
             <th>Actief</th>
             <th>Thema</th>
+            <th>Statistics</th>
             <th>Wijzig</th>
             <th>Verwijder</th>
         </tr>
@@ -63,7 +64,10 @@
                     <td>@flow.IsOpen</td>
                     <td>@flow.Theme.Title</td>
                     <td>
-                        <a asp-controller="Flow" asp-action="Edit" asp-route-id="@flow.Id" class="btn btn-success bi bi-pencil-square"></a>
+                        <a class="btn btn-primary bi bi-file-earmark-spreadsheet" asp-controller="Statistic" asp-action="Index" asp-route-id="@flow.Id"></a>
+                    </td>
+                    <td>
+                        <a class="btn btn-success bi bi-pencil-square" asp-controller="Flow" asp-action="Edit" asp-route-id="@flow.Id"></a>
                     </td>
                     <td>
                         @* <a asp-controller="Flow" asp-action="Delete" asp-route-id="@flow.Id" class="bi bi-trash"></a> *@
@@ -82,10 +86,10 @@
     </table>
     <div class="row align-content-center">
         <div class="col d-flex justify-content-end">
-            <a type="button" class="btn btn-warning" asp-controller="Home" asp-action="Index">Home</a>
+            <a type="button" class="w-25 btn btn-warning" asp-controller="Home" asp-action="Index">Home</a>
         </div>
         <div class="col d-flex justify-content-start">
-            <a type="button" class="btn btn-warning" asp-controller="Flow" asp-action="Add">Flow aanmaken</a>
+            <a type="button" class="w-25 btn btn-warning" asp-controller="Flow" asp-action="Add">Flow aanmaken</a>
         </div>
     </div>
 }
