@@ -12,16 +12,17 @@ public class ThemaController : Controller
     private readonly UnitOfWork _uow;
 
 
-    public ThemaController(ILogger<ThemaController> logger, IThemeManager themeManager)
+    public ThemaController(ILogger<ThemaController> logger, IThemeManager themeManager, UnitOfWork uow)
     {
         _logger = logger;
         _themeManager = themeManager;
+        _uow = uow;
     }
 
     public IActionResult Index()
     {
         var themas = _themeManager.GetAllThemas();
-        return View();
+        return View(themas);
     }
     public IActionResult Add()
     {
@@ -63,7 +64,7 @@ public class ThemaController : Controller
     public IActionResult Delete(long id)
     {
         _uow.BeginTransaction();
-        _themeManager.DeleteThemeById(id);
+        _themeManager.RemoveTheme(id);
         _uow.Commit();
         return RedirectToAction("Index");
     }
