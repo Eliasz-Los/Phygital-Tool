@@ -9,6 +9,7 @@ public class ThemaController : Controller
 {
     private readonly ILogger<ThemaController> _logger;
     private readonly IThemeManager _themeManager;
+    private readonly UnitOfWork _uow;
 
 
     public ThemaController(ILogger<ThemaController> logger, IThemeManager themeManager)
@@ -19,6 +20,7 @@ public class ThemaController : Controller
 
     public IActionResult Index()
     {
+        var themas = _themeManager.GetAllThemas();
         return View();
     }
     public IActionResult Add()
@@ -37,14 +39,33 @@ public class ThemaController : Controller
     [HttpPost]
     public IActionResult Edit(long id, SubThemasDto thema)
     {
-        if (!ModelState.IsValid)
+        try
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            else
+            {
+                _themeManager.ChangeTheme(thema.Id, thema.Title, thema.Description);
+                return RedirectToAction("Index", "Thema", new {id = thema.Id});
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error updating thema with id {Id}", id);
+            ModelState.AddModelError("", "An error occurred while updating the thema.");
             return View();
         }
-        else
-        {
-            _themeManager.ChangeTheme(thema.Id, thema.Title, thema.Description);
-            return RedirectToAction("Index", "Thema", new {id = thema.Id});
-        }
     }
+
+    [HttpPost]
+    public IActionResult Delete(long id)
+    {
+        _uow.BeginTransaction();
+        _themeManager.DeleteThemeById(id);
+        _uow.Commit();
+        return RedirectToAction("Index");
+    }
+
 }
