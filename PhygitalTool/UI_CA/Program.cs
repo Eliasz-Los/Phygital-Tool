@@ -15,7 +15,9 @@ var dbContext = new PhygitalDbContext(builder.Options);
 
 var flowRepository = new FlowRepository(dbContext);
 var flowElementRepository = new FlowElementRepository(dbContext);
-var flowManager = new FlowManager(flowRepository);
+var themeRepository = new ThemeRepository(dbContext);
+var themeManager = new ThemeManager(themeRepository);
+var flowManager = new FlowManager(flowRepository, themeManager);
 var flowElementManager = new FlowElementManager(flowElementRepository);
 
 var consoleUi = new ConsoleUi(flowManager, flowElementManager);

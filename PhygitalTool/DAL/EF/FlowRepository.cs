@@ -22,6 +22,11 @@ public class FlowRepository : IFlowRepository
         return _dbContext.Flows.Find(id);
     }
 
+    public Flow ReadFlowAndThemeById(long id)
+    {
+        return _dbContext.Flows.Include(f => f.Theme).FirstOrDefault(f => f.Id == id);
+    }
+
     public void UpdateFlow(Flow flow)
     {
         _dbContext.Flows.Update(flow);
