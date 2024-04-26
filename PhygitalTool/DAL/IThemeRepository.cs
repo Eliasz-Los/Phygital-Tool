@@ -9,6 +9,6 @@ public interface IThemeRepository
     IEnumerable<Theme> ReadAllThemas();
     IEnumerable<Theme> ReadAllSubThemas();
     IEnumerable<Theme> ReadSubThemasFlow(long flowId);
-    void DeleteThemeById(long id);
+    void DeleteTheme(long id);
     void UpdateTheme(Theme theme);
 }

@@ -59,12 +59,13 @@ public class ThemasController : ControllerBase
         return Ok(subThema);
     }
 
+    /*
     [HttpDelete("deleteSubTheme/{id}")]
-    public IActionResult DeleteThemeById(int id)
+    public IActionResult DeleteTheme(int id)
     {
         try
         {
-            _themeManager.DeleteThemeById(id);
+            _themeManager.RemoveTheme(id);
             return Ok(); // Theme deleted successfully, return 200
         }
         catch (Exception ex)
@@ -72,5 +73,5 @@ public class ThemasController : ControllerBase
             return StatusCode(500, "An error occurred while deleting the theme."); // Return 500 for server error
         }
     }
-
+    */
 }

@@ -36,18 +36,13 @@ public class ThemeRepository : IThemeRepository
         return _dbContext.Themas.Where(t => t.Flows.Any(f => f.Id == flowId)).Select(t => t);
     }
 
-    void IThemeRepository.DeleteThemeById(long id)
-    {
-        throw new NotImplementedException();
-    }
-
     public void UpdateTheme(Theme theme)
     {
-        throw new NotImplementedException();
+        _dbContext.Themas.Update(theme);
     }
 
-    public IEnumerable<Theme> DeleteThemeById(long id)
+    public void DeleteTheme(long id)
     {
-        throw new NotImplementedException();
-    }
+        var themaToDelete = _dbContext.Themas.Find(id);
+        _dbContext.Themas.Remove(themaToDelete);    }
 }
