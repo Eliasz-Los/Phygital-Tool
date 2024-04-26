@@ -4,10 +4,11 @@ namespace Phygital.BL;
 
 public interface IThemeManager
 {
-    IEnumerable<Theme> GetThemeById(long id);
+    Theme GetThemeById(long id);
     IEnumerable<Theme> GetAllThemas();
     IEnumerable<Theme> GetAllSubThemas();
     IEnumerable<Theme> GetSubThemasFlow(long flowId);
     void AddSubThema(Theme subThema);
-    void DeleteThemeById(int id);
+    void DeleteThemeById(long id);
+    void ChangeTheme(long id, string title, string description);
 }

@@ -12,9 +12,22 @@ public class ThemeManager : IThemeManager
         _themeRepository = themeRepository;
     }
 
-    public IEnumerable<Theme> GetThemeById(long themeid)
+    public void DeleteThemeById(long themeid)
     {
-        return _themeRepository.DeleteThemeById(themeid);
+        _themeRepository.DeleteThemeById(themeid);
+    }
+
+    public void ChangeTheme(long id, string title, string description)
+    {
+        var theme = _themeRepository.ReadThemeById(id);
+        theme.Title = title;
+        theme.Description = description;
+        _themeRepository.UpdateTheme(theme);
+    }
+
+    public Theme GetThemeById(long id)
+    {
+        return _themeRepository.ReadThemeById(id);
     }
 
     public IEnumerable<Theme> GetAllThemas()
@@ -37,8 +50,4 @@ public class ThemeManager : IThemeManager
         _themeRepository.CreateTheme(subThema);
     }
 
-    public void DeleteThemeById(int id)
-    {
-        throw new NotImplementedException();
-    }
 }
