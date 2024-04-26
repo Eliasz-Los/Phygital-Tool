@@ -24,11 +24,12 @@ public class FlowRepository : IFlowRepository
 
     public void UpdateFlow(Flow flow)
     {
-        throw new NotImplementedException();
+        _dbContext.Flows.Update(flow);
     }
 
     public void DeleteFlow(long id)
     {
-        throw new NotImplementedException();
+        var flowToDelete = _dbContext.Flows.Find(id);
+        _dbContext.Flows.Remove(flowToDelete);
     }
 }
