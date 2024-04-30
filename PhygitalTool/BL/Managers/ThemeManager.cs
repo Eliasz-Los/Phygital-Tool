@@ -12,9 +12,9 @@ public class ThemeManager : IThemeManager
         _themeRepository = themeRepository;
     }
 
-    public void RemoveTheme(long themeid)
+    public void RemoveTheme(long id)
     {
-        _themeRepository.DeleteTheme(themeid);
+        _themeRepository.DeleteTheme(id);
     }
 
     public void ChangeTheme(long id, string title, string description)
