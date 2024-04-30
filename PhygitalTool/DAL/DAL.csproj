@@ -23,14 +23,10 @@
       </PackageReference>
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
     </ItemGroup>
-<<<<<<< HEAD
 
     <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
     </ItemGroup>
-
-=======
->>>>>>> origin/main
     <ItemGroup>
       <ProjectReference Include="..\Domain\Domain.csproj" />
     </ItemGroup>

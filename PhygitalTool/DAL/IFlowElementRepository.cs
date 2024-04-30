@@ -1,5 +1,6 @@
 ﻿using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
+using Phygital.Domain.Themas;
 
 namespace Phygital.DAL;
 
@@ -10,7 +11,10 @@ public interface IFlowElementRepository
     IEnumerable<MultipleChoice> ReadMultipleChoiceQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<RangeQuestion> ReadRangeQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<OpenQuestion> ReadOpenQuestionsWithAnswerOfFlowById(long flowId);
-    
+    IEnumerable<OpenQuestion> ReadAllOpenQuestionsByTheme(Theme subTheme);
+    IEnumerable<SingleChoiceQuestion> ReadAllSingleChoiceQuestionsByTheme(Theme subTheme);
+    IEnumerable<RangeQuestion> ReadAllRangeQuestionsByTheme(Theme subTheme);
+
     IEnumerable<Text> ReadTextInfosOfFlowById(long flowId);
     IEnumerable<Image> ReadImageInfosOfFlowById(long flowId);
     IEnumerable<Video> ReadVideoInfosOfFlowById(long flowId);

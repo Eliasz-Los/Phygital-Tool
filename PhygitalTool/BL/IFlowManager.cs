@@ -8,23 +8,9 @@ namespace BL;
 
 public interface IFlowManager
 {
-
     IEnumerable<Flow> GetAllFlows();
     Flow GetFlowById(long id);
-    IEnumerable<SingleChoiceQuestion> GetSingleChoiceQuestionsWithOptionsOfFlowById(long flowId);
-    IEnumerable<MultipleChoice> GetMultipleChoiceQuestionsWithOptionsOfFlowById(long flowId);
-    IEnumerable<RangeQuestion> GetRangeQuestionsWithOptionsOfFlowById(long flowId);
-    IEnumerable<OpenQuestion> GetOpenQuestionsWithAnswerOfFlowById(long flowId);
-    IEnumerable<Theme> GetSubThemasFlow(long flowId);
-    IEnumerable<Theme> GetAllSubThemas();
-    Option GetOptionByText(string optionText);
-    void AddProject(Project project);
-    void AddSubThema(Theme subThema);
-    void DeleteThemeById(long id);
-
-    Question GetQuestionById(long questionId);
-    IEnumerable<Text> GetTextInfosOfFlowById(long flowId);
-    IEnumerable<Image> GetImageInfosOfFlowById(long flowId);
-    IEnumerable<Video> GetVideoInfosOfFlowById(long flowId);
-    void AddAnswersToFlow(List<Answer> answers);
+    Flow GetFlowAndThemeById(long id);
+    void ChangeFlow(long id, Flowtype flowtype, bool isOpen, long themeId);
+    void RemoveFlow(long id);
 }
