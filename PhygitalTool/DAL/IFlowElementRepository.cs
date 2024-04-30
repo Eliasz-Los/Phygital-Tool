@@ -19,4 +19,5 @@ public interface IFlowElementRepository
     IEnumerable<Image> ReadImageInfosOfFlowById(long flowId);
     IEnumerable<Video> ReadVideoInfosOfFlowById(long flowId);
     Option ReadOptionByText(string optionText);
+    IEnumerable<OpenQuestion> ReadAllOpenQuestionByThemeId(long themeId);
 }

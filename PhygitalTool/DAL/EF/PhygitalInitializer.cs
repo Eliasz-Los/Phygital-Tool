@@ -152,7 +152,8 @@ public class PhygitalInitializer
             Text = "Waarom kiest u voor deze partij?",
             Active = true,
             SequenceNumber = 2,
-            Answer = new Answer()
+            Answer = new Answer(),
+            SubTheme = th1
         };
         var q3 = new SingleChoiceQuestion
         {
@@ -196,7 +197,8 @@ public class PhygitalInitializer
             Text = "Waarom bent u voor of tegen de dienstplicht?",
             Active = true,
             SequenceNumber = 9,
-            Answer = new Answer()
+            Answer = new Answer(),
+            SubTheme = th1
         };
         var q10 = new OpenQuestion()
         {
@@ -204,7 +206,8 @@ public class PhygitalInitializer
                 "Hoe zou u het beleid op het gebied van gendergelijkheid en LGBTQ+-rechten willen zien veranderen of verbeteren?",
             Active = true,
             SequenceNumber = 10,
-            Answer = new Answer()
+            Answer = new Answer(),
+            SubTheme = th1
         };
         var q11 = new RangeQuestion()
         {
@@ -307,6 +310,7 @@ public class PhygitalInitializer
         f1.FlowElements.Add(q12);
         f1.FlowElements.Add(q13);
         f1.FlowElements.Add(q14);
+       
         
         f1.FlowElements.Add(i1);
         f1.FlowElements.Add(i2);

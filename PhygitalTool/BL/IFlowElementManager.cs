@@ -14,4 +14,5 @@ public interface IFlowElementManager
     IEnumerable<Image> GetImageInfosOfFlowById(long flowId);
     IEnumerable<Video> GetVideoInfosOfFlowById(long flowId);
     Option GetOptionByText(string optionText);
+    IEnumerable<OpenQuestion> GetAllOpenQuestionByThemeId(long themeId);
 }

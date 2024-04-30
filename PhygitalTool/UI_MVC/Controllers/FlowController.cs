@@ -106,14 +106,16 @@ public class FlowController : Controller
         _uow.Commit();
         return RedirectToAction("Index");
     }
-
+    
     public IActionResult FlowThemeAndType()
     {
-        return View("Creation/FlowThemeAndType");
+        return View("Creation/FlowThemeAndType"); //"Creation/FlowThemeAndType"
     }
     
-    public IActionResult FlowQuestions()
+    
+    public IActionResult FlowQuestions(long themeId)
     {
-        return View("Creation/FlowQuestions");
+      
+        return View("Creation/FlowQuestions"); //Creation/FlowQuestions
     }
 }

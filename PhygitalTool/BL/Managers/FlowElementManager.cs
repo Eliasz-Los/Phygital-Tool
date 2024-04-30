@@ -57,4 +57,9 @@ public class FlowElementManager : IFlowElementManager
     {
         return _flowElementRepository.ReadOptionByText(optionText);
     }
+
+    public IEnumerable<OpenQuestion> GetAllOpenQuestionByThemeId(long themeId)
+    {
+        return _flowElementRepository.ReadAllOpenQuestionByThemeId(themeId);
+    }
 }

@@ -122,4 +122,24 @@ public class FlowElementRepository : IFlowElementRepository
     {
         return _dbContext.Options.FirstOrDefault(o => o.OptionText.ToLower().Equals(optionText.ToLower()));
     }
+
+    //todo: debug this method
+    public IEnumerable<OpenQuestion> ReadAllOpenQuestionByThemeId(long themeId)
+    {
+       var result = _dbContext.OpenQuestions.Where(o => o.SubTheme.Id == themeId);
+       return result;
+    }
+
+    /*public IEnumerable<OpenQuestion> ReadAllOpenQuestionsByTheme(Theme subTheme)
+    {
+        // Todo aan het debuggen hier
+        /*var th1 = new Theme { Title = "Politiek", Description = "Simpele vragen rond politiek" };
+        var test = _dbContext.OpenQuestions.Include(q => q.SubTheme).Where(q => q.SubTheme.Title.Equals(th1.Title)).ToList();
+        long id = 3;
+        var openQuestion = _dbContext.OpenQuestions.Include(q => q.SubTheme).FirstOrDefault(q => q.Id == id);
+        return test;#1#
+        var result = _dbContext.OpenQuestions.Select(o => o);
+        return result;
+
+    }*/
 }

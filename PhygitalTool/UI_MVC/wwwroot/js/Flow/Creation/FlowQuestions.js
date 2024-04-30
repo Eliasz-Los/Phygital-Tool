@@ -1,5 +1,8 @@
-﻿function fillQuestionsTable() {
-    fetch(`/api/Flows/questions`,
+﻿const themeElement = document.getElementById("themeId");
+const themeId = parseInt(themeElement.innerText)
+console.log(themeId);
+function fillQuestionsTable() {
+    fetch(`/api/Flows/${themeId}/OpenQuestionsOfTheme`,
         {
             headers: {
                 "Content-Type": "application/json",

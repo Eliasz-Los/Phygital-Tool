@@ -108,6 +108,26 @@ public class FlowsController : ControllerBase
         }));
     }
     
+    [HttpGet("{themeId}/OpenQuestionsOfTheme")]
+    public ActionResult<IEnumerable<OpenQuestionDto>> GetOpenQuestionsOfTheme(long themeId)
+    {
+        var oq = _flowElementManager.GetAllOpenQuestionByThemeId(themeId);
+    
+        if (!oq.Any())
+        {
+            return NoContent();
+        }
+    
+        return Ok(oq.Select(oq => new OpenQuestionDto()
+        {
+            Id = oq.Id,
+            Text = oq.Text,
+            SequenceNumber = oq.SequenceNumber,
+            Active = oq.Active,
+            Answer = oq.Answer.ToString()
+        }));
+    }
+    
     [HttpGet("{flowId}/SubThemas")]
     public ActionResult<IEnumerable<SubThemasDto>> GetSubThemasFlow(long flowId)
     {

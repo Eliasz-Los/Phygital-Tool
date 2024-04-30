@@ -8,8 +8,7 @@ const endbox = document.getElementById('end-box');
 
 // the timer values
 let timerId = null;
-let timeLeftInSeconds = 5;
-
+let timeLeftInSeconds = 20;
 function startTimer() {
     // Get the timer element
     const timerElement = document.getElementById('timer');
@@ -46,7 +45,7 @@ function startTimer() {
                 carousel.next();
                 currentQuestionNumber++;
                 updateProgressBar()
-                timeLeftInSeconds = 5;
+                timeLeftInSeconds = 20;
                 startTimer();
             }
 
@@ -71,7 +70,7 @@ function InitializeFlow() {
             updateProgressBar();
             // reset the timer
             clearInterval(timerId);
-            timeLeftInSeconds = 5;
+            timeLeftInSeconds = 20;
             startTimer();
         });
 
@@ -83,7 +82,7 @@ function InitializeFlow() {
 
             // Reset the timer
             clearInterval(timerId);
-            timeLeftInSeconds = 5;
+            timeLeftInSeconds = 20;
             startTimer();
         });
 
