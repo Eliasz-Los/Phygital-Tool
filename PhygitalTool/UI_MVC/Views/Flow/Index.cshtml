@@ -1,4 +1,5 @@
-﻿@using Phygital.Domain.Questionsprocess;
+﻿@using System.Diagnostics
+@using Phygital.Domain.Questionsprocess;
 @model IEnumerable<Flow>
 
 @{
@@ -7,7 +8,6 @@
 }
 
 <!-- This page displays the flowtypes a user can choose from when starting the application -->
-
 @if (User.IsInRole("Supervisor"))
 {
     <div class="text-center">
@@ -43,13 +43,14 @@
 
 @if (User.IsInRole("SubAdmin"))
 {
-    <table class="table text-center">
+    <table class="table table-striped text-center">
         <thead>
         <tr>
             <th>id</th>
             <th>type</th>
             <th>Actief</th>
             <th>Thema</th>
+            <th>Statistics</th>
             <th>Wijzig</th>
             <th>Verwijder</th>
         </tr>
@@ -63,10 +64,18 @@
                     <td>@flow.IsOpen</td>
                     <td>@flow.Theme.Title</td>
                     <td>
-                        <a class="bi bi-pencil-square" href=""></a>
+                        <a class="btn btn-primary bi bi-file-earmark-spreadsheet" asp-controller="Statistic" asp-action="Index" asp-route-id="@flow.Id"></a>
                     </td>
                     <td>
-                        <i class="bi bi-trash" id="delete"></i>
+                        <a class="btn btn-success bi bi-pencil-square" asp-controller="Flow" asp-action="Edit" asp-route-id="@flow.Id"></a>
+                    </td>
+                    <td>
+                        @* <a asp-controller="Flow" asp-action="Delete" asp-route-id="@flow.Id" class="bi bi-trash"></a> *@
+                        <form asp-controller="Flow" asp-action="Delete" asp-route-id="@flow.Id" method="post">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
                     </td>
                     <td>
                         <a asp-controller="Flow" asp-action="Details" asp-route-id="@flow.Id" class="btn btn-warning">Er aan beginnen!</a>
@@ -77,15 +86,10 @@
     </table>
     <div class="row align-content-center">
         <div class="col d-flex justify-content-end">
-            <a type="button" class="btn btn-warning" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            <a type="button" class="w-25 btn btn-warning" asp-controller="Home" asp-action="Index">Home</a>
         </div>
         <div class="col d-flex justify-content-start">
-            <a type="button" class="btn btn-warning" asp-area="" asp-controller="Flow" asp-action="Add">Flow aanmaken</a>
+            <a type="button" class="w-25 btn btn-warning" asp-controller="Flow" asp-action="Add">Flow aanmaken</a>
         </div>
     </div>
-}
-
-@section Scripts
-{
-    <script src="~/js/Flow/flow.js" defer></script>
 }

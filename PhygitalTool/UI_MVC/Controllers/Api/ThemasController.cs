@@ -12,18 +12,20 @@ namespace Phygital.UI_MVC.Controllers.Api;
 public class ThemasController : ControllerBase
 {
     private readonly IFlowManager _flowManager;
+    private readonly IThemeManager _themeManager;
     private readonly UnitOfWork _unitOfWork;
 
-    public ThemasController(IFlowManager flowManager, UnitOfWork unitOfWork)
+    public ThemasController(IFlowManager flowManager, IThemeManager themeManager, UnitOfWork unitOfWork)
     {
         _flowManager = flowManager;
+        _themeManager = themeManager;
         _unitOfWork = unitOfWork;
     }
 
     [HttpGet("subthemas")]
     public ActionResult<IEnumerable<SubThemasDto>> GetSubThemas()
     {
-        var subthemas = _flowManager.GetAllSubThemas();
+        var subthemas = _themeManager.GetAllSubThemas();
 
         if (!subthemas.Any())
         {
@@ -52,17 +54,18 @@ public class ThemasController : ControllerBase
             Description = newSubThema.Description
         };
         _unitOfWork.BeginTransaction();
-        _flowManager.AddSubThema(subThema);
+        _themeManager.AddSubThema(subThema);
         _unitOfWork.Commit();
         return Ok(subThema);
     }
 
+    /*
     [HttpDelete("deleteSubTheme/{id}")]
-    public IActionResult DeleteThemeById(int id)
+    public IActionResult DeleteTheme(int id)
     {
         try
         {
-            _flowManager.DeleteThemeById(id);
+            _themeManager.RemoveTheme(id);
             return Ok(); // Theme deleted successfully, return 200
         }
         catch (Exception ex)
@@ -70,5 +73,5 @@ public class ThemasController : ControllerBase
             return StatusCode(500, "An error occurred while deleting the theme."); // Return 500 for server error
         }
     }
-
+    */
 }

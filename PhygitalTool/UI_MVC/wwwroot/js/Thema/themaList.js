@@ -1,4 +1,3 @@
-// scriptje
 function fillSubthemesTable() {
     fetch(`/api/Themas/subthemas`, {
         headers: {
@@ -62,8 +61,6 @@ function deleteSubtheme(idTheme) {
             throw error;
         });
 }
-
-
 
 
 fillSubthemesTable();

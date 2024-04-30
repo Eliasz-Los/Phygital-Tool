@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Phygital.UI_MVC.Models.Dto.SubThemasDto
+
+
+@{
+    ViewBag.Title = "Edit Thema";
+    Layout = "_Layout";
+}
+
+
+<div>
+    <h2>Edit Thema</h2>
+    <form asp-controller="Thema" asp-action="Edit" asp-route-id="@Model.Id" method="POST">
+        <div class="form-group mb-2">
+            <label asp-for="Id">Id</label>
+            <input asp-for="Id" class="form-control" readonly/>
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-2">
+            <label asp-for="Title">Title</label>
+            <input asp-for="Title" class="form-control"/>
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-2">
+            <label asp-for="Description">Description</label>
+            <input asp-for="Description" class="form-control"/>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="row align-content-center py-3">
+            <div class="col d-flex justify-content-end">
+                <input type="submit" value="Save" class="btn btn-warning"/>
+            </div>
+            <div class="col d-flex justify-content-start">
+                <a asp-action="Index" class="btn btn-warning">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>

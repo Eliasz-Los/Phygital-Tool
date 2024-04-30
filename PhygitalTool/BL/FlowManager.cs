@@ -103,20 +103,4 @@ public class FlowManager : IFlowManager
     {
        _flowRepository.DeleteThemeById(themeid);
     }
-    
-    public IEnumerable<OpenQuestion> GetAllOpenQuestionsByTheme(Theme subTheme)
-    {
-        return _flowRepository.ReadAllOpenQuestionsByTheme(subTheme);
-    }
-
-    public IEnumerable<SingleChoiceQuestion> getAllSingleChoiceQuestionsByTheme(Theme subTheme)
-    {
-        return _flowRepository.ReadAllSingleChoiceQuestionsByTheme(subTheme);
-    }
-
-    public IEnumerable<RangeQuestion> GetAllRangeQuestionsByTheme(Theme subTheme)
-    {
-        return _flowRepository.ReadAllRangeQuestionsByTheme(subTheme);
-    }
-
 }

@@ -35,14 +35,4 @@ public class FlowController : Controller
     {
         return View();
     }
-    public IActionResult FlowThemeAndType()
-    {
-        return View("Creation/FlowThemeAndType");
-    }
-    
-    public IActionResult FlowQuestions()
-    {
-        return View("Creation/FlowQuestions");
-    }
-
 }
