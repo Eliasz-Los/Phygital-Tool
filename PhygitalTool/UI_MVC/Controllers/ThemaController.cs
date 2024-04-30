@@ -70,10 +70,20 @@ public class ThemaController : Controller
     [HttpPost]
     public IActionResult Delete(long id)
     {
-        _uow.BeginTransaction();
-        _themeManager.RemoveTheme(id);
-        _uow.Commit();
-        return RedirectToAction("Index");
+        try
+        {
+            _uow.BeginTransaction();
+            _themeManager.RemoveTheme(id);
+            _uow.Commit();
+            return RedirectToAction("Index");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error deleting theme with id {Id}", id);
+            TempData["ErrorMessage"] = "Dit thema kan niet verwijderd worden want er is nog minstens 1 Flow aan gekoppeld. Verwijder of verander eerst de flow.";
+            return RedirectToAction("Index");
+        }
+
     }
 
 }
