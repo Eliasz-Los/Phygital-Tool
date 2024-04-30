@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
+using Phygital.Domain.Themas;
 using Phygital.UI_MVC.Models.Dto;
 using Phygital.UI_MVC.Models.Dto.Infos;
 
@@ -116,6 +117,78 @@ public class FlowsController : ControllerBase
             Description = flow.Description
         }));
     }
+    
+    [HttpGet("questions")]
+    /* Todo deze methode moet nog een parameter thema meekrijgen die hij van de vorige pagina krijgt (door user geselecteerd)
+       Normaal had ik een questionDTO die alle soorten vragen hiernaar omzet (we moeten enkel de titel en id hebben hier, options zijn onnodig)
+       Maar ik weet niet of deze in de nieuwe database nog apart worden opgeslagen 
+     */
+    // public ActionResult<IEnumerable<QuestionDto>> GetQuestionsOfTheme()
+    // {
+    //     var subThema = new Theme { Title = "Politiek", Description = "Simpele vragen rond politiek" };
+    //     
+    //     Theme thema = new Theme
+    //     {
+    //         Title = subThema.Title,
+    //         Description = subThema.Description
+    //     };
+    //     
+    //     var openQuestions = _flowManager.GetAllOpenQuestionsByTheme(thema);
+    //     var singleChoiceQuestions = _flowManager.getAllSingleChoiceQuestionsByTheme(thema);
+    //     var rangeQuestions = _flowManager.GetAllRangeQuestionsByTheme(thema);
+    //     
+    //     List<QuestionDto> questionList = new List<QuestionDto>();
+    //     
+    //     // Subthema meegeven is misschien niet nodig
+    //     foreach (var question in openQuestions)
+    //     {
+    //         QuestionDto hulp = new QuestionDto()
+    //         {
+    //             Id = question.Id,
+    //             SubTheme = question.SubTheme,
+    //             Text = question.Text,
+    //             Type = "open"
+    //         };
+    //         Console.WriteLine(hulp);
+    //         questionList.Add(hulp);
+    //     }
+    //     
+    //     foreach (var question in singleChoiceQuestions)
+    //     {
+    //         QuestionDto hulp = new QuestionDto()
+    //         {
+    //             Id = question.Id,
+    //             SubTheme = question.SubTheme,
+    //             Text = question.Text,
+    //             Type = "single"
+    //         };
+    //         
+    //         questionList.Add(hulp);
+    //     }
+    //     
+    //     foreach (var question in rangeQuestions)
+    //     {
+    //         QuestionDto hulp = new QuestionDto()
+    //         {
+    //             Id = question.Id,
+    //             SubTheme = question.SubTheme,
+    //             Text = question.Text,
+    //             Type = "range"
+    //         };
+    //         
+    //         questionList.Add(hulp);
+    //     }
+    //     
+    //     if (questionList.Count == 0)
+    //     {
+    //         return NoContent();
+    //     }
+    //
+    //     IEnumerable<QuestionDto> finalList = questionList;
+    //     
+    //     return Ok(finalList);
+    // }
+
 
     [HttpGet("{flowId}/TextInfos")]
     public ActionResult<IEnumerable<TextDto>> GetTextInfosOfFlow(long flowId)

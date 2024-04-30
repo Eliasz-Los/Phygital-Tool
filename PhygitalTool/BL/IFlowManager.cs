@@ -23,6 +23,10 @@ public interface IFlowManager
     void DeleteThemeById(long id);
 
     Question GetQuestionById(long questionId);
+    IEnumerable<OpenQuestion> GetAllOpenQuestionsByTheme(Theme subTheme);
+    IEnumerable<SingleChoiceQuestion> getAllSingleChoiceQuestionsByTheme(Theme subTheme);
+    IEnumerable<RangeQuestion> GetAllRangeQuestionsByTheme(Theme subTheme);
+
     IEnumerable<Text> GetTextInfosOfFlowById(long flowId);
     IEnumerable<Image> GetImageInfosOfFlowById(long flowId);
     IEnumerable<Video> GetVideoInfosOfFlowById(long flowId);

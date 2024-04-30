@@ -128,6 +128,26 @@ public class FlowRepository : IFlowRepository
         // If the question was not found in any of the tables, return null
         return null;
     }
+    public IEnumerable<OpenQuestion> ReadAllOpenQuestionsByTheme(Theme subTheme)
+    {
+        // Todo aan het debuggen hier
+        var th1 = new Theme { Title = "Politiek", Description = "Simpele vragen rond politiek" };
+        var test = _dbContext.OpenQuestions.Include(q => q.SubTheme).Where(q => q.SubTheme.Title.Equals(th1.Title)).ToList();
+        long id = 3;
+        var openQuestion = _dbContext.OpenQuestions.Include(q => q.SubTheme).FirstOrDefault(q => q.Id == id);
+        return test;
+    }
+
+    public IEnumerable<SingleChoiceQuestion> ReadAllSingleChoiceQuestionsByTheme(Theme subTheme)
+    {
+        return _dbContext.SingleChoiceQuestions.Where(q => q.SubTheme == subTheme);
+    }
+
+    public IEnumerable<RangeQuestion> ReadAllRangeQuestionsByTheme(Theme subTheme)
+    {
+        return _dbContext.RangeQuestions.Where(q => q.SubTheme == subTheme).ToList();
+    }
+
 
     public IEnumerable<Text> ReadTextInfosOfFlowById(long flowId)
     {

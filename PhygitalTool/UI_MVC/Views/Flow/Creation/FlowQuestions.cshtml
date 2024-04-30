@@ -2,18 +2,43 @@
 @model Phygital.UI_MVC.Views.Flow.Creation.FlowQuestions
 
 @{
-    Layout = null;
+    ViewBag.Title = "Phygital";
+    Layout = "_Layout";
 }
 
-<!DOCTYPE html>
+<!-- This page displays some elements to add questions to a flow -->
 
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    
+<div class="text-center container-fluid">
+    <h3 class="align-content-center p-4">Voeg vragen toe aan je flow</h3>
+    <form class="row justify-content-center">
+        <div class="col-8 table-responsive">
+            <table class="sttable table table-striped ">
+                <thead class="sticky-top bg-white">
+                <tr>
+                    <th class="col-8">Vraag</th>
+                    <th class="col-4">Actief</th>
+                </tr>
+                </thead>
+                <tbody id="QuestionTable" class="">
+                
+                </tbody>
+            </table>
+        </div>
+        <div class="container-fluid p-2">
+            <div class="row align-content-center">
+                <div class="col d-flex justify-content-end">
+                    <a onclick="history.back()" type="button" class="btn btn-warning" >Annuleer</a>
+                </div>
+                <div class="col d-flex justify-content-start">
+                    <a type="button" id="addButton" class="btn btn-warning" asp-controller="Flow" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
-</body>
-</html>
+
+
+@section Scripts
+{
+    <script src="~/js/Flow/Creation/FlowQuestions.js" defer></script>
+}

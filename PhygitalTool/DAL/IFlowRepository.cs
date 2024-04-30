@@ -18,6 +18,9 @@ public interface IFlowRepository
     IEnumerable<OpenQuestion> ReadOpenQuestionsWithAnswerOfFlowById(long flowId);
     IEnumerable<Theme> ReadSubThemasFlow(long flowId);
     IEnumerable<Theme> ReadAllSubThemas();
+    IEnumerable<OpenQuestion> ReadAllOpenQuestionsByTheme(Theme subTheme);
+    IEnumerable<SingleChoiceQuestion> ReadAllSingleChoiceQuestionsByTheme(Theme subTheme);
+    IEnumerable<RangeQuestion> ReadAllRangeQuestionsByTheme(Theme subTheme);
 
     void DeleteThemeById(long id);
 
