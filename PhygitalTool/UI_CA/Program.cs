@@ -8,8 +8,6 @@ using Phygital.UI_CA;
 Console.WriteLine("Hello, World!");
 
 var builder = new DbContextOptionsBuilder();
-// builder.UseNpgsql("Data Source=Phygital.db");
-builder.UseSqlite("Data Source=Phygital.db");
 
 var dbContext = new PhygitalDbContext(builder.Options);
 
