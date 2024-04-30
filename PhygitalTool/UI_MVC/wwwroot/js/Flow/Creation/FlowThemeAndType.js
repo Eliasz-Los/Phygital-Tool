@@ -1,5 +1,5 @@
 ﻿function fillSubthemesSelect() {
-    fetch(`/api/Flows/subthemas`,
+    fetch(`/api/Themas/subthemas`, //flow/subthemas bestaat niet, we gaan jonas zijn api gebruiken waar da wel is
         {
             headers: {
                 "Content-Type": "application/json",
@@ -14,7 +14,7 @@
             }
         })
         .then(subThemas => {
-            let output = document.querySelector("#ThemaSelect");
+            let output = document.getElementById("ThemaSelect");
             let bodyData = ``;
             for (const subThema of subThemas) {
                 bodyData += `
