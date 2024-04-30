@@ -11,9 +11,11 @@ namespace Phygital.BL.Managers;
 public class FlowManager : IFlowManager
 {
     private readonly IFlowRepository _flowRepository;
-    public FlowManager(IFlowRepository flowRepository)
+    private readonly IThemeManager _themeManager;
+    public FlowManager(IFlowRepository flowRepository, IThemeManager themeManager)
     {
         _flowRepository = flowRepository;
+        _themeManager = themeManager;
     }
 
     public IEnumerable<Flow> GetAllFlows()
@@ -26,6 +28,11 @@ public class FlowManager : IFlowManager
         return _flowRepository.ReadFlowById(id);
     }
 
+    public Flow GetFlowAndThemeById(long id)
+    {
+        return _flowRepository.ReadFlowAndThemeById(id);
+    }
+
     public void AddAnswersToFlow(List<Answer> answers)
     {
         throw new NotImplementedException();
@@ -36,7 +43,11 @@ public class FlowManager : IFlowManager
         var flow = _flowRepository.ReadFlowById(id);
         flow.FlowType = flowtype;
         flow.IsOpen = isOpen;
-        flow.Theme.Id = themeId;
+        
+        var theme = _themeManager.GetThemeById(themeId);
+        if(theme != null)
+            flow.Theme = theme;
+        
         _flowRepository.UpdateFlow(flow);
     }
 

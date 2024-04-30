@@ -41,10 +41,18 @@ public class FlowController : Controller
     [HttpGet]
     public IActionResult Edit(long id)
     {
-        var flow = _flowManager.GetFlowById(id);
+        var flow = _flowManager.GetFlowAndThemeById(id);
         var themes = _themeManager.GetAllThemas();
         ViewBag.Themes = themes;
-        return View(flow);
+        //converteren naar flowdto omdat het op de view niet mogelijk is om een object van type Flow te binden omdat FlowDto gebruikt is op edit
+        var flowDto = new FlowDto
+        {
+            Id = flow.Id,
+            FlowType = flow.FlowType,
+            IsOpen = flow.IsOpen,
+            ThemeId = flow.Theme.Id
+        };
+        return View(flowDto);
     }
 
     [HttpPost]
@@ -54,19 +62,38 @@ public class FlowController : Controller
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                var themes = _themeManager.GetAllThemas();
+                ViewBag.Themes = themes;
+                
+                // Log the validation errors
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (var error in errors)
+                {
+                    _logger.LogError("Model validation error: {Error}", error.ErrorMessage);
+                }
+                
+                return View(flow);
             }
 
+            var theme = _themeManager.GetThemeById(flow.ThemeId);
+            if (theme == null)
+            {
+                ModelState.AddModelError("", "Invalid theme selected.");
+                return View(flow);
+            }
+            
             _uow.BeginTransaction();
-            _flowManager.ChangeFlow(flow.Id, flow.FlowType, flow.IsOpen, flow.Theme.Id);
+            _flowManager.ChangeFlow(flow.Id, flow.FlowType, flow.IsOpen, theme.Id);
             _uow.Commit();
-            return RedirectToAction("Index", new { id = flow.Id });
+            return RedirectToAction("Index"); //, new { id = flow.Id }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error updating flow with id {Id}", id);
             ModelState.AddModelError("", "An error occurred while updating the flow.");
-            return View();
+            var themes = _themeManager.GetAllThemas();
+            ViewBag.Themes = themes;
+            return View(flow);
         }
     }
 
