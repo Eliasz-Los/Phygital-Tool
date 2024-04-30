@@ -4,7 +4,7 @@ using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Subplatform;
 using Phygital.Domain.Themas;
 
-namespace BL;
+namespace Phygital.BL;
 
 public interface IFlowManager
 {

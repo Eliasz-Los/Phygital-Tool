@@ -1,5 +1,6 @@
 using Phygital.Domain.Questionsprocess;
 
+namespace Phygital.DAL;
 public interface IFlowRepository
 {
     IEnumerable<Flow> ReadAllFlows();
