@@ -381,8 +381,8 @@ export function getAnswers() {
 export function commitAnswer() {
     const answers  = getAnswers();
     const answerObject = answers.map(answer =>({
-        Flow: {Id: flowId}, // Send Flow as an object with an Id property, ik gebruik id om dan die flow uit te krijgen
-        subTheme: {Title: "test"},  // Send SubTheme as an object with a Title property, gebruik ik nie echt
+       /* FlowId: flowId, // Send Flow as an object with an Id property, ik gebruik id om dan die flow uit te krijgen
+        SubThemeId: "", */ // Send SubTheme as an object with a Title property, gebruik ik nie echt
         chosenOptions: answer.chosenOptions.map(option => ({OptionText: option})),   // Send each option as an object with an OptionText property
         chosenAnswer: answer.openAnswer,
         questionId: answer.id

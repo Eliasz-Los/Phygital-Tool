@@ -9,12 +9,7 @@ public class AnswerDto
 {
     public List<Option> ChosenOptions { get; set; }
     public string ChosenAnswer { get; set; }
-    public Theme SubTheme { get; set; }
-    public Flow  Flow { get; set; }
-    //TODO: Link to the question might be changed to a more abstract class
-    // public OpenQuestion OpenQuestion { get; set; }
-    // public MultipleChoice MultipleChoice { get; set; }
-    // public RangeQuestion RangeQuestion { get; set; }
-    // public SingleChoiceQuestion SingleChoiceQuestion { get; set; }
+    /*public long SubThemeId { get; set; }
+    public long  FlowId { get; set; }*/
     public long QuestionId { get; set; }
 }
