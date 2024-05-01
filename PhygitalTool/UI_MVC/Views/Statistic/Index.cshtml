@@ -57,9 +57,9 @@
         <div class="row">
             @foreach (var outerItem in Model)
             {
-                <div class="col-lg-4 col-md-6 col-sm-12 h-25">
-                    <div class="row h-25">
-                        <h6>@outerItem.QuestionText</h6>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="row ">
+                        <h6 class="text-truncate" title="@outerItem.QuestionText">@outerItem.QuestionText</h6>
                     </div>
                     <div class="row">
                         <canvas id="chart-@outerItem.QuestionText"></canvas>
@@ -67,7 +67,6 @@
                 </div>
             }
         </div>
-
     </section>
 </section>
 
