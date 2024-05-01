@@ -4,6 +4,9 @@ function csvFileMaker(){
     var tables = document.querySelectorAll('table[id^="table-"]');
     var csv = [];
     tables.forEach(function(table) {
+        var questionText = table.previousElementSibling.innerText;
+        csv.push(questionText);
+        
         var rows = table.querySelectorAll('tr');
         rows.forEach(function(row) {
             var cols = row.querySelectorAll('td, th');
