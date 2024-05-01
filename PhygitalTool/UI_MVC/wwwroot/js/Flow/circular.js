@@ -6,9 +6,32 @@ const btnNext = document.getElementById("nextBtn");
 const btnPrev = document.getElementById("prevBtn");
 const endbox = document.getElementById('end-box');
 
+function resetCarouselInputs() {
+    // Select all input and select elements in the carousel
+    const inputs = document.querySelectorAll('#circularFlow .carousel-item input, #circularFlow .carousel-item select');
+
+    // Loop through each element and reset its value
+    inputs.forEach(input => {
+        switch (input.type) {
+            case 'checkbox':
+            case 'radio':
+                input.checked = false;
+                break;
+            case 'select-one':
+            case 'select-multiple':
+                input.selectedIndex = -1;
+                break;
+            default:
+                input.value = '';
+                break;
+        }
+    });
+}
+
 // the timer values
 let timerId = null;
-let timeLeftInSeconds = 20;
+let timeLeftInSeconds = 5;
+const timeBeginQuestion = 5
 function startTimer() {
     // Get the timer element
     const timerElement = document.getElementById('timer');
@@ -42,10 +65,11 @@ function startTimer() {
                 timeLeftInSeconds = 10;
                 startTimer()
             } else {
+                endbox.innerText = "";
                 carousel.next();
                 currentQuestionNumber++;
                 updateProgressBar()
-                timeLeftInSeconds = 20;
+                timeLeftInSeconds = timeBeginQuestion;
                 startTimer();
             }
 
@@ -70,8 +94,9 @@ function InitializeFlow() {
             updateProgressBar();
             // reset the timer
             clearInterval(timerId);
-            timeLeftInSeconds = 20;
+            timeLeftInSeconds = timeBeginQuestion;
             startTimer();
+            resetCarouselInputs();
         });
 
         btnPrev.addEventListener("click", function() {
@@ -82,23 +107,13 @@ function InitializeFlow() {
 
             // Reset the timer
             clearInterval(timerId);
-            timeLeftInSeconds = 20;
+            timeLeftInSeconds = timeBeginQuestion;
             startTimer();
         });
 
         startTimer();
     });
 }
-/*// Fetch the questions
-const questions = await fetchQuestions();
-
-// Sort the questions by sequence number
-questions.sort((a, b) => a.sequenceNumber - b.sequenceNumber);
-
-// Add the questions to the DOM
-questions.forEach(question => {
-    addQuestionToDOM(question);
-});*/
 
 InitializeFlow();
 getTextData();
