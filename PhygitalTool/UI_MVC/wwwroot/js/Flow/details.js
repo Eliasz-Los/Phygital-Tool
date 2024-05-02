@@ -1,4 +1,3 @@
-// Purpose: Fetch data from the backend and display it in the flow details page.
 const flowIdElement = document.getElementById("flowId")
 const flowId = parseInt(flowIdElement.innerText)
 const subThemasFlowElement = document.getElementById("subThemasFlowElementId")
@@ -92,7 +91,6 @@ export function getOpenQuestionsData() {
 
 }
 
-
 //Zo is de functie ook beschikbaar in de window object en beschikbaar over verschillende files, dus global gezet, 
 // anders werkte het niet bij linear.js & circular.js waar ik het nodig had
 window.updateLabel = function (rangeInput, labelId) {
@@ -143,8 +141,6 @@ export function getRangeQuestionsData() {
         });
 }
 
-
-
 export function getMultipleChoiceQuestionsData() {
     fetch(`/api/flows/${flowId}/MultipleChoiceQuestions`,
         {
@@ -184,6 +180,7 @@ export function getMultipleChoiceQuestionsData() {
             console.log(error)
         });
 }
+
 export function getThemasData() {
     fetch(`/api/flows/${flowId}/SubThemas`,
         {
@@ -212,6 +209,7 @@ export function getThemasData() {
             subThemasFlowElement.innerHTML = bodyData
         })
 }
+
 export function getTextData(){
     fetch(`/api/flows/${flowId}/TextInfos`,
         {
@@ -250,6 +248,7 @@ export function getTextData(){
             console.log(error)
         });
 }
+
 export function getImageData(){
     fetch(`/api/flows/${flowId}/ImageInfos`,
         {
