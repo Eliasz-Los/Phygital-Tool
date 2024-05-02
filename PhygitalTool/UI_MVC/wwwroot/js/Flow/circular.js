@@ -8,7 +8,7 @@ const endbox = document.getElementById('end-box');
 
 function resetCarouselInputs() {
     // Select all input and select elements in the carousel
-    const inputs = document.querySelectorAll('#circularFlow .carousel-item input, #circularFlow .carousel-item select');
+    const inputs = document.querySelectorAll('#circularFlow .carousel-item input, #circularFlow .carousel-item select, #circularFlow .carousel-item textarea');
 
     // Loop through each element and reset its value
     inputs.forEach(input => {
@@ -64,6 +64,7 @@ function startTimer() {
                 endbox.innerText = "";*/
                 timeLeftInSeconds = 10;
                 startTimer()
+                resetCarouselInputs();
             } else {
                 endbox.innerText = "";
                 carousel.next();
@@ -96,7 +97,7 @@ function InitializeFlow() {
             clearInterval(timerId);
             timeLeftInSeconds = timeBeginQuestion;
             startTimer();
-            resetCarouselInputs();
+           
         });
 
         btnPrev.addEventListener("click", function() {
