@@ -19,7 +19,6 @@ public class StatisticsRepository : IStatisticsRepository
 
 public IEnumerable<Statistic> GetFlowStatistics(long flowId)
 {
-    // Retrieve all answers for the specified flow
     var answers = _dbContext.Answers
         .Include(a => a.ChosenOptions)
         .Include(a => a.OpenQuestion)
@@ -29,22 +28,20 @@ public IEnumerable<Statistic> GetFlowStatistics(long flowId)
         .Where(a => a.Flow.Id == flowId && (a.MultipleChoice != null || a.SingleChoiceQuestion != null || a.RangeQuestion != null || a.OpenQuestion != null))
         .ToList();
 
-    // Group the answers by question text so that it can be added by each distinct question
+    // Alle antwoorden groepen op de vraag zelf
     var groupedAnswers = answers.GroupBy(a => a.MultipleChoice?.Text ?? a.SingleChoiceQuestion?.Text ?? a.RangeQuestion?.Text ?? a.OpenQuestion?.Text).Distinct();
     
-    // Initialize a list to hold the statistics
     List<Statistic> statistics = new List<Statistic>();
 
-    // Iterate over each group of answers
+    // Elke groep antwoorden doorlopen
     foreach (var group in groupedAnswers)
     {
-        // Initialize a new statistic for this group
+        // Hier per groep de statistiek opbouwen dus per vraag
         var stat = new Statistic();
         stat.QuestionText = group.Key;
         
         foreach (var answer in group)
         {
-            // If the answer is a multiple, range or single question, count the chosen options
             if (answer.MultipleChoice != null || answer.SingleChoiceQuestion != null || answer.RangeQuestion != null)
             {
                 foreach (var option in answer.ChosenOptions)
@@ -60,7 +57,6 @@ public IEnumerable<Statistic> GetFlowStatistics(long flowId)
                 }
             
             }
-            // If the answer is an open question or range question, count the chosen answer
             else if (answer.OpenQuestion != null)
             {
                 if (stat.Answers.ContainsKey(answer.ChosenAnswer))
@@ -75,10 +71,8 @@ public IEnumerable<Statistic> GetFlowStatistics(long flowId)
 
             
         }
-        // Add the statistic to the list
         statistics.Add(stat);
     }
-    // Return the list of statistics
     return statistics;
 }
 
