@@ -153,7 +153,8 @@ public class PhygitalInitializer
             Active = true,
             SequenceNumber = 2,
             Answer = new Answer(),
-            SubTheme = th1
+            SubTheme = th1,
+            
         };
         var q3 = new SingleChoiceQuestion
         {
