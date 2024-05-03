@@ -11,7 +11,7 @@ Layout = "_Layout";
 <div class="text-center">
     <h3 class="align-content-center p-4">Kies het type en het hoofdthema voor jouw flow</h3>
     <div class="container-fluid">
-        <form class="row">
+        <form class="row" method="post" asp-controller="Flow" asp-action="HandleSelection">
             <div class="col-12 d-flex justify-content-center">
                 <div class="col-lg-6 text-start fw-bold">
                     <div class="input-group mb-3">
@@ -34,7 +34,7 @@ Layout = "_Layout";
                         <a type="button" class="btn btn-warning" asp-controller="Flow" asp-action="Index">Annuleer</a>
                     </div>
                     <div class="col d-flex justify-content-start">
-                        <a type="button" id="addButton" class="btn btn-warning" asp-controller="Flow" asp-action="FlowQuestions">Ga verder</a>
+                        <button type="submit" id="addButton" class="btn btn-warning">Ga verder</button>
                     </div>
                 </div>
             </div>

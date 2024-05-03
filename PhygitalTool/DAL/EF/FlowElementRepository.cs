@@ -126,8 +126,9 @@ public class FlowElementRepository : IFlowElementRepository
     //todo: debug this method
     public IEnumerable<OpenQuestion> ReadAllOpenQuestionByThemeId(long themeId)
     {
-       var result = _dbContext.OpenQuestions.Where(o => o.SubTheme.Id == themeId);
-       return result;
+        var test = _dbContext.OpenQuestions.Include(q => q.SubTheme);
+       // var result = _dbContext.OpenQuestions.Where(o => o.SubTheme.Id == themeId);
+       return test;
     }
 
     /*public IEnumerable<OpenQuestion> ReadAllOpenQuestionsByTheme(Theme subTheme)

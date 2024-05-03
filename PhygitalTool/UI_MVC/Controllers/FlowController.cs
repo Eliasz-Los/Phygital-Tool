@@ -112,10 +112,18 @@ public class FlowController : Controller
         return View("Creation/FlowThemeAndType"); //"Creation/FlowThemeAndType"
     }
     
-    
-    public IActionResult FlowQuestions(long themeId)
+    [HttpPost]
+    public IActionResult HandleSelection(string themeId)
     {
-      
-        return View("Creation/FlowQuestions"); //Creation/FlowQuestions
+        themeId = "2"; // Just a placeholder value
+        return RedirectToAction("FlowQuestions", new { SelectedTheme = themeId });
     }
+
+    public IActionResult FlowQuestions(string selectedTheme) 
+    {
+        ViewData["SelectedTheme"] = selectedTheme; 
+        return View("Creation/FlowQuestions");
+    }
+
+
 }
