@@ -63,8 +63,8 @@ function startTimer() {
                 /*updateProgressBar();
                 endbox.innerText = "";*/
                 timeLeftInSeconds = 10;
-                startTimer()
-                resetCarouselInputs();
+                startTimer();
+                setTimeout(resetCarouselInputs,timeLeftInSeconds*1000);
             } else {
                 endbox.innerText = "";
                 carousel.next();
