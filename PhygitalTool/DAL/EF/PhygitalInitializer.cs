@@ -296,7 +296,8 @@ public class PhygitalInitializer
 
         // In the second part of the seed method we create the relations between the different classes
         /////////////////////////////////////////////////////////////////////////////////////////////////////
-
+        
+        
         // Adding questions & info to the flow
         f1.FlowElements.Add(q1);
         f1.FlowElements.Add(q2);
@@ -396,10 +397,12 @@ public class PhygitalInitializer
         context.Flows.Add(f1);
         context.Flows.Add(f2);
 
+        th1.FlowElements = new List<FlowElement> { q1, q2, q3, q4, q6, q7, q8, q9, q10, q11, q12, q13, q14, i1, i2, i3, i4, i5, i6 };
+        
         // Adding themes
         context.Themas.Add(th1);
         context.Themas.Add(th2);
-
+        
         // adding FlowElements
         context.FlowElements.AddRange(new FlowElement[]
             { q1, q2, q3, q4, q6, q7, q8, q9, q10, q11, q12, q13, q14, i1, i2, i3, i4 , i5, i6});

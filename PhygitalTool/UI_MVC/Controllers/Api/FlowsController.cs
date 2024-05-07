@@ -124,7 +124,7 @@ public class FlowsController : ControllerBase
             Text = oq.Text,
             SequenceNumber = oq.SequenceNumber,
             Active = oq.Active,
-            Answer = oq.Answer.ToString()
+            SubTheme = oq.SubTheme
         }));
     }
     

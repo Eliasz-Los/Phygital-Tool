@@ -113,6 +113,10 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
             .HasOne(fe => fe.Flow)
             .WithMany(f => f.FlowElements)
             .HasForeignKey("flowId");
+        //theme linking
+        modelBuilder.Entity<FlowElement>()
+            .HasOne(q => q.SubTheme)
+            .WithMany(s => s.FlowElements);
         
         // one flow has many answers
         modelBuilder.Entity<Flow>()
