@@ -1,8 +1,54 @@
-﻿@model System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Phygital.Domain.Feedback.Post>>
+﻿@using Phygital.Domain.Feedback;
+@using System.Collections.Generic;
+@using Phygital.Domain.Datatypes
+@model IEnumerable<Post>
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Feedback";
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<h2> Alle Posts</h2>
+
+@{
+    foreach (var post in Model)
+    {
+        <div class="card">
+            <div class="card-header">
+                <h3>@post.Title</h3>
+            </div>
+            <div class="card-body">
+                <p>@post.Text</p>
+    
+                
+                <p>Likes: @post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsUp)</p>
+                <form asp-controller="Feedback" asp-action="LikePost" method="post">
+                    <input type="hidden" name="postId" value="@post.Id" />
+                    <button type="submit" class="btn btn-success">👍</button>
+                </form>
+               
+                <p>Dislikes: @post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsDown)</p>
+                <form asp-controller="Feedback" asp-action="DislikePost" method="post">
+                    <input type="hidden" name="postId" value="@post.Id" />
+                    @{
+                        foreach (var postLike in post.PostLikes)
+                        {
+                            var likeId = postLike.Like.Id;
+                            <input type="hidden" name="likeId" value="@likeId"/>
+                        }
+                    }
+                   
+                    <button type="submit" class="btn btn-danger">👎</button>
+                </form>
+    
+                <h5>Reacties:</h5>
+                @foreach(var reaction in post.PostReactions)
+                {
+                    <p>@reaction.Reaction.Content</p>
+                }
+            </div>
+        </div>
+    }
+}
+
+<a asp-controller="Feedback" asp-action="Add" class="btn btn-warning">Post je mening!</a>

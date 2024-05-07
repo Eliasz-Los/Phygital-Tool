@@ -297,16 +297,16 @@ public class PhygitalInitializer
         //Feedback data for testing
         
         // Create some Posts
-        var post1 = new Post { Title = "Post 1", Text = "This is the first post." };
-        var post2 = new Post { Title = "Post 2", Text = "This is the second post." };
+        var post1 = new Post { Title = "Post 1", Text = "Dit is eerste post." };
+        var post2 = new Post { Title = "Post 2", Text = "Dit is tweede post." };
 
         // Create some Reactions
-        var reaction1 = new Reaction { Content = "This is a reaction to the first post." };
-        var reaction2 = new Reaction { Content = "This is a reaction to the second post." };
+        var reaction1 = new Reaction { Content = "Dit is reactie op eerste post." };
+        var reaction2 = new Reaction { Content = "Dit is een reactie op de tweede post" };
 
         // Create some Likes
-        var like1 = new Like { Reaction = reaction1, Timestamp = DateTime.UtcNow };
-        var like2 = new Like { Reaction = reaction2, Timestamp = DateTime.UtcNow };
+        var like1 = new Like { Reaction = reaction1, Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp};
+        var like2 = new Like { Reaction = reaction2, Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp};
 
         // Create some PostReactions
         var postReaction1 = new PostReaction { Post = post1, Reaction = reaction1, Timestamp = DateTime.UtcNow };
