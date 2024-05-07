@@ -72,6 +72,10 @@ namespace Phygital.UI_MVC.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
+            
+            [Required]
+            [Display(Name = "Role")]
+            public string Role { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -100,21 +104,68 @@ namespace Phygital.UI_MVC.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
+        // public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        // {
+        //     returnUrl ??= Url.Content("~/");
+        //     ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        //     if (ModelState.IsValid)
+        //     {
+        //         var user = CreateUser();
+        //
+        //         await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+        //         await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+        //         var result = await _userManager.CreateAsync(user, Input.Password);
+        //
+        //         if (result.Succeeded)
+        //         {
+        //             _userManager.AddToRoleAsync(user, CustomIdentityConstraints.UserRole).Wait();
+        //
+        //             _logger.LogInformation("User created a new account with password.");
+        //
+        //             var userId = await _userManager.GetUserIdAsync(user);
+        //             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        //             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+        //             var callbackUrl = Url.Page(
+        //                 "/Account/ConfirmEmail",
+        //                 pageHandler: null,
+        //                 values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+        //                 protocol: Request.Scheme);
+        //
+        //             await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+        //                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+        //
+        //             if (_userManager.Options.SignIn.RequireConfirmedAccount)
+        //             {
+        //                 return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+        //             }
+        //             else
+        //             {
+        //                 await _signInManager.SignInAsync(user, isPersistent: false);
+        //                 return LocalRedirect(returnUrl);
+        //             }
+        //         }
+        //         foreach (var error in result.Errors)
+        //         {
+        //             ModelState.AddModelError(string.Empty, error.Description);
+        //         }
+        //     }
+        //
+        //     // If we got this far, something failed, redisplay form
+        //     return Page();
+        // }
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
-
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
-                    _userManager.AddToRoleAsync(user, CustomIdentityConstraints.UserRole).Wait();
+                    // Add user to the selected role
+                    await _userManager.AddToRoleAsync(user, Input.Role);
 
                     _logger.LogInformation("User created a new account with password.");
 
@@ -149,7 +200,6 @@ namespace Phygital.UI_MVC.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
-
         private IdentityUser CreateUser()
         {
             try
