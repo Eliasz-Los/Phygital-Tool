@@ -1,4 +1,6 @@
-﻿const themeElement = document.getElementById("themeId");
+﻿// MAYBE THIS PAGE WILL GET DELETED
+
+const themeElement = document.getElementById("themeId");
 const themeId = parseInt(themeElement.innerText)
 console.log(themeId);
 function fillQuestionsTable() {

@@ -51,4 +51,9 @@ public class FlowRepository : IFlowRepository
         
         _dbContext.Flows.Remove(flowToDelete);
     }
+
+    public void CreateFlow(Flow flow)
+    {
+        _dbContext.Flows.Add(flow);
+    }
 }

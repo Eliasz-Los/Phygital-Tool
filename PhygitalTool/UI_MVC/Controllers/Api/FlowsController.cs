@@ -1,6 +1,7 @@
 ﻿using Phygital.BL;
 using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
+using Phygital.Domain.Datatypes;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Themas;
@@ -143,6 +144,37 @@ public class FlowsController : ControllerBase
             Description = flow.Description
         }));
     }
+    
+    [HttpPost("AddFlow")]
+    // Post method to add a flow to the database with elements retrieved from the page
+    public ActionResult PostFlow(string selectedType, int selectedTheme, bool isActive)
+    {
+        Flowtype type;
+
+        if (selectedType == "Linear")
+        {
+            type = Flowtype.linear;
+        }
+        else
+        {
+            type = Flowtype.circular;
+        }
+
+        // Make flow ready to be added
+        Flow flowToAdd = new Flow
+        {
+            FlowType = type,
+            IsOpen = isActive,
+            Theme = _themeManager.GetThemeById(selectedTheme)
+        };
+        
+        // Add flow to database
+        _unitOfWork.BeginTransaction();
+        _flowManager.AddFlow(flowToAdd);
+        _unitOfWork.Commit();
+        return Ok();
+    }
+
     
     [HttpGet("questions")]
     /* Todo deze methode moet nog een parameter thema meekrijgen die hij van de vorige pagina krijgt (door user geselecteerd)
