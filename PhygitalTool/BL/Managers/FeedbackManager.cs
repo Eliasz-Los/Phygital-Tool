@@ -13,6 +13,11 @@ public class FeedbackManager : IFeedbackManager
         _feedbackRepository = feedbackRepository;
     }
 
+    public async Task<Post> GetPostByIdAsync(long postId)
+    {
+        return await _feedbackRepository.ReadPostByIdAsync(postId);
+    }
+
     public async Task<IEnumerable<Post>> GetAllPostsWithReactionsAndLikes()
     {
         return await _feedbackRepository.ReadAllPostsWithReactionsAndLikes();
@@ -27,6 +32,25 @@ public class FeedbackManager : IFeedbackManager
         };
         Validator.ValidateObject(post, new ValidationContext(post), true);
         _feedbackRepository.CreatePost(post);
+    }
+
+    public async Task UpdatePost(long postId, string title, string text)
+    {
+        var post = await _feedbackRepository.ReadPostByIdAsync(postId);
+        if (post == null)
+        {
+            throw new Exception($"Post with id {postId} not found");
+        }
+        post.Title = title;
+        post.Text = text;
+        Validator.ValidateObject(post, new ValidationContext(post), true);
+        _feedbackRepository.UpdatePost(post);
+    }
+
+    public void DeletePost(long postId)
+    {
+     
+        _feedbackRepository.DeletePost(postId);
     }
 
     public async Task<PostLike> AddPostLikeByPostId(long postId)

@@ -41,6 +41,34 @@ public class FeedbackController : Controller
         return RedirectToAction("Index", "Feedback");
     }
     
+    [HttpGet]
+    public async Task<IActionResult> Edit(long id)
+    {
+        var post = await _feedbackManager.GetPostByIdAsync(id);
+        return View(post);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Edit(long id, PostDto postDto)
+    {
+        if (!ModelState.IsValid)
+            return View();
+        _uow.BeginTransaction();
+        await _feedbackManager.UpdatePost(id, postDto.Title, postDto.Text);
+        _uow.Commit();
+        return RedirectToAction("Index", "Feedback");
+    }
+    
+    [HttpPost]
+    public IActionResult Delete(long id)
+    {
+        _uow.BeginTransaction();
+        _feedbackManager.DeletePost(id);
+        _uow.Commit();
+        return RedirectToAction("Index", "Feedback");
+    }
+    
+    
     [HttpPost]
     public async  Task<IActionResult> LikePost(long postId)
     {

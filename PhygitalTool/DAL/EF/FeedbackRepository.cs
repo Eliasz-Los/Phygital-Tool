@@ -14,9 +14,14 @@ public class FeedbackRepository : IFeedbackRepository
     }
 
 
-    public async Task<Post> ReadPostById(long id)
+    public async Task<Post> ReadPostByIdAsync(long id)
     {
         return await _dbContext.Posts.FindAsync(id);
+    }
+    
+    public Post ReadPostById(long id)
+    {
+        return  _dbContext.Posts.Find(id);
     }
 
     public async Task<IEnumerable<Post>> ReadAllPostsWithReactionsAndLikes()
@@ -35,9 +40,30 @@ public class FeedbackRepository : IFeedbackRepository
         _dbContext.Posts.Add(post);
     }
 
+    public void UpdatePost(Post post)
+    {
+        var postToUpdate =  ReadPostById(post.Id);
+    
+        postToUpdate.Title = post.Title;
+        postToUpdate.Text = post.Text;
+        
+        _dbContext.Posts.Update(postToUpdate);
+        
+    }
+
+    public void DeletePost(long id)
+    {
+        var removePost = ReadPostById(id);
+        if (removePost == null)
+        {
+            throw new Exception($"Post with id {id} not found");
+        }
+        _dbContext.Posts.Remove(removePost);
+    }
+
     public async Task<PostLike> LikePost(long postId)
     {
-        var post = await ReadPostById(postId);
+        var post = await ReadPostByIdAsync(postId);
         
         if (post == null)
         {
@@ -71,7 +97,7 @@ public class FeedbackRepository : IFeedbackRepository
 
     public async Task<Reaction> CreateReactionToPostById(long postId, Reaction reaction)
     {
-        var post = await ReadPostById(postId);
+        var post = await ReadPostByIdAsync(postId);
         if (post == null)
         {
             throw new Exception("Post not found");

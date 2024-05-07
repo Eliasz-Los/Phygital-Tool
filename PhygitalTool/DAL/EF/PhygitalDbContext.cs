@@ -232,16 +232,19 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
         
         // Feedback zonder account en thema linking
         //TODO: Add account and thema linking
+        //Als post verwijdert wordt willen we alle reacties en likes mee verwijderen
         modelBuilder.Entity<Post>()
             .HasMany(p => p.PostReactions)
-            .WithOne(r => r.Post);
+            .WithOne(r => r.Post)
+            .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<PostReaction>()
             .HasOne(pr => pr.Post)
             .WithMany(p => p.PostReactions);
        
         modelBuilder.Entity<Post>()
             .HasMany(p => p.PostLikes)
-            .WithOne(pl => pl.Post);
+            .WithOne(pl => pl.Post)
+            .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<PostLike>()
             .HasOne(pl => pl.Post)
             .WithMany(p => p.PostLikes);

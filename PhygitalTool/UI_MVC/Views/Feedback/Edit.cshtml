@@ -1,0 +1,25 @@
+﻿@model Phygital.Domain.Feedback.Post
+
+@{
+    ViewBag.Title = "Feedback";
+    Layout = "_Layout";
+}
+
+<h2>Edit Post: @Model.Title</h2>
+
+<form asp-controller="Feedback" asp-action="Edit" method="post">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <div>
+        <label asp-for="Title">Titel van de post:</label>
+        <input class="form-control" asp-for="Title" type="text" name="Title" >
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Text">Text van de post:</label>
+        <textarea class="form-control" rows="4" asp-for="Text" type="text" name="Text" ></textarea>
+        <span asp-validation-for="Text" class="text-danger"></span>
+    </div>
+    
+    <input type="submit" value="Edit" class="btn btn-outline-warning"/>
+</form>
