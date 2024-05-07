@@ -22,14 +22,14 @@ function InitializeFlow() {
             currentQuestionNumber++;
             updateProgressBar();
         });
-
+        
         btnPrev.addEventListener("click", function() {
             if (currentQuestionNumber > 0) {
                 currentQuestionNumber--;
             }
             updateProgressBar();
         });
-    });
+});
 }
 
 
