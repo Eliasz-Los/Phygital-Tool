@@ -47,7 +47,9 @@ public class FeedbackRepository : IFeedbackRepository
         var like = new Like{ LikeType = LikeType.ThumbsUp};
         var postLike = new PostLike{ Like = like, Post = post};
        
-        post.PostLikes.Add(postLike);
+        //post.PostLikes.Add(postLike);
+        
+        _dbContext.PostLikes.Add(postLike);
         
        // await _dbContext.SaveChangesAsync();
         
@@ -65,5 +67,17 @@ public class FeedbackRepository : IFeedbackRepository
        // await _dbContext.SaveChangesAsync();
 
        return postLike;
+    }
+
+    public async Task<Reaction> CreateReactionToPostById(long postId, Reaction reaction)
+    {
+        var post = await ReadPostById(postId);
+        if (post == null)
+        {
+            throw new Exception("Post not found");
+        }
+        var postReaction = new PostReaction{ Post = post, Reaction = reaction};
+         _dbContext.PostReactions.Add(postReaction);
+        return reaction;
     }
 }

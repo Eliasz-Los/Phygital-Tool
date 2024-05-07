@@ -2,7 +2,7 @@
 @model PostDto
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Feedback";
     Layout = "_Layout";
 }
 
@@ -18,7 +18,7 @@
 
     <div>
         <label asp-for="Text">Text van de post:</label>
-        <input class="form-control" asp-for="Text" type="text" name="Text" >
+        <textarea class="form-control" rows="4" asp-for="Text" type="text" name="Text" ></textarea>
         <span asp-validation-for="Text" class="text-danger"></span>
     </div>
     

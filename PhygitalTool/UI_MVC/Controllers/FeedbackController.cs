@@ -44,18 +44,27 @@ public class FeedbackController : Controller
     [HttpPost]
     public async  Task<IActionResult> LikePost(long postId)
     {
-       // _uow.BeginTransaction();
+        _uow.BeginTransaction();
         await _feedbackManager.AddPostLikeByPostId(postId);
-       // _uow.Commit();
+        _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }
     
     [HttpPost]
     public async Task<IActionResult> DislikePost(long postId, long likeId)
     {
-        // _uow.BeginTransaction();
+        _uow.BeginTransaction();
         await _feedbackManager.RemovePostLikeByPostId(postId, likeId);
-        // _uow.Commit();
+        _uow.Commit();
+        return RedirectToAction("Index", "Feedback");
+    }
+    
+    [HttpPost("{postId}/AddReaction")]
+    public async Task<IActionResult> AddReaction(long postId, string content)
+    {
+        _uow.BeginTransaction();
+        await _feedbackManager.AddReactionToPostById(postId, content);
+        _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }
 }

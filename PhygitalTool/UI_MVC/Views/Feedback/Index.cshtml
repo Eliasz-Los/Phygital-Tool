@@ -30,6 +30,7 @@
                 <p>Dislikes: @post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsDown)</p>
                 <form asp-controller="Feedback" asp-action="DislikePost" method="post">
                     <input type="hidden" name="postId" value="@post.Id" />
+                    @*TODO: deze foreach is niet nodig, enkel de likeId moet meegegeven worden maar kan niet op andere manier lol*@
                     @{
                         foreach (var postLike in post.PostLikes)
                         {
@@ -42,9 +43,14 @@
                 </form>
     
                 <h5>Reacties:</h5>
+                <form asp-controller="Feedback" asp-action="AddReaction" method="post">
+                    <input type="hidden" name="postId" value="@post.Id" />
+                    <textarea name="content"></textarea>
+                    <input type="submit" class="btn btn-outline-success" value="Add Reaction" />
+                </form>
                 @foreach(var reaction in post.PostReactions)
                 {
-                    <p>@reaction.Reaction.Content</p>
+                    <p class="text-body">@reaction.Reaction.Content</p>
                 }
             </div>
         </div>

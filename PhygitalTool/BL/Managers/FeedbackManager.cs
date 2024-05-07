@@ -1,4 +1,5 @@
-﻿using Phygital.DAL;
+﻿using System.ComponentModel.DataAnnotations;
+using Phygital.DAL;
 using Phygital.Domain.Feedback;
 
 namespace Phygital.BL.Managers;
@@ -24,6 +25,7 @@ public class FeedbackManager : IFeedbackManager
             Title = title,
             Text = text
         };
+        Validator.ValidateObject(post, new ValidationContext(post), true);
         _feedbackRepository.CreatePost(post);
     }
 
@@ -35,5 +37,12 @@ public class FeedbackManager : IFeedbackManager
     public async Task<PostLike> RemovePostLikeByPostId(long postId, long likeId)
     {
         return await _feedbackRepository.DeletePostLike(postId, likeId);
+    }
+
+    public Task<Reaction> AddReactionToPostById(long postId, string content)
+    {
+        var reaction = new Reaction { Content = content };
+        Validator.ValidateObject(reaction, new ValidationContext(reaction), true);
+        return _feedbackRepository.CreateReactionToPostById(postId, reaction);
     }
 }

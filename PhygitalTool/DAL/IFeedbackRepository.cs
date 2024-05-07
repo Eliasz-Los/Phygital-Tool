@@ -13,5 +13,8 @@ public interface IFeedbackRepository
     Task<PostLike> LikePost(long postId); //long userId misschien later wanneer we die klasse eens fixen
     Task<PostLike> DeletePostLike(long postId, long likeId);
     
+    Task<Reaction> CreateReactionToPostById(long postId, Reaction reaction);
+    
+    
     
 }
