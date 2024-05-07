@@ -32,9 +32,11 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
     public DbSet<Text> Texts { get; set; }
     public DbSet<Video> Videos { get; set; }
 
-
     // Session package
     public DbSet<Participation> Participations { get; set; }
+    public DbSet<Session> Sessions { get; set; }
+    public DbSet<Installation> Installations { get; set; }
+    public DbSet<Note> Notes { get; set; }
     
     // Thema package
     public DbSet<Theme> Themas { get; set; }
@@ -91,6 +93,39 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
         // Session package //
         /////////////////////
         modelBuilder.Entity<Participation>().ToTable("Participation").HasIndex(participation => participation.Id).IsUnique();
+        modelBuilder.Entity<Note>().ToTable("Note").HasIndex(note => note.Id).IsUnique();
+        modelBuilder.Entity<Session>().ToTable("Session").HasIndex(session => session.Id).IsUnique();
+        modelBuilder.Entity<Installation>().ToTable("Installation").HasIndex(installation => installation.Id).IsUnique();
+        
+        // one particpation has many notes
+        modelBuilder.Entity<Participation>()
+            .HasMany(n => n.Notes)
+            .WithOne(p => p.Participation)
+            .HasForeignKey("participationId");
+        modelBuilder.Entity<Note>()
+            .HasOne(n => n.Participation)
+            .WithMany(f => f.Notes)
+            .HasForeignKey("participationId");
+        
+        // one session has many participations
+        modelBuilder.Entity<Session>()
+            .HasMany(s => s.Participations)
+            .WithOne(p => p.Session)
+            .HasForeignKey("sessionId");
+        modelBuilder.Entity<Participation>()
+            .HasOne(p => p.Session)
+            .WithMany(s => s.Participations)
+            .HasForeignKey("sessionId");
+        
+        // one installation has many sessions
+        modelBuilder.Entity<Installation>()
+            .HasMany(i => i.Sessions)
+            .WithOne(s => s.Installation)
+            .HasForeignKey("installationId");
+        modelBuilder.Entity<Session>()
+            .HasOne(s => s.Installation)
+            .WithMany(i => i.Sessions)
+            .HasForeignKey("installationId");
         
         ////////////////////
         // Themes package //
@@ -131,10 +166,12 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
         // one flow has many participations
         modelBuilder.Entity<Flow>()
             .HasMany(f => f.Participations)
-            .WithOne(p => p.flow);
+            .WithOne(p => p.Flow)
+            .HasForeignKey("flowId");
         modelBuilder.Entity<Participation>()
-            .HasOne(p => p.flow)
-            .WithMany(f => f.Participations);
+            .HasOne(p => p.Flow)
+            .WithMany(f => f.Participations)
+            .HasForeignKey("flowId");
         
         // one theme can be used in multiple flows
         modelBuilder.Entity<Theme>()
