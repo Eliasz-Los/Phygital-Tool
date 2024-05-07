@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Phygital.Domain.Datatypes;
+using Phygital.Domain.Feedback;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Themas;
@@ -293,7 +294,29 @@ public class PhygitalInitializer
         var a11 = new Answer { ChosenAnswer = " " };
         var a12 = new Answer { ChosenAnswer = "geen interesse" };
 
+        //Feedback data for testing
+        
+        // Create some Posts
+        var post1 = new Post { Title = "Post 1", Text = "This is the first post." };
+        var post2 = new Post { Title = "Post 2", Text = "This is the second post." };
 
+        // Create some Reactions
+        var reaction1 = new Reaction { Content = "This is a reaction to the first post." };
+        var reaction2 = new Reaction { Content = "This is a reaction to the second post." };
+
+        // Create some Likes
+        var like1 = new Like { Reaction = reaction1, Timestamp = DateTime.UtcNow };
+        var like2 = new Like { Reaction = reaction2, Timestamp = DateTime.UtcNow };
+
+        // Create some PostReactions
+        var postReaction1 = new PostReaction { Post = post1, Reaction = reaction1, Timestamp = DateTime.UtcNow };
+        var postReaction2 = new PostReaction { Post = post2, Reaction = reaction2, Timestamp = DateTime.UtcNow };
+
+        // Create some PostLikes
+        var postLike1 = new PostLike { Post = post1, Like = like1, Timestamp = DateTime.UtcNow, IsLiked = true };
+        var postLike2 = new PostLike { Post = post2, Like = like2, Timestamp = DateTime.UtcNow, IsLiked = true };
+        
+        
         // In the second part of the seed method we create the relations between the different classes
         /////////////////////////////////////////////////////////////////////////////////////////////////////
         
@@ -416,6 +439,22 @@ public class PhygitalInitializer
         // Adding answers
         context.AddRange(new Answer[] { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 });
 
+        // Add to the Posts collection
+        context.Posts.AddRange(new Post[] { post1, post2 });
+
+        // Add to the Reactions collection
+        context.Reactions.AddRange(new Reaction[] { reaction1, reaction2 });
+
+        // Add to the Likes collection
+        context.Likes.AddRange(new Like[] { like1, like2 });
+
+        // Add to the PostReactions collection
+        context.PostReactions.AddRange(new PostReaction[] { postReaction1, postReaction2 });
+
+        // Add to the PostLikes collection
+        context.PostLikes.AddRange(new PostLike[] { postLike1, postLike2 });
+        
+        
         context.SaveChanges();
         context.ChangeTracker.Clear();
     }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Phygital.Domain.Feedback;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Session;
@@ -42,6 +43,13 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
     // Subplatform package
     public DbSet<Project> Projects { get; set; }
     public DbSet<Version> Versions { get; set; }
+    
+    // feedback package
+    public DbSet<Post> Posts { get; set; }
+    public DbSet<Reaction> Reactions { get; set; }
+    public DbSet<Like> Likes { get; set; }
+    public DbSet<PostReaction> PostReactions { get; set; }
+    public DbSet<PostLike> PostLikes { get; set; }
 
     public PhygitalDbContext(DbContextOptions options) : base(options)
     {
@@ -102,6 +110,16 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
         /////////////////////////
         modelBuilder.Entity<Project>().ToTable("Projects").HasIndex(project => project.Id).IsUnique();
         modelBuilder.Entity<Version>().ToTable("Versions").HasIndex(version => version.Id).IsUnique();
+        
+        /////////////////////////
+        // Feedback package    //
+        /////////////////////////
+
+        modelBuilder.Entity<Post>().ToTable("Posts").HasIndex(post => post.Id).IsUnique();
+        modelBuilder.Entity<Reaction>().ToTable("Reactions").HasIndex(reaction => reaction.Id).IsUnique();
+        modelBuilder.Entity<Like>().ToTable("Likes").HasIndex(like => like.Id).IsUnique();
+        modelBuilder.Entity<PostReaction>().ToTable("PostReactions").HasIndex(postReaction => postReaction.Id).IsUnique();
+        modelBuilder.Entity<PostLike>().ToTable("PostLikes").HasIndex(postLike => postLike.Id).IsUnique();
         
         // Relations
         //one flow has many flowelements 
@@ -210,6 +228,50 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
         modelBuilder.Entity<Version>()
             .HasOne(v => v.Project)
             .WithMany(p => p.Versions);
+        
+        
+        // Feedback zonder account en thema linking
+        //TODO: Add account and thema linking
+        modelBuilder.Entity<Post>()
+            .HasMany(p => p.PostReactions)
+            .WithOne(r => r.Post);
+        modelBuilder.Entity<PostReaction>()
+            .HasOne(pr => pr.Post)
+            .WithMany(p => p.PostReactions);
+       
+        modelBuilder.Entity<Post>()
+            .HasMany(p => p.PostLikes)
+            .WithOne(pl => pl.Post);
+        modelBuilder.Entity<PostLike>()
+            .HasOne(pl => pl.Post)
+            .WithMany(p => p.PostLikes);
+        
+        modelBuilder.Entity<Reaction>()
+            .HasMany(r => r.PostReactions)
+            .WithOne(pr => pr.Reaction);
+        modelBuilder.Entity<PostReaction>()
+            .HasOne(pr => pr.Reaction)
+            .WithMany(r => r.PostReactions);
+        
+        modelBuilder.Entity<Reaction>()
+            .HasMany(r => r.Likes)
+            .WithOne(l => l.Reaction);
+        modelBuilder.Entity<Like>()
+            .HasOne(l => l.Reaction)
+            .WithMany(r => r.Likes);
+        
+        modelBuilder.Entity<Like>()
+            .HasMany(l => l.PostLikes)
+            .WithOne(pl => pl.Like);
+        modelBuilder.Entity<PostLike>()
+            .HasOne(pl => pl.Like)
+            .WithMany(l => l.PostLikes);
+        
+        modelBuilder.Entity<Like>()
+            .HasOne(l => l.Reaction)
+            .WithMany(r => r.Likes);
+        
+            
     }
     public bool CreateDatabase(bool dropExisting = true)
     {
