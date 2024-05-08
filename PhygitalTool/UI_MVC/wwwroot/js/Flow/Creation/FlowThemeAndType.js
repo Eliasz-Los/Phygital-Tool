@@ -1,11 +1,10 @@
 ﻿function fillSubthemesSelect() {
-    fetch(`/api/Themas/subthemas`, //flow/subthemas bestaat niet, we gaan jonas zijn api gebruiken waar da wel is
-        {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        })
+    fetch(`/api/Themas/subthemas`, {
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+    })
         .then(response => {
             if (response.status === 200) {
                 return response.json()
@@ -18,25 +17,26 @@
             let bodyData = ``;
             for (const subThema of subThemas) {
                 bodyData += `
-                        <option value="${subThema.title}" data-description="${subThema.description}">${subThema.title}</option>
-                        `
+                <option value="${subThema.id}" data-description="${subThema.description}">${subThema.title}</option>
+            `;
             }
             output.innerHTML += bodyData;
         })
         .catch(error => {
-            console.log(error)
+            console.log(error);
         });
 }
 
+
 function addFlow() {
     var selectedType = document.getElementById('TypeSelect').value;
-    // TODO ID VAN THEMA MEEKRIJGEN
-    var selectedTheme = document.getElementById('ThemaSelect').value;
+    var selectedTheme = document.getElementById('ThemaSelect');
+    var selectedThemeId = selectedTheme.options[selectedTheme.selectedIndex].value;
     var isActive = document.getElementById('ActiveCheckbox').checked;
 
     var data = {
         selectedType: selectedType,
-        selectedTheme: parseInt(selectedTheme),
+        selectedTheme: parseInt(selectedThemeId),
         isActive: isActive
     };
 
