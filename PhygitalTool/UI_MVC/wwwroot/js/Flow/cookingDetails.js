@@ -350,6 +350,7 @@ export function getAnswers() {
         if (checkboxes.length > 0) {
             checkboxes.forEach(checkbox => {
                 answer.chosenOptions.push(checkbox.id);
+                console.log('checkbox.id: ', checkbox.id);
             });
         }
 
@@ -363,6 +364,8 @@ export function getAnswers() {
             radioButtons.forEach(radioButton => {
                 if (radioButton.checked) {
                     answer.chosenOptions.push(radioButton.value);
+                    console.log('radio.value: ', radioButton.value);
+
                 }
             });
         }

@@ -7,31 +7,6 @@ const addButton = document.getElementById("answerFlow")
 const btnNext = document.getElementById("nextBtn");
 const btnPrev = document.getElementById("prevBtn");
 
-
-function resetCarouselInputs() {
-    // Select all input and select elements in the carousel
-    const inputs = document.querySelectorAll('#physicalLinearFlow .carousel-item input, #physicalLinearFlow .carousel-item select, #physicalLinearFlow .carousel-item textarea');
-
-    // Loop through each element and reset its value
-    inputs.forEach(input => {
-        switch (input.type) {
-            case 'checkbox':
-            case 'radio':
-                input.checked = false;
-                break;
-            case 'select-one':
-            case 'select-multiple':
-                input.selectedIndex = -1;
-                break;
-            default:
-                input.value = '';
-                break;
-        }
-    });
-}
-
-
-
 function InitializeFlow() {
     Promise.all([
         getSingleChoiceQuestionData(),
@@ -46,6 +21,8 @@ function InitializeFlow() {
         window.addEventListener("keydown", function (e) {
                 let checkboxToToggle;
                 let radiobuttonToToggle;
+                let activeCarouselItem = document.querySelector('.carousel-item.active');
+
                 switch (e.code) {
                     case 'KeyD':
                         btnNext.click();
@@ -60,20 +37,20 @@ function InitializeFlow() {
                         updateProgressBar();
                         break;
                     case 'KeyW':
-                        checkboxToToggle = document.querySelector('input[type="checkbox"][id="Key1"]');
-                        radiobuttonToToggle = document.querySelector('input[type="radio"][id="Key1"]');
+                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][id="Key1"]');
+                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][id="Key1"]');
                         break;
                     case 'KeyS':
-                        checkboxToToggle = document.querySelector('input[type="checkbox"][id="Key2"]');
-                        radiobuttonToToggle = document.querySelector('input[type="radio"][id="Key2"]');
+                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][id="Key2"]');
+                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][id="Key2"]');
                         break;
                     case 'KeyF':
-                        checkboxToToggle = document.querySelector('input[type="checkbox"][id="Key3"]');
-                        radiobuttonToToggle = document.querySelector('input[type="radio"][id="Key3"]');
+                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][id="Key3"]');
+                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][id="Key3"]');
                         break;
                     case 'KeyG':
-                        checkboxToToggle = document.querySelector('input[type="checkbox"][id="Key4"]');
-                        radiobuttonToToggle = document.querySelector('input[type="radio"][id="Key4"]');
+                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][id="Key4"]');
+                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][id="Key4"]');
                         break;
 
                     case 'Space':
@@ -100,6 +77,5 @@ getTextData();
 getImageData();
 getVideoData();
 getAnswers();
-resetCarouselInputs();
 
 
