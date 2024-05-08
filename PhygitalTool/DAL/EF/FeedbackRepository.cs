@@ -81,7 +81,18 @@ public class FeedbackRepository : IFeedbackRepository
         
         return postLike;
     }
-    
+
+    public async Task<PostLike> DislikePost(long postId)
+    {
+        var post = await ReadPostByIdAsync(postId);
+        var like = new Like{ LikeType = LikeType.ThumbsDown};
+        var postLike = new PostLike{ Like = like, Post = post};
+        
+        _dbContext.PostLikes.Add(postLike);
+
+        return postLike;
+    }
+
     public async Task<PostLike> DeletePostLike(long postId, long likeId)
     {
        var postLike = await _dbContext.PostLikes

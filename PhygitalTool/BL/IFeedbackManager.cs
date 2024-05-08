@@ -16,6 +16,8 @@ public interface IFeedbackManager
      
      Task<PostLike> AddPostLikeByPostId(long postId);
      
+     Task<PostLike> AddDislikePostByPostId(long postId);
+     
      Task<PostLike> RemovePostLikeByPostId(long postId, long likeId);
      
      Task<Reaction> AddReactionToPostById(long postId, string content);

@@ -1,65 +1,89 @@
 ﻿@using Phygital.Domain.Feedback;
 @using System.Collections.Generic;
 @using Phygital.Domain.Datatypes
-@model IEnumerable<Post>
-
+@model Phygital.UI_MVC.Models.Dto.Feedback.FeedbackViewModel
+@*@model IEnumerable<Post>*@
 @{
     ViewBag.Title = "Feedback";
     Layout = "_Layout";
 }
 
-<h2> Alle Posts</h2>
-
+<h2>Laat ons jouw mening horen!</h2>
+<a asp-controller="Feedback" asp-action="Add" class="btn btn-warning spacing-top">Post je mening!</a>
 @{
-    foreach (var post in Model)
+    foreach (var post in Model.Posts)
     {
-        <div class="card">
+        var collapseId = $"collapseExample{post.Id}";
+        
+        <div class="card spacing-top">
             <div class="card-header">
-                <a asp-controller="Feedback" asp-action="Edit" asp-route-id="@post.Id" class="btn btn-warning align-content-end">Edit</a>
-                <form asp-controller="Feedback" asp-action="Delete" method="post">
-                    <input type="hidden" name="id" value="@post.Id" />
-                    <button class="btn btn-warning align-content-end">Verwijder</button>
-                </form>
-                <h3>@post.Title</h3>
+                <div class="row d-flex">
+                    <div class="col d-flex">
+                        <h3>@post.Title</h3>
+                    </div>
+                    <div class="col d-flex gap-3 justify-content-end">
+                        <a asp-controller="Feedback" asp-action="Edit" asp-route-id="@post.Id" class="btn btn-primary bi bi-pencil-square" style="display: inline;"></a>
+                        <form asp-controller="Feedback" asp-action="Delete" method="post" style="display: inline;">
+                            <input type="hidden" name="id" value="@post.Id"/>
+                            <button class="btn btn-danger bi bi-trash"></button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
+            <div class="card-body container">
                 <p>@post.Text</p>
-    
+                <div class="row">
+                    <div class="col d-flex">
+                        <div class="col d-flex gap-2">
+                            <form asp-controller="Feedback" asp-action="LikePost" method="post">
+                                <input type="hidden" name="postId" value="@post.Id"/>
+                                <button type="submit" class="btn btn-success">👍 @post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsUp)</button>
+                            </form>
+
+                            <form asp-controller="Feedback" asp-action="DislikePost" method="post">
+                                <input type="hidden" name="postId" value="@post.Id"/>
+                                @*TODO: deze foreach is niet nodig, enkel de likeId moet meegegeven worden maar kan niet op andere manier lol*@
+                                @{
+                                foreach (var postLike in post.PostLikes)
+                                {
+                                var likeId = postLike.Like.Id;
+                                <input type="hidden" name="likeId" value="@likeId"/>
+                                }
+                                }
+                                <button type="submit" class="btn btn-danger">👎 @post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsDown)</button>
+                            </form>
+                        </div>
+                       
+                        <div class="col">
+                            <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="False" aria-controls="@collapseId">
+                                Reacties: @post.PostReactions.Count
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 
-                <p>Likes: @post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsUp)</p>
-                <form asp-controller="Feedback" asp-action="LikePost" method="post">
-                    <input type="hidden" name="postId" value="@post.Id" />
-                    <button type="submit" class="btn btn-success">👍</button>
-                </form>
-               
-                <p>Dislikes: @post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsDown)</p>
-                <form asp-controller="Feedback" asp-action="DislikePost" method="post">
-                    <input type="hidden" name="postId" value="@post.Id" />
-                    @*TODO: deze foreach is niet nodig, enkel de likeId moet meegegeven worden maar kan niet op andere manier lol*@
-                    @{
-                        foreach (var postLike in post.PostLikes)
-                        {
-                            var likeId = postLike.Like.Id;
-                            <input type="hidden" name="likeId" value="@likeId"/>
-                        }
-                    }
-                   
-                    <button type="submit" class="btn btn-danger">👎</button>
-                </form>
-    
-                <h5>Reacties:</h5>
-                <form asp-controller="Feedback" asp-action="AddReaction" method="post">
-                    <input type="hidden" name="postId" value="@post.Id" />
-                    <textarea name="content"></textarea>
-                    <input type="submit" class="btn btn-outline-success" value="Add Reaction" />
-                </form>
-                @foreach(var reaction in post.PostReactions)
-                {
-                    <p class="text-body">@reaction.Reaction.Content</p>
-                }
+                    @* hidden reactions*@
+                    <section class="collapse" id="@collapseId">
+                        <div class="card card-body spacing-top">
+
+                            <form asp-controller="Feedback" asp-action="AddReaction" method="post">
+                                <input type="hidden" name="postId" value="@post.Id"/>
+                                <div class="input-group">
+                                    <input asp-for="Reaction.Content" type="text" class="form-control" name="content"/>
+                                    <span asp-validation-for="Reaction.Content" class="text-danger"></span>
+                                    <button type="submit" class="btn btn-success bi bi-send"></button>
+                                </div>
+                            </form>
+                            
+                            @foreach (var reaction in post.PostReactions)
+                            {
+                                <p class="border-bottom">@reaction.Reaction.Content</p>
+                            }
+                        </div>
+                  </section>
             </div>
         </div>
     }
 }
 
-<a asp-controller="Feedback" asp-action="Add" class="btn btn-warning">Post je mening!</a>
+

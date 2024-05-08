@@ -6,8 +6,8 @@ namespace Phygital.Domain.Feedback;
 public class Reaction
 {
     public long Id { get; set; }
-    [Required]
-    [MaxLength(1000)]
+    [Required(ErrorMessage = "Content is required.")]
+    [MaxLength(1000, ErrorMessage = "Content is too long, max 1000 characters.")]
     public string Content { get; set; }
     public ICollection<Like> Likes { get; set; }
     public ICollection<PostReaction> PostReactions { get; set; }

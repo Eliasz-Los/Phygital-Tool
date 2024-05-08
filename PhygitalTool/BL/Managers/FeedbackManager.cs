@@ -58,6 +58,11 @@ public class FeedbackManager : IFeedbackManager
         return await _feedbackRepository.LikePost(postId);
     }
 
+    public async Task<PostLike> AddDislikePostByPostId(long postId)
+    {
+        return await _feedbackRepository.DislikePost(postId);
+    }
+
     public async Task<PostLike> RemovePostLikeByPostId(long postId, long likeId)
     {
         return await _feedbackRepository.DeletePostLike(postId, likeId);

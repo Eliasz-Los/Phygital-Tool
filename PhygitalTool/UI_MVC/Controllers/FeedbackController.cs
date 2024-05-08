@@ -19,7 +19,12 @@ public class FeedbackController : Controller
     public async Task<IActionResult> Index()
     {
         var posts = await _feedbackManager.GetAllPostsWithReactionsAndLikes();
-        return View(posts);
+        var viewModel = new FeedbackViewModel
+        {
+            Posts = posts,
+            Reaction = new ReactionDto()
+        };
+        return View(viewModel);
     }
     
     [HttpGet]
@@ -79,19 +84,24 @@ public class FeedbackController : Controller
     }
     
     [HttpPost]
-    public async Task<IActionResult> DislikePost(long postId, long likeId)
+    public async Task<IActionResult> DislikePost(long postId)
     {
         _uow.BeginTransaction();
-        await _feedbackManager.RemovePostLikeByPostId(postId, likeId);
+        await _feedbackManager.AddDislikePostByPostId(postId);
+       // await _feedbackManager.RemovePostLikeByPostId(postId, likeId);
         _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }
     
     [HttpPost("{postId}/AddReaction")]
-    public async Task<IActionResult> AddReaction(long postId, string content)
+    public async Task<IActionResult> AddReaction(long postId, ReactionDto reactionDto)
     {
+        if(!ModelState.IsValid)
+            return RedirectToAction("Index", "Feedback");
+        
+        
         _uow.BeginTransaction();
-        await _feedbackManager.AddReactionToPostById(postId, content);
+        await _feedbackManager.AddReactionToPostById(postId, reactionDto.Content);
         _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }
