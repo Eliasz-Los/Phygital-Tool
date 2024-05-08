@@ -147,15 +147,22 @@ public class FlowsController : ControllerBase
     
     [HttpPost("AddFlow")]
     // Post method to add a flow to the database with elements retrieved from the page
-    public ActionResult PostFlow([FromBody] FlowDto flowDto)
+    public ActionResult PostFlow([FromBody] FlowCreationModel flowModel)
     {
+        Flowtype hulp = Flowtype.circular;
+        if (flowModel.FlowType == "Linear")
+        {
+            hulp = Flowtype.linear;
+        }
+        else
+        {
+            hulp = Flowtype.circular;
+        }
         Flow flowToAdd = new Flow
         {
-            Id = flowDto.Id,
-            // Checken of 1 of 2 is
-            FlowType = flowDto.FlowType,
-            IsOpen = flowDto.IsOpen,
-            Theme = _themeManager.GetThemeById(flowDto.ThemeId)
+            FlowType = hulp,
+            IsOpen = flowModel.IsOpen,
+            Theme = _themeManager.GetThemeById(flowModel.ThemeId)
         };
 
         // Add flow to database

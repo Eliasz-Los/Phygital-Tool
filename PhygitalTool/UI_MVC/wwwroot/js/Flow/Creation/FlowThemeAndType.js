@@ -35,9 +35,9 @@ function addFlow() {
     var isActive = document.getElementById('ActiveCheckbox').checked;
 
     var data = {
-        selectedType: selectedType,
-        selectedTheme: parseInt(selectedThemeId),
-        isActive: isActive
+        FlowType: selectedType,
+        IsOpen: isActive,
+        ThemeId: parseInt(selectedThemeId)
     };
 
     // Send POST request to the server
