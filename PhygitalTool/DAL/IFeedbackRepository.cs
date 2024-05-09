@@ -6,6 +6,7 @@ public interface IFeedbackRepository
 {
     
     Task<Post> ReadPostByIdAsync(long id);
+    Task<Post> ReadPostWithThemeByIdAsync(long id);
     Task<IEnumerable<Post>> ReadAllPostsWithReactionsAndLikes();
     
     void CreatePost(Post post);

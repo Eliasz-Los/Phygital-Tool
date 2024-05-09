@@ -297,8 +297,8 @@ public class PhygitalInitializer
         //Feedback data for testing
         
         // Create some Posts
-        var post1 = new Post { Title = "Post 1", Text = "Dit is eerste post." };
-        var post2 = new Post { Title = "Post 2", Text = "Dit is tweede post." };
+        var post1 = new Post { Title = "Post 1", Text = "Dit is eerste post.", Theme = th1};
+        var post2 = new Post { Title = "Post 2", Text = "Dit is tweede post.", Theme = th2};
 
         // Create some Reactions
         var reaction1 = new Reaction { Content = "Dit is reactie op eerste post." };

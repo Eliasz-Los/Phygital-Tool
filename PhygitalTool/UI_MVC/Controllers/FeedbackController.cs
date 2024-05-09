@@ -9,11 +9,13 @@ public class FeedbackController : Controller
 {
     private readonly UnitOfWork _uow;
     private readonly IFeedbackManager _feedbackManager;
+    private readonly IThemeManager _themeManager;
     
-    public FeedbackController(UnitOfWork uow, IFeedbackManager feedbackManager)
+    public FeedbackController(UnitOfWork uow, IFeedbackManager feedbackManager, IThemeManager themeManager)
     {
         _uow = uow;
         _feedbackManager = feedbackManager;
+        _themeManager = themeManager;
     }
     
     public async Task<IActionResult> Index()
@@ -30,6 +32,8 @@ public class FeedbackController : Controller
     [HttpGet]
     public IActionResult Add()
     {
+        var themes = _themeManager.GetAllThemas();
+        ViewBag.Themes = themes;
         return View();
     }
     
@@ -41,7 +45,7 @@ public class FeedbackController : Controller
         
        
         _uow.BeginTransaction();
-        _feedbackManager.AddPost(postDto.Title, postDto.Text);
+        _feedbackManager.AddPost(postDto.Title, postDto.Text, postDto.ThemeId);
         _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }
@@ -49,8 +53,17 @@ public class FeedbackController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(long id)
     {
-        var post = await _feedbackManager.GetPostByIdAsync(id);
-        return View(post);
+        var themes = _themeManager.GetAllThemas();
+        ViewBag.Themes = themes;
+        
+        var post = await _feedbackManager.GetPostWithThemeByIdAsync(id);
+        var postDto = new PostDto
+        {
+            Title = post.Title,
+            Text = post.Text,
+            ThemeId = post.Theme.Id
+        };
+        return View(postDto);
     }
     
     [HttpPost]
@@ -58,8 +71,10 @@ public class FeedbackController : Controller
     {
         if (!ModelState.IsValid)
             return View();
+        var theme = _themeManager.GetThemeById(postDto.ThemeId);
+        
         _uow.BeginTransaction();
-        await _feedbackManager.UpdatePost(id, postDto.Title, postDto.Text);
+        await _feedbackManager.ChangePost(id, postDto.Title, postDto.Text, theme.Id);
         _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }
@@ -68,7 +83,7 @@ public class FeedbackController : Controller
     public IActionResult Delete(long id)
     {
         _uow.BeginTransaction();
-        _feedbackManager.DeletePost(id);
+        _feedbackManager.RemovePost(id);
         _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }
@@ -88,11 +103,11 @@ public class FeedbackController : Controller
     {
         _uow.BeginTransaction();
         await _feedbackManager.AddDislikePostByPostId(postId);
-       // await _feedbackManager.RemovePostLikeByPostId(postId, likeId);
         _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }
     
+    //Misschien is het beter om in aparte controller te zetten: api/feedback/{postId}/AddReaction
     [HttpPost("{postId}/AddReaction")]
     public async Task<IActionResult> AddReaction(long postId, ReactionDto reactionDto)
     {

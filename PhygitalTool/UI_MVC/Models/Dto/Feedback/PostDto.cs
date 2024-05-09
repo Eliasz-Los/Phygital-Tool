@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Phygital.Domain.Themas;
 
 namespace Phygital.UI_MVC.Models.Dto.Feedback;
 
@@ -9,4 +10,6 @@ public class PostDto
     public string Title { get; set; }
     [MaxLength(1000, ErrorMessage = "Text is too long, max 1000 characters.")]
     public string Text { get; set; }
+    
+    public long ThemeId { get; set; }
 }

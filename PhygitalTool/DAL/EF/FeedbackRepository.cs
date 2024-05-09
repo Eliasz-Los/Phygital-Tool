@@ -19,6 +19,11 @@ public class FeedbackRepository : IFeedbackRepository
         return await _dbContext.Posts.FindAsync(id);
     }
     
+    public async Task<Post> ReadPostWithThemeByIdAsync(long id)
+    {
+        return await _dbContext.Posts.Include(p =>p.Theme).FirstOrDefaultAsync(p => p.Id == id);
+    }
+    
     public Post ReadPostById(long id)
     {
         return  _dbContext.Posts.Find(id);
@@ -27,6 +32,8 @@ public class FeedbackRepository : IFeedbackRepository
     public async Task<IEnumerable<Post>> ReadAllPostsWithReactionsAndLikes()
     {
         var result = await _dbContext.Posts
+            .AsNoTracking()
+            .Include(p => p.Theme)
             .Include(p => p.PostReactions)
             .ThenInclude(pr => pr.Reaction)
             .Include(p => p.PostLikes)

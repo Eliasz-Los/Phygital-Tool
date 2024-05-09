@@ -2,7 +2,7 @@
 @model PostDto
 
 @{
-    ViewBag.Title = "Feedback";
+    ViewBag.Title = "Add Post";
     Layout = "_Layout";
 }
 
@@ -16,6 +16,12 @@
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
 
+    <div>
+        <label asp-for="ThemeId">Kies de thema waarover je het wilt hebben:</label>
+        <select asp-for="ThemeId" asp-items="@(new SelectList(ViewBag.Themes, "Id", "Title"))" class="form-control"></select>
+        <span asp-validation-for="ThemeId" class="text-danger"></span>
+    </div>
+    
     <div>
         <label asp-for="Text">Text van de post:</label>
         <textarea class="form-control" rows="4" asp-for="Text" type="text" name="Text" ></textarea>

@@ -7,10 +7,11 @@ namespace Phygital.BL.Managers;
 public class FeedbackManager : IFeedbackManager
 {
     private readonly IFeedbackRepository _feedbackRepository;
-
-    public FeedbackManager(IFeedbackRepository feedbackRepository)
+    private readonly IThemeManager _themeManager;
+    public FeedbackManager(IFeedbackRepository feedbackRepository, IThemeManager themeManager)
     {
         _feedbackRepository = feedbackRepository;
+        _themeManager = themeManager;
     }
 
     public async Task<Post> GetPostByIdAsync(long postId)
@@ -18,36 +19,45 @@ public class FeedbackManager : IFeedbackManager
         return await _feedbackRepository.ReadPostByIdAsync(postId);
     }
 
+    public async Task<Post> GetPostWithThemeByIdAsync(long id)
+    {
+        return await _feedbackRepository.ReadPostWithThemeByIdAsync(id);
+    }
+
     public async Task<IEnumerable<Post>> GetAllPostsWithReactionsAndLikes()
     {
         return await _feedbackRepository.ReadAllPostsWithReactionsAndLikes();
     }
 
-    public void AddPost(string title, string text)
+    public void AddPost(string title, string text, long themeId)
     {
+        var theme = _themeManager.GetThemeById(themeId);
+        
         var post = new Post
         {
             Title = title,
-            Text = text
+            Text = text,
+            Theme = theme
         };
         Validator.ValidateObject(post, new ValidationContext(post), true);
         _feedbackRepository.CreatePost(post);
     }
 
-    public async Task UpdatePost(long postId, string title, string text)
+    public async Task ChangePost(long postId, string title, string text, long themeId)
     {
         var post = await _feedbackRepository.ReadPostByIdAsync(postId);
-        if (post == null)
-        {
-            throw new Exception($"Post with id {postId} not found");
-        }
         post.Title = title;
         post.Text = text;
+
+        var theme = _themeManager.GetThemeById(themeId);
+        if(theme != null)
+            post.Theme = theme;
+        
         Validator.ValidateObject(post, new ValidationContext(post), true);
         _feedbackRepository.UpdatePost(post);
     }
 
-    public void DeletePost(long postId)
+    public void RemovePost(long postId)
     {
      
         _feedbackRepository.DeletePost(postId);
@@ -68,10 +78,10 @@ public class FeedbackManager : IFeedbackManager
         return await _feedbackRepository.DeletePostLike(postId, likeId);
     }
 
-    public Task<Reaction> AddReactionToPostById(long postId, string content)
+    public async Task<Reaction> AddReactionToPostById(long postId, string content)
     {
         var reaction = new Reaction { Content = content };
         Validator.ValidateObject(reaction, new ValidationContext(reaction), true);
-        return _feedbackRepository.CreateReactionToPostById(postId, reaction);
+        return await _feedbackRepository.CreateReactionToPostById(postId, reaction);
     }
 }

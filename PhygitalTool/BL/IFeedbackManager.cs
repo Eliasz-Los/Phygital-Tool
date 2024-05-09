@@ -5,14 +5,16 @@ namespace Phygital.BL;
 public interface IFeedbackManager
 {
      Task<Post> GetPostByIdAsync(long postId);
+
+     Task<Post> GetPostWithThemeByIdAsync(long id);
      Task<IEnumerable<Post>> GetAllPostsWithReactionsAndLikes();
      
-     void AddPost(string title, string text);
+     void AddPost(string title, string text, long themeId);
      
      //Hier wel een async omdat we een await gebruiken in de controller en we w8 tot de repository klaar is
-     Task UpdatePost(long postId, string title, string text);
+     Task ChangePost(long postId, string title, string text, long themeId);
      
-     void DeletePost(long postId);
+     void RemovePost(long postId);
      
      Task<PostLike> AddPostLikeByPostId(long postId);
      
