@@ -2,8 +2,9 @@
 information about the question list and wether the user wants to continue -->
 @using System.Security.Cryptography
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using Phygital.Domain.User
+@inject SignInManager<Account> SignInManager
+@inject UserManager<Account> UserManager
 
 @{
     ViewData["Title"] = "Home";

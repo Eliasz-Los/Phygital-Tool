@@ -1,4 +1,5 @@
-﻿﻿using System.Diagnostics;
+﻿using System.Diagnostics;
+using Castle.Core.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -11,13 +12,15 @@ using Phygital.Domain.Subplatform;
 using Phygital.Domain.Themas;
 using Phygital.Domain.User;
 using Version = Phygital.Domain.Subplatform.Version;
+using Microsoft.Extensions.Configuration;
+using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace Phygital.DAL.EF;
 
-public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
+public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
 {
     // Accounts package
-    // public DbSet<Account> Accounts { get; set; }
+    public DbSet<Account> Accounts { get; set; }
     
     // Questionsprocess package
     public DbSet<Flow> Flows { get; set; }
@@ -51,7 +54,16 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
     public DbSet<PostReaction> PostReactions { get; set; }
     public DbSet<PostLike> PostLikes { get; set; }
 
-    public PhygitalDbContext(DbContextOptions options) : base(options)
+    //om zogezegd connection string uit te halen
+    private readonly IConfiguration _configuration;
+    public PhygitalDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
+    {
+        _configuration = configuration;
+    }
+    
+    //Nieuwe constructor voor identity migration, miss niet de beste oplossing
+    public PhygitalDbContext() : this(new DbContextOptionsBuilder<PhygitalDbContext>().UseNpgsql("Host=localhost;Database=Phygital.db;Port=5001;Username=postgres;Password=postgres").Options,
+        null)
     {
     }
 
@@ -59,7 +71,15 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseNpgsql(connectionString:"Phygital.db");
+            if (_configuration != null)
+            {
+                optionsBuilder.UseNpgsql(_configuration.GetConnectionString("Phygital.db")); //connectionString:"Phygital.db"
+
+            }
+            else
+            {
+                optionsBuilder.UseNpgsql("Phygital.db");
+            }
             optionsBuilder.EnableSensitiveDataLogging();
         }
         
@@ -248,6 +268,10 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
         modelBuilder.Entity<PostLike>()
             .HasOne(pl => pl.Post)
             .WithMany(p => p.PostLikes);
+
+        modelBuilder.Entity<Post>()
+            .HasOne(p => p.Theme)
+            .WithMany(t => t.Posts);
         
         modelBuilder.Entity<Reaction>()
             .HasMany(r => r.PostReactions)

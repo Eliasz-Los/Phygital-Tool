@@ -7,7 +7,7 @@ using Phygital.UI_CA;
 
 Console.WriteLine("Hello, World!");
 
-var builder = new DbContextOptionsBuilder();
+/*var builder = new DbContextOptionsBuilder();
 
 var dbContext = new PhygitalDbContext(builder.Options);
 
@@ -19,4 +19,4 @@ var flowManager = new FlowManager(flowRepository, themeManager);
 var flowElementManager = new FlowElementManager(flowElementRepository);
 
 var consoleUi = new ConsoleUi(flowManager, flowElementManager);
-consoleUi.Run();
+consoleUi.Run();*/

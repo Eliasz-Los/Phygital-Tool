@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.ComponentModel.DataAnnotations;
+using Phygital.Domain.Feedback;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 
@@ -15,6 +17,8 @@ public class Theme : IValidatableObject
 
     public ICollection<Flow> Flows { get; set; }
     public ICollection<FlowElement> FlowElements { get; set; }
+    
+    public ICollection<Post> Posts { get; set; }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {

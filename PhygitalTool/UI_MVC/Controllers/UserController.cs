@@ -4,16 +4,16 @@ using Phygital.Domain.User;
 
 namespace Phygital.UI_MVC.Controllers;
 
-public class UserController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+public class UserController(UserManager<Account> userManager, RoleManager<IdentityRole> roleManager)
     : Controller
 {
-    private readonly UserManager<IdentityUser> _userManager = userManager;
+    private readonly UserManager<Account> _userManager = userManager;
     private readonly RoleManager<IdentityRole> _roleManager = roleManager;
 
     [HttpPost]
     public async Task<IActionResult> Add(string email, string password)
     {
-        var user = new IdentityUser { UserName = email, Email = email };
+        var user = new Account { UserName = email, Email = email };
         var result = await _userManager.CreateAsync(user, password);
 
         if (result.Succeeded)
