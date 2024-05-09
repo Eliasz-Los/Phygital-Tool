@@ -490,5 +490,39 @@ public class PhygitalInitializer
         };
         await userManager.CreateAsync(Eliasz, "Eliasz@01");
         await userManager.AddToRoleAsync(Eliasz, CustomIdentityConstraints.SubAdminRole);
+        
+        var Josse = new Account()
+        {
+            Email = "josse.dresselaers@phygital.be",
+            UserName = "josse.dresselaers@phygital.be",
+            EmailConfirmed = true,
+            Name = "Josse",
+            LastName = "Dresselaers"
+        };
+        await userManager.CreateAsync(Josse, "Josse@01");
+        await userManager.AddToRoleAsync(Josse, CustomIdentityConstraints.SubAdminRole);
+        
+        var Jonas = new Account()
+        {
+            Email = "jonas.wuyten@phygital.be",
+            UserName = "jonas.wuyten@phygital.be",
+            EmailConfirmed = true,
+            Name = "Jonas",
+            LastName = "Wuyten",
+
+        };
+        await userManager.CreateAsync(Jonas, "Jonas@01");
+        await userManager.AddToRoleAsync(Jonas, CustomIdentityConstraints.SubAdminRole);
+        
+        var Willem = new Account()
+        {
+            Email = "willem.kuijpers@phygital.be",
+            UserName = "willem.kuijpers@phygital.be",
+            EmailConfirmed = true,
+            Name = "Willem",
+            LastName = "Kuijpers"
+        };
+        await userManager.CreateAsync(Willem, "Willem@01");
+        await userManager.AddToRoleAsync(Willem, CustomIdentityConstraints.SubAdminRole);
     }
 }
