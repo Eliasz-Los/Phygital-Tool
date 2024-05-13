@@ -10,19 +10,19 @@ const btnPrev = document.getElementById("prevBtn");
 function InitializeFlow() {
     Promise.all([
         getSingleChoiceQuestionData(),
-        getOpenQuestionsData(),
+        //getOpenQuestionsData(), //Maybe with QR CODE? //TODO: Add open questions
         getRangeQuestionsData(),
         getMultipleChoiceQuestionsData(),
     ]).then(() => {
-        let carousel = new bootstrap.Carousel(document.getElementById('physicalLinearFlow'), {
-            interval: false,
-            wrap: true
-        });
-        window.addEventListener("keydown", function (e) {
+            let carousel = new bootstrap.Carousel(document.getElementById('physicalLinearFlow'), {
+                interval: false,
+                wrap: true
+            });
+            window.addEventListener("keydown", function (e) {
                 let checkboxToToggle;
                 let radiobuttonToToggle;
                 let activeCarouselItem = document.querySelector('.carousel-item.active');
-
+                let rangeInput = activeCarouselItem.querySelector('input[type="range"]');
                 switch (e.code) {
                     case 'KeyD':
                         btnNext.click();
@@ -36,6 +36,15 @@ function InitializeFlow() {
                         }
                         updateProgressBar();
                         break;
+                    case 'ArrowRight':
+                        rangeInput.value = parseInt(rangeInput.value) + 1;
+                        rangeInput.dispatchEvent(new Event('input'));
+                        break;
+                    case 'ArrowLeft':
+                        rangeInput.value = parseInt(rangeInput.value) - 1;
+                        rangeInput.dispatchEvent(new Event('input'));
+                        break;
+
                     case 'KeyW':
                         checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][id="Key1"]');
                         radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][id="Key1"]');
@@ -52,7 +61,6 @@ function InitializeFlow() {
                         checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][id="Key4"]');
                         radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][id="Key4"]');
                         break;
-
                     case 'Space':
                         addButton.click();
                         break;
@@ -65,10 +73,9 @@ function InitializeFlow() {
                 if (radiobuttonToToggle) {
                     radiobuttonToToggle.checked = !radiobuttonToToggle.checked;
                 }
-            }
-        )
-        ;
-    });
+            });
+        }
+    );
 }
 
 
