@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
 using Phygital.BL.Managers;
 using Phygital.UI_MVC.Models.Dto.Feedback;
@@ -18,6 +19,8 @@ public class FeedbackController : Controller
         _themeManager = themeManager;
     }
     
+    [HttpGet]
+    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
     public async Task<IActionResult> Index()
     {
         var posts = await _feedbackManager.GetAllPostsWithReactionsAndLikes();
@@ -30,6 +33,7 @@ public class FeedbackController : Controller
     }
     
     [HttpGet]
+    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
     public IActionResult Add()
     {
         var themes = _themeManager.GetAllThemas();
@@ -38,6 +42,7 @@ public class FeedbackController : Controller
     }
     
     [HttpPost]
+    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
     public IActionResult Add(PostDto postDto)
     {
         if(!ModelState.IsValid)
@@ -51,6 +56,7 @@ public class FeedbackController : Controller
     }
     
     [HttpGet]
+    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
     public async Task<IActionResult> Edit(long id)
     {
         var themes = _themeManager.GetAllThemas();
@@ -67,6 +73,7 @@ public class FeedbackController : Controller
     }
     
     [HttpPost]
+    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
     public async Task<IActionResult> Edit(long id, PostDto postDto)
     {
         if (!ModelState.IsValid)
@@ -80,6 +87,7 @@ public class FeedbackController : Controller
     }
     
     [HttpPost]
+    [Authorize(Roles = "Admin, SubAdmin")]
     public IActionResult Delete(long id)
     {
         _uow.BeginTransaction();
@@ -90,6 +98,7 @@ public class FeedbackController : Controller
     
     
     [HttpPost]
+    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
     public async  Task<IActionResult> LikePost(long postId)
     {
         _uow.BeginTransaction();
@@ -99,6 +108,7 @@ public class FeedbackController : Controller
     }
     
     [HttpPost]
+    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
     public async Task<IActionResult> DislikePost(long postId)
     {
         _uow.BeginTransaction();
@@ -109,6 +119,7 @@ public class FeedbackController : Controller
     
     //Misschien is het beter om in aparte controller te zetten: api/feedback/{postId}/AddReaction
     [HttpPost("{postId}/AddReaction")]
+    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
     public async Task<IActionResult> AddReaction(long postId, ReactionDto reactionDto)
     {
         if(!ModelState.IsValid)

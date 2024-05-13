@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
 using ILogger = Castle.Core.Logging.ILogger;
 
@@ -14,7 +15,9 @@ public class StatisticController : Controller
         _logger = logger;
         _statisticsManager = statisticsManager;
     }
-    // GET
+    
+    [HttpGet]
+    [Authorize(Roles = "Admin, SubAdmin")]
     public IActionResult Index(long id)
     {
         var stats = _statisticsManager.GetFlowStatistics(id);
