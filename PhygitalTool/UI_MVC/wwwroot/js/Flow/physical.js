@@ -14,10 +14,6 @@ function InitializeFlow() {
         getRangeQuestionsData(),
         getMultipleChoiceQuestionsData(),
     ]).then(() => {
-            let carousel = new bootstrap.Carousel(document.getElementById('physicalLinearFlow'), {
-                interval: false,
-                wrap: true
-            });
             window.addEventListener("keydown", function (e) {
                 let checkboxToToggle;
                 let radiobuttonToToggle;
