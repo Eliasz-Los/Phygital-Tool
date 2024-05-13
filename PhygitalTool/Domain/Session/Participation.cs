@@ -7,7 +7,7 @@ namespace Phygital.Domain.Session;
 public class Participation
 {
     public long Id { get; set; }
-    public TimeOnly Duration { get; set; }
+    public TimeSpan Duration { get; set; }
     public int AmountOfParticipants { get; set; }
     
     public Session Session { get; set; }

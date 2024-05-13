@@ -237,7 +237,7 @@ public class PhygitalDbContext : IdentityDbContext<IdentityUser> // DbContext
             .WithOne(v => v.Project);
 
         modelBuilder.Entity<Project>()
-            .HasMany<Flow>(p => p.Flows)
+            .HasMany(p => p.Flows)
             .WithOne(f => f.Project);
 
         modelBuilder.Entity<Flow>()
