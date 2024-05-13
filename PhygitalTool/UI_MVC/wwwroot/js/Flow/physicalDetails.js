@@ -233,11 +233,11 @@ export function getTextData(){
                 bodyData += `
                     <div class="accordion-item">
                     <h2 class="accordion-header" id="heading${totalInformations}">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${totalInformations}" aria-expanded="false" aria-controls="collapse${totalInformations}">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${totalInformations}" aria-expanded="true" aria-controls="collapse${totalInformations}">
                             ${texts[i].title}
                         </button>
                     </h2>
-                    <div id="collapse${totalInformations}" class="accordion-collapse collapse" aria-labelledby="heading${totalInformations}" data-bs-parent="#infoAccordion">
+                    <div id="collapse${totalInformations}" class="accordion-collapse " aria-labelledby="heading${totalInformations}" data-bs-parent="#infoAccordion">
                         <div class="accordion-body">
                             ${texts[i].content}
                         </div>
@@ -272,12 +272,12 @@ export function getImageData(){
                 bodyData += `
                         <div class="accordion-item">
                         <h2 class="accordion-header" id="heading${totalInformations}">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${totalInformations}" aria-expanded="false" aria-controls="collapse${totalInformations}">
+                        <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#collapse${totalInformations}" aria-expanded="true" aria-controls="collapse${totalInformations}">
                             ${images[i].title}
                         </button>
                     </h2>
                    
-                    <div id="collapse${totalInformations}" class="accordion-collapse collapse" aria-labelledby="heading${totalInformations}" data-bs-parent="#infoAccordion">
+                    <div id="collapse${totalInformations}" class="accordion-collapse " aria-labelledby="heading${totalInformations}" data-bs-parent="#infoAccordion">
                         <div class="accordion-body">
                          <img src="${images[i].url.replace('~', '')}" class="d-block w-100" alt="${images[i].altText}">
                             ${images[i].altText}
@@ -315,12 +315,12 @@ export function getVideoData(){
                 bodyData += `
                         <div class="accordion-item">
                         <h2 class="accordion-header" id="heading${totalInformations}">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${totalInformations}" aria-expanded="false" aria-controls="collapse${totalInformations}">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${totalInformations}" aria-expanded="true" aria-controls="collapse${totalInformations}">
                             ${videos[i].title}
                         </button>
                     </h2>
                    
-                    <div id="collapse${totalInformations}" class="accordion-collapse collapse" aria-labelledby="heading${totalInformations}" data-bs-parent="#infoAccordion">
+                    <div id="collapse${totalInformations}" class="accordion-collapse" aria-labelledby="heading${totalInformations}" data-bs-parent="#infoAccordion">
                         <div class="accordion-body">
                          <iframe width="560" height="315" src="https://www.youtube.com/embed/${videos[i].url}" title="${videos[i].title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             <div class="spacing-top">${videos[i].description}</div>
