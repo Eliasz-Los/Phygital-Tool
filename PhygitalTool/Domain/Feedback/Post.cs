@@ -24,7 +24,7 @@ public class Post : IValidatableObject
         var wordsInText = Text.Split(' ');
         foreach (var word in wordsInText)
         {
-            if (vulgarWords.Contains(word))
+            if (vulgarWords.Contains(word.ToLower()))
             {
                 yield return new ValidationResult("Vulgar words are not allowed in the text.", new[] { nameof(Text) });
             }
