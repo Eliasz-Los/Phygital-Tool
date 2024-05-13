@@ -38,8 +38,8 @@ export function getSingleChoiceQuestionData() {
             <div class="card-body">
                 <h5 class="card-title">${singleChoiceQuestion.text}</h5>
                 ${singleChoiceQuestion.options.map((option, index) => `<div class="form-check">
-                    <input class="form-check-input" type="radio" name="option${singleChoiceQuestion.text}" id="${keys[index]}" value="${option}">
-                    <label class="form-check-label" for="${keys[index]}">
+                    <input class="form-check-input" type="radio" name="option${singleChoiceQuestion.text}" id="option${singleChoiceQuestion.text}_${index}" data-key-index="${keys[index]}" value="${option}">
+                    <label class="form-check-label" for="option${singleChoiceQuestion.text}_${index}" data-key-index="${keys[index]}">
                         ${option}
                     </label>
                 </div>`).join('')}
@@ -402,6 +402,7 @@ export function commitAnswer() {
         .then(response => {
             if (response.ok) {
                 console.log("answers objecten werden gecreeerd: \n", response)
+                alert("Answers were successfully committed!\n", response)
             } else{
                 alert("Problem with commiting answers: \n" + JSON.stringify(answerObject))
             }

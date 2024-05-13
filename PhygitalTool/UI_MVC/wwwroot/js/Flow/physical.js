@@ -85,5 +85,4 @@ getTextData();
 getImageData();
 getVideoData();
 getAnswers();
-
-
+addButton.addEventListener("click", commitAnswer);
