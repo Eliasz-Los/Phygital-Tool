@@ -4,7 +4,7 @@ using Phygital.Domain.User;
 
 namespace Phygital.Domain.Feedback;
 
-public class Post
+public class Post : IValidatableObject
 {
     public long Id { get; set; }
     [Required(ErrorMessage = "Title is required.")]
@@ -18,4 +18,16 @@ public class Post
     
     // Link to the user who made the post
     //public Account Account { get; set; }
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        var vulgarWords = File.ReadAllLines("vulgairewoorden.txt").ToList();
+        var wordsInText = Text.Split(' ');
+        foreach (var word in wordsInText)
+        {
+            if (vulgarWords.Contains(word))
+            {
+                yield return new ValidationResult("Vulgar words are not allowed in the text.", new[] { nameof(Text) });
+            }
+        }
+    }
 }

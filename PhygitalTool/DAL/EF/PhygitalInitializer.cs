@@ -247,12 +247,12 @@ public class PhygitalInitializer
         //Feedback data for testing
         
         // Create some Posts
-        var post1 = new Post { Title = "Post 1", Text = "Dit is eerste post.", Theme = th1};
-        var post2 = new Post { Title = "Post 2", Text = "Dit is tweede post.", Theme = th2};
+        var post1 = new Post { Title = "Nieuwe thema: Sport", Text = "Ik denk dat thema rond sport een interessante onderwerp zou maken om aan jongeren te vragen.", Theme = th1};
+        var post2 = new Post { Title = "Uitgave", Text = "Wanneer zal de phygital tool uitkomen in Brussel?", Theme = th2};
 
         // Create some Reactions
-        var reaction1 = new Reaction { Content = "Dit is reactie op eerste post." };
-        var reaction2 = new Reaction { Content = "Dit is een reactie op de tweede post" };
+        var reaction1 = new Reaction { Content = "Klinkt als een goed idee eigenlijk!" };
+        var reaction2 = new Reaction { Content = "Waarschijnlijk eind juli" };
 
         // Create some Likes
         var like1 = new Like { Reaction = reaction1, Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp};
