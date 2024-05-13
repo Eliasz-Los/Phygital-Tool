@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Phygital.UI_MVC.Controllers;
 
@@ -11,6 +12,8 @@ public class ProjectController: Controller
         _logger = logger;
     }
 
+    [HttpGet]
+    [Authorize(Roles = "Admin, SubAdmin")]
     public IActionResult Index()
     {
         return View();

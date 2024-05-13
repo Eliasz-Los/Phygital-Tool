@@ -524,5 +524,17 @@ public class PhygitalInitializer
         };
         await userManager.CreateAsync(Willem, "Willem@01");
         await userManager.AddToRoleAsync(Willem, CustomIdentityConstraints.SubAdminRole);
+
+
+        var TestUser = new Account()
+        {
+            Email = "tester.kdg@student.kdg.be",
+            UserName = "tester.kdg@student.kdg.be",
+            EmailConfirmed = true,
+            Name = "Kdg",
+            LastName = "Tester"
+        };
+        await userManager.CreateAsync(TestUser, "Test@01");
+        await userManager.AddToRoleAsync(TestUser, CustomIdentityConstraints.UserRole);
     }
 }

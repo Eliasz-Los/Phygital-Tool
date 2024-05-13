@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Phygital.Domain.User;
 
@@ -11,6 +12,7 @@ public class UserController(UserManager<Account> userManager, RoleManager<Identi
     private readonly RoleManager<IdentityRole> _roleManager = roleManager;
 
     [HttpPost]
+    [Authorize(Roles = "Admin, SubAdmin")]
     public async Task<IActionResult> Add(string email, string password)
     {
         var user = new Account { UserName = email, Email = email };
@@ -28,6 +30,8 @@ public class UserController(UserManager<Account> userManager, RoleManager<Identi
     }
 
     // GET
+    [HttpGet]
+    [Authorize(Roles = "Admin, SubAdmin")]
     public IActionResult Index()
     {
         return View();

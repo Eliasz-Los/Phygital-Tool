@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
 using Phygital.UI_MVC.Models.Dto;
 
@@ -19,17 +20,23 @@ public class ThemaController : Controller
         _uow = uow;
     }
 
+    [HttpGet]
+    [Authorize(Roles = "Admin, SubAdmin")]
     public IActionResult Index()
     {
         var themes = _themeManager.GetAllThemas();
         return View(themes);
     }
+    
+    [HttpGet]
+    [Authorize(Roles = "Admin, SubAdmin")]
     public IActionResult Add()
     {
         return View();
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin, SubAdmin")]
     public IActionResult Edit(long id)
     {
         var theme = _themeManager.GetThemeById(id);
@@ -44,6 +51,7 @@ public class ThemaController : Controller
 
 
     [HttpPost]
+    [Authorize(Roles = "Admin, SubAdmin")]
     public IActionResult Edit(long id, SubThemasDto theme)
     {
         try
@@ -68,6 +76,7 @@ public class ThemaController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin, SubAdmin")]
     public IActionResult Delete(long id)
     {
         try

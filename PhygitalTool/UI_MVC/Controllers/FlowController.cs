@@ -1,4 +1,5 @@
-﻿using Phygital.BL;
+﻿using Microsoft.AspNetCore.Authorization;
+using Phygital.BL;
 using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
 using Phygital.Domain;
@@ -22,24 +23,26 @@ public class FlowController : Controller
         _uow = uow;
     }
 
+    
+    [HttpGet]
+    [Authorize(Roles = "Admin, SubAdmin, Supervisor")]
     public IActionResult Index()
     {
         var flows = _flowManager.GetAllFlows();
         return View(flows);
     }
 
+    [HttpGet]
+    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
     public IActionResult Details(long id)
     {
         var flow = _flowManager.GetFlowById(id);
         return View(flow);
     }
-
-    public IActionResult Add()
-    {
-        return View();
-    }
+    
 
     [HttpGet]
+    [Authorize(Roles = "Admin, SubAdmin")]
     public IActionResult Edit(long id)
     {
         var flow = _flowManager.GetFlowAndThemeById(id);
@@ -57,6 +60,7 @@ public class FlowController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin, SubAdmin")]
     public IActionResult Edit(long id, FlowDto flow)
     {
         try
@@ -88,6 +92,7 @@ public class FlowController : Controller
             _uow.Commit();
             return RedirectToAction("Index"); //, new { id = flow.Id }
         }
+        //TODO: exception niet hier in nrml gezien
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error updating flow with id {Id}", id);
@@ -99,6 +104,7 @@ public class FlowController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin, SubAdmin")]
     public IActionResult Delete(long id)
     {
         _uow.BeginTransaction();
@@ -107,11 +113,13 @@ public class FlowController : Controller
         return RedirectToAction("Index");
     }
     
+    [Authorize(Roles = "Admin, SubAdmin")]
     public IActionResult FlowThemeAndType()
     {
         return View("Creation/FlowThemeAndType"); //"Creation/FlowThemeAndType"
     }
     
+    [Authorize(Roles = "Admin, SubAdmin")]
     public IActionResult FlowQuestions(string selectedTheme) 
     {
         ViewData["SelectedTheme"] = selectedTheme; 
