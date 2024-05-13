@@ -1,7 +1,7 @@
 import {
     getSingleChoiceQuestionData, getOpenQuestionsData, getMultipleChoiceQuestionsData, getRangeQuestionsData,
     getTextData, getImageData, getVideoData, getAnswers, commitAnswer, updateProgressBar
-} from './cookingDetails.js';
+} from './physicalDetails.js';
 
 const addButton = document.getElementById("answerFlow")
 const btnNext = document.getElementById("nextBtn");
