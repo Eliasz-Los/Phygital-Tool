@@ -14,6 +14,11 @@ function InitializeFlow() {
         getRangeQuestionsData(),
         getMultipleChoiceQuestionsData(),
     ]).then(() => {
+        
+        let carousel = new bootstrap.Carousel(document.getElementById('linearFlow'), {
+            interval: false,
+            wrap: true
+        });
             window.addEventListener("keydown", function (e) {
                 let checkboxToToggle;
                 let radiobuttonToToggle;
@@ -42,20 +47,20 @@ function InitializeFlow() {
                         break;
 
                     case 'KeyW':
-                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][id="Key1"]');
-                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][id="Key1"]');
+                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key1"]');
+                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key1"]');
                         break;
                     case 'KeyS':
-                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][id="Key2"]');
-                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][id="Key2"]');
+                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key2"]');
+                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key2"]');
                         break;
                     case 'KeyF':
-                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][id="Key3"]');
-                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][id="Key3"]');
+                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key3"]');
+                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key3"]');
                         break;
                     case 'KeyG':
-                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][id="Key4"]');
-                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][id="Key4"]');
+                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key4"]');
+                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key4"]');
                         break;
                     case 'Space':
                         addButton.click();

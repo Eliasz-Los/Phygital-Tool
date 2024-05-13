@@ -167,8 +167,8 @@ export function getMultipleChoiceQuestionsData() {
             <div class="card-body">
                 <h5 class="card-title">${multipleChoiceQuestion.text}</h5>
                 ${multipleChoiceQuestion.options.map((option, index) => `<div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="${multipleChoiceQuestion.text}" id="${keys[index]}">
-                    <label class="form-check-label" for="${keys[index]}">
+                    <input class="form-check-input" type="checkbox" name="${multipleChoiceQuestion.text}" id="${option}" data-key-index="${keys[index]}">
+                    <label class="form-check-label" for="${option}" data-key-index="${keys[index]}">
                         ${option}
                     </label>
                 </div>`).join('')}
