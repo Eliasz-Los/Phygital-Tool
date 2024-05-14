@@ -10,6 +10,5 @@ public class Session
     public SessionType SessionType { get; set; }
     
     public Installation Installation { get; set; }
-    public Participation Participation { get; set; }
-    
+    public ICollection<Participation> Participations { get; set; }
 }
