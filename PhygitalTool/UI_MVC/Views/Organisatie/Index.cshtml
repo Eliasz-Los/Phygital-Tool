@@ -1,0 +1,44 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Organisaties overzicht";
+    Layout = "_Layout";
+}
+
+<table class="table table-striped text-center">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Organisatie</th>
+        <th>Wijzig</th>
+        <th>Verwijder</th>
+    </tr>
+    </thead>
+    @{
+        foreach (var organisatie in Model)
+        {
+            <tr>
+                <td>@organisatie.Id</td>
+                <td>@organisatie.Name</td>
+                <td>
+                    <a asp-controller="Organisatie" asp-action="Edit" asp-route-id="@organisatie.Id" class="btn btn-success bi bi-pencil-square"></a>
+                </td>
+                <td>
+                    <form asp-controller="Organisatie" asp-action="Delete" asp-route-id="@organisatie.Id" method="post">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    }
+</table>
+<div class="row align-content-center">
+    <div class="col d-flex justify-content-end">
+        <a type="button" class="btn btn-warning" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+    </div>
+    <div class="col d-flex justify-content-start">
+        <a type="button" class="btn btn-warning" asp-area="" asp-controller="Organisatie" asp-action="Add">Organisatie aanmaken</a>
+    </div>
+</div>
