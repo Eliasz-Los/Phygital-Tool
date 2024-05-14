@@ -4,8 +4,7 @@
 } from './physicalDetails.js';
 
 const addButton = document.getElementById("answerFlow")
-const btnNext = document.getElementById("nextBtn");
-const btnPrev = document.getElementById("prevBtn");
+
 const endbox = document.getElementById('end-box');
 
 function resetCarouselInputs() {
@@ -68,6 +67,7 @@ function startTimer() {
                 timeLeftInSeconds = 20;
                 startTimer();
                 setTimeout(resetCarouselInputs, timeLeftInSeconds * 1000);
+                updateButton()
             } else {
                 endbox.innerText = "";
                 carousel.next();
@@ -80,6 +80,7 @@ function startTimer() {
         }
     }, 1000);
 }
+
 
 function InitializeFlow() {
     Promise.all([
@@ -98,27 +99,7 @@ function InitializeFlow() {
             let activeCarouselItem = document.querySelector('.carousel-item.active');
             let rangeInput = activeCarouselItem.querySelector('input[type="range"]');
             switch (e.code) {
-                case 'KeyD':
-                    btnNext.click();
-                    currentQuestionNumber++;
-                    updateProgressBar();
-                    // reset the timer
-                    clearInterval(timerId);
-                    timeLeftInSeconds = timeBeginQuestion;
-                    startTimer();
 
-                    break;
-                case 'KeyA':
-                    btnPrev.click();
-                    if (currentQuestionNumber > 0) {
-                        currentQuestionNumber--;
-                        // Reset the timer
-                        clearInterval(timerId);
-                        timeLeftInSeconds = timeBeginQuestion;
-                        startTimer();
-                    }
-                    updateProgressBar();
-                    break;
                 case 'ArrowLeft':
                     rangeInput.value = parseInt(rangeInput.value) + 1;
                     rangeInput.dispatchEvent(new Event('input'));
@@ -132,6 +113,7 @@ function InitializeFlow() {
                 case 'KeyW':
                     checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key1"]');
                     radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key1"]');
+
                     break;
                 case 'KeyS':
                     checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key2"]');

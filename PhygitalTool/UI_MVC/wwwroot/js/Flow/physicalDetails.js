@@ -12,6 +12,7 @@ let totalInformations = 0;
 //export let currentQuestionNumber = 1; // null was juist te kort omdat we beginnen met 1ste vraag waardoor er 1 te kort vr progressbar
 window.currentQuestionNumber = 1;
 
+
 export function getSingleChoiceQuestionData() {
     fetch(`/api/flows/${flowId}/SingleChoiceQuestions`,
         {
@@ -419,3 +420,4 @@ export function updateProgressBar() {
     progressBar.setAttribute("aria-valuenow", progressPerc);
     console.log("progressbarPerc: ", progressPerc);
 }
+
