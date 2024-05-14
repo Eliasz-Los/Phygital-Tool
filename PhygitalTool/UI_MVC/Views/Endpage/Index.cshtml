@@ -26,10 +26,10 @@
         </div>
         <div class="row align-content-center">
             <div class="col p-2">
-                <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Home" asp-action="Index">Nee</a>
+                <a type="button" class="btn btn-danger w-25" id="btnNo" asp-area="" asp-controller="Home" asp-action="Index">Nee</a>
             </div>
             <div class="col p-2">
-                <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Register">Ja</a>
+                <a type="button" class="btn btn-success w-25" id="btnYes" asp-area="Identity" asp-page="/Account/Register">Ja</a>
             </div>
         </div>
     </div>
@@ -44,7 +44,8 @@
 
 @section Scripts
 {
-    <script>
+<script type="module" src="~/js/EndPage/endpage.js" ></script>
+<script>
         window.onload = function() {
             var toastLiveExample = document.getElementById('liveToast')
             var toast = new bootstrap.Toast(toastLiveExample)

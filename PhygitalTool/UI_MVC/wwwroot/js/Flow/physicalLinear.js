@@ -37,11 +37,11 @@ function InitializeFlow() {
                         }
                         updateProgressBar();
                         break;
-                    case 'ArrowRight':
+                    case 'ArrowLeft':
                         rangeInput.value = parseInt(rangeInput.value) + 1;
                         rangeInput.dispatchEvent(new Event('input'));
                         break;
-                    case 'ArrowLeft':
+                    case 'ArrowRight':
                         rangeInput.value = parseInt(rangeInput.value) - 1;
                         rangeInput.dispatchEvent(new Event('input'));
                         break;
