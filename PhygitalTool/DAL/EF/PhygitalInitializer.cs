@@ -313,16 +313,16 @@ public class PhygitalInitializer
         
         var session1 = new Session
         {
-            StartDate = new DateTime(2024, 5, 6, 8, 0, 0),
-            EndDate = new DateTime(2024, 5, 6, 16, 0, 0),
+            StartDate = new DateTime(2024, 5, 6).ToUniversalTime(),
+            EndDate = new DateTime(2024, 7, 30).ToUniversalTime(),
             SessionType = SessionType.prive,
             Installation = new Installation()
         };
 
         var session2 = new Session
         {
-            StartDate = new DateTime(2024, 5, 6, 8, 0, 0),
-            EndDate = new DateTime(2024, 5, 6, 16, 0, 0),
+            StartDate = new DateTime(2024, 5, 6).ToUniversalTime(),
+            EndDate = new DateTime(2024, 7, 30).ToUniversalTime(),
             SessionType = SessionType.semipubliek,
             Installation = new Installation(),
             Participations = new List<Participation>()
@@ -330,7 +330,7 @@ public class PhygitalInitializer
 
         var participation1 = new Participation
         {
-            Duration = new TimeSpan(0, 10, 15), // Changed from DateTime to TimeSpan
+            Duration = new TimeSpan(8, 10, 0),
             AmountOfParticipants = 1,
             Session = new Session(),
             Flow = new Flow()
@@ -338,7 +338,7 @@ public class PhygitalInitializer
 
         var participation2 = new Participation
         {
-            Duration = new TimeSpan(0, 8, 30), // Changed from DateTime to TimeSpan
+            Duration = new TimeSpan( 10, 15, 10),
             AmountOfParticipants = 1,
             Session = new Session(),
             Flow = new Flow()
@@ -346,7 +346,7 @@ public class PhygitalInitializer
 
         var participation3 = new Participation
         {
-            Duration = new TimeSpan(0, 9, 0), // Changed from DateTime to TimeSpan
+            Duration = new TimeSpan( 12, 11, 30),
             AmountOfParticipants = 1,
             Session = new Session(),
             Flow = new Flow()
@@ -354,7 +354,7 @@ public class PhygitalInitializer
 
         var participation4 = new Participation
         {
-            Duration = new TimeSpan(0, 8, 30) , // Changed from DateTime to TimeSpan
+            Duration = new TimeSpan( 12, 22, 45),
             AmountOfParticipants = 1,
             Session = new Session(),
             Flow = new Flow()
