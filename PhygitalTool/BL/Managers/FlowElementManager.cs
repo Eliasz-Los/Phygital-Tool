@@ -53,6 +53,11 @@ public class FlowElementManager : IFlowElementManager
         return _flowElementRepository.ReadVideoInfosOfFlowById(flowId);
     }
 
+    public void AddOpenQuestion(OpenQuestion openQuestion)
+    {
+        _flowElementRepository.CreateOpenQuestion(openQuestion);
+    }
+
     public Option GetOptionByText(string optionText)
     {
         return _flowElementRepository.ReadOptionByText(optionText);

@@ -99,6 +99,11 @@ public class FlowElementRepository : IFlowElementRepository
         return _dbContext.RangeQuestions.Where(q => q.SubTheme == subTheme).ToList();
     }
 
+    public void CreateOpenQuestion(OpenQuestion openQuestion)
+    {
+        _dbContext.OpenQuestions.Add(openQuestion);
+    }
+
 
     public IEnumerable<Text> ReadTextInfosOfFlowById(long flowId)
     {
