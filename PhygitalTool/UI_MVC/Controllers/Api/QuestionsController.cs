@@ -25,9 +25,9 @@ public class QuestionsController : Controller
     [HttpPost("AddQuestion")]
     public ActionResult PostQuestion([FromBody] QuestionDto questionDto)
     {
-        switch (questionDto.Text)
+        switch (questionDto.Type.ToLower())
         {
-            case ("Open"):
+            case "open":
                 OpenQuestion openQuestionToAdd = new OpenQuestion
                 {
                     Text = questionDto.Text,
@@ -40,14 +40,20 @@ public class QuestionsController : Controller
                 _flowElementManager.AddOpenQuestion(openQuestionToAdd);
                 _unitOfWork.Commit();
                 break;
-            case ("MultipleChoice"):
-                // TODO
-            case ("SingleChoice"):
-                // TODO
-            case ("Range"):
-                // TODO
-            break;
+
+            case "multiplechoice":
+                // TODO: Handle multiple choice questions
+                break;
+
+            case "singlechoice":
+                // TODO: Handle single choice questions
+                break;
+
+            case "range":
+                // TODO: Handle range questions
+                break;
         }
+
         return Ok();
     }
 }

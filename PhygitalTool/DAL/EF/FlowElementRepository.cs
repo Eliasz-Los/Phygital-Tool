@@ -103,6 +103,11 @@ public class FlowElementRepository : IFlowElementRepository
     {
         _dbContext.OpenQuestions.Add(openQuestion);
     }
+    
+    public void CreateOption(Option option)
+    {
+        _dbContext.Options.Add(option);
+    }
 
 
     public IEnumerable<Text> ReadTextInfosOfFlowById(long flowId)

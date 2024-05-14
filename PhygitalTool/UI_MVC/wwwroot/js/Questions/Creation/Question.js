@@ -1,3 +1,4 @@
+
 function fillSubthemesSelect() {
     fetch(`/api/Themas/subthemas`, {
         headers: {
@@ -27,17 +28,24 @@ function fillSubthemesSelect() {
         });
 }
 
+function addOption(){
+    
+}
+
 
 function addQuestion() {
     var questionTitle = document.getElementById('QuestionTitle').value;
     var selectedTheme = document.getElementById('ThemaSelect');
     var selectedThemeId = selectedTheme.options[selectedTheme.selectedIndex].value;
     var isActive = document.getElementById('ActiveCheckbox').checked;
+    var selectedType = document.getElementById('TypeSelect');
+    selectedType = selectedType.value
 
     var data = {
         Text: questionTitle,
         isActive: isActive,
-        SubTheme: parseInt(selectedThemeId)
+        SubTheme: parseInt(selectedThemeId),
+        Type: selectedType
     };
 
     // Send POST request to the server
@@ -62,5 +70,6 @@ function addQuestion() {
         });
 }
 
+document.getElementById('OptionButton').addEventListener("click", addOption);
 document.getElementById("submitQuestion").addEventListener("click", addQuestion);
 fillSubthemesSelect();

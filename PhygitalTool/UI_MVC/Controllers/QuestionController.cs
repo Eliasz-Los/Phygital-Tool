@@ -10,9 +10,9 @@ public class QuestionController : Controller
         return View();
     }
     
-//////////////// OPEN QUESTIONS ////////////////////////////////////////////
-    public IActionResult AddOpenQuestion()
+
+    public IActionResult AddQuestion()
     {
-        return View("Creation/AddOpenQuestion");
+        return View("Creation/AddQuestion");
     }
 }

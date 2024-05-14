@@ -14,7 +14,7 @@
     foreach (var post in Model.Posts)
     {
         var collapseId = $"collapseExample{post.Id}";
-        
+
         <div class="card spacing-top">
             <div class="card-header">
                 <div class="row d-flex">
@@ -47,16 +47,16 @@
                                 <input type="hidden" name="postId" value="@post.Id"/>
                                 @*TODO: deze foreach is niet nodig, enkel de likeId moet meegegeven worden maar kan niet op andere manier lol*@
                                 @{
-                                foreach (var postLike in post.PostLikes)
-                                {
-                                var likeId = postLike.Like.Id;
-                                <input type="hidden" name="likeId" value="@likeId"/>
-                                }
+                                    foreach (var postLike in post.PostLikes)
+                                    {
+                                        var likeId = postLike.Like.Id;
+                                        <input type="hidden" name="likeId" value="@likeId"/>
+                                    }
                                 }
                                 <button type="submit" class="btn btn-danger">👎 @post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsDown)</button>
                             </form>
                         </div>
-                       
+
                         <div class="col">
                             <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="False" aria-controls="@collapseId">
                                 Reacties: @post.PostReactions.Count
@@ -64,29 +64,27 @@
                         </div>
                     </div>
                 </div>
-                
-                    @* hidden reactions*@
-                    <section class="collapse" id="@collapseId">
-                        <div class="card card-body spacing-top">
 
-                            <form asp-controller="Feedback" asp-action="AddReaction" method="post">
-                                <input type="hidden" name="postId" value="@post.Id"/>
-                                <div class="input-group">
-                                    <input asp-for="Reaction.Content" type="text" class="form-control" name="content"/>
-                                    <span asp-validation-for="Reaction.Content" class="text-danger"></span>
-                                    <button type="submit" class="btn btn-success bi bi-send"></button>
-                                </div>
-                            </form>
-                            
-                            @foreach (var reaction in post.PostReactions)
-                            {
-                                <p class="border-bottom">@reaction.Reaction.Content</p>
-                            }
-                        </div>
-                  </section>
+                @* hidden reactions*@
+                <section class="collapse" id="@collapseId">
+                    <div class="card card-body spacing-top">
+
+                        <form asp-controller="Feedback" asp-action="AddReaction" method="post">
+                            <input type="hidden" name="postId" value="@post.Id"/>
+                            <div class="input-group">
+                                <input asp-for="Reaction.Content" type="text" class="form-control" name="content"/>
+                                <span asp-validation-for="Reaction.Content" class="text-danger"></span>
+                                <button type="submit" class="btn btn-success bi bi-send"></button>
+                            </div>
+                        </form>
+
+                        @foreach (var reaction in post.PostReactions)
+                        {
+                            <p class="border-bottom">@reaction.Reaction.Content</p>
+                        }
+                    </div>
+                </section>
             </div>
         </div>
     }
 }
-
-

@@ -16,4 +16,5 @@ public interface IFlowElementManager
     void AddOpenQuestion(OpenQuestion openQuestion);
     Option GetOptionByText(string optionText);
     IEnumerable<OpenQuestion> GetAllOpenQuestionByThemeId(long themeId);
+    void AddOption(Option option);
 }

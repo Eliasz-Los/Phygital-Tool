@@ -9,10 +9,17 @@
 <!-- This page displays some elements to create an openquestion -->
 
 <div class="text-center">
-    <h3 class="align-content-center p-4">Kies het thema voor jouw open question</h3>
+    <h3 class="align-content-center p-4">Maak hier je vraag aan</h3>
     <div class="container-fluid">
         <form class="row">
             <div class="col-12 d-flex justify-content-center">
+                <label class="input-group-text border border-warning mb-3" for="TypeSelect">Selecteer het type vraag</label>
+                <select type="text" class="form-select border border-warning mb-3" id="TypeSelect" data-bs-toggle="collapse" data-bs-target="#collapse" aria-expanded="false" aria-controls="collapse">
+                    <option value="open">Open</option>
+                    <option value="range">Range</option>
+                    <option value="multiplechoice">Multiple Choice</option>
+                    <option value="singlechoice">Single Choice</option>
+                </select>
                 <div class="col-lg-6 text-start fw-bold">
                     <div class="input-group mb-3">
                         <label class="input-group-text border border-warning mb-3" for="ThemaSelect">Thema</label>
@@ -20,7 +27,7 @@
                         </select>
                     </div>
                     <div>
-                        <input type="text" id="OpenQuestionTitle" class="form-control border border-warning mb-3" placeholder="Vul hier de vraag in">
+                        <input type="text" id="QuestionTitle" class="form-control border border-warning mb-3" placeholder="Vul hier de vraag in">
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-text border border-warning">
@@ -40,6 +47,21 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col text-center mt-3">
+                <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapse" aria-expanded="false" aria-controls="collapse">
+                    Show More Options
+                </button>
+            </div>
+
+            @* hidden options *@
+            <section class="collapse" id="collapse">
+                <div class="card card-body spacing-top">
+                    <button id="OptionButton" type="button" class="btn btn-primary">Voeg option toe</button>
+                    <input type="text" id="OptionTitle" class="form-control border border-warning mb-3" placeholder="Vul hier de option in">
+                    <p>test</p>
+                </div>
+            </section>
         </form>
     </div>
 </div>

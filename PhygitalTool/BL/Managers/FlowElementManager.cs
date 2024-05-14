@@ -67,4 +67,9 @@ public class FlowElementManager : IFlowElementManager
     {
         return _flowElementRepository.ReadAllOpenQuestionByThemeId(themeId);
     }
+
+    public void AddOption(Option option)
+    {
+        _flowElementRepository.CreateOption(option);
+    }
 }
