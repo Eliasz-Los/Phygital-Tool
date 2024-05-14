@@ -434,7 +434,8 @@ public class PhygitalInitializer
 
         var participation1 = new Participation
         {
-            Duration = new TimeSpan(8, 10, 0),
+            StartTime = new DateTime(2024, 5, 6, 10, 30,30).ToUniversalTime(),
+            EndTime = new DateTime(2024, 5, 6, 10, 38,30).ToUniversalTime(),
             AmountOfParticipants = 1,
             Session = new Session(),
             Flow = new Flow()
@@ -442,7 +443,8 @@ public class PhygitalInitializer
 
         var participation2 = new Participation
         {
-            Duration = new TimeSpan(10, 15, 10),
+            StartTime = new DateTime(2024, 5, 6, 10, 39,45).ToUniversalTime(),
+            EndTime = new DateTime(2024, 5, 6, 10, 46,15).ToUniversalTime(),
             AmountOfParticipants = 1,
             Session = new Session(),
             Flow = new Flow()
@@ -450,7 +452,8 @@ public class PhygitalInitializer
 
         var participation3 = new Participation
         {
-            Duration = new TimeSpan(12, 11, 30),
+            StartTime = new DateTime(2024, 5, 6, 10, 30,30).ToUniversalTime(),
+            EndTime = new DateTime(2024, 5, 6, 10, 38,30).ToUniversalTime(),
             AmountOfParticipants = 1,
             Session = new Session(),
             Flow = new Flow()
@@ -458,7 +461,8 @@ public class PhygitalInitializer
 
         var participation4 = new Participation
         {
-            Duration = new TimeSpan(12, 22, 45),
+            StartTime = new DateTime(2024, 5, 6, 11, 1,15).ToUniversalTime(),
+            EndTime = new DateTime(2024, 5, 6, 11, 2,15).ToUniversalTime(),
             AmountOfParticipants = 1,
             Session = new Session(),
             Flow = new Flow()

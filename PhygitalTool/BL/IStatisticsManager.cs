@@ -5,4 +5,5 @@ namespace Phygital.BL;
 public interface IStatisticsManager
 {
     IEnumerable<Statistic> GetFlowStatistics(long flowId);
+    IEnumerable<Statistic> GetFlowParticipationsStatistics(long participationId);
 }
