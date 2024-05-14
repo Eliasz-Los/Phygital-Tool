@@ -1,3 +1,5 @@
+import {Chart} from "chart.js";
+
 function createDoughnutChart(tableId: string, chartId: string, questionText: string): any
 {
     var table = document.getElementById(tableId);
@@ -7,17 +9,30 @@ function createDoughnutChart(tableId: string, chartId: string, questionText: str
     }
     var rows = table.querySelectorAll('tbody tr');
 
-    var labels = [];
-    var data = [];
+    var labels : any[] = [];
+    var data : any[] = [];
 
     rows.forEach(function(row) {
         var cells = row.querySelectorAll('td');
         labels.push(cells[0].textContent);
+        // @ts-ignore
         data.push(parseInt(cells[1].textContent));
     });
 
-    var ctx = document.getElementById(chartId).getElementsByClassName('2d');
-    var chart = new chart(ctx, {
+    var canvas = document.getElementById(chartId) as HTMLCanvasElement;
+    if(!canvas) {
+        console.log('Canvas not found: ' + chartId);
+        return;
+    }
+
+    var ctx = canvas.getContext('2d');
+    if(!ctx) {
+        console.log('Canvas context not found: ' + chartId);
+        return;
+    }
+    
+    
+    var chart = new Chart(ctx, {
         type: 'doughnut', // Change this line
         data: {
             labels: labels,
@@ -47,12 +62,12 @@ function createDoughnutChart(tableId: string, chartId: string, questionText: str
     return chart;
 }
 
-function createCharts(): any{
+export function createCharts(): any{
     var tables = document.querySelectorAll('table[id^="table-"]');
     tables.forEach(function(table) {
         var safeId = table.id.replace('table-', '');
         createDoughnutChart('table-' + safeId, 'chart-' + safeId, safeId);
     });
 }
-   
 createCharts();
+console.log('charts.ts REloaded');

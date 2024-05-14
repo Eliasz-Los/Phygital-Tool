@@ -1,11 +1,14 @@
 const path = require('path');
+const MiniCssExtractPlugin =  require("mini-css-extract-plugin");
 
 module.exports = {
     entry: {
-        site: './src/ts/site.ts'
+        site: './src/ts/site.ts',
+        validation: './src/ts/Common/validation.ts',
+        charts: './src/ts/Statistic/charts.ts'
     },
     output: {
-        filename: 'site.entry.js',
+        filename: '[name].entry.js',
         path: path.resolve(__dirname, '..', 'wwwroot', 'dist'),
         clean: true
     },
@@ -23,8 +26,8 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
-                test: /\.s?css$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
+                test: /\.s?css$/i,
+                use: [{loader: MiniCssExtractPlugin.loader}, 'css-loader', 'sass-loader']
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
@@ -35,5 +38,10 @@ module.exports = {
                 type: 'asset'
             }
         ]
-    }
+    },
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: '[name].css'
+        })
+    ]
 };

@@ -1,4 +1,42 @@
-/******************* FLOW DETAILS SCSS *******************/
+@import 'bootstrap/scss/bootstrap.scss';
+
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.sttable {
+  display: block;
+  overflow: auto;
+  table-layout: fixed;
+  max-height: 200px;
+}
+.sttable th, .sttable td {
+  text-align: start;
+  width: 100%;
+}
+
+
+/******************* FLOW DETAILS CSS *******************/
 .white-text {
   color: #ffffff;
 }
@@ -93,7 +131,7 @@ input[type="range"]::-moz-range-thumb {
   margin: 0 auto; /* Centers the timer horizontally */
 }
 
-/******************* STATISTICS SCSS *******************/
+/******************* STATISTICS CSS *******************/
 
 
 .nav-pills .nav-link {
