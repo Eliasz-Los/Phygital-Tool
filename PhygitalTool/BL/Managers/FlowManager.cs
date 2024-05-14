@@ -55,4 +55,9 @@ public class FlowManager : IFlowManager
     {
         _flowRepository.DeleteFlow(id);
     }
+
+    public void AddFlow(Flow flow)
+    {
+        _flowRepository.CreateFlow(flow);
+    }
 }

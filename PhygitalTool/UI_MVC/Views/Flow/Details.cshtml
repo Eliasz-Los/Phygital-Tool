@@ -33,8 +33,8 @@
         </div>
     } else if (@Model.FlowType == Flowtype.circular)
     {
-        <div id="timer" class="timer clock ">30</div>
-        
+        <div id="timer" class="timer clock ">10</div>
+
         <div id="circularFlow" class="carousel slide spacing-top" data-bs-ride="carousel">
 
             <div class="carousel-inner">
@@ -60,7 +60,7 @@
 @*succes message for user*@
 <div id ="end-box" class="text-dark-emphasis"></div>
 <div class="text-center">
-        <a asp-controller="Endpage" asp-action="Index" class="btn btn-warning btn-flow-details spacing-top" id="answerFlow">Verzenden</a>
+        <a asp-controller="Flow" asp-action="Details" class="btn btn-warning btn-flow-details spacing-top" id="answerFlow">Verzenden</a>
 </div>
 
 <h3 class="text-center spacing-top">Hier is vervolgens informatie die u kan helpen</h3>
@@ -71,15 +71,15 @@
 @section Scripts
 {   
     @*modules zijn automatisch defered*@
-    <script type="module" src="~/js/Flow/details.js" ></script> 
+    <script type="module" src="~/js/Flow/physicalDetails.js" ></script>
     @{
         if (Model.FlowType == Flowtype.linear)
         {
-            <script type="module" src="~/js/Flow/linear.js" ></script>
+            <script type="module" src="~/js/Flow/physicalLinear.js" ></script>
         }
         else
         {
-            <script type="module" src="~/js/Flow/circular.js" ></script>
+            <script type="module" src="~/js/Flow/physicalCircular.js" ></script>
         }
     }
    

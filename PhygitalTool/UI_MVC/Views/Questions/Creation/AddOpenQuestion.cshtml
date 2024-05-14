@@ -1,0 +1,51 @@
+﻿@page
+@model Phygital.UI_MVC.Views.Questions.AddOpenQuestion
+
+@{
+    ViewBag.Title = "Phygital";
+    Layout = "_Layout";
+}
+
+<!-- This page displays some elements to create an openquestion -->
+
+<div class="text-center">
+    <h3 class="align-content-center p-4">Kies het thema voor jouw open question</h3>
+    <div class="container-fluid">
+        <form class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="col-lg-6 text-start fw-bold">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text border border-warning mb-3" for="ThemaSelect">Thema</label>
+                        <select type="text" class="form-select border border-warning mb-3" id="ThemaSelect">
+                        </select>
+                    </div>
+                    <div>
+                        <input type="text" id="OpenQuestionTitle" class="form-control border border-warning mb-3" placeholder="Vul hier de vraag in">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-text border border-warning">
+                            <input class="form-check-input border border-warning" type="checkbox" value="" id="ActiveCheckbox">
+                        </div>
+                        <label class="form-check-label" for="ActiveCheckbox">Actief</label>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid p-2">
+                <div class="row align-content-center">
+                    <div class="col d-flex justify-content-end">
+                        <a type="button" class="btn btn-warning" asp-controller="Flow" asp-action="Index">Annuleer</a>
+                    </div>
+                    <div class="col d-flex justify-content-start">
+                        <a type="button" class="btn btn-warning" id="submitFlow" asp-controller="Flow" asp-action="Index" >Maak openquestion aan</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts
+{
+<script src="~/js/Questions/Creation/Openquestion.js" defer></script>
+}

@@ -1,0 +1,32 @@
+﻿@using Phygital.UI_MVC.Models.Dto.Feedback;
+@model PostDto
+
+@{
+    ViewBag.Title = "Add Post";
+    Layout = "_Layout";
+}
+
+<h2>Voeg nieuwe Post</h2>
+
+<form asp-controller="Feedback" asp-action="Add" method="post">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <div>
+        <label asp-for="Title">Titel van de post:</label>
+        <input class="form-control" asp-for="Title" type="text" name="Title" >
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="ThemeId">Kies de thema waarover je het wilt hebben:</label>
+        <select asp-for="ThemeId" asp-items="@(new SelectList(ViewBag.Themes, "Id", "Title"))" class="form-control"></select>
+        <span asp-validation-for="ThemeId" class="text-danger"></span>
+    </div>
+    
+    <div>
+        <label asp-for="Text">Text van de post:</label>
+        <textarea class="form-control" rows="4" asp-for="Text" type="text" name="Text" ></textarea>
+        <span asp-validation-for="Text" class="text-danger"></span>
+    </div>
+    
+    <input type="submit" value="Add" class="btn btn-outline-warning"/>
+</form>

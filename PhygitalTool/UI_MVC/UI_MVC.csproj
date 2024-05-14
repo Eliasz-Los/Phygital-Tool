@@ -35,4 +35,8 @@
       <None Include="wwwroot\images\belastingschijf.png" />
     </ItemGroup>
 
+    <ItemGroup>
+      <TypeScriptCompile Include="wwwroot\js\Statistic\chartsInTS.ts" />
+    </ItemGroup>
+
 </Project>

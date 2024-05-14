@@ -2,10 +2,10 @@
 
 namespace Phygital.Domain.User;
 
-public class Account //: IdentityUser
+public class Account : IdentityUser
 {
     public string Name { get; set; }
     public string LastName { get; set; }
-    public string Mail { get; set; }
-    public string RoleName { get; set; }
+   //Email hoeft nie omdat die al in IdentityUser zit
+    // public string Mail { get; set; }
 }

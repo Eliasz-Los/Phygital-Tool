@@ -30,8 +30,8 @@ function resetCarouselInputs() {
 
 // the timer values
 let timerId = null;
-let timeLeftInSeconds = 5;
-const timeBeginQuestion = 5
+let timeLeftInSeconds = 10;
+const timeBeginQuestion = 10;
 function startTimer() {
     // Get the timer element
     const timerElement = document.getElementById('timer');

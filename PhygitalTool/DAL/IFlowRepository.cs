@@ -8,4 +8,5 @@ public interface IFlowRepository
     Flow ReadFlowAndThemeById(long id);
     void UpdateFlow(Flow flow);
     void DeleteFlow(long id);
+    void CreateFlow(Flow flow);
 }

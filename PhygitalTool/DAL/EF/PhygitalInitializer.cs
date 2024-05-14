@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Phygital.Domain.Datatypes;
+using Phygital.Domain.Feedback;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Session;
@@ -11,8 +12,6 @@ namespace Phygital.DAL.EF;
 
 public class PhygitalInitializer
 {
-    private static bool _hasBeenInitialized = false;
-    
     public static void InitializeDatabaseAndSeedData(IServiceProvider serviceProvider)
     {
         using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
@@ -20,7 +19,7 @@ public class PhygitalInitializer
             var context = scope.ServiceProvider.GetRequiredService<PhygitalDbContext>();
             if (context.CreateDatabase(dropExisting: true))
             {
-                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Account>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 
                 Seed(context);
@@ -33,55 +32,7 @@ public class PhygitalInitializer
     {
         // In the first part of the seed method we create data to be put into the database
         /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        // Account
-        // var arthur = new Account
-        // {
-        //     Id = "361dc522-3f48-4666-a571-ca1437c2e7b7",
-        //     Name = "Arthur",
-        //     LastName = "Linsen",
-        //     Mail = "arthur.linsen@phygital.be",
-        //     RoleName = "ADMIN"
-        // };
-        //
-        // var jonas = new Account
-        // {
-        //     Id = "56baeecc-8765-4b9a-9075-88157d6307f0",
-        //     Name = "Jonas",
-        //     LastName = "Wuyten",
-        //     Mail = "jonas.wuyten@phygital.be",
-        //     RoleName = "SUBADMIN"
-        // };
-        //
-        // var eliasz = new Account
-        // {
-        //     Id = "8dd72827-87f8-46b5-af23-233fa24cc76e",
-        //     Name = "Eliasz",
-        //     LastName = "Los",
-        //     Mail = "eliasz.los@phygital.be",
-        //     RoleName = "SUPERVISOR"
-        // };
-        //
-        // var josse = new Account
-        // {
-        //     Id = "dd448251-2c08-4150-af67-77cb1947bbd5",
-        //     Name = "Josse",
-        //     LastName = "Dresselaers",
-        //     Mail = "josse.dresselaers@phygital.be",
-        //     RoleName = "USER"
-        // };
-        //
-        // var willem = new Account
-        // {
-        //     Id = "23784981-dda2-4ae0-8c42-5c49d026eff4",
-        //     Name = "Willem",
-        //     LastName = "Kuijpers",
-        //     Mail = "willem.kuijpers@phygital.be",
-        //     RoleName = "DEACTIVATED"
-        // };
-        //
-        // context.Accounts.AddRange(new Account[] { arthur, jonas, eliasz, josse, willem });
-
+        
         // Filling themes
         var th1 = new Theme { Title = "Politiek", Description = "Simpele vragen rond politiek" };
         var th2 = new Theme { Title = "Vakantie", Description = "Simpele vragen rond vakantie" };
@@ -360,6 +311,23 @@ public class PhygitalInitializer
             Flow = new Flow()
         };
 
+        // Create some Reactions
+        var reaction1 = new Reaction { Content = "Klinkt als een goed idee eigenlijk!" };
+        var reaction2 = new Reaction { Content = "Waarschijnlijk eind juli" };
+
+        // Create some Likes
+        var like1 = new Like { Reaction = reaction1, Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp};
+        var like2 = new Like { Reaction = reaction2, Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp};
+
+        // Create some PostReactions
+        var postReaction1 = new PostReaction { Post = post1, Reaction = reaction1, Timestamp = DateTime.UtcNow };
+        var postReaction2 = new PostReaction { Post = post2, Reaction = reaction2, Timestamp = DateTime.UtcNow };
+
+        // Create some PostLikes
+        var postLike1 = new PostLike { Post = post1, Like = like1, Timestamp = DateTime.UtcNow, IsLiked = true };
+        var postLike2 = new PostLike { Post = post2, Like = like2, Timestamp = DateTime.UtcNow, IsLiked = true };
+        
+        
         // In the second part of the seed method we create the relations between the different classes
         /////////////////////////////////////////////////////////////////////////////////////////////////////
         
@@ -503,11 +471,27 @@ public class PhygitalInitializer
         context.Participations.Add(participation1);
         context.Participations.Add(participation2);
 
+        // Add to the Posts collection
+        context.Posts.AddRange(new Post[] { post1, post2 });
+
+        // Add to the Reactions collection
+        context.Reactions.AddRange(new Reaction[] { reaction1, reaction2 });
+
+        // Add to the Likes collection
+        context.Likes.AddRange(new Like[] { like1, like2 });
+
+        // Add to the PostReactions collection
+        context.PostReactions.AddRange(new PostReaction[] { postReaction1, postReaction2 });
+
+        // Add to the PostLikes collection
+        context.PostLikes.AddRange(new PostLike[] { postLike1, postLike2 });
+        
+        
         context.SaveChanges();
         context.ChangeTracker.Clear();
     }
     
-    private static async Task SeedIdentity(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+    private static async Task SeedIdentity(UserManager<Account> userManager, RoleManager<IdentityRole> roleManager)
     {
         // all role types
         var adminRole = new IdentityRole
@@ -535,7 +519,7 @@ public class PhygitalInitializer
         await roleManager.CreateAsync(userRole);
 
         // hardcoded users implentation and assignment of a role
-        var adminPhygital = new IdentityUser
+        var adminPhygital = new Account()
         {
             Email = "admin@phygital.be",
             UserName = "admin@phygital.be", EmailConfirmed = true
@@ -543,7 +527,7 @@ public class PhygitalInitializer
         await userManager.CreateAsync(adminPhygital, "Admin@01");
         await userManager.AddToRoleAsync(adminPhygital, CustomIdentityConstraints.AdminRole);
 
-        var subAdmin = new IdentityUser
+        var subAdmin = new Account()
         {
             Email = "subadmin@phygital.be",
             UserName = "subadmin@phygital.be", EmailConfirmed = true
@@ -551,7 +535,7 @@ public class PhygitalInitializer
         await userManager.CreateAsync(subAdmin, "Subadmin@01");
         await userManager.AddToRoleAsync(subAdmin, CustomIdentityConstraints.SubAdminRole);
 
-        var supervisor = new IdentityUser
+        var supervisor = new Account()
         {
             Email = "supervisor@phygital.be",
             UserName = "supervisor@phygital.be", EmailConfirmed = true
@@ -559,12 +543,80 @@ public class PhygitalInitializer
         await userManager.CreateAsync(supervisor, "Supervisor@01");
         await userManager.AddToRoleAsync(supervisor, CustomIdentityConstraints.SupervisorRole);
 
-        var user = new IdentityUser
+        var user = new Account()
         {
             Email = "user@phygital.be",
             UserName = "user@phygital.be", EmailConfirmed = true
         };
         await userManager.CreateAsync(user, "User@01");
         await userManager.AddToRoleAsync(user, CustomIdentityConstraints.UserRole);
+
+        var Arthur = new Account()
+        {
+            Email = "arthur.linsen@student.kdg.be",
+            UserName = "arthur.linsen@student.kdg.be",
+            EmailConfirmed = true,
+            Name = "Arthur",
+            LastName = "Linsen"
+        };
+        await userManager.CreateAsync(Arthur, "Arthur@01");
+        await userManager.AddToRoleAsync(Arthur, CustomIdentityConstraints.UserRole);
+
+        var Eliasz = new Account()
+        {
+            Email = "eliasz.los@student.kdg.be",
+            UserName = "eliasz.los@student.kdg.be",
+            EmailConfirmed = true,
+            Name = "Eliasz",
+            LastName = "Los"
+        };
+        await userManager.CreateAsync(Eliasz, "Eliasz@01");
+        await userManager.AddToRoleAsync(Eliasz, CustomIdentityConstraints.SubAdminRole);
+        
+        var Josse = new Account()
+        {
+            Email = "josse.dresselaers@phygital.be",
+            UserName = "josse.dresselaers@phygital.be",
+            EmailConfirmed = true,
+            Name = "Josse",
+            LastName = "Dresselaers"
+        };
+        await userManager.CreateAsync(Josse, "Josse@01");
+        await userManager.AddToRoleAsync(Josse, CustomIdentityConstraints.SubAdminRole);
+        
+        var Jonas = new Account()
+        {
+            Email = "jonas.wuyten@phygital.be",
+            UserName = "jonas.wuyten@phygital.be",
+            EmailConfirmed = true,
+            Name = "Jonas",
+            LastName = "Wuyten",
+
+        };
+        await userManager.CreateAsync(Jonas, "Jonas@01");
+        await userManager.AddToRoleAsync(Jonas, CustomIdentityConstraints.SubAdminRole);
+        
+        var Willem = new Account()
+        {
+            Email = "willem.kuijpers@phygital.be",
+            UserName = "willem.kuijpers@phygital.be",
+            EmailConfirmed = true,
+            Name = "Willem",
+            LastName = "Kuijpers"
+        };
+        await userManager.CreateAsync(Willem, "Willem@01");
+        await userManager.AddToRoleAsync(Willem, CustomIdentityConstraints.SubAdminRole);
+
+
+        var TestUser = new Account()
+        {
+            Email = "tester.kdg@student.kdg.be",
+            UserName = "tester.kdg@student.kdg.be",
+            EmailConfirmed = true,
+            Name = "Kdg",
+            LastName = "Tester"
+        };
+        await userManager.CreateAsync(TestUser, "Test@01");
+        await userManager.AddToRoleAsync(TestUser, CustomIdentityConstraints.UserRole);
     }
 }
