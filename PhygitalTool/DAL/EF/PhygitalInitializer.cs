@@ -311,6 +311,10 @@ public class PhygitalInitializer
             Flow = new Flow()
         };
 
+        // Create some Posts
+        var post1 = new Post { Title = "Nieuwe thema: Sport", Text = "Ik denk dat thema rond sport een interessante onderwerp zou maken om aan jongeren te vragen.", Theme = th1};
+        var post2 = new Post { Title = "Uitgave", Text = "Wanneer zal de phygital tool uitkomen in Brussel?", Theme = th2};
+        
         // Create some Reactions
         var reaction1 = new Reaction { Content = "Klinkt als een goed idee eigenlijk!" };
         var reaction2 = new Reaction { Content = "Waarschijnlijk eind juli" };
