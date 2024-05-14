@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using Castle.Core.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +20,7 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
 {
     // Accounts package
     public DbSet<Account> Accounts { get; set; }
+    public DbSet<Organisation> Organisations { get; set; }
     
     // Questionsprocess package
     public DbSet<Flow> Flows { get; set; }
@@ -31,7 +31,6 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
     public DbSet<OpenQuestion> OpenQuestions { get; set; }
     public DbSet<MultipleChoice> MultipleChoices { get; set; }
     public DbSet<Option> Options { get; set; }
-    
     public DbSet<Image> Images { get; set; }
     public DbSet<Text> Texts { get; set; }
     public DbSet<Video> Videos { get; set; }
@@ -95,7 +94,17 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         //////////////////////
         // Accounts package //
         //////////////////////
-        // modelBuilder.Entity<IdentityUser>().ToTable("Accounts").HasIndex(user => user.Id).IsUnique();
+        modelBuilder.Entity<IdentityUser>().ToTable("Accounts").HasIndex(user => user.Id).IsUnique();
+        modelBuilder.Entity<Organisation>().ToTable("Organisations").HasIndex(organisation =>  organisation.id).IsUnique();
+        
+        modelBuilder.Entity<Account>()
+            .HasOne(a => a.Organisation)
+            .WithMany(o => o.Accounts)
+            .HasForeignKey("organisationId");
+        modelBuilder.Entity<Organisation>()
+            .HasMany(o => o.Accounts)
+            .WithOne(a => a.Organisation)
+            .HasForeignKey("organisationId");
         
         ///////////////////////////////
         // Questionsprocess package //
