@@ -5,7 +5,8 @@ module.exports = {
     entry: {
         site: './src/ts/site.ts',
         validation: './src/ts/Common/validation.ts',
-        charts: './src/ts/Statistic/charts.ts'
+        charts: './src/ts/Statistic/charts.ts',
+        data: './src/ts/Statistic/dataFileMaker.ts',
     },
     output: {
         filename: '[name].entry.js',

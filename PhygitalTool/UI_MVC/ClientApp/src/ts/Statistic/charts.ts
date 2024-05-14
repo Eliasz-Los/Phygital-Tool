@@ -1,5 +1,6 @@
-import {Chart} from "chart.js";
+import {Chart, registerables} from "chart.js";
 
+Chart.register(...registerables);
 function createDoughnutChart(tableId: string, chartId: string, questionText: string): any
 {
     var table = document.getElementById(tableId);
@@ -62,8 +63,9 @@ function createDoughnutChart(tableId: string, chartId: string, questionText: str
     return chart;
 }
 
-export function createCharts(): any{
+function createCharts(): any{
     var tables = document.querySelectorAll('table[id^="table-"]');
+    console.log(tables);
     tables.forEach(function(table) {
         var safeId = table.id.replace('table-', '');
         createDoughnutChart('table-' + safeId, 'chart-' + safeId, safeId);
