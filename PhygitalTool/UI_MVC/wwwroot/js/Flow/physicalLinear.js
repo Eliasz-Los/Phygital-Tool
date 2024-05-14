@@ -1,6 +1,6 @@
 import {
     getSingleChoiceQuestionData, getOpenQuestionsData, getMultipleChoiceQuestionsData, getRangeQuestionsData,
-    getTextData, getImageData, getVideoData, getAnswers, commitAnswer, updateProgressBar
+    getTextData, getImageData, getVideoData, getAnswers, commitAnswer, updateProgressBar, playPauseVideo
 } from './physicalDetails.js';
 
 const addButton = document.getElementById("answerFlow")
@@ -85,4 +85,6 @@ getTextData();
 getImageData();
 getVideoData();
 getAnswers();
+
+
 addButton.addEventListener("click", commitAnswer);
