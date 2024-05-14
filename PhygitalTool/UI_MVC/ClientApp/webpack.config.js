@@ -7,6 +7,15 @@ module.exports = {
         validation: './src/ts/Common/validation.ts',
         charts: './src/ts/Statistic/charts.ts',
         data: './src/ts/Statistic/dataFileMaker.ts',
+        details: './src/ts/Flow/Details/details.ts',
+        linear: './src/ts/Flow/Details/linear.ts',
+        circular: './src/ts/Flow/Details/circular.ts',
+        flowQuestions: './src/ts/Flow/Creation/flowquestions.ts',
+        flowThemeAndType: './src/ts/Flow/Creation/flowThemeAndType.ts',
+        endpage: './src/ts/Endpage/endpage.ts',
+        questions: './src/ts/Questions/questions.ts',
+        thema: './src/ts/Thema/thema.ts',
+        
     },
     output: {
         filename: '[name].entry.js',
