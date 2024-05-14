@@ -13,7 +13,7 @@ public class FlowElementRepository : IFlowElementRepository
     {
         _dbContext = dbContext;
     }
-    
+
     public Question ReadQuestionById(long questionId)
     {
         // Try to find the question in OpenQuestions
@@ -79,11 +79,13 @@ public class FlowElementRepository : IFlowElementRepository
             .Where(oq => oq.Flow.Id == flowId)
             .ToList();
     }
+
     public IEnumerable<OpenQuestion> ReadAllOpenQuestionsByTheme(Theme subTheme)
     {
         // Todo aan het debuggen hier
         var th1 = new Theme { Title = "Politiek", Description = "Simpele vragen rond politiek" };
-        var test = _dbContext.OpenQuestions.Include(q => q.SubTheme).Where(q => q.SubTheme.Title.Equals(th1.Title)).ToList();
+        var test = _dbContext.OpenQuestions.Include(q => q.SubTheme).Where(q => q.SubTheme.Title.Equals(th1.Title))
+            .ToList();
         long id = 3;
         var openQuestion = _dbContext.OpenQuestions.Include(q => q.SubTheme).FirstOrDefault(q => q.Id == id);
         return test;
@@ -103,10 +105,25 @@ public class FlowElementRepository : IFlowElementRepository
     {
         _dbContext.OpenQuestions.Add(openQuestion);
     }
-    
+
     public void CreateOption(Option option)
     {
         _dbContext.Options.Add(option);
+    }
+
+    public void CreateMultipleChoiceQuestion(MultipleChoice multipleChoiceQuestion)
+    {
+        _dbContext.MultipleChoices.Add(multipleChoiceQuestion);
+    }
+
+    public void CreateSingleChoiceQuestion(SingleChoiceQuestion singleChoiceQuestion)
+    {
+        _dbContext.SingleChoiceQuestions.Add(singleChoiceQuestion);
+    }
+
+    public void CreateRangeQuestion(RangeQuestion rangeQuestion)
+    {
+        _dbContext.RangeQuestions.Add(rangeQuestion);
     }
 
 
@@ -137,8 +154,8 @@ public class FlowElementRepository : IFlowElementRepository
     public IEnumerable<OpenQuestion> ReadAllOpenQuestionByThemeId(long themeId)
     {
         var test = _dbContext.OpenQuestions.Include(q => q.SubTheme);
-       // var result = _dbContext.OpenQuestions.Where(o => o.SubTheme.Id == themeId);
-       return test;
+        // var result = _dbContext.OpenQuestions.Where(o => o.SubTheme.Id == themeId);
+        return test;
     }
 
     /*public IEnumerable<OpenQuestion> ReadAllOpenQuestionsByTheme(Theme subTheme)

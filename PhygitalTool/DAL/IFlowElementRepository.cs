@@ -16,6 +16,9 @@ public interface IFlowElementRepository
     IEnumerable<RangeQuestion> ReadAllRangeQuestionsByTheme(Theme subTheme);
     void CreateOpenQuestion(OpenQuestion openQuestion);
     void CreateOption(Option option);
+    void CreateMultipleChoiceQuestion(MultipleChoice multipleChoiceQuestion);
+    void CreateSingleChoiceQuestion(SingleChoiceQuestion singleChoiceQuestion);
+    void CreateRangeQuestion(RangeQuestion rangeQuestion);
 
     IEnumerable<Text> ReadTextInfosOfFlowById(long flowId);
     IEnumerable<Image> ReadImageInfosOfFlowById(long flowId);

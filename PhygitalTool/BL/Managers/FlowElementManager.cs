@@ -72,4 +72,19 @@ public class FlowElementManager : IFlowElementManager
     {
         _flowElementRepository.CreateOption(option);
     }
+
+    public void AddMultipleChoiceQuestion(MultipleChoice multipleChoiceQuestion)
+    {
+        _flowElementRepository.CreateMultipleChoiceQuestion(multipleChoiceQuestion);
+    }
+
+    public void AddSingleChoiceQuestion(SingleChoiceQuestion singleChoiceQuestion)
+    {
+        _flowElementRepository.CreateSingleChoiceQuestion(singleChoiceQuestion);
+    }
+
+    public void AddRangeQuestion(RangeQuestion rangeQuestion)
+    {
+        _flowElementRepository.CreateRangeQuestion(rangeQuestion);
+    }
 }
