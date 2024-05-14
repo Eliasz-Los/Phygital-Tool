@@ -13,6 +13,7 @@ public interface IFlowElementManager
     IEnumerable<Text> GetTextInfosOfFlowById(long flowId);
     IEnumerable<Image> GetImageInfosOfFlowById(long flowId);
     IEnumerable<Video> GetVideoInfosOfFlowById(long flowId);
+    void AddOpenQuestion(OpenQuestion openQuestion);
     Option GetOptionByText(string optionText);
     IEnumerable<OpenQuestion> GetAllOpenQuestionByThemeId(long themeId);
 }

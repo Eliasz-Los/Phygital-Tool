@@ -16,13 +16,8 @@ public class OpenquestionController : Controller
         _uow = uow;
     }
     
-    public IActionResult Index()
-    {
-        return View();
-    }
-    
     public IActionResult AddOpenQuestion()
     {
-        return View("Creation/AddOpenQuestion");
+        return View("");
     }
 }
