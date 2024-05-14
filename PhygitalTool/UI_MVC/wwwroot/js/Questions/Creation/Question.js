@@ -28,8 +28,8 @@ function fillSubthemesSelect() {
 }
 
 
-function addOpenQuestion() {
-    var questionTitle = document.getElementById('OpenQuestionTitle').value;
+function addQuestion() {
+    var questionTitle = document.getElementById('QuestionTitle').value;
     var selectedTheme = document.getElementById('ThemaSelect');
     var selectedThemeId = selectedTheme.options[selectedTheme.selectedIndex].value;
     var isActive = document.getElementById('ActiveCheckbox').checked;
@@ -41,7 +41,7 @@ function addOpenQuestion() {
     };
 
     // Send POST request to the server
-    fetch('/api/Questions/AddOpenQuestion', {
+    fetch('/api/Questions/AddQuestion', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -62,5 +62,5 @@ function addOpenQuestion() {
         });
 }
 
-document.getElementById("submitQuestion").addEventListener("click", addOpenQuestion);
+document.getElementById("submitQuestion").addEventListener("click", addQuestion);
 fillSubthemesSelect();

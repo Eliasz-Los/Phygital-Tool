@@ -14,29 +14,40 @@ public class QuestionsController : Controller
     private readonly IThemeManager _themeManager;
     private readonly UnitOfWork _unitOfWork;
 
-    public QuestionsController(IFlowManager flowManager, IFlowElementManager flowElementManager, IThemeManager themeManager, IAnswerManager answerManager, UnitOfWork unitOfWork)
+    public QuestionsController(IFlowManager flowManager, IFlowElementManager flowElementManager,
+        IThemeManager themeManager, IAnswerManager answerManager, UnitOfWork unitOfWork)
     {
         _flowElementManager = flowElementManager;
         _themeManager = themeManager;
         _unitOfWork = unitOfWork;
     }
 
-    [HttpPost("AddOpenQuestion")]
-    public ActionResult PostOpenQuestion([FromBody] QuestionDto questionDto)
+    [HttpPost("AddQuestion")]
+    public ActionResult PostQuestion([FromBody] QuestionDto questionDto)
     {
-        
-        OpenQuestion openQuestionToAdd = new OpenQuestion
+        switch (questionDto.Text)
         {
-            Text = questionDto.Text,
-            Active =questionDto.isActive,
-            Theme = _themeManager.GetThemeById(questionDto.SubTheme)
-        };
+            case ("Open"):
+                OpenQuestion openQuestionToAdd = new OpenQuestion
+                {
+                    Text = questionDto.Text,
+                    Active = questionDto.isActive,
+                    Theme = _themeManager.GetThemeById(questionDto.SubTheme),
+                };
 
-        // Add flow to database
-        _unitOfWork.BeginTransaction();
-        _flowElementManager.AddOpenQuestion(openQuestionToAdd);
-        _unitOfWork.Commit();
+                // Add question to database
+                _unitOfWork.BeginTransaction();
+                _flowElementManager.AddOpenQuestion(openQuestionToAdd);
+                _unitOfWork.Commit();
+                break;
+            case ("MultipleChoice"):
+                // TODO
+            case ("SingleChoice"):
+                // TODO
+            case ("Range"):
+                // TODO
+            break;
+        }
         return Ok();
     }
-
 }

@@ -2,7 +2,7 @@
 
 namespace Phygital.UI_MVC.Views.Questions;
 
-public class AddOpenQuestion : PageModel
+public class AddQuestion : PageModel
 {
     public void OnGet()
     {
