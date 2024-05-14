@@ -4,6 +4,7 @@ using Phygital.Domain.Datatypes;
 using Phygital.Domain.Feedback;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
+using Phygital.Domain.Session;
 using Phygital.Domain.Themas;
 using Phygital.Domain.User;
 
@@ -189,8 +190,7 @@ public class PhygitalInitializer
             SequenceNumber = 14,
             Options = new List<Option>()
         };
-
-
+        
         // Filling options & answers
         Option o1 = new Option { OptionText = "CD&V" };
         Option o2 = new Option { OptionText = "Vooruit" };
@@ -229,7 +229,6 @@ public class PhygitalInitializer
         Option o27 = new Option { OptionText = "Voor" };
         Option o28 = new Option { OptionText = "Tegen" };
 
-
         var a1 = new Answer { ChosenAnswer = "CD&V" };
         var a2 = new Answer { ChosenAnswer = "Vooruit" };
         var a3 = new Answer { ChosenAnswer = "NV-A" };
@@ -244,12 +243,78 @@ public class PhygitalInitializer
         var a11 = new Answer { ChosenAnswer = " " };
         var a12 = new Answer { ChosenAnswer = "geen interesse" };
 
-        //Feedback data for testing
         
+        var installation1 = new Installation
+        {
+            Name = "UAntwerpen",
+            PostalCode = 2000,
+            Street = "Prinsstraat",
+            StreetNumber = 13,
+            Sessions = new List<Session>()
+        };
+
+        var installation2 = new Installation
+        {
+            Name = "KdG Groenplaats",
+            PostalCode = 2000,
+            Street = "Nationalestraat",
+            StreetNumber = 5,
+            Sessions = new List<Session>()
+        };
+        
+        var session1 = new Session
+        {
+            StartDate = new DateTime(2024, 5, 6).ToUniversalTime(),
+            EndDate = new DateTime(2024, 7, 30).ToUniversalTime(),
+            SessionType = SessionType.prive,
+            Installation = new Installation()
+        };
+
+        var session2 = new Session
+        {
+            StartDate = new DateTime(2024, 5, 6).ToUniversalTime(),
+            EndDate = new DateTime(2024, 7, 30).ToUniversalTime(),
+            SessionType = SessionType.semipubliek,
+            Installation = new Installation(),
+            Participations = new List<Participation>()
+        };
+
+        var participation1 = new Participation
+        {
+            Duration = new TimeSpan(8, 10, 0),
+            AmountOfParticipants = 1,
+            Session = new Session(),
+            Flow = new Flow()
+        };
+
+        var participation2 = new Participation
+        {
+            Duration = new TimeSpan( 10, 15, 10),
+            AmountOfParticipants = 1,
+            Session = new Session(),
+            Flow = new Flow()
+        };
+
+        var participation3 = new Participation
+        {
+            Duration = new TimeSpan( 12, 11, 30),
+            AmountOfParticipants = 1,
+            Session = new Session(),
+            Flow = new Flow()
+        };
+
+        var participation4 = new Participation
+        {
+            Duration = new TimeSpan( 12, 22, 45),
+            AmountOfParticipants = 1,
+            Session = new Session(),
+            Flow = new Flow()
+        };
+
         // Create some Posts
         var post1 = new Post { Title = "Nieuwe thema: Sport", Text = "Ik denk dat thema rond sport een interessante onderwerp zou maken om aan jongeren te vragen.", Theme = th1};
         var post2 = new Post { Title = "Uitgave", Text = "Wanneer zal de phygital tool uitkomen in Brussel?", Theme = th2};
-
+        
         // Create some Reactions
         var reaction1 = new Reaction { Content = "Klinkt als een goed idee eigenlijk!" };
         var reaction2 = new Reaction { Content = "Waarschijnlijk eind juli" };
@@ -285,7 +350,6 @@ public class PhygitalInitializer
         f1.FlowElements.Add(q12);
         f1.FlowElements.Add(q13);
         f1.FlowElements.Add(q14);
-       
         
         f1.FlowElements.Add(i1);
         f1.FlowElements.Add(i2);
@@ -310,7 +374,6 @@ public class PhygitalInitializer
         q4.Options.Add(o12); //neutraal
         q4.Options.Add(o13); //voor
         q4.Options.Add(o14); //zwaar voor
-
 
         q6.Options.Add(o26);
         q6.Options.Add(o29);
@@ -361,7 +424,18 @@ public class PhygitalInitializer
         //Adding themes to the flow
         f1.Theme = th1;
         f2.Theme = th2;
+        
+        //Adding sessions to the installation
+        installation1.Sessions = new List<Session> {session1, session2};
+        
+        //Adding participations to the session
+        session1.Participations = new List<Participation> {participation1, participation2};
+        session2.Participations = new List<Participation> {participation3, participation4};
 
+        //Adding flows to the participation
+        f1.Participations = new List<Participation> {participation1, participation2};
+        f2.Participations = new List<Participation> {participation3, participation4};
+        
         /////////////////////////////////////////
         // Third part: adding to the Database //
         ////////////////////////////////////////
@@ -388,6 +462,18 @@ public class PhygitalInitializer
 
         // Adding answers
         context.AddRange(new Answer[] { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 });
+        
+        // Adding installations
+        context.Installations.Add(installation1);
+        context.Installations.Add(installation2);
+        
+        // Adding sessions
+        context.Sessions.Add(session1);
+        context.Sessions.Add(session2);
+        
+        // Adding participations
+        context.Participations.Add(participation1);
+        context.Participations.Add(participation2);
 
         // Add to the Posts collection
         context.Posts.AddRange(new Post[] { post1, post2 });
