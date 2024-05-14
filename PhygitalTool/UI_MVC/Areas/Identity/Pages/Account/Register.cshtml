@@ -18,6 +18,19 @@
                 <label asp-for="Input.Email">Email</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Name" class="form-control" autocomplete="name" aria-required="true"/>
+                <label asp-for="Input.Name">Name</label>
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.LastName" class="form-control" autocomplete="lastname" aria-required="true"/>
+                <label asp-for="Input.LastName">Lastname</label>
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+
             @if (User.IsInRole("Admin"))
             {
                 <div class="form-floating mb-3">
