@@ -50,7 +50,9 @@ public class FeedbackController : Controller
     [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
     public IActionResult Add(PostDto postDto)
     {
-        if(!ModelState.IsValid)
+        var themes = _themeManager.GetAllThemas();
+        ViewBag.Themes = themes;
+        if (!ModelState.IsValid)
             return View();
 
         var  currentAccount = _userManager.FindByNameAsync(User.Identity.Name).Result;
