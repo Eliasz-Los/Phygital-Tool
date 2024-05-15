@@ -30,13 +30,8 @@
     <ItemGroup>
       <_ContentIncludedByDefault Remove="wwwroot\js\Home\index.js" />
       <_ContentIncludedByDefault Remove="Views\OpenQuestion\Index.cshtml" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="ClientApp\src\ts\Endpage\" />
-      <Folder Include="ClientApp\src\ts\Flow\Creation\" />
-      <Folder Include="ClientApp\src\ts\Questions\" />
-      <Folder Include="ClientApp\src\ts\Thema\" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Statistic\chart.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Statistic\dataFileMaker.js" />
     </ItemGroup>
 
 </Project>

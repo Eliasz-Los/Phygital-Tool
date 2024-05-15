@@ -1,6 +1,3 @@
-//TODO: maak de rest vna apis aan
-// This file contains functions that make HTTP requests to the server to get data for the flow details page.
-//Promise<SingleChoiceQuestion[]> miss types opmaken
 export async function readSingleChoiceQuestionData(flowId: number): Promise<SingleChoiceQuestion[]> {
     const response = await fetch(`/api/flows/${flowId}/SingleChoiceQuestions`);
     if (response.ok) {
@@ -59,7 +56,7 @@ export async function readVideoData(flowId: number): Promise<VideoInfo[]>{
 }
 
 //TODO: fix AnswerObject type
-export async function commitAnswer(flowId: number, answerObject: any): Promise<any>{
+export async function sendAnswers(flowId: number, answerObject: any): Promise<AnswerObject>{
     const response = await fetch(`/api/flows/${flowId}/AddAnswers`, {
         method: "POST",
         headers: {
