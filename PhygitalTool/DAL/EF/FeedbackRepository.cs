@@ -82,14 +82,20 @@ public class FeedbackRepository : IFeedbackRepository
             throw new Exception($"Post with id {postId} not found");
         }
         
+        var existingLike = await _dbContext.PostLikes
+            .Where(pl => pl.Post.Id == postId && pl.Like.Account.Id == account.Id)
+            .FirstOrDefaultAsync();
+
+        if (existingLike != null)
+        {
+            return null;
+            //throw new Exception($"Post was already liked by account with id {account.Id}");
+        }
+        
         var like = new Like{ LikeType = LikeType.ThumbsUp, Account = account};
         var postLike = new PostLike{ Like = like, Post = post};
-       
-        //post.PostLikes.Add(postLike);
         
         _dbContext.PostLikes.Add(postLike);
-        
-       // await _dbContext.SaveChangesAsync();
         
         return postLike;
     }
@@ -97,6 +103,21 @@ public class FeedbackRepository : IFeedbackRepository
     public async Task<PostLike> DislikePost(long postId, Account account)
     {
         var post = await ReadPostByIdAsync(postId);
+        
+        if (post == null)
+        {
+            throw new Exception($"Post with id {postId} not found");
+        }
+        
+        var existingDislike = await _dbContext.PostLikes
+            .Where(pl => pl.Post.Id == postId && pl.Like.Account.Id == account.Id)
+            .FirstOrDefaultAsync();
+
+        if (existingDislike != null)
+        {
+            return null;
+            //throw new Exception($"This post was  already disliked by account with id {account.Id}");
+        }
         var like = new Like{ LikeType = LikeType.ThumbsDown, Account = account};
         var postLike = new PostLike{ Like = like, Post = post};
         
@@ -113,8 +134,6 @@ public class FeedbackRepository : IFeedbackRepository
        
        _dbContext.PostLikes.Remove(postLike);
        
-       // await _dbContext.SaveChangesAsync();
-
        return postLike;
     }
 

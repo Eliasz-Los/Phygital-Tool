@@ -1,6 +1,4 @@
-﻿@using Phygital.Domain.Feedback;
-@using System.Collections.Generic;
-@using Phygital.Domain.Datatypes
+﻿@using Phygital.Domain.Datatypes
 @model Phygital.UI_MVC.Models.Dto.Feedback.FeedbackViewModel
 @*@model IEnumerable<Post>*@
 @{
@@ -45,6 +43,7 @@
                             <form asp-controller="Feedback" asp-action="LikePost" method="post">
                                 <input type="hidden" name="postId" value="@post.Id"/>
                                 <button type="submit" class="btn btn-success">👍 @post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsUp)</button>
+                                @Html.ValidationMessage("LikeError", "", new {@class = "text-danger"})
                             </form>
 
                             <form asp-controller="Feedback" asp-action="DislikePost" method="post">
@@ -58,6 +57,8 @@
                                     }
                                 }
                                 <button type="submit" class="btn btn-danger">👎 @post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsDown)</button>
+                                @Html.ValidationMessage("DislikeError", "", new {@class = "text-danger"})
+
                             </form>
                         </div>
 

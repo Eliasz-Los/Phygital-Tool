@@ -114,9 +114,23 @@ public class FeedbackController : Controller
         var  currentAccount = _userManager.FindByNameAsync(User.Identity.Name).Result;
         
         _uow.BeginTransaction();
-        await _feedbackManager.AddPostLikeByPostId(postId, currentAccount);
+       var result = await _feedbackManager.AddPostLikeByPostId(postId, currentAccount);
         _uow.Commit();
+        
+        if (result == null)
+        {
+            ModelState.AddModelError("LikeError", "Je hebt deze post al geliked");
+            var posts = await _feedbackManager.GetAllPostsWithReactionsAndLikes();
+            var viewModel = new FeedbackViewModel
+            {
+                Posts = posts,
+                Reaction = new ReactionDto()
+            };
+            return View("Index", viewModel);
+        }
+
         return RedirectToAction("Index", "Feedback");
+        
     }
     
     [HttpPost]
@@ -126,8 +140,21 @@ public class FeedbackController : Controller
         var  currentAccount = _userManager.FindByNameAsync(User.Identity.Name).Result;
         
         _uow.BeginTransaction();
-        await _feedbackManager.AddDislikePostByPostId(postId, currentAccount);
+       var result = await _feedbackManager.AddDislikePostByPostId(postId, currentAccount);
         _uow.Commit();
+        
+        if (result == null)
+        {
+            ModelState.AddModelError("DislikeError", "Je hebt deze post al gedisliked");
+            //zodat de errors niet verloren gaan
+            var posts = await _feedbackManager.GetAllPostsWithReactionsAndLikes();
+            var viewModel = new FeedbackViewModel
+            {
+                Posts = posts,
+                Reaction = new ReactionDto()
+            };
+            return View("Index", viewModel);
+        }
         return RedirectToAction("Index", "Feedback");
     }
     
