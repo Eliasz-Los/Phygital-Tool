@@ -8005,7 +8005,7 @@ function startTimer() {
                 timerId = null;
             }
             carousel.next();
-            /*if (window.currentQuestionNumber === window.totalQuestions) {
+            if (window.currentQuestionNumber === window.totalQuestions) {
                 if (endbox) {
                     endbox.innerText = "Proficiat, je hebt alle vragen afgerond!\nJe kan nu antwoorden indienen oftewel wordt de flow gerest naar het begin.";
                 }
@@ -8013,32 +8013,16 @@ function startTimer() {
                 timeLeftInSeconds = 20;
                 startTimer();
                 setTimeout(resetCarouselInputs, timeLeftInSeconds * 1000);
-                
                 //updateButton();
-            } else {
+            }
+            else {
                 if (endbox) {
                     endbox.innerText = "";
                 }
                 window.currentQuestionNumber++;
-                updatePorgressBar();
-                timeLeftInSeconds = timeBeginQuestion;
-                startTimer();
-            }*/
-            if (window.currentQuestionNumber < window.totalQuestions) {
-                window.currentQuestionNumber++;
                 (0,_details__WEBPACK_IMPORTED_MODULE_1__.updatePorgressBar)();
                 timeLeftInSeconds = timeBeginQuestion;
                 startTimer();
-                setTimeout(carousel.next, timeLeftInSeconds * 1000);
-            }
-            else {
-                if (endbox) {
-                    endbox.innerText = "Proficiat, je hebt alle vragen afgerond!\nJe kan nu antwoorden indienen oftewel wordt de flow gerest naar het begin.";
-                }
-                window.currentQuestionNumber = 1;
-                timeLeftInSeconds = 20;
-                startTimer();
-                setTimeout(resetCarouselInputs, timeLeftInSeconds * 1000);
             }
         }
     }, 1000);
@@ -8050,12 +8034,10 @@ function InitializeFlow() {
         (0,_details__WEBPACK_IMPORTED_MODULE_1__.getMultipleChoiceQuestionsData)(),
         (0,_details__WEBPACK_IMPORTED_MODULE_1__.getOpenQuestionsData)()
     ]).then(() => {
-        setTimeout(() => {
-            const carousel = new bootstrap__WEBPACK_IMPORTED_MODULE_0__.Carousel(document.getElementById('circularFlow'), {
-                interval: false,
-                wrap: true
-            });
-        }, timeLeftInSeconds * 1000);
+        /*        const carousel: Carousel = new Carousel(document.getElementById('circularFlow') as HTMLElement, {
+                    interval: false,
+                    wrap: true
+                });*/
         window.addEventListener("keydown", function (e) {
             let checkboxToToggle;
             let radiobuttonToToggle;

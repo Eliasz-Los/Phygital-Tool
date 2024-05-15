@@ -58,8 +58,9 @@ function startTimer(): void {
                 clearInterval(timerId);
                 timerId = null;
             } 
+
             carousel.next();
-            /*if (window.currentQuestionNumber === window.totalQuestions) {
+            if (window.currentQuestionNumber === window.totalQuestions) {
                 if (endbox) {
                     endbox.innerText = "Proficiat, je hebt alle vragen afgerond!\nJe kan nu antwoorden indienen oftewel wordt de flow gerest naar het begin.";
                 }
@@ -77,22 +78,6 @@ function startTimer(): void {
                 updatePorgressBar();
                 timeLeftInSeconds = timeBeginQuestion;
                 startTimer();
-            }*/
-            if (window.currentQuestionNumber < window.totalQuestions){
-                
-                window.currentQuestionNumber++;
-                updatePorgressBar();
-                timeLeftInSeconds = timeBeginQuestion;
-                startTimer();
-                setTimeout(carousel.next, timeLeftInSeconds * 1000);
-            }else{
-                if (endbox) {
-                    endbox.innerText = "Proficiat, je hebt alle vragen afgerond!\nJe kan nu antwoorden indienen oftewel wordt de flow gerest naar het begin.";
-                }
-                window.currentQuestionNumber = 1;
-                timeLeftInSeconds = 20;
-                startTimer();
-                setTimeout(resetCarouselInputs, timeLeftInSeconds * 1000);
             }
         }
     }, 1000);
@@ -106,10 +91,10 @@ function InitializeFlow(): void {
         getOpenQuestionsData()
     ]).then(() => {
         
-        const carousel: Carousel = new Carousel(document.getElementById('circularFlow') as HTMLElement, {
+/*        const carousel: Carousel = new Carousel(document.getElementById('circularFlow') as HTMLElement, {
             interval: false,
             wrap: true
-        });
+        });*/
         
         window.addEventListener("keydown", function (e: KeyboardEvent) {
             let checkboxToToggle: HTMLInputElement | null;
