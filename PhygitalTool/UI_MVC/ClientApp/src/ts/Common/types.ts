@@ -57,11 +57,15 @@ interface Answer {
     question: string;
     chosenOptions: string[];
     openAnswer: string;
-    id: string;
+    id: number;
+}
+
+interface Option {
+    OptionText: string;
 }
 
 interface AnswerObject {
-    chosenOptions: { OptionText: string }[];
+    chosenOptions: Option[];
     chosenAnswer: string;
-    questionId: string;
+    questionId: number;
 }

@@ -7725,7 +7725,7 @@ function getAnswers() {
     carouselItems.forEach((item, index) => {
         var _a;
         const questionText = ((_a = item.querySelector('.card-title')) === null || _a === void 0 ? void 0 : _a.textContent) || '';
-        const questionId = item.getAttribute('data-card-id') || '';
+        const questionId = Number(item.getAttribute('data-card-id') || '');
         const answer = { question: questionText, chosenOptions: [], openAnswer: '', id: questionId };
         const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
         checkboxes.forEach(checkbox => {
@@ -7755,7 +7755,12 @@ function getAnswers() {
 function commitAnswers() {
     return __awaiter(this, void 0, void 0, function* () {
         const answers = getAnswers();
-        yield (0,_detailsRest__WEBPACK_IMPORTED_MODULE_0__.sendAnswers)(flowId, answers)
+        const answerObject = answers.map(answer => ({
+            chosenOptions: answer.chosenOptions.map(option => ({ OptionText: option })),
+            chosenAnswer: answer.openAnswer,
+            questionId: answer.id
+        }));
+        yield (0,_detailsRest__WEBPACK_IMPORTED_MODULE_0__.sendAnswers)(flowId, answerObject)
             .then(response => {
             console.log(response);
         })
@@ -7879,6 +7884,7 @@ function sendAnswers(flowId, answerObject) {
         if (!response.ok) {
             throw new Error("Error committing answers");
         }
+        alert("Answers submitted:" + JSON.stringify(answerObject));
         return yield response.json();
     });
 }

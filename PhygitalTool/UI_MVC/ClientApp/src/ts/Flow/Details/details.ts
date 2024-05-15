@@ -273,7 +273,7 @@ export function getAnswers(): Answer[] {
 
     carouselItems.forEach((item, index) => {
         const questionText = item.querySelector('.card-title')?.textContent || '';
-        const questionId = item.getAttribute('data-card-id') || '';
+        const questionId: number = Number(item.getAttribute('data-card-id') || '');
         const answer: Answer = { question: questionText, chosenOptions: [], openAnswer: '', id: questionId };
 
         const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
@@ -309,7 +309,12 @@ export function getAnswers(): Answer[] {
 
 export async function commitAnswers() {
     const answers = getAnswers();
-    await sendAnswers(flowId, answers)
+    const answerObject: AnswerObject[] = answers.map(answer => ({
+        chosenOptions: answer.chosenOptions.map(option => ({ OptionText: option })),
+        chosenAnswer: answer.openAnswer,
+        questionId: answer.id
+    }));
+    await sendAnswers(flowId, answerObject)
         .then(response => {
             console.log(response);
         })

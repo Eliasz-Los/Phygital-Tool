@@ -62,19 +62,16 @@
 
 
 @section Scripts
-{   
-    @*modules zijn automatisch defered*@
-    @* <script type="module" src="~/js/Flow/physicalDetails.js" ></script> *@
+{    
     <script src="~/dist/details.entry.js" defer></script>
     @{
         if (Model.FlowType == Flowtype.linear)
         {
-            @* <script type="module" src="~/js/Flow/physicalLinear.js" ></script> *@
-            <script src="~/dist/linear.entry.js"></script>
+            <script src="~/dist/linear.entry.js" defer></script>
         }
         else
         {
-            <script type="module" src="~/js/Flow/physicalCircular.js" ></script>
+            <script src="~/dist/circular.entry.js" defer></script>
         }
     }
    

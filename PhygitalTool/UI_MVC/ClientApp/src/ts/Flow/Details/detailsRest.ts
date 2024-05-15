@@ -56,7 +56,7 @@ export async function readVideoData(flowId: number): Promise<VideoInfo[]>{
 }
 
 //TODO: fix AnswerObject type
-export async function sendAnswers(flowId: number, answerObject: any): Promise<AnswerObject>{
+export async function sendAnswers(flowId: number, answerObject: AnswerObject[]): Promise<AnswerObject[]>{
     const response = await fetch(`/api/flows/${flowId}/AddAnswers`, {
         method: "POST",
         headers: {
@@ -67,5 +67,6 @@ export async function sendAnswers(flowId: number, answerObject: any): Promise<An
     if (!response.ok) {
         throw new Error("Error committing answers");
     }
+    alert("Answers submitted:" + JSON.stringify(answerObject));
     return await response.json();
 }
