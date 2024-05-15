@@ -10,14 +10,14 @@ public class Post : IValidatableObject
     [Required(ErrorMessage = "Title is required.")]
     [MaxLength(255, ErrorMessage = "Title is too long, max 255 characters.")]
     public string Title { get; set; }
+    [Required(ErrorMessage = "Text is required.")]
     [MaxLength(1000, ErrorMessage = "Text is too long, max 1000 characters.")]
     public string Text { get; set; }
     public ICollection<PostReaction> PostReactions { get; set; }
     public ICollection<PostLike> PostLikes { get; set; }
     public Theme Theme { get; set; }
     
-    // Link to the user who made the post
-    //public Account Account { get; set; }
+    public Account Account { get; set; }
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         var vulgarWords = File.ReadAllLines("vulgairewoorden.txt").ToList();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Phygital.Domain.Datatypes;
 using Phygital.Domain.Feedback;
+using Phygital.Domain.User;
 
 namespace Phygital.DAL.EF;
 
@@ -29,15 +30,19 @@ public class FeedbackRepository : IFeedbackRepository
         return  _dbContext.Posts.Find(id);
     }
 
+    //TODO: better naming and follow naming conventions
     public async Task<IEnumerable<Post>> ReadAllPostsWithReactionsAndLikes()
     {
         var result = await _dbContext.Posts
             .AsNoTracking()
+            .Include(p => p.Account)
             .Include(p => p.Theme)
             .Include(p => p.PostReactions)
             .ThenInclude(pr => pr.Reaction)
+            .ThenInclude(r => r.Account)
             .Include(p => p.PostLikes)
             .ThenInclude(pl => pl.Like)
+            .ThenInclude(l => l.Account)
             .ToListAsync();
         return  result;
     }
@@ -68,7 +73,7 @@ public class FeedbackRepository : IFeedbackRepository
         _dbContext.Posts.Remove(removePost);
     }
 
-    public async Task<PostLike> LikePost(long postId)
+    public async Task<PostLike> LikePost(long postId, Account account)
     {
         var post = await ReadPostByIdAsync(postId);
         
@@ -77,7 +82,7 @@ public class FeedbackRepository : IFeedbackRepository
             throw new Exception($"Post with id {postId} not found");
         }
         
-        var like = new Like{ LikeType = LikeType.ThumbsUp};
+        var like = new Like{ LikeType = LikeType.ThumbsUp, Account = account};
         var postLike = new PostLike{ Like = like, Post = post};
        
         //post.PostLikes.Add(postLike);
@@ -89,10 +94,10 @@ public class FeedbackRepository : IFeedbackRepository
         return postLike;
     }
 
-    public async Task<PostLike> DislikePost(long postId)
+    public async Task<PostLike> DislikePost(long postId, Account account)
     {
         var post = await ReadPostByIdAsync(postId);
-        var like = new Like{ LikeType = LikeType.ThumbsDown};
+        var like = new Like{ LikeType = LikeType.ThumbsDown, Account = account};
         var postLike = new PostLike{ Like = like, Post = post};
         
         _dbContext.PostLikes.Add(postLike);
@@ -113,13 +118,14 @@ public class FeedbackRepository : IFeedbackRepository
        return postLike;
     }
 
-    public async Task<Reaction> CreateReactionToPostById(long postId, Reaction reaction)
+    public async Task<Reaction> CreateReactionToPostById(long postId, Reaction reaction, Account account)
     {
         var post = await ReadPostByIdAsync(postId);
         if (post == null)
         {
             throw new Exception("Post not found");
         }
+        reaction.Account = account;
         var postReaction = new PostReaction{ Post = post, Reaction = reaction};
          _dbContext.PostReactions.Add(postReaction);
         return reaction;

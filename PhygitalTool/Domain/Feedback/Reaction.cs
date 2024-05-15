@@ -13,7 +13,7 @@ public class Reaction : IValidatableObject
     public ICollection<PostReaction> PostReactions { get; set; }
     
     // Link to the user who posted the reaction
-    //public Account Account { get; set; }
+    public Account Account { get; set; }
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         var vulgarWords = File.ReadAllLines("vulgairewoorden.txt").ToList();

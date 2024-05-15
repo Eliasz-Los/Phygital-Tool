@@ -1,4 +1,5 @@
 ﻿using Phygital.Domain.Feedback;
+using Phygital.Domain.User;
 
 namespace Phygital.DAL;
 
@@ -15,12 +16,12 @@ public interface IFeedbackRepository
     
     void DeletePost(long id);
     
-    Task<PostLike> LikePost(long postId); //long userId misschien later wanneer we die klasse eens fixen
+    Task<PostLike> LikePost(long postId, Account account); 
 
-    Task<PostLike> DislikePost(long postId);
+    Task<PostLike> DislikePost(long postId, Account account);
     Task<PostLike> DeletePostLike(long postId, long likeId);
     
-    Task<Reaction> CreateReactionToPostById(long postId, Reaction reaction);
+    Task<Reaction> CreateReactionToPostById(long postId, Reaction reaction, Account account);
     
     
     

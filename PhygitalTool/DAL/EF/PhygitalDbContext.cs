@@ -94,6 +94,7 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         //////////////////////
         // Accounts package //
         //////////////////////
+        /// TODO: moet dit geen ACcount zijn??
         modelBuilder.Entity<IdentityUser>().ToTable("Accounts").HasIndex(user => user.Id).IsUnique();
         modelBuilder.Entity<Organisation>().ToTable("Organisations").HasIndex(organisation =>  organisation.id).IsUnique();
         
@@ -105,6 +106,27 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
             .HasMany(o => o.Accounts)
             .WithOne(a => a.Organisation)
             .HasForeignKey("organisationId");
+        
+        modelBuilder.Entity<Account>()
+            .HasMany(a => a.Posts)
+            .WithOne(p => p.Account);
+        modelBuilder.Entity<Post>()
+            .HasOne(p => p.Account)
+            .WithMany(a => a.Posts);
+        
+        modelBuilder.Entity<Account>()
+            .HasMany(a => a.Reactions)
+            .WithOne(r => r.Account);
+        modelBuilder.Entity<Reaction>()
+            .HasOne(r => r.Account)
+            .WithMany(a => a.Reactions);
+        
+        modelBuilder.Entity<Account>()
+            .HasMany(a => a.Likes)
+            .WithOne(l => l.Account);
+        modelBuilder.Entity<Like>()
+            .HasOne(l => l.Account)
+            .WithMany(a => a.Likes);
         
         ///////////////////////////////
         // Questionsprocess package //
@@ -296,9 +318,9 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
             .WithMany(p => p.Versions);
         
         
-        // Feedback zonder account en thema linking
-        //TODO: Add account and thema linking
-        //Als post verwijdert wordt willen we alle reacties en likes mee verwijderen
+        // Feedback 
+      
+        
         modelBuilder.Entity<Post>()
             .HasMany(p => p.PostReactions)
             .WithOne(r => r.Post)
@@ -318,6 +340,7 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         modelBuilder.Entity<Post>()
             .HasOne(p => p.Theme)
             .WithMany(t => t.Posts);
+        //reaction
         
         modelBuilder.Entity<Reaction>()
             .HasMany(r => r.PostReactions)
@@ -329,6 +352,8 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         modelBuilder.Entity<Reaction>()
             .HasMany(r => r.Likes)
             .WithOne(l => l.Reaction);
+       
+        
         modelBuilder.Entity<Like>()
             .HasOne(l => l.Reaction)
             .WithMany(r => r.Likes);

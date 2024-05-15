@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Phygital.DAL;
 using Phygital.Domain.Feedback;
+using Phygital.Domain.User;
 
 namespace Phygital.BL.Managers;
 
@@ -29,7 +30,7 @@ public class FeedbackManager : IFeedbackManager
         return await _feedbackRepository.ReadAllPostsWithReactionsAndLikes();
     }
 
-    public void AddPost(string title, string text, long themeId)
+    public void AddPost(string title, string text, long themeId, Account account)
     {
         var theme = _themeManager.GetThemeById(themeId);
         
@@ -37,7 +38,8 @@ public class FeedbackManager : IFeedbackManager
         {
             Title = title,
             Text = text,
-            Theme = theme
+            Theme = theme,
+            Account = account
         };
         Validator.ValidateObject(post, new ValidationContext(post), true);
         _feedbackRepository.CreatePost(post);
@@ -63,14 +65,14 @@ public class FeedbackManager : IFeedbackManager
         _feedbackRepository.DeletePost(postId);
     }
 
-    public async Task<PostLike> AddPostLikeByPostId(long postId)
+    public async Task<PostLike> AddPostLikeByPostId(long postId, Account account)
     {
-        return await _feedbackRepository.LikePost(postId);
+        return await _feedbackRepository.LikePost(postId, account);
     }
 
-    public async Task<PostLike> AddDislikePostByPostId(long postId)
+    public async Task<PostLike> AddDislikePostByPostId(long postId, Account account)
     {
-        return await _feedbackRepository.DislikePost(postId);
+        return await _feedbackRepository.DislikePost(postId, account);
     }
 
     public async Task<PostLike> RemovePostLikeByPostId(long postId, long likeId)
@@ -78,10 +80,10 @@ public class FeedbackManager : IFeedbackManager
         return await _feedbackRepository.DeletePostLike(postId, likeId);
     }
 
-    public async Task<Reaction> AddReactionToPostById(long postId, string content)
+    public async Task<Reaction> AddReactionToPostById(long postId, string content, Account account)
     {
         var reaction = new Reaction { Content = content };
         Validator.ValidateObject(reaction, new ValidationContext(reaction), true);
-        return await _feedbackRepository.CreateReactionToPostById(postId, reaction);
+        return await _feedbackRepository.CreateReactionToPostById(postId, reaction, account);
     }
 }

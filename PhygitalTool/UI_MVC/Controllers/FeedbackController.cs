@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
 using Phygital.BL.Managers;
+using Phygital.Domain.User;
+using Phygital.UI_MVC.Models;
 using Phygital.UI_MVC.Models.Dto.Feedback;
 
 namespace Phygital.UI_MVC.Controllers;
@@ -11,12 +14,14 @@ public class FeedbackController : Controller
     private readonly UnitOfWork _uow;
     private readonly IFeedbackManager _feedbackManager;
     private readonly IThemeManager _themeManager;
+    private readonly UserManager<Account> _userManager;
     
-    public FeedbackController(UnitOfWork uow, IFeedbackManager feedbackManager, IThemeManager themeManager)
+    public FeedbackController(UnitOfWork uow, IFeedbackManager feedbackManager, IThemeManager themeManager, UserManager<Account> userManager)
     {
         _uow = uow;
         _feedbackManager = feedbackManager;
         _themeManager = themeManager;
+        _userManager = userManager;
     }
     
     [HttpGet]
@@ -47,10 +52,15 @@ public class FeedbackController : Controller
     {
         if(!ModelState.IsValid)
             return View();
-        
-       
+
+        var  currentAccount = _userManager.FindByNameAsync(User.Identity.Name).Result;
+        if (currentAccount == null)
+        {
+            return View("Error", new ErrorViewModel { RequestId = "Account not found" });
+        }
+     
         _uow.BeginTransaction();
-        _feedbackManager.AddPost(postDto.Title, postDto.Text, postDto.ThemeId);
+        _feedbackManager.AddPost(postDto.Title, postDto.Text, postDto.ThemeId, currentAccount);
         _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }
@@ -101,8 +111,10 @@ public class FeedbackController : Controller
     [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
     public async  Task<IActionResult> LikePost(long postId)
     {
+        var  currentAccount = _userManager.FindByNameAsync(User.Identity.Name).Result;
+        
         _uow.BeginTransaction();
-        await _feedbackManager.AddPostLikeByPostId(postId);
+        await _feedbackManager.AddPostLikeByPostId(postId, currentAccount);
         _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }
@@ -111,8 +123,10 @@ public class FeedbackController : Controller
     [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
     public async Task<IActionResult> DislikePost(long postId)
     {
+        var  currentAccount = _userManager.FindByNameAsync(User.Identity.Name).Result;
+        
         _uow.BeginTransaction();
-        await _feedbackManager.AddDislikePostByPostId(postId);
+        await _feedbackManager.AddDislikePostByPostId(postId, currentAccount);
         _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }
@@ -125,9 +139,10 @@ public class FeedbackController : Controller
         if(!ModelState.IsValid)
             return RedirectToAction("Index", "Feedback");
         
+        var  currentAccount = _userManager.FindByNameAsync(User.Identity.Name).Result;
         
         _uow.BeginTransaction();
-        await _feedbackManager.AddReactionToPostById(postId, reactionDto.Content);
+        await _feedbackManager.AddReactionToPostById(postId, reactionDto.Content, currentAccount);
         _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }
