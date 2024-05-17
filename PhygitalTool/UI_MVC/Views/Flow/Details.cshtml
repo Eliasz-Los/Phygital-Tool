@@ -35,7 +35,7 @@
     {
         <div id="timer" class="timer clock ">10</div>
 
-        <div id="circularFlow" class="carousel slide spacing-top" data-bs-ride="carousel">
+        <div id="circularFlow" class="carousel slide spacing-top">
 
             <div class="carousel-inner">
                 <div id="questions"></div>
@@ -62,17 +62,16 @@
 
 
 @section Scripts
-{   
-    @*modules zijn automatisch defered*@
-    <script type="module" src="~/js/Flow/physicalDetails.js" ></script>
+{    
+    <script src="~/dist/details.entry.js" defer></script>
     @{
         if (Model.FlowType == Flowtype.linear)
         {
-            <script type="module" src="~/js/Flow/physicalLinear.js" ></script>
+            <script src="~/dist/linear.entry.js" defer></script>
         }
         else
         {
-            <script type="module" src="~/js/Flow/physicalCircular.js" ></script>
+            <script src="~/dist/circular.entry.js" defer></script>
         }
     }
    

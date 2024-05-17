@@ -218,7 +218,7 @@ public class PhygitalInitializer
         var i5 = new Image
         {
             Title = "Belastingschijf",
-            Url = "~/images/belastingschijf.png",
+            Url = "~/dist/images/belastingschijf.png",
             AltText = "Belastingschijf van 2024"
         };
 
