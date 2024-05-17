@@ -29,6 +29,7 @@ builder.Services.AddScoped<IPlatformRepository, PlatformRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IThemeRepository, ThemeRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 // managers
 builder.Services.AddScoped<IAnswerManager, AnswerManager>();
 builder.Services.AddScoped<IFeedbackManager, FeedbackManager>();
@@ -41,6 +42,7 @@ builder.Services.AddScoped<IThemeManager, ThemeManager>();
 builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IStatisticsRepository, StatisticsRepository>();
 builder.Services.AddScoped<IStatisticsManager, StatisticsManager>();
+builder.Services.AddScoped<IUserManager, UserManager>();
 
 // identity options (optimal)
 // builder.Services.Configure<IdentityOptions>(options =>

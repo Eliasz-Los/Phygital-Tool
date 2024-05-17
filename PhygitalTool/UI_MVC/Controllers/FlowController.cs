@@ -3,6 +3,8 @@ using Phygital.BL;
 using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
 using Phygital.Domain;
+using Phygital.Domain.Datatypes;
+using Phygital.Domain.Session;
 using Phygital.UI_MVC.Models.Dto;
 
 namespace Phygital.UI_MVC.Controllers;
@@ -12,18 +14,19 @@ public class FlowController : Controller
     private readonly ILogger<FlowController> _logger;
     private readonly IFlowManager _flowManager;
     private readonly IThemeManager _themeManager;
+    private readonly ISessionManager _sessionManager;
     private readonly UnitOfWork _uow;
 
-    public FlowController(ILogger<FlowController> logger, IFlowManager flowManager, IThemeManager themeManager,
-        UnitOfWork uow)
+    public FlowController(ILogger<FlowController> logger, IFlowManager flowManager, IThemeManager themeManager, ISessionManager sessionManager, UnitOfWork uow)
     {
         _logger = logger;
         _flowManager = flowManager;
         _themeManager = themeManager;
+        _sessionManager = sessionManager;
         _uow = uow;
     }
 
-    
+
     [HttpGet]
     [Authorize(Roles = "Admin, SubAdmin, Supervisor")]
     public IActionResult Index()
@@ -37,6 +40,22 @@ public class FlowController : Controller
     public IActionResult Details(long id)
     {
         var flow = _flowManager.GetFlowById(id);
+
+        var session = _sessionManager.GetSessionById(1);
+        
+        var participation = new Participation
+        {
+            StartTime = DateTime.Now.ToUniversalTime(),
+            EndTime = DateTime.Now.AddHours(1).ToUniversalTime(),
+            AmountOfParticipants = 1,
+            Flow = flow,
+            Session = session
+        };
+        
+        _uow.BeginTransaction();
+        _sessionManager.AddParticipation(participation);
+        _uow.Commit();
+        
         return View(flow);
     }
     

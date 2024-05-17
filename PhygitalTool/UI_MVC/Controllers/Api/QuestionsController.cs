@@ -13,7 +13,8 @@ public class QuestionsController : Controller
     private readonly IFlowElementManager _flowElementManager;
     private readonly IThemeManager _themeManager;
     private readonly UnitOfWork _unitOfWork;
-
+    private List<Option> optionlist = new List<Option>(); 
+    
     public QuestionsController(IFlowManager flowManager, IFlowElementManager flowElementManager,
         IThemeManager themeManager, IAnswerManager answerManager, UnitOfWork unitOfWork)
     {
@@ -22,6 +23,22 @@ public class QuestionsController : Controller
         _unitOfWork = unitOfWork;
     }
 
+    
+    // Deze methode geprobeerd met optiondto maar het kon niet parsen naar hier
+    [HttpPost("SaveOptions")]
+    public IActionResult SaveOptions([FromBody] List<String> options)
+    {
+        foreach (var option in options)
+        {
+            Option optionToAdd = new Option
+            {
+                OptionText = option
+            };
+            optionlist.Add(optionToAdd);
+        }
+        return Ok();
+    }
+    
     [HttpPost("AddQuestion")]
     public ActionResult PostQuestion([FromBody] QuestionDto questionDto)
     {
@@ -54,6 +71,7 @@ public class QuestionsController : Controller
                 break;
         }
 
+        optionlist.Clear();
         return Ok();
     }
 }

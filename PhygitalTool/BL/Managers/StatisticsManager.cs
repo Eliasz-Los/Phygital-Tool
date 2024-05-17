@@ -1,8 +1,7 @@
 ﻿using Phygital.DAL;
-using Phygital.DAL.EF;
 using Phygital.Domain.Statistics;
 
-namespace Phygital.BL;
+namespace Phygital.BL.Managers;
 
 public class StatisticsManager : IStatisticsManager
 {
@@ -16,5 +15,10 @@ public class StatisticsManager : IStatisticsManager
     public IEnumerable<Statistic> GetFlowStatistics(long flowId)
     {
         return _statisticsRepository.GetFlowStatistics(flowId);
+    }
+
+    public IEnumerable<Statistic> GetFlowParticipationsStatistics(long flowId)
+    {
+        return _statisticsRepository.GetFlowParticipantsStatistics(flowId);
     }
 }
