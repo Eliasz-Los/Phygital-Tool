@@ -1,7 +1,41 @@
-﻿// Import Chart from the chart.js package
-import { Chart, registerables } from 'chart.js';
+﻿import { Chart, registerables } from 'chart.js';
 
-Chart.register(...registerables)
+Chart.register(...registerables);
+
+function createBarChart(chartId: string, labels: string[], data: number[]): void {
+    const canvas = document.getElementById(chartId) as HTMLCanvasElement;
+    if (!canvas) {
+        console.log('Canvas not found: ' + chartId);
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.log('Canvas context not found: ' + chartId);
+        return;
+    }
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Number of Participations',
+                data: data,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
 
 // Define the flowId
 let flowId = 1; // Replace this with the actual flowId
@@ -10,32 +44,10 @@ let flowId = 1; // Replace this with the actual flowId
 fetch(`/api/GetParticipationCountsByTimeSpentCategories?flowId=${flowId}`)
     .then(response => response.json())
     .then(participationCountsByTimeSpentCategories => {
-        // Get the context of the canvas element
-        let ctx = (document.getElementById('participationChart') as HTMLCanvasElement).getContext('2d');
-
-        if(!ctx) {
-            console.log('Canvas context not found: ' + 'participationChart');
-            return;
-        }
-        // Create the chart
-        let chart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: Object.keys(participationCountsByTimeSpentCategories),
-                datasets: [{
-                    label: 'Number of Participations',
-                    data: Object.values(participationCountsByTimeSpentCategories),
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+        const labels = Object.keys(participationCountsByTimeSpentCategories);
+        const data = Object.values(participationCountsByTimeSpentCategories).map(Number);
+        createBarChart('participationChart', labels, data);
+    })
+    .catch(e => {
+        console.log('There was a problem with the fetch operation: ' + e.message);
     });

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
-using ILogger = Castle.Core.Logging.ILogger;
 
 namespace Phygital.UI_MVC.Controllers;
 
@@ -29,7 +28,7 @@ public class StatisticController : Controller
         ViewBag.TotalParticipations = _sessionManager.GetTotalParticipationsByFlowId(id);
         ViewBag.AverageTimeSpent = _sessionManager.GetAverageTimeSpentByFlowId(id);
         
-        ViewBag.ParticipationCountsByTimeSpentCategories = _statisticsManager.GetParticipationCountsByTimeSpentCategories(id);
+        // ViewBag.ParticipationCountsByTimeSpentCategories = _statisticsManager.GetParticipationCountsByTimeSpentCategories(id);
         
         return View(stats);
     }
