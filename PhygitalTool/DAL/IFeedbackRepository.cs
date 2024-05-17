@@ -3,6 +3,7 @@ using Phygital.Domain.User;
 
 namespace Phygital.DAL;
 
+//TODO: async toevoegen
 public interface IFeedbackRepository
 {
     

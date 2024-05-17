@@ -3,6 +3,7 @@ using Phygital.Domain.User;
 
 namespace Phygital.BL;
 
+//TODO: NAMING CONVENTIONS
 public interface IFeedbackManager
 {
      Task<Post> GetPostByIdAsync(long postId);

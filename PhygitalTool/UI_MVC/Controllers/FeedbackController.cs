@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
-using Phygital.BL.Managers;
 using Phygital.Domain.User;
 using Phygital.UI_MVC.Models;
 using Phygital.UI_MVC.Models.Dto.Feedback;
@@ -116,7 +115,9 @@ public class FeedbackController : Controller
         var  currentAccount = _userManager.FindByNameAsync(User.Identity.Name).Result;
         
         _uow.BeginTransaction();
-       var result = await _feedbackManager.AddPostLikeByPostId(postId, currentAccount);
+        
+        
+        var result = await _feedbackManager.AddPostLikeByPostId(postId, currentAccount);
         _uow.Commit();
         
         if (result == null)
@@ -163,7 +164,7 @@ public class FeedbackController : Controller
     //Misschien is het beter om in aparte controller te zetten: api/feedback/{postId}/AddReaction
     [HttpPost("{postId}/AddReaction")]
     [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
-    public async Task<IActionResult> AddReaction(long postId, ReactionDto reactionDto)
+    public async Task<IActionResult> AddReactionToPost(long postId, ReactionDto reactionDto)
     {
         if(!ModelState.IsValid)
             return RedirectToAction("Index", "Feedback");

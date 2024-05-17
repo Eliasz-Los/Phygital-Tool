@@ -74,7 +74,7 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         {
             if (_configuration != null)
             {
-                optionsBuilder.UseNpgsql(_configuration.GetConnectionString("Phygital.db")); //connectionString:"Phygital.db"
+                optionsBuilder.UseNpgsql(_configuration.GetConnectionString("Phygital.db")); //connectionString:"Phygital.db" 
 
             }
             else
