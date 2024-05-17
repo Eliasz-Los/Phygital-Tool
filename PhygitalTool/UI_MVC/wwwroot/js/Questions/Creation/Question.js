@@ -1,4 +1,3 @@
-
 function fillSubthemesSelect() {
     fetch(`/api/Themas/subthemas`, {
         headers: {
@@ -28,10 +27,40 @@ function fillSubthemesSelect() {
         });
 }
 
-function addOption(){
-    
-}
+function addOption() {
+    var input = document.getElementById('OptionTitle');
+    var optionValue = input.value.trim();
+    var optionList = document.getElementById('optionList');
 
+    if (optionValue && optionList.childElementCount < 4) {
+        var listItem = document.createElement('li');
+        listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+        listItem.textContent = optionValue;
+
+        if (optionValue.length > 30) {
+            alert('Option cannot exceed 30 characters.');
+            return;
+        }
+        
+        var removeButton = document.createElement('button');
+        removeButton.className = 'btn btn-danger btn-sm';
+        removeButton.textContent = 'Remove';
+        removeButton.addEventListener('click', function() {
+            optionList.removeChild(listItem);
+            document.getElementById('OptionButton').disabled = false;
+        });
+
+        listItem.appendChild(removeButton);
+        optionList.appendChild(listItem);
+
+        input.value = ''; // Clear the input field after adding
+
+        // Disable the button if there are 4 items in the list
+        if (optionList.childElementCount >= 4) {
+            document.getElementById('OptionButton').disabled = true;
+        }
+    }
+}
 
 function addQuestion() {
     var questionTitle = document.getElementById('QuestionTitle').value;
