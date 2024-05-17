@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model IEnumerable<Phygital.Domain.User.Organisation>
 
 @{
     ViewBag.Title = "Organisaties overzicht";
@@ -18,13 +18,13 @@
         foreach (var organisatie in Model)
         {
             <tr>
-                <td>@organisatie.Id</td>
+                <td>@organisatie.id</td>
                 <td>@organisatie.Name</td>
                 <td>
-                    <a asp-controller="Organisatie" asp-action="Edit" asp-route-id="@organisatie.Id" class="btn btn-success bi bi-pencil-square"></a>
+                    <a asp-controller="Organisatie" asp-action="Edit" asp-route-id="@organisatie.id" class="btn btn-success bi bi-pencil-square"></a>
                 </td>
                 <td>
-                    <form asp-controller="Organisatie" asp-action="Delete" asp-route-id="@organisatie.Id" method="post">
+                    <form asp-controller="Organisatie" asp-action="Delete" asp-route-id="@organisatie.id" method="post">
                         <button type="submit" class="btn btn-danger">
                             <i class="bi bi-trash"></i>
                         </button>
