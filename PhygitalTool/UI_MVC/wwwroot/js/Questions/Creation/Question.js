@@ -62,14 +62,14 @@ function addOption() {
     }
 }
 
-function addQuestion() {
-    sendOptions();
+async function addQuestion() {
+    await sendOptions(); 
+
     var questionTitle = document.getElementById('QuestionTitle').value;
     var selectedTheme = document.getElementById('ThemaSelect');
     var selectedThemeId = selectedTheme.options[selectedTheme.selectedIndex].value;
     var isActive = document.getElementById('ActiveCheckbox').checked;
-    var selectedType = document.getElementById('TypeSelect');
-    selectedType = selectedType.value
+    var selectedType = document.getElementById('TypeSelect').value;
 
     var data = {
         Text: questionTitle,
@@ -78,7 +78,6 @@ function addQuestion() {
         Type: selectedType
     };
 
-    // Send POST request to the server
     fetch('/api/Questions/AddQuestion', {
         method: 'POST',
         headers: {
@@ -88,10 +87,8 @@ function addQuestion() {
     })
         .then(response => {
             if (response.ok) {
-                // Handle success response
                 console.log('Question added successfully');
             } else {
-                // Handle error response
                 console.error('Failed to add Question');
             }
         })
@@ -99,6 +96,7 @@ function addQuestion() {
             console.error('Error:', error);
         });
 }
+
 
 function sendOptions() {
     var optionList = document.getElementById('optionList');
