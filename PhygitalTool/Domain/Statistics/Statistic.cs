@@ -2,7 +2,7 @@
 
 public class Statistic
 {
-    public string QuestionText { get; set; }
+    public string Title { get; set; }
     public Dictionary<string, int> Answers { get; set; }
     
     //participations

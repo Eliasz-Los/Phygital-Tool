@@ -42,7 +42,7 @@ public class StatisticsRepository : IStatisticsRepository
         {
             // Hier per groep de statistiek opbouwen dus per vraag
             var stat = new Statistic();
-            stat.QuestionText = group.Key;
+            stat.Title = group.Key;
 
             foreach (var answer in group)
             {
@@ -87,7 +87,7 @@ public class StatisticsRepository : IStatisticsRepository
         var groupedParticipations = participations.GroupBy(p => p.Flow.Id)
             .Select(group => new Statistic
             {
-                QuestionText = $"Flow ID: {group.Key}",
+                Title = $"Flow ID: {group.Key}",
                 Participations = new Dictionary<string, int> { { "Participation Count", group.Count() } }
             });
 

@@ -594,11 +594,20 @@ public class PhygitalInitializer
         //Adding participations to the session
         session1.Participations = new List<Participation> { participation1, participation2 };
         session2.Participations = new List<Participation> { participation3, participation4 };
+        
+        participation1.Session = session1;
+        participation2.Session = session1;
+        participation3.Session = session2;
+        participation4.Session = session2;
 
         //Adding flows to the participation
         f1.Participations = new List<Participation> { participation1, participation2 };
         f2.Participations = new List<Participation> { participation3, participation4 };
-
+        
+        participation1.Flow = f1;
+        participation2.Flow = f1;
+        participation3.Flow = f2;
+        participation4.Flow = f2;
 
         /////////////////////////////////////////
         // Third part: adding to the Database //
