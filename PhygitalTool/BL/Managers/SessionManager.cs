@@ -49,4 +49,17 @@ public class SessionManager : ISessionManager
         participation.EndTime = EndTime;
         _sessionRepository.UpdateParticipation(participation);
     }
+
+    public IEnumerable<Participation> GetParticipationsByFlowId(long flowId)
+    {
+        return _sessionRepository.GetParticipationsByFlowId(flowId);
+    }
+    public int GetTotalParticipationsByFlowId(long flowId)
+    {
+        return _sessionRepository.GetTotalParticipationsByFlowId(flowId);
+    }
+    public TimeSpan GetAverageTimeSpentByFlowId(long flowId)
+    {
+        return _sessionRepository.GetAverageTimeSpentByFlowId(flowId);
+    }
 }

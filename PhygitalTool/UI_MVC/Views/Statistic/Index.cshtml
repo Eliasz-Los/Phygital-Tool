@@ -27,6 +27,38 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-4">
+        <h2>Participations</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Duratie</th>
+                <th>Aantal deelnemers</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var participation in ViewBag.Participations)
+            {
+                <tr>
+                    <td>@participation.Id</td>
+                    <td>@participation.Duration</td>
+                    <td>@participation.AmountOfParticipants</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <div>Totaal participaties: @ViewBag.TotalParticipations</div>
+        <div>Gemiddelde tijd:  @ViewBag.AverageTimeSpent.TotalMinutes minutes</div>
+    </div>
+    <div class="col-md-8">
+        <canvas id="participationChart"></canvas>
+    </div>
+</div>
+
+
+
 
 <section class="tab-content">
     <section class="container tab-pane fade show active" id="plain-data">

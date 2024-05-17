@@ -11,4 +11,7 @@ public interface ISessionManager
     Participation GetParticipationById(long id);
     IEnumerable<Participation> GetAllParticipations();
     void ChangeParticipation(long id, DateTime StartTime, DateTime EndTime);
+    IEnumerable<Participation> GetParticipationsByFlowId(long flowId);
+    int GetTotalParticipationsByFlowId(long flowId);
+    TimeSpan GetAverageTimeSpentByFlowId(long flowId);
 }
