@@ -30,11 +30,6 @@ public class FlowManager : IFlowManager
         return _flowRepository.ReadFlowAndThemeById(id);
     }
 
-    public void AddAnswersToFlow(List<Answer> answers)
-    {
-        throw new NotImplementedException();
-    }
-
     public void ChangeFlow(long id, Flowtype flowtype, bool isOpen, long themeId)
     {
         var flow = _flowRepository.ReadFlowById(id);
