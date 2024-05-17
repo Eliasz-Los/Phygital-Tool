@@ -63,6 +63,7 @@ function addOption() {
 }
 
 function addQuestion() {
+    sendOptions();
     var questionTitle = document.getElementById('QuestionTitle').value;
     var selectedTheme = document.getElementById('ThemaSelect');
     var selectedThemeId = selectedTheme.options[selectedTheme.selectedIndex].value;
@@ -92,6 +93,35 @@ function addQuestion() {
             } else {
                 // Handle error response
                 console.error('Failed to add Question');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+function sendOptions() {
+    var optionList = document.getElementById('optionList');
+    var options = [];
+
+
+    optionList.querySelectorAll('li').forEach(function(listItem) {
+        var optionText = listItem.firstChild.textContent.trim();
+        options.push(optionText);
+    });
+
+    fetch('/api/Questions/SaveOptions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(options)
+    })
+        .then(response => {
+            if (response.ok) {
+                console.log('Options sent successfully');
+            } else {
+                console.error('Failed to send options');
             }
         })
         .catch(error => {
