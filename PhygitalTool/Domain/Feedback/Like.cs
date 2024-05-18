@@ -12,8 +12,7 @@ public class Like
     
     public ICollection<PostLike> PostLikes { get; set; }
     public Reaction Reaction { get; set; }
-    
-   public Account Account { get; set; }
+    public Account Account { get; set; }
     
    
     

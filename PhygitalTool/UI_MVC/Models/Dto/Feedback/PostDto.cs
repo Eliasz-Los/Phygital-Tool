@@ -22,7 +22,7 @@ public class PostDto : IValidatableObject
         var wordsInText = Text.Split(' ');
         foreach (var word in wordsInText)
         {
-            if (vulgarWords.Contains(word))
+            if (vulgarWords.Contains(word.ToLower()))
             {
                 string errorMessage = "Geen vulgaire taal in text!!!";
                 errors.Add(new ValidationResult(errorMessage, new []{nameof(Text)}));
@@ -32,9 +32,9 @@ public class PostDto : IValidatableObject
         var wordsInTitle = Title.Split(' ');
         foreach (var word in wordsInTitle)
         {
-            if (vulgarWords.Contains(word))
+            if (vulgarWords.Contains(word.ToLower()))
             {
-                string errorMessage = "Geen vulgaire taal in title!!!";
+                string errorMessage = "Geen vulgaire taal in titel!!!";
                 errors.Add(new ValidationResult(errorMessage, new []{nameof(Title)}));
             }
         }

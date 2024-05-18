@@ -16,7 +16,6 @@ public class Post : IValidatableObject
     public ICollection<PostReaction> PostReactions { get; set; }
     public ICollection<PostLike> PostLikes { get; set; }
     public Theme Theme { get; set; }
-    
     public Account Account { get; set; }
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
@@ -26,7 +25,7 @@ public class Post : IValidatableObject
         var wordsInText = Text.Split(' ');
         foreach (var word in wordsInText)
         {
-            if (vulgarWords.Contains(word))
+            if (vulgarWords.Contains(word.ToLower()))
             {
                 string errorMessage = "Geen vulgaire taal in text!!!";
                 errors.Add(new ValidationResult(errorMessage, new []{nameof(Text)}));
@@ -36,7 +35,7 @@ public class Post : IValidatableObject
         var wordsInTitle = Title.Split(' ');
         foreach (var word in wordsInTitle)
         {
-            if (vulgarWords.Contains(word))
+            if (vulgarWords.Contains(word.ToLower()))
             {
                 string errorMessage = "Geen vulgaire taal in title!!!";
                 errors.Add(new ValidationResult(errorMessage, new []{nameof(Title)}));

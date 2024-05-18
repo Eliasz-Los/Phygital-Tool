@@ -12,4 +12,7 @@ public class QuestionDto
     
     // Type om te kijken om welk type het gaat
     public string Type { get; set; }
+    
+    // De flow link
+    public long FlowId { get; set; }
 }

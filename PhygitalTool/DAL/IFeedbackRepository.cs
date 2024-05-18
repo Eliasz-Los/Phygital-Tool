@@ -3,13 +3,12 @@ using Phygital.Domain.User;
 
 namespace Phygital.DAL;
 
-//TODO: async toevoegen
 public interface IFeedbackRepository
 {
     
     Task<Post> ReadPostByIdAsync(long id);
     Task<Post> ReadPostWithThemeByIdAsync(long id);
-    Task<IEnumerable<Post>> ReadAllPostsWithReactionsAndLikes();
+    Task<IEnumerable<Post>> ReadAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes();
     
     void CreatePost(Post post);
     
@@ -24,6 +23,10 @@ public interface IFeedbackRepository
     
     Task<Reaction> CreateReactionToPostById(long postId, Reaction reaction, Account account);
     
+    Task<PostLike> ReadDislikeByPostIdAndUserId(long postId, string currentAccountId);
     
-    
+    Task DeletePostDislikeByPostId(long postId, string id);
+
+    Task<PostLike> ReadLikeByPostIdAndUserId(long postId, string currentAccountId);
+    Task DeletePostLikeByPostId(long postId, string id);
 }

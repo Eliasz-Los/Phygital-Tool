@@ -11,8 +11,6 @@ public class Reaction : IValidatableObject
     public string Content { get; set; }
     public ICollection<Like> Likes { get; set; }
     public ICollection<PostReaction> PostReactions { get; set; }
-    
-    // Link to the user who posted the reaction
     public Account Account { get; set; }
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
@@ -22,7 +20,7 @@ public class Reaction : IValidatableObject
         var wordsInContent = Content.Split(' ');
         foreach (var word in wordsInContent)
         {
-            if (vulgarWords.Contains(word))
+            if (vulgarWords.Contains(word.ToLower()))
             {
                 string errorMessage = "Geen vulgaire taal in text!!!";
                 errors.Add(new ValidationResult(errorMessage, new []{nameof(Content)}));

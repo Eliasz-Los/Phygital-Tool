@@ -16,7 +16,7 @@ public class ReactionDto : IValidatableObject
         var wordsInContent = Content.Split(' ');
         foreach (var word in wordsInContent)
         {
-            if (vulgarWords.Contains(word))
+            if (vulgarWords.Contains(word.ToLower()))
             {
                 string errorMessage = "Geen vulgaire taal in text!!!";
                 errors.Add(new ValidationResult(errorMessage, new []{nameof(Content)}));

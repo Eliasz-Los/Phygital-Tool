@@ -55,7 +55,7 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
     public DbSet<PostReaction> PostReactions { get; set; }
     public DbSet<PostLike> PostLikes { get; set; }
 
-    //om zogezegd connection string uit te halen
+    //om connection string uit te halen
     private readonly IConfiguration _configuration;
     public PhygitalDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
     {
@@ -72,7 +72,7 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            if (_configuration != null)
+            if (!String.IsNullOrEmpty(_configuration.ToString()))
             {
                 optionsBuilder.UseNpgsql(_configuration.GetConnectionString("Phygital.db")); //connectionString:"Phygital.db" 
 

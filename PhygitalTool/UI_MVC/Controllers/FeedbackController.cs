@@ -27,7 +27,7 @@ public class FeedbackController : Controller
     [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
     public async Task<IActionResult> Index()
     {
-        var posts = await _feedbackManager.GetAllPostsWithReactionsAndLikes();
+        var posts = await _feedbackManager.GetAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes();
         var viewModel = new FeedbackViewModel
         {
             Posts = posts,
@@ -55,10 +55,6 @@ public class FeedbackController : Controller
             return View();
 
         var  currentAccount = _userManager.FindByNameAsync(User.Identity.Name).Result;
-        if (currentAccount == null)
-        {
-            return View("Error", new ErrorViewModel { RequestId = "Account not found" });
-        }
      
         _uow.BeginTransaction();
         _feedbackManager.AddPost(postDto.Title, postDto.Text, postDto.ThemeId, currentAccount);
@@ -74,6 +70,19 @@ public class FeedbackController : Controller
         ViewBag.Themes = themes;
         
         var post = await _feedbackManager.GetPostWithThemeByIdAsync(id);
+       
+        if (post == null)
+        {
+            // Handle the case where there is no post with the provided id
+            return NotFound();
+        }
+        
+        if (post.Theme == null)
+        {
+            // Handle the case where the post does not have an associated theme
+            return NotFound();
+        }
+        
         var postDto = new PostDto
         {
             Title = post.Title,
@@ -116,22 +125,18 @@ public class FeedbackController : Controller
         
         _uow.BeginTransaction();
         
+        //check if the user already DISLIKED the post
+        var existingDislike = await _feedbackManager.GetDislikeByPostIdAndUserId(postId, currentAccount.Id);
         
-        var result = await _feedbackManager.AddPostLikeByPostId(postId, currentAccount);
+        if (existingDislike != null)
+        {
+            //If they have remove the dislike
+            await _feedbackManager.RemovePostDislikeByPostId(postId, currentAccount.Id);
+        }
+        //Then add the like var result = 
+        await _feedbackManager.AddPostLikeByPostId(postId, currentAccount);
         _uow.Commit();
         
-        if (result == null)
-        {
-            ModelState.AddModelError("LikeError", "Je hebt deze post al geliked");
-            var posts = await _feedbackManager.GetAllPostsWithReactionsAndLikes();
-            var viewModel = new FeedbackViewModel
-            {
-                Posts = posts,
-                Reaction = new ReactionDto()
-            };
-            return View("Index", viewModel);
-        }
-
         return RedirectToAction("Index", "Feedback");
         
     }
@@ -143,22 +148,20 @@ public class FeedbackController : Controller
         var  currentAccount = _userManager.FindByNameAsync(User.Identity.Name).Result;
         
         _uow.BeginTransaction();
-       var result = await _feedbackManager.AddDislikePostByPostId(postId, currentAccount);
+        
+        //check if the user already LIKED the post
+        var existingDislike = await _feedbackManager.GetLikeByPostIdAndUserId(postId, currentAccount.Id);
+        
+        if (existingDislike != null)
+        {
+            //If they have remove the dislike
+            await _feedbackManager.RemovePostDislikeByPostId(postId, currentAccount.Id);
+        }
+        
+         await _feedbackManager.AddDislikePostByPostId(postId, currentAccount);
         _uow.Commit();
         
-        if (result == null)
-        {
-            ModelState.AddModelError("DislikeError", "Je hebt deze post al gedisliked");
-            //zodat de errors niet verloren gaan
-            var posts = await _feedbackManager.GetAllPostsWithReactionsAndLikes();
-            var viewModel = new FeedbackViewModel
-            {
-                Posts = posts,
-                Reaction = new ReactionDto()
-            };
-            return View("Index", viewModel);
-        }
-        return RedirectToAction("Index", "Feedback");
+      return RedirectToAction("Index", "Feedback");
     }
     
     //Misschien is het beter om in aparte controller te zetten: api/feedback/{postId}/AddReaction
