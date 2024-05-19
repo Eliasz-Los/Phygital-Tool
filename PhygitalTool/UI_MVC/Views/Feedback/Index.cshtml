@@ -1,6 +1,5 @@
 ﻿@using Phygital.Domain.Datatypes
 @model Phygital.UI_MVC.Models.Dto.Feedback.FeedbackViewModel
-@*@model IEnumerable<Post>*@
 @{
     ViewBag.Title = "Feedback";
     Layout = "_Layout";
@@ -19,20 +18,27 @@
                     <div class="col d-flex">
                         <h3>@post.Account.Name</h3>
                     </div>
-                    <div class="col d-flex">
+                    <div class="col d-flex justify-content-end">
+                        <p>@post.PostTime</p>
+                    </div>
+                </div>
+                <div class="row d-flex">
+                    <div class="col d-flex justify-content-start">
                         <h3>@post.Title</h3>
                     </div>
                     @*TODO: Misschien beide initializers in 1 static functie insteken voor themas insteken???*@
-                    <div class="col d-flex">
+                    <div class="col d-flex justify-content-between">
                         @*<h3>@post.Theme.Title</h3>*@
                     </div>
-                    <div class="col d-flex gap-3 justify-content-end">
-                        @*TODO: eerste 2 posts kunnen NIET GEEDIT WORDEN, de rest wel*@
-                        <a asp-controller="Feedback" asp-action="Edit" asp-route-id="@post.Id" class="btn btn-success bi bi-pencil-square" style="display: inline;"></a>
-                        <form asp-controller="Feedback" asp-action="Delete" method="post" style="display: inline;">
-                            <input type="hidden" name="id" value="@post.Id"/>
-                            <button class="btn btn-danger bi bi-trash"></button>
-                        </form>
+                    <div class="col ">
+                        <div class="d-flex gap-3 justify-content-end">
+                            <a asp-controller="Feedback" asp-action="Edit" asp-route-id="@post.Id" class="btn btn-success bi bi-pencil-square"></a>
+                            <form asp-controller="Feedback" asp-action="Delete" method="post">
+                                <input type="hidden" name="id" value="@post.Id"/>
+                                <button class="btn btn-danger bi bi-trash"></button>
+                            </form>
+                        </div>
+                      
                     </div>
                 </div>
             </div>
@@ -44,7 +50,6 @@
                             <form asp-controller="Feedback" asp-action="LikePost" method="post">
                                 <input type="hidden" name="postId" value="@post.Id"/>
                                 <button type="submit" class="btn btn-success bi bi-hand-thumbs-up"> @post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsUp)</button>
-                                @Html.ValidationMessage("LikeError", "", new {@class = "text-danger"})
                             </form>
 
                             <form asp-controller="Feedback" asp-action="DislikePost" method="post">
@@ -57,9 +62,7 @@
                                         <input type="hidden" name="likeId" value="@likeId"/>
                                     }
                                 }
-                                <button type="submit" class="btn btn-danger bi bi-hand-thumbs-down"> @post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsDown)</button>@*👎 *@
-                                @Html.ValidationMessage("DislikeError", "", new {@class = "text-danger"})
-
+                                <button type="submit" class="btn btn-danger bi bi-hand-thumbs-down"> @post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsDown)</button>
                             </form>
                         </div>
 
@@ -86,7 +89,17 @@
 
                         @foreach (var reaction in post.PostReactions)
                         {
-                            <p class="border-bottom">@reaction.Reaction.Account.Name | @reaction.Reaction.Content</p>
+                            <div class="row d-flex spacing-top border">
+                                <div class="col-2 d-flex justify-content-start">
+                                    <p class="form-control">@reaction.Reaction.Account.Name</p>
+                                </div>
+                                <div class="col-8 d-flex justify-content-between">
+                                    <p>@reaction.Reaction.Content</p>
+                                </div>
+                                <div class="col-2 d-flex justify-content-end">
+                                    <p>@reaction.Timestamp</p>
+                                </div>
+                            </div>
                         }
                     </div>
                 </section>

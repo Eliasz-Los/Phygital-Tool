@@ -70,18 +70,6 @@ public class FeedbackController : Controller
         ViewBag.Themes = themes;
         
         var post = await _feedbackManager.GetPostWithThemeByIdAsync(id);
-       
-        if (post == null)
-        {
-            // Handle the case where there is no post with the provided id
-            return NotFound();
-        }
-        
-        if (post.Theme == null)
-        {
-            // Handle the case where the post does not have an associated theme
-            return NotFound();
-        }
         
         var postDto = new PostDto
         {
@@ -154,11 +142,11 @@ public class FeedbackController : Controller
         
         if (existingDislike != null)
         {
-            //If they have remove the dislike
-            await _feedbackManager.RemovePostDislikeByPostId(postId, currentAccount.Id);
+            //If they have remove the like
+            await _feedbackManager.RemovePostLikeByPostId(postId, currentAccount.Id);
         }
         
-         await _feedbackManager.AddDislikePostByPostId(postId, currentAccount);
+        await _feedbackManager.AddDislikePostByPostId(postId, currentAccount);
         _uow.Commit();
         
       return RedirectToAction("Index", "Feedback");

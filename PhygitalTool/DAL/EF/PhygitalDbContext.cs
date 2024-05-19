@@ -319,8 +319,6 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         
         
         // Feedback 
-      
-        
         modelBuilder.Entity<Post>()
             .HasMany(p => p.PostReactions)
             .WithOne(r => r.Post)
@@ -340,7 +338,6 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         modelBuilder.Entity<Post>()
             .HasOne(p => p.Theme)
             .WithMany(t => t.Posts);
-        //reaction
         
         modelBuilder.Entity<Reaction>()
             .HasMany(r => r.PostReactions)
@@ -349,15 +346,6 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
             .HasOne(pr => pr.Reaction)
             .WithMany(r => r.PostReactions);
         
-        modelBuilder.Entity<Reaction>()
-            .HasMany(r => r.Likes)
-            .WithOne(l => l.Reaction);
-       
-        
-        modelBuilder.Entity<Like>()
-            .HasOne(l => l.Reaction)
-            .WithMany(r => r.Likes);
-        
         modelBuilder.Entity<Like>()
             .HasMany(l => l.PostLikes)
             .WithOne(pl => pl.Like);
@@ -365,9 +353,6 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
             .HasOne(pl => pl.Like)
             .WithMany(l => l.PostLikes);
         
-        modelBuilder.Entity<Like>()
-            .HasOne(l => l.Reaction)
-            .WithMany(r => r.Likes);
         
             
     }

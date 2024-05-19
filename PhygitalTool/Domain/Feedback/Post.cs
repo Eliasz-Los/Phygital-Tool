@@ -13,6 +13,7 @@ public class Post : IValidatableObject
     [Required(ErrorMessage = "Text is required.")]
     [MaxLength(1000, ErrorMessage = "Text is too long, max 1000 characters.")]
     public string Text { get; set; }
+    public DateTime PostTime { get; set; } = DateTime.UtcNow.ToUniversalTime().AddHours(2);
     public ICollection<PostReaction> PostReactions { get; set; }
     public ICollection<PostLike> PostLikes { get; set; }
     public Theme Theme { get; set; }

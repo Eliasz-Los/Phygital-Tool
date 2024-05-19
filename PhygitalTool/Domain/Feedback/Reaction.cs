@@ -9,7 +9,6 @@ public class Reaction : IValidatableObject
     [Required(ErrorMessage = "Content is required.")]
     [MaxLength(1000, ErrorMessage = "Content is too long, max 1000 characters.")]
     public string Content { get; set; }
-    public ICollection<Like> Likes { get; set; }
     public ICollection<PostReaction> PostReactions { get; set; }
     public Account Account { get; set; }
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

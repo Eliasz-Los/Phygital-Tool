@@ -190,16 +190,16 @@ public class PhygitalInitializer
         var reaction2 = new Reaction { Content = "Waarschijnlijk eind juli", Account = Jonas};
 
         // Create some Likes
-        var like1 = new Like { Reaction = reaction1, Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
-        var like2 = new Like { Reaction = reaction2, Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
+        var like1 = new Like {  Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
+        var like2 = new Like { Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
 
         // Create some PostReactions
         var postReaction1 = new PostReaction { Post = post1, Reaction = reaction1, Timestamp = DateTime.UtcNow };
         var postReaction2 = new PostReaction { Post = post2, Reaction = reaction2, Timestamp = DateTime.UtcNow };
 
         // Create some PostLikes
-        var postLike1 = new PostLike { Post = post1, Like = like1, Timestamp = DateTime.UtcNow, IsLiked = true };
-        var postLike2 = new PostLike { Post = post2, Like = like2, Timestamp = DateTime.UtcNow, IsLiked = true };
+        var postLike1 = new PostLike { Post = post1, Like = like1, Timestamp = DateTime.UtcNow};
+        var postLike2 = new PostLike { Post = post2, Like = like2, Timestamp = DateTime.UtcNow};
         
         
         //Adding account to organisations
