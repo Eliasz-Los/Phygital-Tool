@@ -67,8 +67,8 @@ public class OrganisatieController : Controller
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error updating theme with id {Id}", id);
-            ModelState.AddModelError("", "An error occurred while updating the theme.");
+            _logger.LogError(ex, "Error updating organisation with id {Id}", id);
+            ModelState.AddModelError("", "An error occurred while updating the organisation.");
             return View(organisatie);
         }
     }
