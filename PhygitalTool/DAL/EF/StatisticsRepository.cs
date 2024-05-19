@@ -93,4 +93,48 @@ public class StatisticsRepository : IStatisticsRepository
 
         return groupedParticipations;
     }
+    
+    public Dictionary<string, int> GetParticipationCountsByTimeSpentCategories(long flowId)
+    {
+        var participations = _dbContext.Participations
+            .Where(p => p.Flow.Id == flowId)
+            .ToList();
+
+        var categories = new Dictionary<string, int>
+        {
+            {"< 1 min", 0},
+            {"1-5 min", 0},
+            {"5-10 min", 0},
+            {"10-30 min", 0},
+            {"> 30 min", 0}
+        };
+
+        foreach (var participation in participations)
+        {
+            var durationInMinutes = (participation.EndTime - participation.StartTime).TotalMinutes;
+
+            if (durationInMinutes < 1)
+            {
+                categories["< 1 min"]++;
+            }
+            else if (durationInMinutes <= 5)
+            {
+                categories["1-5 min"]++;
+            }
+            else if (durationInMinutes <= 10)
+            {
+                categories["5-10 min"]++;
+            }
+            else if (durationInMinutes <= 30)
+            {
+                categories["10-30 min"]++;
+            }
+            else
+            {
+                categories["> 30 min"]++;
+            }
+        }
+
+        return categories;
+    }
 }

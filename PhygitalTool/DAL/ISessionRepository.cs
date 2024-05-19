@@ -10,6 +10,8 @@ public interface ISessionRepository
     Installation ReadInstallationById(long id);
     Participation ReadParticipationById(long id);
     IEnumerable<Participation> ReadAllParticipations();
-    
     void UpdateParticipation(Participation participation);
+    IEnumerable<Participation> GetParticipationsByFlowId(long flowId);
+    int GetTotalParticipationsByFlowId(long flowId);
+    TimeSpan GetAverageTimeSpentByFlowId(long flowId);
 }

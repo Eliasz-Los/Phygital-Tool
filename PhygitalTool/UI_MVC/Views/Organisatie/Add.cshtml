@@ -1,8 +1,39 @@
 ﻿@model dynamic
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Add Organisatie";
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<div class="text-center">
+    <h3 class="align-content-center p-4">Maak nieuwe organisatie</h3>
+    <div class="container-fluid">
+        <form class="">
+            <div class="d-flex justify-content-center">
+                <div class="col-lg-6 text-start">
+                    <label for="OrgInput">Organisatie</label>
+                    <input type="text" class="form-control border border-warning mb-3" id="OrgName" placeholder="Naam">
+                    <label for="DescriptionArea">Beschrijving</label>
+                    <textarea class="form-control border border-warning mb-3" id="orgDescription" rows="5"
+                    placeholder="Beschrijving..."></textarea>
+
+                </div>
+            </div>
+            <div class="container-fluid p-2">
+                <div class="row align-content-center">
+                    <div class="col d-flex justify-content-end">
+                        <a onclick="history.back()" type="button" class="btn btn-warning">Annuleer</a>
+                    </div>
+                    <div class="col d-flex justify-content-start">
+                        <a type="button" class="btn btn-warning" id="submitOrg" asp-area="" asp-controller="Organisatie" asp-action="Index" >Maak organisatie</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/dist/organisatie.entry.js" defer></script>
+}

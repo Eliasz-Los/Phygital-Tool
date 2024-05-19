@@ -1,4 +1,5 @@
-﻿using Phygital.Domain.Session;
+﻿using Microsoft.EntityFrameworkCore;
+using Phygital.Domain.Session;
 
 namespace Phygital.DAL.EF;
 
@@ -44,5 +45,36 @@ public class SessionRepository : ISessionRepository
     public void UpdateParticipation(Participation participation)
     {
         _dbContext.Participations.Update(participation);
+    }
+    
+    public IEnumerable<Participation> GetParticipationsByFlowId(long flowId)
+    {
+        return _dbContext.Participations
+            .Include(p => p.Session)
+            .Include(p => p.Flow)
+            .Where(p => p.Flow.Id == flowId);
+    }
+    
+    public int GetTotalParticipationsByFlowId(long flowId)
+    {
+        return _dbContext.Participations
+            .Count(p => p.Flow.Id == flowId);
+    }
+    
+    public TimeSpan GetAverageTimeSpentByFlowId(long flowId)
+    {
+        var participations = _dbContext.Participations
+            .Where(p => p.Flow.Id == flowId)
+            .ToList();
+
+        if (!participations.Any())
+        {
+            return TimeSpan.Zero;
+        }
+
+        var totalDuration = participations
+            .Sum(p => (p.EndTime - p.StartTime).TotalSeconds);
+
+        return TimeSpan.FromSeconds(totalDuration / participations.Count);
     }
 }
