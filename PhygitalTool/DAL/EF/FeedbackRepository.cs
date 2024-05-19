@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Phygital.Domain.Datatypes;
 using Phygital.Domain.Feedback;
+using Phygital.Domain.User;
 
 namespace Phygital.DAL.EF;
-
 public class FeedbackRepository : IFeedbackRepository
 {
     private readonly PhygitalDbContext _dbContext;
@@ -29,15 +29,18 @@ public class FeedbackRepository : IFeedbackRepository
         return  _dbContext.Posts.Find(id);
     }
 
-    public async Task<IEnumerable<Post>> ReadAllPostsWithReactionsAndLikes()
+    public async Task<IEnumerable<Post>> ReadAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes()
     {
         var result = await _dbContext.Posts
             .AsNoTracking()
+            .Include(p => p.Account)
             .Include(p => p.Theme)
             .Include(p => p.PostReactions)
             .ThenInclude(pr => pr.Reaction)
+            .ThenInclude(r => r.Account)
             .Include(p => p.PostLikes)
             .ThenInclude(pl => pl.Like)
+            .ThenInclude(l => l.Account)
             .ToListAsync();
         return  result;
     }
@@ -61,38 +64,43 @@ public class FeedbackRepository : IFeedbackRepository
     public void DeletePost(long id)
     {
         var removePost = ReadPostById(id);
-        if (removePost == null)
-        {
-            throw new Exception($"Post with id {id} not found");
-        }
         _dbContext.Posts.Remove(removePost);
     }
 
-    public async Task<PostLike> LikePost(long postId)
+    public async Task<PostLike> LikePost(long postId, Account account)
     {
         var post = await ReadPostByIdAsync(postId);
         
-        if (post == null)
+        var existingLike = await _dbContext.PostLikes
+            .Where(pl => pl.Post.Id == postId && pl.Like.Account.Id == account.Id)
+            .FirstOrDefaultAsync();
+
+        if (existingLike != null)
         {
-            throw new Exception($"Post with id {postId} not found");
+            return null;
         }
         
-        var like = new Like{ LikeType = LikeType.ThumbsUp};
+        var like = new Like{ LikeType = LikeType.ThumbsUp, Account = account};
         var postLike = new PostLike{ Like = like, Post = post};
-       
-        //post.PostLikes.Add(postLike);
         
         _dbContext.PostLikes.Add(postLike);
-        
-       // await _dbContext.SaveChangesAsync();
         
         return postLike;
     }
 
-    public async Task<PostLike> DislikePost(long postId)
+    public async Task<PostLike> DislikePost(long postId, Account account)
     {
         var post = await ReadPostByIdAsync(postId);
-        var like = new Like{ LikeType = LikeType.ThumbsDown};
+        
+        var existingDislike = await _dbContext.PostLikes
+            .Where(pl => pl.Post.Id == postId && pl.Like.Account.Id == account.Id)
+            .FirstOrDefaultAsync();
+
+        if (existingDislike != null)
+        {
+            return null;
+        }
+        var like = new Like{ LikeType = LikeType.ThumbsDown, Account = account};
         var postLike = new PostLike{ Like = like, Post = post};
         
         _dbContext.PostLikes.Add(postLike);
@@ -108,20 +116,46 @@ public class FeedbackRepository : IFeedbackRepository
        
        _dbContext.PostLikes.Remove(postLike);
        
-       // await _dbContext.SaveChangesAsync();
-
        return postLike;
     }
 
-    public async Task<Reaction> CreateReactionToPostById(long postId, Reaction reaction)
+    public async Task<Reaction> CreateReactionToPostById(long postId, Reaction reaction, Account account)
     {
         var post = await ReadPostByIdAsync(postId);
-        if (post == null)
-        {
-            throw new Exception("Post not found");
-        }
+     
+        reaction.Account = account;
         var postReaction = new PostReaction{ Post = post, Reaction = reaction};
          _dbContext.PostReactions.Add(postReaction);
         return reaction;
+    }
+
+    public async Task<PostLike> ReadDislikeByPostIdAndUserId(long postId, string currentAccountId)
+    {
+        return await _dbContext.PostLikes.Where(pl => pl.Post.Id == postId && pl.Like.Account.Id == currentAccountId)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task DeletePostDislikeByPostId(long postId, string id)
+    {
+        var dislike = await ReadDislikeByPostIdAndUserId(postId, id);
+        if (dislike != null)
+        {
+           _dbContext.PostLikes.Remove(dislike);
+        }
+    }
+
+    public async Task<PostLike> ReadLikeByPostIdAndUserId(long postId, string currentAccountId)
+    {
+        return await _dbContext.PostLikes.Where(pl => pl.Post.Id == postId && pl.Like.Account.Id == currentAccountId)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task DeletePostLikeByPostId(long postId, string id)
+    {
+        var like = await ReadLikeByPostIdAndUserId(postId, id);
+        if (like != null)
+        {
+            _dbContext.PostLikes.Remove(like);
+        }
     }
 }

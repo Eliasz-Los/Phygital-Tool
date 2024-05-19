@@ -64,15 +64,12 @@ dreuzel
 droplul
 druiloor
 
-
-
 eendenkont
 eikel
 engerling
 erwtenteller
 etter
 etterbuil
-ezel
 
 fielt
 flapdrol
@@ -85,7 +82,6 @@ fransoos
 galgenbrok
 gangster
 gannef
-geit
 geitenbreier
 geitenneuker
 geteisem
@@ -98,7 +94,6 @@ gratenbaal
 greppeldel
 grobbejanus
 
-haai
 haaibaai
 halvezool
 hapsnurker
@@ -110,6 +105,7 @@ hersenlijer
 hockeytrut
 hockeytut
 hoer
+hoeren
 hoerenjager
 hoerenjong
 hoerenkind
@@ -180,7 +176,6 @@ kuttenkop
 kutvent
 kutwijf
 kwakzalver
-kwal
 
 labbekak
 labrat
@@ -206,20 +201,17 @@ maffer
 mafketel
 mafkikker
 makaak
-matje
 miet
 mietje
 mispruim
 mispunt
 modderduivel
-mof
 moffenhoer
 Moffrika
 mongool
 morsebel
 mosselhoer
 muilezelin
-muts
 
 natkut
 neetoor
@@ -227,7 +219,6 @@ netenvreter
 neukpaal
 nitwit
 noppeshoer
-nul
 
 oen
 olijfneuker
@@ -394,6 +385,7 @@ bitch
 nig
 nigs
 nigz
+nigga
 nizzer
 nizzers
 nigger

@@ -8,16 +8,21 @@ public class ReactionDto : IValidatableObject
     [MaxLength(1000, ErrorMessage = "Content is too long, max 1000 characters.")]
     public string Content { get; set; }
     
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
+        List<ValidationResult> errors = new List<ValidationResult>();
+        
         var vulgarWords = File.ReadAllLines("vulgairewoorden.txt").ToList();
-        var wordsInText = Content.Split(' ');
-        foreach (var word in wordsInText)
+        var wordsInContent = Content.Split(' ');
+        foreach (var word in wordsInContent)
         {
-            if (vulgarWords.Contains(word))
+            if (vulgarWords.Contains(word.ToLower()))
             {
-                yield return new ValidationResult("Vulgar words are not allowed in the text.", new[] { nameof(Content) });
+                string errorMessage = "Geen vulgaire taal in text!!!";
+                errors.Add(new ValidationResult(errorMessage, new []{nameof(Content)}));
             }
         }
+        
+        return errors;
     }
 }
