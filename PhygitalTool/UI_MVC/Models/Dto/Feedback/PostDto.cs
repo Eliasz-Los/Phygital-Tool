@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 using Phygital.Domain.Themas;
 
 namespace Phygital.UI_MVC.Models.Dto.Feedback;
@@ -20,9 +21,11 @@ public class PostDto : IValidatableObject
         
         var vulgarWords = File.ReadAllLines("vulgairewoorden.txt").ToList();
         var wordsInText = Text.Split(' ');
+        var regex = new Regex("[^a-zA-Z]");
         foreach (var word in wordsInText)
         {
-            if (vulgarWords.Contains(word.ToLower()))
+            var cleanedWord = regex.Replace(word, "").ToLower();
+            if (vulgarWords.Contains(cleanedWord))
             {
                 string errorMessage = "Geen vulgaire taal in text!!!";
                 errors.Add(new ValidationResult(errorMessage, new []{nameof(Text)}));
@@ -32,9 +35,10 @@ public class PostDto : IValidatableObject
         var wordsInTitle = Title.Split(' ');
         foreach (var word in wordsInTitle)
         {
-            if (vulgarWords.Contains(word.ToLower()))
+            var cleanedWord = regex.Replace(word, "").ToLower();
+            if (vulgarWords.Contains(cleanedWord))
             {
-                string errorMessage = "Geen vulgaire taal in titel!!!";
+                string errorMessage = "Geen vulgaire taal in title!!!";
                 errors.Add(new ValidationResult(errorMessage, new []{nameof(Title)}));
             }
         }

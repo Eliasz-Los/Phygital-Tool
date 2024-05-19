@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Themas;
