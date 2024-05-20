@@ -19,8 +19,6 @@ public interface IFeedbackRepository
     Task<PostLike> LikePost(long postId, Account account); 
 
     Task<PostLike> DislikePost(long postId, Account account);
-    Task<PostLike> DeletePostLike(long postId, long likeId);
-    
     Task<Reaction> CreateReactionToPostById(long postId, Reaction reaction, Account account);
     
     Task<PostLike> ReadDislikeByPostIdAndUserId(long postId, string currentAccountId);
@@ -29,4 +27,7 @@ public interface IFeedbackRepository
 
     Task<PostLike> ReadLikeByPostIdAndUserId(long postId, string currentAccountId);
     Task DeletePostLikeByPostId(long postId, string id);
+    Task<int> ReadLikesCountByPostId(long postId);
+    Task<int> ReadDislikesCountByPostId(long postId);
+    Task<IEnumerable<PostReaction>> ReadReactionsOfPostByPostId(long postId);
 }

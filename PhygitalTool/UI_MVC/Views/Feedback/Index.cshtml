@@ -12,7 +12,7 @@
     {
         var collapseId = $"collapseExample{post.Id}";
 
-        <div class="card spacing-top">
+        <div class="card spacing-top post" data-post-id="@post.Id">
             <div class="card-header">
                 <div class="row d-flex">
                     <div class="col d-flex">
@@ -47,28 +47,17 @@
                 <div class="row">
                     <div class="col d-flex">
                         <div class="col d-flex gap-2">
-                            <form asp-controller="Feedback" asp-action="LikePost" method="post">
-                                <input type="hidden" name="postId" value="@post.Id"/>
-                                <button type="submit" class="btn btn-success bi bi-hand-thumbs-up"> @post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsUp)</button>
-                            </form>
-
-                            <form asp-controller="Feedback" asp-action="DislikePost" method="post">
-                                <input type="hidden" name="postId" value="@post.Id"/>
-                                @*TODO: deze foreach is niet nodig, enkel de likeId moet meegegeven worden maar kan niet op andere manier lol*@
-                                @{
-                                    foreach (var postLike in post.PostLikes)
-                                    {
-                                        var likeId = postLike.Like.Id;
-                                        <input type="hidden" name="likeId" value="@likeId"/>
-                                    }
-                                }
-                                <button type="submit" class="btn btn-danger bi bi-hand-thumbs-down"> @post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsDown)</button>
-                            </form>
+                            <button type="submit" class="btn btn-success bi bi-hand-thumbs-up" id="likeButton_@post.Id" data-post-id="@post.Id">
+                                <span id="likeCount_@post.Id">@post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsUp)</span> @*@post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsUp)*@
+                            </button>
+                            <button type="submit" class="btn btn-danger bi bi-hand-thumbs-down" id="dislikeButton_@post.Id" data-post-id="@post.Id">
+                                <span id="dislikeCount_@post.Id">@post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsDown)</span> @*@post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsDown)*@
+                            </button>
                         </div>
 
                         <div class="col">
                             <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="False" aria-controls="@collapseId">
-                                Reacties: @post.PostReactions.Count
+                                Reacties: <span id="reactionCount_@post.Id">@post.PostReactions.Count</span>
                             </button>
                         </div>
                     </div>
@@ -78,32 +67,23 @@
                 <section class="collapse" id="@collapseId">
                     <div class="card card-body spacing-top">
 
-                        <form asp-controller="Feedback" asp-action="AddReaction" method="post">
-                            <input type="hidden" name="postId" value="@post.Id"/>
+                        <form id="reactionForm_@post.Id" method="post">
+                            <input type="hidden" name="postId" id="postIdForReactions_@post.Id" value="@post.Id"/>
                             <div class="input-group">
-                                <input asp-for="Reaction.Content" type="text" class="form-control" name="content"/>
+                                <input asp-for="Reaction.Content" type="text" class="form-control" name="content_@post.Id"/>
                                 <span asp-validation-for="Reaction.Content" class="text-danger"></span>
-                                <button type="submit" class="btn btn-primary bi bi-send"></button>
+                                <button type="submit" id="submitReaction_@post.Id" class="btn btn-primary bi bi-send"></button>
                             </div>
                         </form>
 
-                        @foreach (var reaction in post.PostReactions)
-                        {
-                            <div class="row d-flex spacing-top border">
-                                <div class="col-2 d-flex justify-content-start">
-                                    <p class="form-control">@reaction.Reaction.Account.Name</p>
-                                </div>
-                                <div class="col-8 d-flex justify-content-between">
-                                    <p>@reaction.Reaction.Content</p>
-                                </div>
-                                <div class="col-2 d-flex justify-content-end">
-                                    <p>@reaction.Timestamp</p>
-                                </div>
-                            </div>
-                        }
+                        <div id="listReactions_@post.Id"></div>
                     </div>
                 </section>
             </div>
         </div>
     }
+}
+
+@section Scripts {
+    <script src="~/dist/feedback.entry.js" defer></script>
 }

@@ -95,4 +95,19 @@ public class FeedbackManager : IFeedbackManager
     {
         await _feedbackRepository.DeletePostLikeByPostId(postId, id);
     }
+
+    public async Task<int> GetLikesCountByPostId(long postId)
+    {
+        return await _feedbackRepository.ReadLikesCountByPostId(postId);
+    }
+
+    public async Task<int> GetDislikesCountByPostId(long postId)
+    {
+        return await  _feedbackRepository.ReadDislikesCountByPostId(postId);
+    }
+
+    public async Task<IEnumerable<PostReaction>> GetReactionsOfPostByPostId(long postId)
+    {
+        return await _feedbackRepository.ReadReactionsOfPostByPostId(postId);
+    }
 }

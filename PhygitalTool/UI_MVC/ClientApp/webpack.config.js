@@ -15,6 +15,7 @@ module.exports = {
         endpage: './src/ts/Endpage/endpage.ts',
         questions: './src/ts/Questions/questions.ts',
         thema: './src/ts/Thema/thema.ts',
+        feedback: './src/ts/Feedback/feedback.ts',
         
     },
     output: {

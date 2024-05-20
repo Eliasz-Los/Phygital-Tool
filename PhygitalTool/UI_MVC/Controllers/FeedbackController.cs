@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
 using Phygital.Domain.User;
-using Phygital.UI_MVC.Models;
 using Phygital.UI_MVC.Models.Dto.Feedback;
 
 namespace Phygital.UI_MVC.Controllers;
@@ -14,13 +13,15 @@ public class FeedbackController : Controller
     private readonly IFeedbackManager _feedbackManager;
     private readonly IThemeManager _themeManager;
     private readonly UserManager<Account> _userManager;
+    private readonly ILogger<FeedbackController> _logger;
     
-    public FeedbackController(UnitOfWork uow, IFeedbackManager feedbackManager, IThemeManager themeManager, UserManager<Account> userManager)
+    public FeedbackController(UnitOfWork uow, IFeedbackManager feedbackManager, IThemeManager themeManager, UserManager<Account> userManager, ILogger<FeedbackController> logger)
     {
         _uow = uow;
         _feedbackManager = feedbackManager;
         _themeManager = themeManager;
         _userManager = userManager;
+        _logger = logger;
     }
     
     [HttpGet]
@@ -54,7 +55,11 @@ public class FeedbackController : Controller
         if (!ModelState.IsValid)
             return View();
 
-        var  currentAccount = _userManager.FindByNameAsync(User.Identity.Name).Result;
+        Account currentAccount = new Account();
+        if (User.Identity?.Name != null)
+        {
+            currentAccount =  _userManager.FindByNameAsync(User.Identity.Name).Result;
+        }
      
         _uow.BeginTransaction();
         _feedbackManager.AddPost(postDto.Title, postDto.Text, postDto.ThemeId, currentAccount);
@@ -70,6 +75,14 @@ public class FeedbackController : Controller
         ViewBag.Themes = themes;
         
         var post = await _feedbackManager.GetPostWithThemeByIdAsync(id);
+        Account user = new Account();
+        if (User.Identity?.Name != null)
+        {
+            user = await _userManager.FindByNameAsync(User.Identity.Name);
+        }
+        
+        if (post.Account.UserName != user?.UserName)
+            return Forbid();
         
         var postDto = new PostDto
         {
@@ -95,75 +108,31 @@ public class FeedbackController : Controller
     }
     
     [HttpPost]
-    [Authorize(Roles = "Admin, SubAdmin")]
-    public IActionResult Delete(long id)
-    {
-        _uow.BeginTransaction();
-        _feedbackManager.RemovePost(id);
-        _uow.Commit();
-        return RedirectToAction("Index", "Feedback");
-    }
-    
-    
-    [HttpPost]
     [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
-    public async  Task<IActionResult> LikePost(long postId)
+    public async Task<IActionResult> Delete(long id)
     {
-        var  currentAccount = _userManager.FindByNameAsync(User.Identity.Name).Result;
-        
-        _uow.BeginTransaction();
-        
-        //check if the user already DISLIKED the post
-        var existingDislike = await _feedbackManager.GetDislikeByPostIdAndUserId(postId, currentAccount.Id);
-        
-        if (existingDislike != null)
+        Account user = new Account();
+        if (User.Identity?.Name != null)
         {
-            //If they have remove the dislike
-            await _feedbackManager.RemovePostDislikeByPostId(postId, currentAccount.Id);
-        }
-        //Then add the like var result = 
-        await _feedbackManager.AddPostLikeByPostId(postId, currentAccount);
-        _uow.Commit();
-        
-        return RedirectToAction("Index", "Feedback");
-        
-    }
-    
-    [HttpPost]
-    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
-    public async Task<IActionResult> DislikePost(long postId)
-    {
-        var  currentAccount = _userManager.FindByNameAsync(User.Identity.Name).Result;
-        
-        _uow.BeginTransaction();
-        
-        //check if the user already LIKED the post
-        var existingDislike = await _feedbackManager.GetLikeByPostIdAndUserId(postId, currentAccount.Id);
-        
-        if (existingDislike != null)
-        {
-            //If they have remove the like
-            await _feedbackManager.RemovePostLikeByPostId(postId, currentAccount.Id);
+            user = await _userManager.FindByNameAsync(User.Identity.Name);
         }
         
-        await _feedbackManager.AddDislikePostByPostId(postId, currentAccount);
-        _uow.Commit();
+        var post = await _feedbackManager.GetPostWithThemeByIdAsync(id);
         
-      return RedirectToAction("Index", "Feedback");
-    }
-    
-    //Misschien is het beter om in aparte controller te zetten: api/feedback/{postId}/AddReaction
-    [HttpPost("{postId}/AddReaction")]
-    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
-    public async Task<IActionResult> AddReactionToPost(long postId, ReactionDto reactionDto)
-    {
-        if(!ModelState.IsValid)
-            return RedirectToAction("Index", "Feedback");
+        if (post == null)
+            return NotFound();
         
-        var  currentAccount = _userManager.FindByNameAsync(User.Identity.Name).Result;
+        if (user == null)
+            return Challenge();
+        
+        if (post.Account.UserName != user.UserName && !User.IsInRole("Admin") && !User.IsInRole("SubAdmin"))
+        {
+            _logger.LogInformation("Unauthorized user, {user} : {post}", user.UserName, post.Account.UserName);
+            return Forbid();
+        }
         
         _uow.BeginTransaction();
-        await _feedbackManager.AddReactionToPostById(postId, reactionDto.Content, currentAccount);
+         _feedbackManager.RemovePost(id);
         _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }
