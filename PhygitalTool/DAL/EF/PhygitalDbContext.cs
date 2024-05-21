@@ -91,9 +91,9 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
             {
                 string connectionString = "Host=" + Environment.GetEnvironmentVariable("DB_IP") + ";" +
                                           "Port=" + Environment.GetEnvironmentVariable("DB_PORT") + ";" +
+                                          "Database=" + Environment.GetEnvironmentVariable("DB_NAME") + ";" +
                                           "Username=" + Environment.GetEnvironmentVariable("DB_USER") + ";" +
-                                          "Password=" + Environment.GetEnvironmentVariable("DB_PASSWD") + ";" +
-                                          "Database=" + Environment.GetEnvironmentVariable("DB_NAME");
+                                          "Password=" + Environment.GetEnvironmentVariable("DB_PASSWD");
                 optionsBuilder.UseNpgsql(connectionString);
             }
             else

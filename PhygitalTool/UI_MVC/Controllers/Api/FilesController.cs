@@ -4,22 +4,22 @@ using Phygital.UI_MVC.Services;
 namespace Phygital.UI_MVC.Controllers.Api;
 
 [ApiController]
-[Route("/api/files")]
+[Route("/api/[controller]")]
 public class FilesController : ControllerBase
 {
-    private readonly CloudStorageService cloudStorageService;
+    private readonly CloudStorageService _cloudStorageService;
 
     public FilesController(CloudStorageService cloudStorageService)
     {
-        this.cloudStorageService = cloudStorageService;
+        _cloudStorageService = cloudStorageService;
     }
 
-    [HttpPost]
+    [HttpPost("UploadFile")]
     public IActionResult UploadFile(IFormFile file)
     {
         using var memoryStream = new MemoryStream();
         file.CopyTo(memoryStream);
-        var url = cloudStorageService.UploadFileToBucket(memoryStream);
+        var url = _cloudStorageService.UploadFileToBucket(memoryStream, file.FileName);
         return Ok(new { url });
     }
 }

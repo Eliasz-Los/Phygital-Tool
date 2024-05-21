@@ -11,7 +11,7 @@ async function uploadFile(): Promise<void> {
     const formData = new FormData(formElement);
 
     try {
-        const response = await fetch("/api/files", {
+        const response = await fetch("/api/files/UploadFile", {
             method: "POST",
             body: formData
         });

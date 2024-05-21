@@ -6,14 +6,15 @@ using Phygital.BL.Managers;
 using Phygital.DAL;
 using Phygital.DAL.EF;
 using Phygital.Domain.User;
+using Phygital.UI_MVC.Services;
 using FlowManager = Phygital.BL.Managers.FlowManager;
 
 var builder = WebApplication.CreateBuilder(args);
 // add environment variables
 builder.Configuration.AddEnvironmentVariables();
 string connectionString = "Host=" + Environment.GetEnvironmentVariable("DB_IP") + ";" +
-                          "Database=" + Environment.GetEnvironmentVariable("DB_NAME") + ";" +
                           "Port=" + Environment.GetEnvironmentVariable("DB_PORT") + ";" +
+                          "Database=" + Environment.GetEnvironmentVariable("DB_NAME") + ";" +
                           "Username=" + Environment.GetEnvironmentVariable("DB_USER") + ";" +
                           "Password=" + Environment.GetEnvironmentVariable("DB_PASSWD");
 Console.WriteLine(connectionString);
@@ -51,6 +52,7 @@ builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IStatisticsRepository, StatisticsRepository>();
 builder.Services.AddScoped<IStatisticsManager, StatisticsManager>();
 builder.Services.AddScoped<IUserManager, UserManager>();
+builder.Services.AddScoped<CloudStorageService>();
 
 // identity options (optimal)
 // builder.Services.Configure<IdentityOptions>(options =>

@@ -1,33 +1,29 @@
-﻿using Google.Cloud.Storage.V1;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Storage.V1;
 namespace Phygital.UI_MVC.Services;
 
 public class CloudStorageService
 {
     
+    /*
     private readonly string projectId;
-    private readonly string bucketName;
-
-    /// <summary>
-    /// Check the documentation:
-    ///   https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-8.0
-    /// </summary>
+            projectId = configuration["GCloud:ProjectId"];
+              "image/jpeg", // A very hardcoded MIME type ...
+    */
+    private readonly GoogleCredential _googleCredential;
+    private readonly StorageClient _storageClient;
+    private readonly string _bucketName;
+    
     public CloudStorageService(IConfiguration configuration)
     {
-        projectId = configuration["GCloud:ProjectId"];
-        bucketName = configuration["GCloud:Storage:BucketName"];
+        _googleCredential = GoogleCredential.FromFile("./secret.json");
+        _storageClient = StorageClient.Create(_googleCredential);
+        _bucketName = configuration["GCloud:Storage:BucketName"];
     }
-
-    /// <summary>
-    /// Check the sample code from Google:
-    ///   https://cloud.google.com/dotnet/docs/reference/Google.Cloud.Storage.V1/latest#sample-code
-    /// </summary>
-    public string UploadFileToBucket(MemoryStream memoryStream)
+    
+    public string UploadFileToBucket(MemoryStream memoryStream, string fileNameForStorage)
     {
-        var objectName = "a_very_hardcoded_object_name";
-        var client = StorageClient.Create();
-        var storageObject = client.UploadObject(bucketName, objectName,
-            "image/jpeg", // A very hardcoded MIME type ...
-            memoryStream);
+        var storageObject = _storageClient.UploadObject(_bucketName, fileNameForStorage, null, memoryStream);
         // TODO: IMPORTANT: store the url (MediaLink) somewhere ...
         return storageObject.MediaLink;
     }
