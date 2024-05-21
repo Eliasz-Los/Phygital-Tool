@@ -170,9 +170,56 @@ public class PhygitalInitializer
             Accounts = new List<Account>()
         };
 
+        // Create some Posts
+        var post1 = new Post
+        {
+            Title = "Nieuwe thema: Sport",
+            Text = "Ik denk dat thema rond sport een interessante onderwerp zou maken om aan jongeren te vragen.",
+            //Theme = th1,
+            Account = Eliasz
+        };
+        var post2 = new Post
+        { 
+            Title = "Uitgave", 
+            Text = "Wanneer zal de phygital tool uitkomen in Brussel?", // Theme = th2
+            Account = Josse
+        };
+
+        // Create some Reactions
+        var reaction1 = new Reaction { Content = "Klinkt als een goed idee eigenlijk!" , Account = Arthur};
+        var reaction2 = new Reaction { Content = "Waarschijnlijk eind juli", Account = Jonas};
+
+        // Create some Likes
+        var like1 = new Like {  Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
+        var like2 = new Like { Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
+
+        // Create some PostReactions
+        var postReaction1 = new PostReaction { Post = post1, Reaction = reaction1, Timestamp = DateTime.UtcNow };
+        var postReaction2 = new PostReaction { Post = post2, Reaction = reaction2, Timestamp = DateTime.UtcNow };
+
+        // Create some PostLikes
+        var postLike1 = new PostLike { Post = post1, Like = like1, Timestamp = DateTime.UtcNow};
+        var postLike2 = new PostLike { Post = post2, Like = like2, Timestamp = DateTime.UtcNow};
+        
+        
         //Adding account to organisations
         Organisation1.Accounts = new List<Account> { Arthur, Eliasz, Josse, Jonas, Willem, TestUser };
         Organisation2.Accounts = new List<Account> { adminPhygital, subAdmin, supervisor, user };
+
+        // Add to the Posts collection
+        context.Posts.AddRange(new Post[] { post1, post2 });
+
+        // Add to the Reactions collection
+        context.Reactions.AddRange(new Reaction[] { reaction1, reaction2 });
+
+        // Add to the Likes collection
+        context.Likes.AddRange(new Like[] { like1, like2 });
+
+        // Add to the PostReactions collection
+        context.PostReactions.AddRange(new PostReaction[] { postReaction1, postReaction2 });
+
+        // Add to the PostLikes collection
+        context.PostLikes.AddRange(new PostLike[] { postLike1, postLike2 });
         
         context.Organisations.AddRange(Organisation1, Organisation2);
         
@@ -468,31 +515,7 @@ public class PhygitalInitializer
             Flow = new Flow()
         };
 
-        // Create some Posts
-        var post1 = new Post
-        {
-            Title = "Nieuwe thema: Sport",
-            Text = "Ik denk dat thema rond sport een interessante onderwerp zou maken om aan jongeren te vragen.",
-            Theme = th1
-        };
-        var post2 = new Post
-            { Title = "Uitgave", Text = "Wanneer zal de phygital tool uitkomen in Brussel?", Theme = th2 };
-
-        // Create some Reactions
-        var reaction1 = new Reaction { Content = "Klinkt als een goed idee eigenlijk!" };
-        var reaction2 = new Reaction { Content = "Waarschijnlijk eind juli" };
-
-        // Create some Likes
-        var like1 = new Like { Reaction = reaction1, Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp };
-        var like2 = new Like { Reaction = reaction2, Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp };
-
-        // Create some PostReactions
-        var postReaction1 = new PostReaction { Post = post1, Reaction = reaction1, Timestamp = DateTime.UtcNow };
-        var postReaction2 = new PostReaction { Post = post2, Reaction = reaction2, Timestamp = DateTime.UtcNow };
-
-        // Create some PostLikes
-        var postLike1 = new PostLike { Post = post1, Like = like1, Timestamp = DateTime.UtcNow, IsLiked = true };
-        var postLike2 = new PostLike { Post = post2, Like = like2, Timestamp = DateTime.UtcNow, IsLiked = true };
+       
 
 
         // In the second part of the seed method we create the relations between the different classes
@@ -648,21 +671,6 @@ public class PhygitalInitializer
         // Adding participations
         context.Participations.Add(participation1);
         context.Participations.Add(participation2);
-
-        // Add to the Posts collection
-        context.Posts.AddRange(new Post[] { post1, post2 });
-
-        // Add to the Reactions collection
-        context.Reactions.AddRange(new Reaction[] { reaction1, reaction2 });
-
-        // Add to the Likes collection
-        context.Likes.AddRange(new Like[] { like1, like2 });
-
-        // Add to the PostReactions collection
-        context.PostReactions.AddRange(new PostReaction[] { postReaction1, postReaction2 });
-
-        // Add to the PostLikes collection
-        context.PostLikes.AddRange(new PostLike[] { postLike1, postLike2 });
 
 
         context.SaveChanges();

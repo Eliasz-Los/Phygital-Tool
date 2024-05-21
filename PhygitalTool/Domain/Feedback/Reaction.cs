@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 using Phygital.Domain.User;
 
 namespace Phygital.Domain.Feedback;
@@ -9,21 +10,25 @@ public class Reaction : IValidatableObject
     [Required(ErrorMessage = "Content is required.")]
     [MaxLength(1000, ErrorMessage = "Content is too long, max 1000 characters.")]
     public string Content { get; set; }
-    public ICollection<Like> Likes { get; set; }
     public ICollection<PostReaction> PostReactions { get; set; }
-    
-    // Link to the user who posted the reaction
-    //public Account Account { get; set; }
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    public Account Account { get; set; }
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
+        List<ValidationResult> errors = new List<ValidationResult>();
+        
         var vulgarWords = File.ReadAllLines("vulgairewoorden.txt").ToList();
-        var wordsInText = Content.Split(' ');
-        foreach (var word in wordsInText)
+        var wordsInContent = Content.Split(' ');
+        var regex = new Regex("[^a-zA-Z]");
+        foreach (var word in wordsInContent)
         {
-            if (vulgarWords.Contains(word.ToLower()))
+            var cleanedWord = regex.Replace(word, "").ToLower();
+            if (vulgarWords.Contains(cleanedWord))
             {
-                yield return new ValidationResult("Vulgar words are not allowed in the text.", new[] { nameof(Content) });
+                string errorMessage = "Geen vulgaire taal in text!!!";
+                errors.Add(new ValidationResult(errorMessage, new []{nameof(Content)}));
             }
         }
+        
+        return errors;
     }
 }

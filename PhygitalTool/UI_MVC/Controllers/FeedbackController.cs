@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
-using Phygital.BL.Managers;
+using Phygital.Domain.User;
 using Phygital.UI_MVC.Models.Dto.Feedback;
 
 namespace Phygital.UI_MVC.Controllers;
@@ -11,19 +12,23 @@ public class FeedbackController : Controller
     private readonly UnitOfWork _uow;
     private readonly IFeedbackManager _feedbackManager;
     private readonly IThemeManager _themeManager;
+    private readonly UserManager<Account> _userManager;
+    private readonly ILogger<FeedbackController> _logger;
     
-    public FeedbackController(UnitOfWork uow, IFeedbackManager feedbackManager, IThemeManager themeManager)
+    public FeedbackController(UnitOfWork uow, IFeedbackManager feedbackManager, IThemeManager themeManager, UserManager<Account> userManager, ILogger<FeedbackController> logger)
     {
         _uow = uow;
         _feedbackManager = feedbackManager;
         _themeManager = themeManager;
+        _userManager = userManager;
+        _logger = logger;
     }
     
     [HttpGet]
     [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
     public async Task<IActionResult> Index()
     {
-        var posts = await _feedbackManager.GetAllPostsWithReactionsAndLikes();
+        var posts = await _feedbackManager.GetAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes();
         var viewModel = new FeedbackViewModel
         {
             Posts = posts,
@@ -45,12 +50,19 @@ public class FeedbackController : Controller
     [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
     public IActionResult Add(PostDto postDto)
     {
-        if(!ModelState.IsValid)
+        var themes = _themeManager.GetAllThemas();
+        ViewBag.Themes = themes;
+        if (!ModelState.IsValid)
             return View();
-        
-       
+
+        Account currentAccount = new Account();
+        if (User.Identity?.Name != null)
+        {
+            currentAccount =  _userManager.FindByNameAsync(User.Identity.Name).Result;
+        }
+     
         _uow.BeginTransaction();
-        _feedbackManager.AddPost(postDto.Title, postDto.Text, postDto.ThemeId);
+        _feedbackManager.AddPost(postDto.Title, postDto.Text, postDto.ThemeId, currentAccount);
         _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }
@@ -63,6 +75,15 @@ public class FeedbackController : Controller
         ViewBag.Themes = themes;
         
         var post = await _feedbackManager.GetPostWithThemeByIdAsync(id);
+        Account user = new Account();
+        if (User.Identity?.Name != null)
+        {
+            user = await _userManager.FindByNameAsync(User.Identity.Name);
+        }
+        
+        if (post.Account.UserName != user?.UserName)
+            return Forbid();
+        
         var postDto = new PostDto
         {
             Title = post.Title,
@@ -87,47 +108,31 @@ public class FeedbackController : Controller
     }
     
     [HttpPost]
-    [Authorize(Roles = "Admin, SubAdmin")]
-    public IActionResult Delete(long id)
-    {
-        _uow.BeginTransaction();
-        _feedbackManager.RemovePost(id);
-        _uow.Commit();
-        return RedirectToAction("Index", "Feedback");
-    }
-    
-    
-    [HttpPost]
     [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
-    public async  Task<IActionResult> LikePost(long postId)
+    public async Task<IActionResult> Delete(long id)
     {
-        _uow.BeginTransaction();
-        await _feedbackManager.AddPostLikeByPostId(postId);
-        _uow.Commit();
-        return RedirectToAction("Index", "Feedback");
-    }
-    
-    [HttpPost]
-    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
-    public async Task<IActionResult> DislikePost(long postId)
-    {
-        _uow.BeginTransaction();
-        await _feedbackManager.AddDislikePostByPostId(postId);
-        _uow.Commit();
-        return RedirectToAction("Index", "Feedback");
-    }
-    
-    //Misschien is het beter om in aparte controller te zetten: api/feedback/{postId}/AddReaction
-    [HttpPost("{postId}/AddReaction")]
-    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
-    public async Task<IActionResult> AddReaction(long postId, ReactionDto reactionDto)
-    {
-        if(!ModelState.IsValid)
-            return RedirectToAction("Index", "Feedback");
+        Account user = new Account();
+        if (User.Identity?.Name != null)
+        {
+            user = await _userManager.FindByNameAsync(User.Identity.Name);
+        }
         
+        var post = await _feedbackManager.GetPostWithThemeByIdAsync(id);
+        
+        if (post == null)
+            return NotFound();
+        
+        if (user == null)
+            return Challenge();
+        
+        if (post.Account.UserName != user.UserName && !User.IsInRole("Admin") && !User.IsInRole("SubAdmin"))
+        {
+            _logger.LogInformation("Unauthorized user, {user} : {post}", user.UserName, post.Account.UserName);
+            return Forbid();
+        }
         
         _uow.BeginTransaction();
-        await _feedbackManager.AddReactionToPostById(postId, reactionDto.Content);
+         _feedbackManager.RemovePost(id);
         _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }
