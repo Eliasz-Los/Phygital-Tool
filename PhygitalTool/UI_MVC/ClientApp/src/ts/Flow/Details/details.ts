@@ -10,6 +10,8 @@ import {
     sendAnswers
 } from './detailsRest';
 
+
+
 // elementen ophalen
 const flowIdElement: HTMLElement | null = document.getElementById("flowId");
 const flowId: number = flowIdElement ? parseInt(flowIdElement.innerText) : 0;
@@ -32,7 +34,6 @@ declare global {
     }
 }
 
-//TODO:progrss bar
 
 window.totalQuestions = 0;
 let firstQuestion: boolean = true;
@@ -43,6 +44,39 @@ window.currentQuestionNumber = 1;
 let currentQuestion: number = 1;*/
 
 //Functies
+
+// export function setUpQrCode(): void {
+//     const uriElement = document.getElementById("qrCodeData");
+//     const uri: string | null = uriElement ? uriElement.getAttribute('data-url') : null;
+//     const qrCode = new QRCodeStyling({
+//         width: 400,
+//         height: 400,
+//         type: "svg",
+//         data: uri,
+//         dotsOptions: {
+//             color: "#000000",
+//             type: "rounded"
+//         },
+//         backgroundOptions: {
+//             color: "#e9ebee",
+//         },
+//         imageOptions: {
+//             crossOrigin: "anonymous",
+//             imageSize: 1,
+//             hideBackgroundDots: false,
+//             margin: 2
+//         }
+//     });
+//
+//     const qrCodeElement = document.getElementById("qrCode");
+//     if (qrCodeElement) {
+//         qrCode.append(qrCodeElement);
+//     }
+// }
+
+
+
+
 export async function getSingleChoiceQuestionData() {
      await readSingleChoiceQuestionData(flowId)
         .then(singleChoiceQuestions => {
@@ -101,7 +135,6 @@ export async function getOpenQuestionsData() {
             console.error(error);
         });
 }
-//TODO: fix range question updateLablel
 export async function getRangeQuestionsData() {
     await readRangeQuestionsData(flowId)
         .then(rangeQuestions => {
@@ -166,7 +199,6 @@ export async function getMultipleChoiceQuestionsData() {
         });
 }
 
-//TODO: fix infoAccordion it looks fucked up
 export async function getTextData() {
     await readTextData(flowId)
         .then(textInfos => {
