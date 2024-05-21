@@ -6,6 +6,7 @@ module.exports = {
         site: './src/ts/site.ts',
         validation: './src/ts/Common/validation.ts',
         charts: './src/ts/Statistic/charts.ts',
+        statistics: './src/ts/Statistic/statistics.ts',
         data: './src/ts/Statistic/dataFileMaker.ts',
         details: './src/ts/Flow/Details/details.ts',
         linear: './src/ts/Flow/Details/linear.ts',
@@ -15,7 +16,7 @@ module.exports = {
         endpage: './src/ts/Endpage/endpage.ts',
         questions: './src/ts/Questions/questions.ts',
         thema: './src/ts/Thema/thema.ts',
-        feedback: './src/ts/Feedback/feedback.ts',
+        organisation: './src/ts/Organisation/organisation.ts',
         
     },
     output: {

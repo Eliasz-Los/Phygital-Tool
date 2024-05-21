@@ -7472,7 +7472,6 @@ window.updateLabel = function (input, labelId) {
         label.textContent = input.getAttribute(`data-option-${input.value}`);
     }
 };
-//TODO:progrss bar
 window.totalQuestions = 0;
 let firstQuestion = true;
 let totalInformations = 0;
@@ -7481,6 +7480,34 @@ window.currentQuestionNumber = 1;
 /*let totalQuestions: number = 0;
 let currentQuestion: number = 1;*/
 //Functies
+// export function setUpQrCode(): void {
+//     const uriElement = document.getElementById("qrCodeData");
+//     const uri: string | null = uriElement ? uriElement.getAttribute('data-url') : null;
+//     const qrCode = new QRCodeStyling({
+//         width: 400,
+//         height: 400,
+//         type: "svg",
+//         data: uri,
+//         dotsOptions: {
+//             color: "#000000",
+//             type: "rounded"
+//         },
+//         backgroundOptions: {
+//             color: "#e9ebee",
+//         },
+//         imageOptions: {
+//             crossOrigin: "anonymous",
+//             imageSize: 1,
+//             hideBackgroundDots: false,
+//             margin: 2
+//         }
+//     });
+//
+//     const qrCodeElement = document.getElementById("qrCode");
+//     if (qrCodeElement) {
+//         qrCode.append(qrCodeElement);
+//     }
+// }
 function getSingleChoiceQuestionData() {
     return __awaiter(this, void 0, void 0, function* () {
         yield (0,_detailsRest__WEBPACK_IMPORTED_MODULE_0__.readSingleChoiceQuestionData)(flowId)
@@ -7546,7 +7573,6 @@ function getOpenQuestionsData() {
         });
     });
 }
-//TODO: fix range question updateLablel
 function getRangeQuestionsData() {
     return __awaiter(this, void 0, void 0, function* () {
         yield (0,_detailsRest__WEBPACK_IMPORTED_MODULE_0__.readRangeQuestionsData)(flowId)
@@ -7616,7 +7642,6 @@ function getMultipleChoiceQuestionsData() {
         });
     });
 }
-//TODO: fix infoAccordion it looks fucked up
 function getTextData() {
     return __awaiter(this, void 0, void 0, function* () {
         yield (0,_detailsRest__WEBPACK_IMPORTED_MODULE_0__.readTextData)(flowId)
