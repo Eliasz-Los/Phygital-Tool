@@ -9,6 +9,14 @@ using Phygital.Domain.User;
 using FlowManager = Phygital.BL.Managers.FlowManager;
 
 var builder = WebApplication.CreateBuilder(args);
+// add environment variables
+builder.Configuration.AddEnvironmentVariables();
+string connectionString = "Host=" + Environment.GetEnvironmentVariable("DB_IP") + ";" +
+                          "Port=" + Environment.GetEnvironmentVariable("DB_PORT") + ";" +
+                          "Username=" + Environment.GetEnvironmentVariable("DB_USER") + ";" +
+                          "Password=" + Environment.GetEnvironmentVariable("DB_PASSWD") + ";" +
+                          "Database=" + Environment.GetEnvironmentVariable("DB_NAME");
+Console.WriteLine(connectionString);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

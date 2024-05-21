@@ -72,6 +72,31 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            if (environment == "Production")
+            {
+                string connectionString = "Host=" + Environment.GetEnvironmentVariable("DB_IP") + ";" +
+                                          "Port=" + Environment.GetEnvironmentVariable("DB_PORT") + ";" +
+                                          "Username=" + Environment.GetEnvironmentVariable("DB_USER") + ";" +
+                                          "Password=" + Environment.GetEnvironmentVariable("DB_PASSWD") + ";" +
+                                          "Database=" + Environment.GetEnvironmentVariable("DB_NAME");
+                optionsBuilder.UseNpgsql(connectionString);
+            }
+            else
+            {
+                var connectionString = _configuration.GetConnectionString("AppDbContextConnection");
+                optionsBuilder.UseNpgsql(connectionString);
+                optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
+            }
+        }
+        base.OnConfiguring(optionsBuilder);
+    }
+    
+    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
             if (!String.IsNullOrEmpty(_configuration.ToString()))
             {
                 optionsBuilder.UseNpgsql(_configuration.GetConnectionString("Phygital.db")); //connectionString:"Phygital.db" 
@@ -85,7 +110,7 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         }
         
         optionsBuilder.LogTo(message => Debug.WriteLine(message), LogLevel.Information);
-    }
+    }*/
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
