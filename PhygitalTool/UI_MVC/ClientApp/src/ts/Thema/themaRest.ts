@@ -1,4 +1,4 @@
-﻿async function addThemaData(themaObject: Thema): Promise<any> {
+﻿export async function addThemaData(themaObject: Theme): Promise<any> {
         const response = await fetch(`/api/Themas/AddSubThemas`, {
             method: "POST",
             body: JSON.stringify(themaObject),

@@ -1,3 +1,5 @@
+import {addThemaData} from "./themaRest";
+
 const addButton: HTMLElement | null = document.getElementById("submitThema");
 
 interface Thema {
