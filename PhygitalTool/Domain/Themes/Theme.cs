@@ -10,8 +10,9 @@ public class Theme : IValidatableObject
 {
     public long Id { get; set; }
     [Required]
-    [MinLength(3)]
+    [MaxLength(100)]
     public string Title { get; set; }
+    [MaxLength(250)]
     public string Description { get; set; }
     public ICollection<Theme> SubThemas { get; set; }
 

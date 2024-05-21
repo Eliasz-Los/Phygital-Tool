@@ -1,7 +1,5 @@
 ﻿using Phygital.Domain.Datatypes;
-using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Session;
-using Phygital.Domain.Subplatform;
 using Phygital.Domain.Themas;
 
 namespace Phygital.Domain.Questionsprocess;
@@ -25,8 +23,6 @@ public class Flow
     // A list of elements used in the flow
     public ICollection<FlowElement> FlowElements { get; set; }
     public ICollection<Answer> Answers { get; set; }
-
-    public Project Project { get; set; }
 
     // A Collection of the participations the flow has
     public ICollection<Participation> Participations { get; set; }
