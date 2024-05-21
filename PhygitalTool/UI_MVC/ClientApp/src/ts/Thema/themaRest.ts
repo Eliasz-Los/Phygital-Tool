@@ -13,4 +13,3 @@
         return await response.json();
 }
 
-//TODO: Het werkt nog niet ...
