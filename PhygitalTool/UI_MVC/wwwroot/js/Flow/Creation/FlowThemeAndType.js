@@ -63,4 +63,5 @@ function addFlow() {
 }
 
 document.getElementById("submitFlow").addEventListener("click", addFlow);
+// document.getElementById("getquestion").addEventListener("click", addFlow);
 fillSubthemesSelect();
