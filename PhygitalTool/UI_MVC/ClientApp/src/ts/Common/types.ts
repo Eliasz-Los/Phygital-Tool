@@ -36,6 +36,11 @@ interface Theme {
     description: string;
 }
 
+interface Organisation {
+    name: string;
+    description: string;
+}
+
 interface TextInfo {
     title: string;
     content: string;
