@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Options;
 using Phygital.BL;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.UI_MVC.Models.Dto;
@@ -35,6 +36,9 @@ public class QuestionsController : Controller
                 OptionText = option
             };
             optionlist.Add(optionToAdd);
+            _unitOfWork.BeginTransaction();
+            _flowElementManager.AddOption(optionToAdd);
+            _unitOfWork.Commit();
         }
         return Ok();
     }
@@ -59,18 +63,44 @@ public class QuestionsController : Controller
                 break;
 
             case "multiplechoice":
-                // TODO: Handle multiple choice questions
+                MultipleChoice multipleChoice = new MultipleChoice
+                {
+                    Text = questionDto.Text,
+                    Active = questionDto.isActive,
+                    Theme = _themeManager.GetThemeById(questionDto.SubTheme),
+                    Options = optionlist
+                };
+                _unitOfWork.BeginTransaction();
+                _flowElementManager.AddMultipleChoiceQuestion(multipleChoice);
+                _unitOfWork.Commit();
                 break;
 
             case "singlechoice":
-                // TODO: Handle single choice questions
+                SingleChoiceQuestion singleChoice = new SingleChoiceQuestion
+                {
+                    Text = questionDto.Text,
+                    Active = questionDto.isActive,
+                    Theme = _themeManager.GetThemeById(questionDto.SubTheme),
+                    Options = optionlist
+                };
+                _unitOfWork.BeginTransaction();
+                _flowElementManager.AddSingleChoiceQuestion(singleChoice);
+                _unitOfWork.Commit();
                 break;
 
             case "range":
-                // TODO: Handle range questions
+                RangeQuestion range = new RangeQuestion
+                {
+                    Text = questionDto.Text,
+                    Active = questionDto.isActive,
+                    Theme = _themeManager.GetThemeById(questionDto.SubTheme),
+                    Options = optionlist
+                };
+                _unitOfWork.BeginTransaction();
+                _flowElementManager.AddRangeQuestion(range);
+                _unitOfWork.Commit();
                 break;
         }
-
         optionlist.Clear();
         return Ok();
     }

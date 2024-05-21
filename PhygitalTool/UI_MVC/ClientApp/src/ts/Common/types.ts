@@ -69,3 +69,13 @@ interface AnswerObject {
     chosenAnswer: string;
     questionId: number;
 }
+
+//feedback.ts
+
+interface ReactionRead {
+    accountName: string;
+    content: string;
+}
+interface Reaction {
+    content: string;
+}

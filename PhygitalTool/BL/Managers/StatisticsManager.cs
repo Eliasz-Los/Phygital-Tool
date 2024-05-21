@@ -21,4 +21,9 @@ public class StatisticsManager : IStatisticsManager
     {
         return _statisticsRepository.GetFlowParticipantsStatistics(flowId);
     }
+    
+    public Dictionary<string, int> GetParticipationCountsByTimeSpentCategories(long flowId)
+    {
+        return _statisticsRepository.GetParticipationCountsByTimeSpentCategories(flowId);
+    }
 }
