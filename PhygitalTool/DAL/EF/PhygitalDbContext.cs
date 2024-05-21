@@ -63,15 +63,28 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
     }
     
     //Nieuwe constructor voor identity migration, miss niet de beste oplossing
-    public PhygitalDbContext() : this(new DbContextOptionsBuilder<PhygitalDbContext>().UseNpgsql("Host=localhost;Database=Phygital.db;Port=5001;Username=postgres;Password=postgres").Options,
+    /*public PhygitalDbContext() : this(new DbContextOptionsBuilder<PhygitalDbContext>()
+            .UseNpgsql("Host=localhost;Database=Phygital.db;Port=5001;Username=postgres;Password=postgres").Options,
         null)
     {
-    }
+    }*/
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        /*if (!optionsBuilder.IsConfigured)
+        {
+            string connectionString = "Host=" + Environment.GetEnvironmentVariable("DB_IP") + ";" +
+                                      "Database=" + Environment.GetEnvironmentVariable("DB_NAME") + ";" +
+                                      "Port=" + Environment.GetEnvironmentVariable("DB_PORT") + ";" +
+                                      "Username=" + Environment.GetEnvironmentVariable("DB_USER") + ";" +
+                                      "Password=" + Environment.GetEnvironmentVariable("DB_PASSWD");
+        
+            optionsBuilder.UseNpgsql(connectionString);
+        }*/
         if (!optionsBuilder.IsConfigured)
         {
+            
+            
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
             if (environment == "Production")
@@ -85,12 +98,14 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
             }
             else
             {
-                var connectionString = _configuration.GetConnectionString("AppDbContextConnection");
+                var connectionString = _configuration.GetConnectionString("Phygital.db");
                 optionsBuilder.UseNpgsql(connectionString);
                 optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
             }
         }
+        
         base.OnConfiguring(optionsBuilder);
+
     }
     
     /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

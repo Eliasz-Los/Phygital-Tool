@@ -12,10 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 // add environment variables
 builder.Configuration.AddEnvironmentVariables();
 string connectionString = "Host=" + Environment.GetEnvironmentVariable("DB_IP") + ";" +
+                          "Database=" + Environment.GetEnvironmentVariable("DB_NAME") + ";" +
                           "Port=" + Environment.GetEnvironmentVariable("DB_PORT") + ";" +
                           "Username=" + Environment.GetEnvironmentVariable("DB_USER") + ";" +
-                          "Password=" + Environment.GetEnvironmentVariable("DB_PASSWD") + ";" +
-                          "Database=" + Environment.GetEnvironmentVariable("DB_NAME");
+                          "Password=" + Environment.GetEnvironmentVariable("DB_PASSWD");
 Console.WriteLine(connectionString);
 
 // Add services to the container.
@@ -23,7 +23,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<PhygitalDbContext>(
-    o => o.UseNpgsql(builder.Configuration.GetConnectionString("Phygital.db")));
+    o => o.UseNpgsql(connectionString));
 
 builder.Services.AddDefaultIdentity<Account>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
