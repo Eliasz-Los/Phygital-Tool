@@ -1,23 +1,13 @@
-﻿type SubTheme = {
+﻿import { tableData, deleteSubtheme } from './themaListRest';
+type SubTheme = {
     description: string;
     title: string;
     id: string;
 };
-
 async function fillSubthemesTable(): Promise<void> {
     try {
-        const response = await fetch(`/api/Themas/subthemas`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        });
+        const subThemas: SubTheme[] = await tableData();
 
-        if (response.status !== 200) {
-            throw new Error("Something went wrong in the backend subthemas, check the console for more details!");
-        }
-
-        const subThemas: SubTheme[] = await response.json();
         let output = document.querySelector("#SubthemaTable");
         let bodyData = ``;
 
@@ -34,10 +24,8 @@ async function fillSubthemesTable(): Promise<void> {
             output.innerHTML += bodyData;
         }
 
-        // Select all delete icons
         const deleteIcons = document.querySelectorAll(".deleteIcon");
 
-        // Iterate over delete icons and attach event listeners
         deleteIcons.forEach(function(this: HTMLElement) {
             this.addEventListener("click", function() {
                 let subThemaId = this.getAttribute("data-id");
@@ -50,24 +38,4 @@ async function fillSubthemesTable(): Promise<void> {
         console.error(error);
     }
 }
-
-async function deleteSubtheme(idTheme: string): Promise<void> {
-    try {
-        const response = await fetch("/api/Themas/deleteSubTheme/" + idTheme, {
-            method: 'DELETE'
-        });
-
-        // Check if deletion was successful
-        if (!response.ok) {
-            throw Error('Unable to DELETE the theme: ' + response.status + ' ' + response.statusText);
-        }
-
-        location.reload();
-        console.log("Deletion successful");
-    } catch (error) {
-        console.error("Error deleting theme:", error);
-        throw error;
-    }
-}
-
 fillSubthemesTable();

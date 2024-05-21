@@ -7,10 +7,8 @@ using Phygital.Domain.Feedback;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Session;
-using Phygital.Domain.Subplatform;
 using Phygital.Domain.Themas;
 using Phygital.Domain.User;
-using Version = Phygital.Domain.Subplatform.Version;
 using Microsoft.Extensions.Configuration;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
@@ -43,10 +41,6 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
     
     // Thema package
     public DbSet<Theme> Themas { get; set; }
-    
-    // Subplatform package
-    public DbSet<Project> Projects { get; set; }
-    public DbSet<Version> Versions { get; set; }
     
     // feedback package
     public DbSet<Post> Posts { get; set; }
@@ -94,7 +88,7 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         //////////////////////
         // Accounts package //
         //////////////////////
-        /// TODO: moet dit geen ACcount zijn??
+        /// TODO: moet dit geen Account zijn??
         modelBuilder.Entity<IdentityUser>().ToTable("Accounts").HasIndex(user => user.Id).IsUnique();
         modelBuilder.Entity<Organisation>().ToTable("Organisations").HasIndex(organisation =>  organisation.id).IsUnique();
         
@@ -190,12 +184,6 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         // Themes package //
         ////////////////////
         modelBuilder.Entity<Theme>().ToTable("Theme").HasIndex(thema => thema.Id).IsUnique();
-        
-        /////////////////////////
-        // Subplatform package //
-        /////////////////////////
-        modelBuilder.Entity<Project>().ToTable("Projects").HasIndex(project => project.Id).IsUnique();
-        modelBuilder.Entity<Version>().ToTable("Versions").HasIndex(version => version.Id).IsUnique();
         
         /////////////////////////
         // Feedback package    //
@@ -298,25 +286,6 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         modelBuilder.Entity<Option>()
             .HasOne(o => o.Answer)
             .WithMany(a => a.ChosenOptions);
-
-        
-        // Subplatform
-        modelBuilder.Entity<Project>()
-            .HasMany(p => p.Versions)
-            .WithOne(v => v.Project);
-
-        modelBuilder.Entity<Project>()
-            .HasMany(p => p.Flows)
-            .WithOne(f => f.Project);
-
-        modelBuilder.Entity<Flow>()
-            .HasOne(f => f.Project)
-            .WithMany(p => p.Flows);
-
-        modelBuilder.Entity<Version>()
-            .HasOne(v => v.Project)
-            .WithMany(p => p.Versions);
-        
         
         // Feedback 
         modelBuilder.Entity<Post>()

@@ -15,6 +15,7 @@ public class Answer
     public Theme SubTheme { get; set; }
     
     public ICollection<Option> ChosenOptions { get; set; }
+    [MaxLength(250)]
     public string ChosenAnswer { get; set; }
     
     // Link to the question
