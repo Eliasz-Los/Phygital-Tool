@@ -188,12 +188,6 @@ public class FeedbackRepository : IFeedbackRepository
             .Include( pr => pr.Reaction)
             .Where(pr => pr.Post.Id == postId && pr.Reaction.Id == reactionId)
             .FirstOrDefaultAsync();
-        /*var deleteReaction = await _dbContext.Reactions
-            .Include(r => r.PostReactions)
-            .ThenInclude( pr => pr.Post)
-            .Where(r => r.Id == reactionId && r.PostReactions.Any(pr => pr.Post.Id == postId))*/
-            
-        
          _dbContext.PostReactions.Remove(deleteReaction);
     }
 
