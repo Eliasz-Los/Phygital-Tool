@@ -10,6 +10,5 @@ import '../scss/site.scss';
 //TODO: alle entries Flow, Thema, Question, Statistis ... hierin importeren
 import 'chart.js';
 import 'xlsx';
-import QRCodeStyling from "qr-code-styling";
 
 console.log('site.ts loaded');

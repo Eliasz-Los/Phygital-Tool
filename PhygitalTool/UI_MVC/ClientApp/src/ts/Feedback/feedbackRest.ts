@@ -1,5 +1,4 @@
-import {types} from "sass";
-import Number = types.Number;
+
 
 export async function readReactions(postId: number): Promise<ReactionRead[]> {
     const response = await fetch(`/api/feedbacks/${postId}/Reactions`);
@@ -22,6 +21,16 @@ export async function createReaction(postId: number, reaction: Reaction): Promis
         throw new Error("Error creating reaction");
     }
     return await response.json();
+}
+
+export async function deleteReaction(postId: number, reactionId: number): Promise<void> {
+    const response = await fetch(`/api/feedbacks/${postId}/DeleteReaction/${reactionId}`, {
+        method: 'POST'
+    });
+    if (!response.ok) {
+       const error = await response.text();
+       throw {status: response.status, message: error.toString()};
+    }
 }
 
 export async function createLikePost(postId: number): Promise<{ likeCount: number, dislikeCount: number }> {

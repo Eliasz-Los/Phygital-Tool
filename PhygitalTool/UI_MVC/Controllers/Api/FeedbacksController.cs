@@ -14,12 +14,14 @@ public class FeedbacksController : ControllerBase
   private readonly IFeedbackManager _feedbackManager;
   private readonly UnitOfWork _uow;
   private readonly UserManager<Account> _userManager;
+  private readonly ILogger<FeedbacksController> _logger;
 
-  public FeedbacksController(IFeedbackManager feedbackManager, UnitOfWork uow, UserManager<Account> userManager)
+  public FeedbacksController(IFeedbackManager feedbackManager, UnitOfWork uow, UserManager<Account> userManager, ILogger<FeedbacksController> logger)
   {
     _feedbackManager = feedbackManager;
     _uow = uow;
     _userManager = userManager;
+    _logger = logger;
   }
   
   
@@ -35,6 +37,7 @@ public class FeedbacksController : ControllerBase
     
     return Ok(reactions.Select(r => new ReactionReadDto
     {
+      Id = r.Id,
       Content = r.Reaction.Content,
       AccountName = r.Reaction.Account.Name
     }));
@@ -52,7 +55,7 @@ public class FeedbacksController : ControllerBase
     }
     else
     {
-      return NotFound($"Post with id {postId} not found");
+      return NotFound($"User {currentAccount.Name} not found");
     }
     
     if(reactionDto == null)
@@ -67,6 +70,40 @@ public class FeedbacksController : ControllerBase
     var reactionsCount =  _feedbackManager.GetReactionsOfPostByPostId(postId).Result.Count();
     return Ok(reactionsCount);
   }
+  
+  [HttpPost("{postId}/DeleteReaction/{reactionId}")]
+  [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
+  public async Task<ActionResult> DeleteReaction(long postId, long reactionId)
+  {
+    
+    Account currentAccount = new Account();
+    if (User.Identity?.Name != null)
+    {
+      currentAccount = await _userManager.FindByNameAsync(User.Identity.Name);
+    }
+    else
+    {
+      return NotFound($"User {currentAccount.Name} not found");
+    }
+    var reaction = await _feedbackManager.GetReactionWithAccountById(reactionId);
+    
+    
+    if (reaction.Account.UserName != currentAccount?.UserName && !User.IsInRole("Admin") && !User.IsInRole("SubAdmin"))
+    {
+      _logger.LogError("Unauthorized user, {user} : {reaction}", currentAccount?.UserName, reaction.Account.UserName);
+      //ModelState.AddModelError("Forbidden", "Je mag niet andermans reacties verwijderen");
+      //return Forbid();
+      return StatusCode(StatusCodes.Status403Forbidden, "Je mag niet andermans reacties verwijderen");
+    }
+    
+    _uow.BeginTransaction();
+    await _feedbackManager.RemoveReactionToPostById(postId, reactionId);
+    _uow.Commit();
+    return Ok();
+  }
+ 
+  
+  
   
   [HttpPost("{postId}/LikePost")]
   [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]

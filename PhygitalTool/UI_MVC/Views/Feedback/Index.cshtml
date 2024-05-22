@@ -77,6 +77,7 @@
                         </form>
 
                         <div id="listReactions_@post.Id"></div>
+                        @Html.ValidationMessageFor(model => model.Reaction.Content)
                     </div>
                 </section>
             </div>

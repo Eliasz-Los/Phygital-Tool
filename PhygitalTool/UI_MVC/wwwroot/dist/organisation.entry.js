@@ -105,7 +105,7 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _organisationRest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./organisationRest */ "./src/ts/Organisation/organisationRest.ts");
 
-const submitButton = document.getElementById('submitOrg');
+const addButton = document.getElementById('submitOrg');
 function addOrganisatie() {
     const orgNameInput = document.getElementById('orgName');
     const orgDescriptionInput = document.getElementById('orgDescription');
@@ -125,9 +125,8 @@ function addOrganisatie() {
         });
     }
 }
-// Add event listener to the submit button
-if (submitButton) {
-    submitButton.addEventListener('click', addOrganisatie);
+if (addButton) {
+    addButton.addEventListener("click", addOrganisatie);
 }
 
 })();

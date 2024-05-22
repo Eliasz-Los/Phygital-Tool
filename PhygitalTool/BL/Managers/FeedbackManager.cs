@@ -15,9 +15,9 @@ public class FeedbackManager : IFeedbackManager
         _themeManager = themeManager;
     }
 
-    public async Task<Post> GetPostWithThemeByIdAsync(long id)
+    public async Task<Post> GetPostWithAccountAndWithThemeById(long id)
     {
-        return await _feedbackRepository.ReadPostWithThemeByIdAsync(id);
+        return await _feedbackRepository.ReadPostWithAccountAndWithThemeById(id);
     }
 
     public async Task<IEnumerable<Post>> GetAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes()
@@ -109,5 +109,15 @@ public class FeedbackManager : IFeedbackManager
     public async Task<IEnumerable<PostReaction>> GetReactionsOfPostByPostId(long postId)
     {
         return await _feedbackRepository.ReadReactionsOfPostByPostId(postId);
+    }
+
+    public async Task RemoveReactionToPostById(long postId, long reactionId)
+    {
+         await _feedbackRepository.DeleteReactionToPostById(postId, reactionId);
+    }
+
+    public async Task<Reaction> GetReactionWithAccountById(long reactionId)
+    {
+        return await _feedbackRepository.ReadReactionWithAccountById(reactionId);
     }
 }

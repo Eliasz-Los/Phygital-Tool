@@ -78,6 +78,7 @@ interface AnswerObject {
 //feedback.ts
 
 interface ReactionRead {
+    id: number;
     accountName: string;
     content: string;
 }
