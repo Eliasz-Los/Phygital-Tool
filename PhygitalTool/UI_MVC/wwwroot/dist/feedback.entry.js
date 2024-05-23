@@ -44,8 +44,8 @@ function createReaction(postId, reaction) {
             body: JSON.stringify(reaction)
         });
         if (!response.ok) {
-            console.error(JSON.stringify(reaction));
-            throw new Error("Error creating reaction");
+            const error = yield response.json();
+            throw { status: response.status, message: error };
         }
         return yield response.json();
     });
@@ -229,7 +229,12 @@ function sendReaction(postId) {
             }
         })
             .catch(error => {
-            console.error(error);
+            if (error.status === 400) {
+                alert(error.message.errors.Content[0]);
+            }
+            else {
+                console.error(error);
+            }
         });
         content.value = '';
     });

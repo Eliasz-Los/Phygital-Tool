@@ -17,8 +17,8 @@ export async function createReaction(postId: number, reaction: Reaction): Promis
         body: JSON.stringify(reaction)
     });
     if (!response.ok) {
-        console.error(JSON.stringify(reaction));
-        throw new Error("Error creating reaction");
+        const error = await response.json();
+        throw {status: response.status, message: error};
     }
     return await response.json();
 }
