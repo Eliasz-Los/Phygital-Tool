@@ -72,7 +72,7 @@ public class FeedbacksController : ControllerBase
     return Ok(reactionsCount);
   }
   
-  [HttpPost("{postId}/DeleteReaction/{reactionId}")]
+  [HttpDelete("{postId}/DeleteReaction/{reactionId}")]
   [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
   public async Task<ActionResult> DeleteReaction(long postId, long reactionId)
   {

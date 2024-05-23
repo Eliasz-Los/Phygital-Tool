@@ -53,7 +53,7 @@ function createReaction(postId, reaction) {
 function deleteReaction(postId, reactionId) {
     return __awaiter(this, void 0, void 0, function* () {
         const response = yield fetch(`/api/feedbacks/${postId}/DeleteReaction/${reactionId}`, {
-            method: 'POST'
+            method: 'DELETE'
         });
         if (!response.ok) {
             const error = yield response.text();
