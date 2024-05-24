@@ -6,7 +6,9 @@ namespace Phygital.Domain.Session;
 public class Session : IValidatableObject
 {
     public long Id { get; set; }
+    [Required(ErrorMessage = "StartDate is required.")]
     public DateTime StartDate { get; set; }
+    [Required(ErrorMessage = "EndDate is required.")]
     public DateTime EndDate { get; set; }
     public SessionType SessionType { get; set; }
     public Installation Installation { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Phygital.Domain.Questionsprocess;
+using Phygital.Domain.Questionsprocess.Infos;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Themas;
 

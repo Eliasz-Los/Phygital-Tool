@@ -1,5 +1,6 @@
 ﻿using Phygital.DAL;
 using Phygital.Domain.Questionsprocess;
+using Phygital.Domain.Questionsprocess.Infos;
 using Phygital.Domain.Questionsprocess.Questions;
 
 namespace Phygital.BL.Managers;
