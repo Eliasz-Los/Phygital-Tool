@@ -15131,8 +15131,9 @@ function createBarChart(chartId, labels, data) {
         }
     });
 }
-// Define the flowId
-let flowId = 1; // Replace this with the actual flowId
+// Get the flowId from the data-flow-id attribute of the body tag
+let flowIdElement = document.querySelector('body');
+let flowId = flowIdElement ? (flowIdElement.getAttribute('data-flow-id')) : 1;
 // Call the API endpoint to get the participation counts by time spent categories
 fetch(`/api/GetParticipationCountsByTimeSpentCategories?flowId=${flowId}`)
     .then(response => response.json())

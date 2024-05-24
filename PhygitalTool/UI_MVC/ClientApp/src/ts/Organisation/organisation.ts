@@ -1,35 +1,35 @@
-﻿function addOrganisatie() {
-    const orgName = document.getElementById('orgName') as HTMLInputElement;
-    const orgDescription = document.getElementById('orgDescription') as HTMLInputElement;
+﻿import {addOrganisationData} from "./organisationRest";
 
-    const orgObject = {
-        name: orgName.value,
-        description: orgDescription.value
-    };
+const addButton: HTMLElement | null = document.getElementById('submitOrg');
 
-    fetch('/api/Organisatie/AddOrganisatie', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(orgObject)
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Success:', data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+interface Organisation {
+    name: string;
+    description: string;
 }
 
-// Add event listener to the submit button
-const submitButton = document.getElementById('submitOrg');
-if (submitButton) {
-    submitButton.addEventListener('click', addOrganisatie);
+function addOrganisatie() {
+    const orgNameInput: HTMLInputElement | null = document.getElementById('orgName') as HTMLInputElement;
+    const orgDescriptionInput : HTMLInputElement | null = document.getElementById('orgDescription') as HTMLInputElement;
+
+    if (orgNameInput && orgDescriptionInput) {
+        const orgName: string = orgNameInput.value;
+        const orgDescription: string = orgDescriptionInput.value;
+
+        const orgObject: Organisation = {
+            name: orgName,
+            description: orgDescription
+        };
+
+        addOrganisationData(orgObject)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+}
+
+if (addButton) {
+    addButton.addEventListener("click", addOrganisatie);
 }

@@ -24,11 +24,10 @@ public class StatisticController : Controller
         var stats = _statisticsManager.GetFlowStatistics(id);
         var participations = _sessionManager.GetParticipationsByFlowId(id).OrderBy(p => p.Id);
         
+        ViewBag.FlowId = id;
         ViewBag.Participations = participations;
         ViewBag.TotalParticipations = _sessionManager.GetTotalParticipationsByFlowId(id);
         ViewBag.AverageTimeSpent = _sessionManager.GetAverageTimeSpentByFlowId(id);
-        
-        // ViewBag.ParticipationCountsByTimeSpentCategories = _statisticsManager.GetParticipationCountsByTimeSpentCategories(id);
         
         return View(stats);
     }

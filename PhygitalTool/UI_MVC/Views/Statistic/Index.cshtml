@@ -5,6 +5,7 @@
     ViewBag.Title = "Phygital";
     Layout = "_Layout";
 }
+<body data-flow-id="@ViewBag.FlowId">
 <h1>Statistics of Flow</h1>
 
 <nav aria-label="statistic-page">
@@ -53,16 +54,12 @@
         <div>Gemiddelde tijd:  @ViewBag.AverageTimeSpent.TotalMinutes minutes</div>
     </div>
     <div class="col-md-8">
-        <canvas id="participationChart">
-            
-        </canvas>
+        <canvas id="participationChart"></canvas>
     </div>
 </div>
 
-
-
-
 <section class="tab-content">
+    @* Plain data *@
     <section class="container tab-pane fade show active" id="plain-data">
         @foreach (var outerItem in Model)
         {
@@ -86,7 +83,8 @@
             </table>
         }
     </section>
-    
+
+    @* Charts *@
     <section class="container tab-pane fade" id="charts">
         <div class="row">
             @foreach (var outerItem in Model)
@@ -108,5 +106,6 @@
 {
     <script src="~/dist/charts.entry.js" defer></script>
     <script src="~/dist/data.entry.js" defer></script>
-    <script src="~/dist/statistic.entry.js" defer></script>
+    <script src="~/dist/statistics.entry.js" defer></script>
 }
+</body>

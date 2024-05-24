@@ -1,4 +1,4 @@
-import {createReaction, readReactions, createLikePost, createDislikePost} from "./feedbackRest";
+import {createReaction, readReactions, createLikePost, createDislikePost, deleteReaction} from "./feedbackRest";
 
 let posts = document.querySelectorAll('.post');
 const likeButtons = document.querySelectorAll('.bi-hand-thumbs-up');
@@ -9,21 +9,30 @@ const dislikeButtons = document.querySelectorAll('.bi-hand-thumbs-down');
             let bodyData =``;
             reactions.forEach(reaction => {
                 bodyData += `
-                <div class="row d-flex spacing-top border">
-                    <div class="col-2 d-flex justify-content-start">
-                        <p class="form-control">${reaction.accountName}</p>
-                    </div>
-                    <div class="col-8 d-flex justify-content-between">
-                        <p>${reaction.content}</p>
+                <div class="row d-flex spacing-top form-control">
+                    <div class="input-group gap-2">
+                        <div class="col-2 d-flex justify-content-start">
+                            <p class="form-control">${reaction.accountName}</p>
+                        </div>
+                        <div class="col-8 d-flex justify-content-between">
+                            <p class="form-control">${reaction.content}</p>
+                        </div>
+                        <div class="col ">
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-danger bi bi-trash" id="${reaction.id}"></button>
+                            </div>
+                        </div>
                     </div>
                 </div>`;
             })
+           
             let reactionList = document.getElementById(`listReactions_${postId}`) as HTMLElement;
             if(reactionList){
                 reactionList.innerHTML = bodyData;
             }else{
                 console.log(`reactionList for post ${postId} is null`);
             }
+            removeReaction(postId, reactions);
         })
         .catch(error => {
             console.error(error);
@@ -61,9 +70,43 @@ const dislikeButtons = document.querySelectorAll('.bi-hand-thumbs-down');
            
         })
         .catch(error => {
-            console.error(error);
+            if(error.status === 400) {
+                alert(error.message.errors.Content[0]);
+            }else{
+                console.error(error);
+            }
         });
    content.value = '';
+}
+
+async function removeReaction(postId: number, reactions: ReactionRead[]){
+  reactions.forEach(reaction => {
+      const deleteButton = document.getElementById(`${reaction.id}`) as HTMLButtonElement;
+      if(deleteButton){
+          deleteButton.addEventListener('click', async (event) => {
+              event.preventDefault();
+              await deleteReaction(postId, reaction.id)
+                  .then(() => {
+                    console.log(`Reaction ${reaction.id} deleted`);
+                    //todo: update reaction count in UI realtime => shouldn't go under 0
+                      let reactionCountElement = document.getElementById(`reactionCount_${postId}`);
+                      if(reactionCountElement !== null){
+                          let currentCount = parseInt(reactionCountElement.innerText);
+                          console.log(currentCount);
+                          reactionCountElement.innerText = (currentCount - 1).toString();
+                      }
+                      getReactionsOfPost(postId);
+                  })
+                  .catch(error => {
+                      if (error.status === 403) {
+                          alert('Je mag niet andermans reacties verwijderen');
+                      }else{
+                          console.error(error);
+                      }
+                  });
+          });
+      }
+  });
 }
 
 async function handlePostLikes(){
@@ -96,6 +139,36 @@ async function handlePostLikes(){
     
     });
 }
+
+async function handleReactionLikes(){
+    const likeButtons = document.querySelectorAll('.reaction-like-button');
+    likeButtons.forEach(button => {
+        button.addEventListener('click', async (event) => {
+            const reactionId = button.getAttribute('data-reaction-id');
+            event.preventDefault();
+            if (reactionId !== null){
+                (button as HTMLButtonElement).disabled = true;
+                await fetch(`/api/feedbacks/${reactionId}/LikeReaction`, {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log(`Reaction ${reactionId} liked`);
+                    const { likeCount, dislikeCount } = result;
+                    const likeCountElement = document.getElementById(`likeCount_${reactionId}`);
+                    const dislikeCountElement = document.getElementById(`dislikeCount_${reactionId}`);
+                    if (likeCountElement !== null && dislikeCountElement !== null) {
+                        likeCountElement.innerText = likeCount.toString();
+                        dislikeCountElement.innerText = dislikeCount.toString();
+                    }
+                })
+                .catch(error => console.error(error));
+                (button as HTMLButtonElement).disabled = false;
+            }
+        });
+    });
+}
+
 
 async function handlePostDislikes(){
     dislikeButtons.forEach(button => {

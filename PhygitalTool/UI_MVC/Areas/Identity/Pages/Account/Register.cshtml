@@ -30,6 +30,17 @@
                 <label asp-for="Input.LastName">Lastname</label>
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
+            
+            @if (User.Identity != null && !User.Identity.IsAuthenticated)
+            {
+                <div class="form-floating mb-3">
+                    <select asp-for="Input.Role" class="form-control">
+                        <option value="User">User</option>
+                    </select>
+                    <label asp-for="Input.Role">Role</label>
+                    <span asp-validation-for="Input.Role" class="text-danger"></span>
+                </div>
+            }
 
             @if (User.IsInRole("Admin"))
             {

@@ -2,8 +2,6 @@
 using Phygital.BL;
 using Phygital.Domain.Datatypes;
 using Phygital.Domain.Questionsprocess;
-using Phygital.Domain.Questionsprocess.Questions;
-using Phygital.Domain.Subplatform;
 using Phygital.Domain.Themas;
 using Phygital.UI_MVC.Models.Dto;
 
@@ -14,13 +12,11 @@ namespace Phygital.UI_MVC.Controllers.Api;
 public class ProjectsController : ControllerBase
 {
     private readonly IThemeManager _themeManager;
-    private readonly IProjectManager _projectManager;
     private readonly UnitOfWork _unitOfWork;
 
-    public ProjectsController(IThemeManager themeManager, IProjectManager projectManager, UnitOfWork unitOfWork)
+    public ProjectsController(IThemeManager themeManager, UnitOfWork unitOfWork)
     {
         _themeManager = themeManager;
-        _projectManager = projectManager;
         _unitOfWork = unitOfWork;
     }
 
@@ -72,19 +68,7 @@ public class ProjectsController : ControllerBase
             hulp.Description = subthema.Description;
             theme.SubThemas.Add(hulp);
         }
-
-        // Make the project
-        Project project = new Project
-        {
-            Name = name,
-            Flows = new List<Flow>()
-        };
         
-        // Add standard flow to project
-        _unitOfWork.BeginTransaction();
-        project.Flows.Add(flow);
-        _projectManager.AddProject(project);
-        _unitOfWork.Commit();
         return Ok();
     }
     

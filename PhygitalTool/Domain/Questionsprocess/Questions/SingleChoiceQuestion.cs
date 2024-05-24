@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Phygital.Domain.Themas;
+﻿using Phygital.Domain.Themas;
 
 namespace Phygital.Domain.Questionsprocess.Questions;
 
 public class SingleChoiceQuestion : Question
 {
-    //public long Id { get; set; }
     public Flow Flow { get; set; }
     public Theme SubTheme { get; set; }
     public string Text { get; set; }

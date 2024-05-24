@@ -1,11 +1,12 @@
 using Phygital.BL;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using Phygital.BL;
 using Phygital.BL.Managers;
 using Phygital.DAL;
 using Phygital.DAL.EF;
 using Phygital.Domain.User;
+using Phygital.UI_MVC.Services;
 using FlowManager = Phygital.BL.Managers.FlowManager;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,7 +27,6 @@ builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IFlowElementRepository, FlowElementRepository>();
 builder.Services.AddScoped<IFlowRepository, FlowRepository>();
 builder.Services.AddScoped<IPlatformRepository, PlatformRepository>();
-builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IThemeRepository, ThemeRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -36,7 +36,6 @@ builder.Services.AddScoped<IFeedbackManager, FeedbackManager>();
 builder.Services.AddScoped<IFlowElementManager, FlowElementManager>();
 builder.Services.AddScoped<IFlowManager, FlowManager>();
 builder.Services.AddScoped<IPlatformManager, PlatformManager>();
-builder.Services.AddScoped<IProjectManager, ProjectManager>();
 builder.Services.AddScoped<ISessionManager, SessionManager>();
 builder.Services.AddScoped<IThemeManager, ThemeManager>();
 builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
@@ -44,26 +43,7 @@ builder.Services.AddScoped<IStatisticsRepository, StatisticsRepository>();
 builder.Services.AddScoped<IStatisticsManager, StatisticsManager>();
 builder.Services.AddScoped<IUserManager, UserManager>();
 
-// identity options (optimal)
-// builder.Services.Configure<IdentityOptions>(options =>
-// {
-//     // Password settings.
-//     options.Password.RequireDigit = true;
-//     options.Password.RequireLowercase = true;
-//     options.Password.RequireNonAlphanumeric = true;
-//     options.Password.RequireUppercase = true;
-//     options.Password.RequiredLength = 6;
-//     options.Password.RequiredUniqueChars = 1;
-//
-//     // Lockout settings.
-//     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-//     options.Lockout.MaxFailedAccessAttempts = 5;
-//     options.Lockout.AllowedForNewUsers = true;
-//
-//     // User settings.
-//     options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-//     options.User.RequireUniqueEmail = false;
-// });
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 // cookies
 // builder.Services.ConfigureApplicationCookie(cfg =>
@@ -114,3 +94,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+public partial class Program{}

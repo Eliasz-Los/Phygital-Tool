@@ -36,6 +36,11 @@ interface Theme {
     description: string;
 }
 
+interface Organisation {
+    name: string;
+    description: string;
+}
+
 interface TextInfo {
     title: string;
     content: string;
@@ -73,6 +78,7 @@ interface AnswerObject {
 //feedback.ts
 
 interface ReactionRead {
+    id: number;
     accountName: string;
     content: string;
 }

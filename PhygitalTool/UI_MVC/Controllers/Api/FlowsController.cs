@@ -1,10 +1,8 @@
 ﻿using Phygital.BL;
 using Microsoft.AspNetCore.Mvc;
-using Phygital.BL;
 using Phygital.Domain.Datatypes;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
-using Phygital.Domain.Themas;
 using Phygital.UI_MVC.Models.Dto;
 using Phygital.UI_MVC.Models.Dto.Infos;
 

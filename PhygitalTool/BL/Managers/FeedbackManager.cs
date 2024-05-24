@@ -15,9 +15,9 @@ public class FeedbackManager : IFeedbackManager
         _themeManager = themeManager;
     }
 
-    public async Task<Post> GetPostWithThemeByIdAsync(long id)
+    public async Task<Post> GetPostWithAccountAndWithThemeById(long id)
     {
-        return await _feedbackRepository.ReadPostWithThemeByIdAsync(id);
+        return await _feedbackRepository.ReadPostWithAccountAndWithThemeById(id);
     }
 
     public async Task<IEnumerable<Post>> GetAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes()
@@ -109,5 +109,35 @@ public class FeedbackManager : IFeedbackManager
     public async Task<IEnumerable<PostReaction>> GetReactionsOfPostByPostId(long postId)
     {
         return await _feedbackRepository.ReadReactionsOfPostByPostId(postId);
+    }
+
+    public async Task RemoveReactionToPostById(long postId, long reactionId)
+    {
+         await _feedbackRepository.DeleteReactionToPostById(postId, reactionId);
+    }
+
+    public async Task<Reaction> GetReactionWithAccountById(long reactionId)
+    {
+        return await _feedbackRepository.ReadReactionWithAccountById(reactionId);
+    }
+
+    public async Task<ReactionLike> AddReactionLikeByReactionId(long reactionId, Account currentAccount)
+    {
+        return await _feedbackRepository.CreateReactionLikeByReactionId(reactionId, currentAccount);
+    }
+
+    public async Task<ReactionLike> AddReactionDisLikeByReactionId(long reactionId, Account currentAccount)
+    {
+        return await _feedbackRepository.CreateReactionDisLikeByReactionId(reactionId, currentAccount);
+    }
+
+    public async Task<int> GetLikesCountByReactionId(long reactionId)
+    {
+        return await _feedbackRepository.ReadLikesCountByReactionId(reactionId);
+    }
+
+    public async Task<int> GetDislikesCountByReactionId(long reactionId)
+    {
+        return await _feedbackRepository.ReadDislikesCountByReactionId(reactionId);
     }
 }

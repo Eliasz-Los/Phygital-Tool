@@ -21,7 +21,7 @@ public class FeedbackRepository : IFeedbackRepository
     }
 
     //todo: naming convention
-    public async Task<Post> ReadPostWithThemeByIdAsync(long id)
+    public async Task<Post> ReadPostWithAccountAndWithThemeById(long id)
     {
         return await _dbContext.Posts.Include(p => p.Account)
             .Include(p => p.Theme)
@@ -33,7 +33,6 @@ public class FeedbackRepository : IFeedbackRepository
         return _dbContext.Posts.Find(id);
     }
 
-    //TODO : too big method call, we gaan het opsplitsen nog in 2 delen: Posts en Likes
     public async Task<IEnumerable<Post>> ReadAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes()
     {
         var result = await _dbContext.Posts
@@ -110,6 +109,7 @@ public class FeedbackRepository : IFeedbackRepository
         return postLike;
     }
 
+    //TODO; has to go bye bye
     public async Task<PostLike> DeletePostLike(long postId, long likeId)
     {
         var postLike = await _dbContext.PostLikes
@@ -180,5 +180,52 @@ public class FeedbackRepository : IFeedbackRepository
             .ThenInclude(r => r.Account)
             .Where(pr => pr.Post.Id == postId)
             .ToListAsync();
+    }
+
+    public async Task DeleteReactionToPostById(long postId, long reactionId)
+    {
+        var deleteReaction = await _dbContext.PostReactions
+            .Include( pr => pr.Reaction)
+            .Where(pr => pr.Post.Id == postId && pr.Reaction.Id == reactionId)
+            .FirstOrDefaultAsync();
+         _dbContext.PostReactions.Remove(deleteReaction);
+    }
+
+    public async Task<Reaction> ReadReactionWithAccountById(long reactionId)
+    {
+        return await _dbContext.Reactions.Include(r => r.Account)
+            .Where(r => r.Id == reactionId)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<ReactionLike> CreateReactionLikeByReactionId(long reactionId, Account currentAccount)
+    {
+        var reaction = await _dbContext.Reactions.FindAsync(reactionId);
+        
+        var like = new Like { LikeType = LikeType.ThumbsUp, Account = currentAccount };
+        var reactionLike = new ReactionLike { Like = like, Reaction = reaction };
+         _dbContext.ReactionLikes.Add(reactionLike);
+         return reactionLike;
+    }
+
+    public async Task<ReactionLike> CreateReactionDisLikeByReactionId(long reactionId, Account currentAccount)
+    {
+        var reaction = await _dbContext.Reactions.FindAsync(reactionId);
+        var like = new Like { LikeType = LikeType.ThumbsDown, Account = currentAccount };
+        var reactionLike = new ReactionLike { Like = like, Reaction = reaction };
+        _dbContext.ReactionLikes.Add(reactionLike);
+        return reactionLike;
+    }
+
+    public async Task<int> ReadLikesCountByReactionId(long reactionId)
+    {
+        return await _dbContext.ReactionLikes.Where(l => l.Like.LikeType == LikeType.ThumbsUp && l.Reaction.Id == reactionId)
+            .CountAsync();
+    }
+
+    public async Task<int> ReadDislikesCountByReactionId(long reactionId)
+    {
+        return await _dbContext.ReactionLikes.Where(l => l.Like.LikeType == LikeType.ThumbsDown && l.Reaction.Id == reactionId)
+            .CountAsync();
     }
 }

@@ -1,7 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.RegularExpressions;
+﻿using System.ComponentModel.DataAnnotations;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Themas;
 
@@ -13,12 +10,10 @@ public class Answer
     public long Id { get; set; }
     public Flow Flow { get; set; }
     public Theme SubTheme { get; set; }
-    
     public ICollection<Option> ChosenOptions { get; set; }
+    [MaxLength(1000, ErrorMessage = "Text is too long, max 1000 characters.")]
     public string ChosenAnswer { get; set; }
-    
     // Link to the question
-    
     // Misschien mag dit weg omdat we nu de abstracte klasse gebruiken
     public OpenQuestion OpenQuestion { get; set; }
     public MultipleChoice MultipleChoice { get; set; }

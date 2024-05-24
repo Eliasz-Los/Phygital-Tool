@@ -1,7 +1,5 @@
 ﻿using Phygital.BL;
 using Microsoft.AspNetCore.Mvc;
-using Phygital.BL;
-using Phygital.DAL.EF;
 using Phygital.Domain.Themas;
 using Phygital.UI_MVC.Models.Dto;
 
