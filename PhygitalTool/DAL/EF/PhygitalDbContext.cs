@@ -89,8 +89,8 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         //////////////////////
         // Accounts package //
         //////////////////////
-        /// TODO: moet dit geen Account zijn??
-        modelBuilder.Entity<IdentityUser>().ToTable("Accounts").HasIndex(user => user.Id).IsUnique();
+      
+        modelBuilder.Entity<Account>().ToTable("Accounts").HasIndex(user => user.Id).IsUnique();
         modelBuilder.Entity<Organisation>().ToTable("Organisations").HasIndex(organisation =>  organisation.id).IsUnique();
         
         modelBuilder.Entity<Account>()

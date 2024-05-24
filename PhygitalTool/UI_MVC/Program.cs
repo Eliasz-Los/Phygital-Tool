@@ -1,10 +1,12 @@
 using Phygital.BL;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Phygital.BL.Managers;
 using Phygital.DAL;
 using Phygital.DAL.EF;
 using Phygital.Domain.User;
+using Phygital.UI_MVC.Services;
 using FlowManager = Phygital.BL.Managers.FlowManager;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +42,8 @@ builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IStatisticsRepository, StatisticsRepository>();
 builder.Services.AddScoped<IStatisticsManager, StatisticsManager>();
 builder.Services.AddScoped<IUserManager, UserManager>();
+
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 // cookies
 // builder.Services.ConfigureApplicationCookie(cfg =>
