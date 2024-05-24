@@ -1,16 +1,12 @@
-﻿<!-- This is the default page the user will see when they go to the phygital tool. This page displays 
-information about the question list and wether the user wants to continue -->
-@using System.Security.Cryptography
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
 @using Phygital.Domain.User
-@inject SignInManager<Account> SignInManager
 @inject UserManager<Account> UserManager
 
 @{
     ViewData["Title"] = "Home";
 }
 
-@if (!User.Identity.IsAuthenticated)
+@if (!User.Identity!.IsAuthenticated)
 {
     <div class="text-center">
         <h1>Phygital tool</h1>
@@ -22,7 +18,7 @@ information about the question list and wether the user wants to continue -->
 @if (User.IsInRole("Owner"))
 {
     <div class="row justify-content-center">
-        <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
+        <h1 class="text-center py-2">Welkom @((await UserManager.GetUserAsync(User))?.Name)</h1>
 
         <div class="col-4 py-2">
             <div class="card text-center">
@@ -56,7 +52,7 @@ information about the question list and wether the user wants to continue -->
 @if (User.IsInRole("Admin"))
 {
     <div class="row justify-content-center">
-        <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
+        <h1 class="text-center py-2">Welkom @((await UserManager.GetUserAsync(User))?.Name)</h1>
 
         <div class="col-4 py-2">
             <div class="card text-center">
@@ -108,7 +104,7 @@ information about the question list and wether the user wants to continue -->
 @if (User.IsInRole("SubAdmin"))
 {
     <div class="row">
-        <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
+        <h1 class="text-center py-2">Welkom @((await UserManager.GetUserAsync(User))?.Name)</h1>
 
         <div class="col-4 py-2">
             <div class="card text-center">
@@ -151,7 +147,7 @@ information about the question list and wether the user wants to continue -->
 @if (User.IsInRole("Supervisor"))
 {
     <div class="row justify-content-center">
-        <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
+        <h1 class="text-center py-2">Welkom @((await UserManager.GetUserAsync(User))?.Name)</h1>
 
         <div class="col-4 py-2">
             <div class="card text-center">
@@ -176,7 +172,7 @@ information about the question list and wether the user wants to continue -->
 @if (User.IsInRole("User"))
 {
     <div class="row justify-content-center">
-        <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
+        <h1 class="text-center py-2">Welkom @((await UserManager.GetUserAsync(User))?.Name)</h1>
 
         <div class="col-4 py-2">
             <div class="card text-center">
