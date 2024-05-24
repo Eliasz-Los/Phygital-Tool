@@ -19,12 +19,11 @@ information about the question list and wether the user wants to continue -->
     </div>
 }
 
-@if (User.IsInRole("Admin"))
+@if (User.IsInRole("Owner"))
 {
     <div class="row justify-content-center">
         <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
 
-        
         <div class="col-4 py-2">
             <div class="card text-center">
                 <h5 class="card-header">Overzicht organisaties</h5>
@@ -33,10 +32,62 @@ information about the question list and wether the user wants to continue -->
                 </div>
             </div>
         </div>
-        
+
         <div class="col-4 py-2">
             <div class="card text-center">
-                <h5 class="card-header">Voeg subadmin toe</h5>
+                <h5 class="card-header">Voeg admin toe</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Register">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Beheer je account</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Manage/Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (User.IsInRole("Admin"))
+{
+    <div class="row justify-content-center">
+        <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Overzicht flows</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Overzicht thema's</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Thema" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Overzicht werknemers</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Organisatie" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Voeg werknemers toe</h5>
                 <div class="card-body">
                     <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Register">Ga verder</a>
                 </div>
@@ -58,7 +109,7 @@ information about the question list and wether the user wants to continue -->
 {
     <div class="row">
         <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
-        
+
         <div class="col-4 py-2">
             <div class="card text-center">
                 <h5 class="card-header">Overzicht flows</h5>
@@ -79,26 +130,16 @@ information about the question list and wether the user wants to continue -->
 
         <div class="col-4 py-2">
             <div class="card text-center">
-                <h5 class="card-header">Beheer organisatie</h5>
-                @* TODO details page van organisatie to show all of the supervisors/subadmins *@
-                <div class="card-body">
-                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Organisatie" asp-action="Index">Ga verder</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-4 py-2">
-            <div class="card text-center">
                 <h5 class="card-header">Beheer je account</h5>
                 <div class="card-body">
                     <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Manage/Index">Ga verder</a>
                 </div>
             </div>
         </div>
-        
+
         <div class="col-4 py-2">
             <div class="card text-center">
-                <h5 class="card-header">Voeg supervisor toe</h5>
+                <h5 class="card-header">Voeg werknemers toe</h5>
                 <div class="card-body">
                     <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Register">Ga verder</a>
                 </div>
