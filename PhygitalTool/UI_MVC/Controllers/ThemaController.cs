@@ -92,7 +92,5 @@ public class ThemaController : Controller
             TempData["ErrorMessage"] = "Dit thema kan niet verwijderd worden want er is nog minstens 1 Flow aan gekoppeld. Verwijder of verander eerst de flow.";
             return RedirectToAction("Index");
         }
-
     }
-
 }

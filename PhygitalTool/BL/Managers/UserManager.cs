@@ -12,6 +12,16 @@ public class UserManager : IUserManager
         _userRepository = userRepository;
     }
 
+    public IEnumerable<Account> GetUsersByOrganisationId(long organisationId)
+    {
+        return _userRepository.ReadUsersByOrganisationId(organisationId);
+    }
+    
+    public void RemoveUser(long id)
+    {
+        _userRepository.DeleteUser(id);
+    }
+    
     public IEnumerable<Organisation> GetAllOrganisations()
     {
         return _userRepository.ReadAllOrganisations();

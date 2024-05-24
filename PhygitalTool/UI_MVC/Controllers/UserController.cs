@@ -19,10 +19,28 @@ public class UserController : Controller
     
     [HttpGet]
     [Authorize(Roles = "Admin")]
-    public IActionResult Index()
+    public IActionResult Index(long organisationId)
     {
-        // var users = _userManager.GetAllUsers();
-        // return View(users);
-        return View();
+        var users = _userManager.GetUsersByOrganisationId(organisationId);
+        return View(users);
+    }
+    
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public IActionResult Delete(long id)
+    {
+        try
+        {
+            _uow.BeginTransaction();
+            _userManager.RemoveUser(id);
+            _uow.Commit();
+            return RedirectToAction("Index");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error deleting theme with id {Id}", id);
+            TempData["ErrorMessage"] = "Deze user kan niet verwijderd worden.";
+            return RedirectToAction("Index");
+        }
     }
 }
