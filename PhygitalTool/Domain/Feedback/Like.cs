@@ -10,7 +10,4 @@ public class Like
     public LikeType LikeType { get; set; }
     public ICollection<PostLike> PostLikes { get; set; }
     public Account Account { get; set; }
-    
-   
-    
 }

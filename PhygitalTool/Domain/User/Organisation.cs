@@ -5,9 +5,11 @@ namespace Phygital.Domain.User;
 public class Organisation
 {
     public long id { get; set; }
-    [MinLength(3)]
+    [Required(ErrorMessage = "Title is required.")]
+    [MinLength(3, ErrorMessage = "Name is too short, min 3 characters.")]
     public string Name { get; set; }
-    [MaxLength(250)]
+    [Required]
+    [MaxLength(1000, ErrorMessage = "Text is too long, max 1000 characters.")]
     public string Description { get; set; }
     public ICollection<Account> Accounts { get; set; }
 }

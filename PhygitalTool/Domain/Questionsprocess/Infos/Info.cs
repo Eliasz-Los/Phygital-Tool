@@ -1,6 +1,6 @@
 ﻿using Phygital.Domain.Themas;
 
-namespace Phygital.Domain.Questionsprocess;
+namespace Phygital.Domain.Questionsprocess.Infos;
 
 public class Info : FlowElement
 {
