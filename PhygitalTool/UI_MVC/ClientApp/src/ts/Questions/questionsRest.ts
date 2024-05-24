@@ -45,11 +45,13 @@ export async function addQuestion(data: Question): Promise<void> {
         });
 
         if (response.ok) {
-            console.log('Question added successfully');
+            alert('Question added successfully');
         } else {
-            console.error('Failed to add question');
+            const errorMessage = await response.text();
+            alert(`Failed to add question. Server response: ${errorMessage}`);
         }
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error adding question:', error);
     }
 }
+
