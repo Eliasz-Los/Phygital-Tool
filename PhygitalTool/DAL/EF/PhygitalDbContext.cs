@@ -49,7 +49,7 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
     public DbSet<Like> Likes { get; set; }
     public DbSet<PostReaction> PostReactions { get; set; }
     public DbSet<PostLike> PostLikes { get; set; }
-
+    public DbSet<ReactionLike> ReactionLikes { get; set; }
     //om connection string uit te halen
     private readonly IConfiguration _configuration;
     public PhygitalDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
@@ -195,6 +195,7 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         modelBuilder.Entity<Like>().ToTable("Likes").HasIndex(like => like.Id).IsUnique();
         modelBuilder.Entity<PostReaction>().ToTable("PostReactions").HasIndex(postReaction => postReaction.Id).IsUnique();
         modelBuilder.Entity<PostLike>().ToTable("PostLikes").HasIndex(postLike => postLike.Id).IsUnique();
+        modelBuilder.Entity<ReactionLike>().ToTable("ReactionLikes").HasIndex(reactionLike => reactionLike.Id).IsUnique();
         
         // Relations
         //one flow has many flowelements 
@@ -318,6 +319,15 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
             .WithMany(r => r.PostReactions)
             .OnDelete(DeleteBehavior.Cascade);
         
+        modelBuilder.Entity<Reaction>()
+            .HasMany(r => r.PostReactions)
+            .WithOne(l => l.Reaction)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<PostReaction>()
+            .HasOne(pr => pr.Reaction)
+            .WithMany(r => r.PostReactions)
+            .OnDelete(DeleteBehavior.Cascade);
+        
         modelBuilder.Entity<Like>()
             .HasMany(l => l.PostLikes)
             .WithOne(pl => pl.Like)
@@ -325,6 +335,15 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         modelBuilder.Entity<PostLike>()
             .HasOne(pl => pl.Like)
             .WithMany(l => l.PostLikes)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Like>()
+            .HasMany(l => l.ReactionLikes)
+            .WithOne(rl => rl.Like)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<ReactionLike>()
+            .HasOne(rl => rl.Like)
+            .WithMany(l => l.ReactionLikes)
             .OnDelete(DeleteBehavior.Cascade);
 
 

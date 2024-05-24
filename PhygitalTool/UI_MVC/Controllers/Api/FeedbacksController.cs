@@ -102,6 +102,46 @@ public class FeedbacksController : ControllerBase
   }
  
   
+  [HttpPost("{reactionId}/LikeReaction")]
+  [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
+public async Task<IActionResult> LikeReaction(long reactionId)
+  {
+      Account currentAccount = new Account();
+      if (User.Identity?.Name != null)
+      {
+          currentAccount = await _userManager.FindByNameAsync(User.Identity.Name);
+      }        
+      _uow.BeginTransaction();
+          
+      await _feedbackManager.AddReactionLikeByReactionId(reactionId, currentAccount);
+      _uow.Commit();
+       
+      int likeCount = await _feedbackManager.GetLikesCountByReactionId(reactionId);
+      int dislikeCount = await _feedbackManager.GetDislikesCountByReactionId(reactionId);
+      
+      return Ok( new { likeCount, dislikeCount });
+  }
+  
+
+  [HttpPost("{reactionId}/DislikeReaction")]
+  [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
+  public async Task<IActionResult> DislikeReaction(long reactionId)
+  {
+    Account currentAccount = new Account();
+    if (User.Identity?.Name != null)
+    {
+      currentAccount = await _userManager.FindByNameAsync(User.Identity.Name);
+    }        
+    _uow.BeginTransaction();
+          
+    await _feedbackManager.AddReactionDisLikeByReactionId(reactionId, currentAccount);
+    _uow.Commit();
+       
+    int likeCount = await _feedbackManager.GetLikesCountByReactionId(reactionId);
+    int dislikeCount = await _feedbackManager.GetDislikesCountByReactionId(reactionId);
+      
+    return Ok( new { likeCount, dislikeCount });
+  }
   
   
   [HttpPost("{postId}/LikePost")]
