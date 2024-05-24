@@ -25,7 +25,7 @@ public class FeedbackController : Controller
     }
     
     [HttpGet]
-    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
+    [Authorize(Roles = "Owner, Admin, SubAdmin, Supervisor, User")]
     public async Task<IActionResult> Index()
     {
         var posts = await _feedbackManager.GetAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes();
@@ -38,7 +38,7 @@ public class FeedbackController : Controller
     }
     
     [HttpGet]
-    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
+    [Authorize(Roles = "Owner, Admin, SubAdmin, Supervisor, User")]
     public IActionResult Add()
     {
         var themes = _themeManager.GetAllThemas();
@@ -47,7 +47,7 @@ public class FeedbackController : Controller
     }
     
     [HttpPost]
-    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
+    [Authorize(Roles = "Owner, Admin, SubAdmin, Supervisor, User")]
     public IActionResult Add(PostDto postDto)
     {
         var themes = _themeManager.GetAllThemas();
@@ -68,7 +68,7 @@ public class FeedbackController : Controller
     }
     
     [HttpGet]
-    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
+    [Authorize(Roles = "Owner, Admin, SubAdmin, Supervisor, User")]
     public async Task<IActionResult> Edit(long id)
     {
         var themes = _themeManager.GetAllThemas();
@@ -94,7 +94,7 @@ public class FeedbackController : Controller
     }
     
     [HttpPost]
-    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
+    [Authorize(Roles = "Owner, Admin, SubAdmin, Supervisor, User")]
     public async Task<IActionResult> Edit(long id, PostDto postDto)
     {
         if (!ModelState.IsValid)
@@ -108,7 +108,7 @@ public class FeedbackController : Controller
     }
     
     [HttpPost]
-    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
+    [Authorize(Roles = "Owner, Admin, SubAdmin, Supervisor, User")]
     public async Task<IActionResult> Delete(long id)
     {
         Account user = new Account();

@@ -45,30 +45,6 @@ builder.Services.AddScoped<IUserManager, UserManager>();
 
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
-// cookies
-// builder.Services.ConfigureApplicationCookie(cfg =>
-// {
-//     cfg.Events.OnRedirectToLogin += ctx =>
-//     {
-//         if (ctx.Request.Path.StartsWithSegments("/api"))
-//         {
-//             ctx.Response.StatusCode = 401;
-//         }
-//
-//         return Task.CompletedTask;
-//     };
-//
-//     cfg.Events.OnRedirectToAccessDenied += ctx =>
-//     {
-//         if (ctx.Request.Path.StartsWithSegments("/api"))
-//         {
-//             ctx.Response.StatusCode = 403;
-//         }
-//
-//         return Task.CompletedTask;
-//     };
-// });
-
 var app = builder.Build();
 
 PhygitalInitializer.InitializeDatabaseAndSeedData(app.Services);
@@ -85,13 +61,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
-app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
-app.Run();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-public partial class Program{}

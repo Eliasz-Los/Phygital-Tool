@@ -19,7 +19,7 @@ public class OrganisatieController : Controller
     }
 
     [HttpGet]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Owner")]
     public IActionResult Index()
     {
         var organisations = _userManager.GetAllOrganisations();
@@ -27,14 +27,14 @@ public class OrganisatieController : Controller
     }
     
     [HttpGet]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Owner")]
     public IActionResult Add()
     {
         return View();
     }
     
     [HttpGet]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Owner")]
     public IActionResult Edit(long id)
     {
         var organisation = _userManager.GetOrganisationById(id);
@@ -49,7 +49,7 @@ public class OrganisatieController : Controller
 
 
     [HttpPost]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Owner")]
     public IActionResult Edit(long id, OrganisatieDto organisatie)
     {
         try
@@ -74,7 +74,7 @@ public class OrganisatieController : Controller
     }
     
     [HttpPost]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Owner")]
     public IActionResult Delete(long id)
     {
         try
