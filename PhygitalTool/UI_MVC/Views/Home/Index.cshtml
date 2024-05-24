@@ -18,12 +18,47 @@ information about the question list and wether the user wants to continue -->
     </div>
 }
 
+@if (User.IsInRole("User"))
+{
+    <div class="row justify-content-center">
+        <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Overzicht van flows</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Flow" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Feedback</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="" asp-controller="Feedback" asp-action="Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 py-2">
+            <div class="card text-center">
+                <h5 class="card-header">Beheer je account</h5>
+                <div class="card-body">
+                    <a type="button" class="btn btn-warning w-25" asp-area="Identity" asp-page="/Account/Manage/Index">Ga verder</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
 @if (User.IsInRole("Admin"))
 {
     <div class="row justify-content-center">
         <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
 
-        
+
         <div class="col-4 py-2">
             <div class="card text-center">
                 <h5 class="card-header">Overzicht organisaties</h5>
@@ -32,7 +67,7 @@ information about the question list and wether the user wants to continue -->
                 </div>
             </div>
         </div>
-        
+
         <div class="col-4 py-2">
             <div class="card text-center">
                 <h5 class="card-header">Voeg subadmin toe</h5>
@@ -57,7 +92,7 @@ information about the question list and wether the user wants to continue -->
 {
     <div class="row">
         <h1 class="text-center py-2">Welkom @UserManager.GetUserName(User)</h1>
-        
+
         <div class="col-4 py-2">
             <div class="card text-center">
                 <h5 class="card-header">Overzicht flows</h5>
@@ -94,7 +129,7 @@ information about the question list and wether the user wants to continue -->
                 </div>
             </div>
         </div>
-        
+
         <div class="col-4 py-2">
             <div class="card text-center">
                 <h5 class="card-header">Voeg supervisor toe</h5>
