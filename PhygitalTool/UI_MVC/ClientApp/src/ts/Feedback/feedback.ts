@@ -140,6 +140,36 @@ async function handlePostLikes(){
     });
 }
 
+async function handleReactionLikes(){
+    const likeButtons = document.querySelectorAll('.reaction-like-button');
+    likeButtons.forEach(button => {
+        button.addEventListener('click', async (event) => {
+            const reactionId = button.getAttribute('data-reaction-id');
+            event.preventDefault();
+            if (reactionId !== null){
+                (button as HTMLButtonElement).disabled = true;
+                await fetch(`/api/feedbacks/${reactionId}/LikeReaction`, {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log(`Reaction ${reactionId} liked`);
+                    const { likeCount, dislikeCount } = result;
+                    const likeCountElement = document.getElementById(`likeCount_${reactionId}`);
+                    const dislikeCountElement = document.getElementById(`dislikeCount_${reactionId}`);
+                    if (likeCountElement !== null && dislikeCountElement !== null) {
+                        likeCountElement.innerText = likeCount.toString();
+                        dislikeCountElement.innerText = dislikeCount.toString();
+                    }
+                })
+                .catch(error => console.error(error));
+                (button as HTMLButtonElement).disabled = false;
+            }
+        });
+    });
+}
+
+
 async function handlePostDislikes(){
     dislikeButtons.forEach(button => {
         button.addEventListener('click', async (event) => {

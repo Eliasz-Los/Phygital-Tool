@@ -33,4 +33,8 @@ public interface IFeedbackRepository
     
     Task DeleteReactionToPostById(long postId, long reactionId);
     Task<Reaction> ReadReactionWithAccountById(long reactionId);
+    Task<ReactionLike> CreateReactionLikeByReactionId(long reactionId, Account currentAccount);
+    Task<ReactionLike> CreateReactionDisLikeByReactionId(long reactionId, Account currentAccount);
+    Task<int> ReadLikesCountByReactionId(long reactionId);
+    Task<int> ReadDislikesCountByReactionId(long reactionId);
 }
