@@ -19,9 +19,12 @@ public class UserController : Controller
     
     [HttpGet]
     [Authorize(Roles = "Admin")]
-    public IActionResult Index(long organisationId)
+    public IActionResult Index()
     {
-        var users = _userManager.GetUsersByOrganisationId(organisationId);
+        var loggedInUserEmail = User.Identity.Name;
+        
+        var loggedInUser = _userManager.GetUserByEmail(loggedInUserEmail);
+        var users = _userManager.GetUsersByOrganisationId(loggedInUser.Organisation.id);
         return View(users);
     }
     

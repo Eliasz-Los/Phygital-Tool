@@ -1,38 +1,35 @@
-﻿@model @IEnumerable<Phygital.Domain.User.Account>
+﻿@model IEnumerable<Phygital.Domain.User.Account>
 
 @{
     ViewBag.Title = "Werknemers overzicht";
     Layout = "_Layout";
 }
-
-@model IEnumerable<Phygital.Domain.User.Account>
-
-<h1>Users of the Organisation</h1>
-
-<table class="table">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Lastname</th>
-        <th>Email</th>
-        <th>Verwijder</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var user in Model)
-    {
+<div>
+    <table class="table">
+        <thead>
         <tr>
-            <td>@user.Name</td>
-            <td>@user.LastName</td>
-            <td>@user.Email</td>
-            <td>
-                <form asp-controller="User" asp-action="Delete" asp-route-id="@user.Id" method="post">
-                    <button type="submit" class="btn btn-danger">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </form>
-            </td>
+            <th>Name</th>
+            <th>Lastname</th>
+            <th>Email</th>
+            <th>Verwijder</th>
         </tr>
-    }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Name</td>
+                <td>@user.LastName</td>
+                <td>@user.Email</td>
+                <td>
+                    <form asp-controller="User" asp-action="Delete" asp-route-id="@user.Id" method="post">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

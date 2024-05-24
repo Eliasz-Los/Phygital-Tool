@@ -22,6 +22,11 @@ public class UserManager : IUserManager
         _userRepository.DeleteUser(id);
     }
     
+    public Account GetUserByEmail(string email)
+    {
+        return _userRepository.ReadUserByEmail(email);
+    }
+    
     public IEnumerable<Organisation> GetAllOrganisations()
     {
         return _userRepository.ReadAllOrganisations();

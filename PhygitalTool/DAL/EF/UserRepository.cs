@@ -22,6 +22,11 @@ public class UserRepository : IUserRepository
         _dbContext.Users.Remove(userToDelete!);
     }
     
+    public Account ReadUserByEmail(string email)
+    {
+        return _dbContext.Users.FirstOrDefault(user => user.Email == email);
+    }
+    
     public IEnumerable<Organisation> ReadAllOrganisations()
     {
         return _dbContext.Organisations;

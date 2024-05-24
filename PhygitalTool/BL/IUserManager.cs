@@ -6,6 +6,7 @@ public interface IUserManager
 {
     IEnumerable<Account> GetUsersByOrganisationId(long organisationId);
     void RemoveUser(long id);
+    Account GetUserByEmail(string email);
     IEnumerable<Organisation> GetAllOrganisations();
     Organisation GetOrganisationById(long id);
     void ChangeOrganisation(long id, string name, string description);
