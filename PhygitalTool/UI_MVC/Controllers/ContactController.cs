@@ -16,7 +16,7 @@ public class ContactController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var email = _emailSender.SendEmailAsync("eliasz.los@student.kdg.be", "Test", "worked?");
+        var email = _emailSender.SendEmailAsync("arthur.linsen@student.kdg.be", "Test", "worked?");
         await email;
         _logger.LogInformation("Email sent: {email}", email.GetAwaiter().IsCompleted);
         return View(email);

@@ -1,7 +1,7 @@
-﻿using MailKit;
-using MailKit.Net.Smtp;
+﻿using SendGrid;
+using SendGrid.Helpers.Mail;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using MimeKit;
+
 
 namespace Phygital.UI_MVC.Services;
 
@@ -9,29 +9,21 @@ public class EmailSender : IEmailSender
 {
     public async Task SendEmailAsync(string email, string subject, string htmlMessage)
     {
-        var emailMsg = new MimeMessage();
-        emailMsg.From.Add(new MailboxAddress("Eliasz", "eliasz.los@student.kdg.be"));
-        emailMsg.To.Add(new MailboxAddress("Eliasz", email));
-        emailMsg.Subject = subject;
-        emailMsg.Body = new TextPart("html") {Text = htmlMessage};
-
-        using (var client = new SmtpClient( new ProtocolLogger("smtp.log")))
+        var apiKey = Environment.GetEnvironmentVariable("send_grid_api");
+        var client = new SendGridClient(apiKey);
+        var msg = new SendGridMessage()
         {
-            await client.ConnectAsync("smtp-mail.outlook.com", 587, false); //smtp-mail.outlook.com -- smtp.office365.com"
-            await client.AuthenticateAsync("eliasz.los@student.kdg.be", "password");
-            await client.SendAsync(emailMsg);
-            
-            await client.DisconnectAsync(true);
-        }
-
-        /*var client = new SmtpClient("smtp.office365.com")
-        {
-            UseDefaultCredentials = false,
-            Port = 465, //587 normaal correct voor TSL/STARTTLS maar 465 voor SSL
-            Credentials = new NetworkCredential("eliasz.los@student.kdg.be", "KdG4H75B"),
-            EnableSsl = true
+            From = new EmailAddress("eliasz.los@student.kdg.be", "eliasz"),
+            Subject = subject,
+            HtmlContent = htmlMessage,
         };
+        msg.AddTo(new EmailAddress(email, subject));
+        var response = await client.SendEmailAsync(msg);
 
-        return client.SendMailAsync(new MailMessage("eliasz.los@gmail.com", email, subject, htmlMessage) {IsBodyHtml = true});*/ //KdG4H75B
+// A success status code means SendGrid received the email request and will process it.
+// Errors can still occur when SendGrid tries to send the email. 
+// If email is not received, use this URL to debug: https://app.sendgrid.com/email_activity 
+        Console.WriteLine(response.IsSuccessStatusCode ? "Email queued successfully!" : "Something went wrong!");
+    
     }
 }
