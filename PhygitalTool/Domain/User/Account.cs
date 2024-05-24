@@ -6,11 +6,11 @@ namespace Phygital.Domain.User;
 
 public class Account : IdentityUser
 {
-    [Required(ErrorMessage = "Name is required.")]
-    [MinLength(3, ErrorMessage = "Name is too short, min 3 characters.")]
+    // [Required(ErrorMessage = "Name is required.")]
+    // [MinLength(3, ErrorMessage = "Name is too short, min 3 characters.")]
     public string Name { get; set; }
-    [Required(ErrorMessage = "Lastname is required.")]
-    [MinLength(3, ErrorMessage = "Lastname is too short, min 3 characters.")]
+    // [Required(ErrorMessage = "Lastname is required.")]
+    // [MinLength(3, ErrorMessage = "Lastname is too short, min 3 characters.")]
     public string LastName { get; set; }
     public Organisation Organisation { get; set; }
     public ICollection<Post> Posts { get; set; }
