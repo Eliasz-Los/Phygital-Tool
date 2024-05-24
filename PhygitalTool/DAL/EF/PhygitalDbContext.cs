@@ -10,6 +10,7 @@ using Phygital.Domain.Session;
 using Phygital.Domain.Themas;
 using Phygital.Domain.User;
 using Microsoft.Extensions.Configuration;
+using Phygital.Domain.Questionsprocess.Infos;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace Phygital.DAL.EF;

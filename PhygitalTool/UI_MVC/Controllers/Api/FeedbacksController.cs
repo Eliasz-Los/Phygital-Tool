@@ -57,11 +57,12 @@ public class FeedbacksController : ControllerBase
     {
       return NotFound($"User {currentAccount.Name} not found");
     }
-    
-    if(reactionDto == null)
+
+    if (!ModelState.IsValid)
     {
-      return NoContent();
+      return BadRequest(ModelState);
     }
+    
         
     _uow.BeginTransaction();
     await _feedbackManager.AddReactionToPostById(postId, reactionDto.Content, currentAccount);
@@ -71,7 +72,7 @@ public class FeedbacksController : ControllerBase
     return Ok(reactionsCount);
   }
   
-  [HttpPost("{postId}/DeleteReaction/{reactionId}")]
+  [HttpDelete("{postId}/DeleteReaction/{reactionId}")]
   [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
   public async Task<ActionResult> DeleteReaction(long postId, long reactionId)
   {
@@ -91,8 +92,6 @@ public class FeedbacksController : ControllerBase
     if (reaction.Account.UserName != currentAccount?.UserName && !User.IsInRole("Admin") && !User.IsInRole("SubAdmin"))
     {
       _logger.LogError("Unauthorized user, {user} : {reaction}", currentAccount?.UserName, reaction.Account.UserName);
-      //ModelState.AddModelError("Forbidden", "Je mag niet andermans reacties verwijderen");
-      //return Forbid();
       return StatusCode(StatusCodes.Status403Forbidden, "Je mag niet andermans reacties verwijderen");
     }
     

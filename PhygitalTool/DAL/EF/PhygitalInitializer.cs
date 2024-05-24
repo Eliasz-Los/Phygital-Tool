@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Phygital.Domain.Datatypes;
 using Phygital.Domain.Feedback;
 using Phygital.Domain.Questionsprocess;
+using Phygital.Domain.Questionsprocess.Infos;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Session;
 using Phygital.Domain.Themas;
@@ -268,7 +269,7 @@ public class PhygitalInitializer
             StartDate = new DateTime(2024, 5, 6).ToUniversalTime(),
             EndDate = new DateTime(2024, 7, 30).ToUniversalTime(),
             SessionType = SessionType.prive,
-            Installation = new Installation()
+            Installation = installation1
         };
 
         var session2 = new Session
@@ -276,8 +277,7 @@ public class PhygitalInitializer
             StartDate = new DateTime(2024, 5, 6).ToUniversalTime(),
             EndDate = new DateTime(2024, 7, 30).ToUniversalTime(),
             SessionType = SessionType.semipubliek,
-            Installation = new Installation(),
-            Participations = new List<Participation>()
+            Installation = installation1
         };
 
         var participation1 = new Participation
@@ -346,7 +346,8 @@ public class PhygitalInitializer
         var adminPhygital = new Account()
         {
             Email = "admin@phygital.be",
-            UserName = "admin@phygital.be", EmailConfirmed = true
+            UserName = "admin@phygital.be", EmailConfirmed = true,
+            Name = "Admin", LastName = "Admin"
         };
         await userManager.CreateAsync(adminPhygital, "Admin@01");
         await userManager.AddToRoleAsync(adminPhygital, CustomIdentityConstraints.AdminRole);
@@ -354,7 +355,8 @@ public class PhygitalInitializer
         var subAdmin = new Account()
         {
             Email = "subadmin@phygital.be",
-            UserName = "subadmin@phygital.be", EmailConfirmed = true
+            UserName = "subadmin@phygital.be", EmailConfirmed = true,
+            Name = "Subadmin", LastName = "Subadmin"
         };
         await userManager.CreateAsync(subAdmin, "Subadmin@01");
         await userManager.AddToRoleAsync(subAdmin, CustomIdentityConstraints.SubAdminRole);
@@ -362,7 +364,8 @@ public class PhygitalInitializer
         var supervisor = new Account()
         {
             Email = "supervisor@phygital.be",
-            UserName = "supervisor@phygital.be", EmailConfirmed = true
+            UserName = "supervisor@phygital.be", EmailConfirmed = true,
+            Name = "Supervisor", LastName = "Supervisor"
         };
         await userManager.CreateAsync(supervisor, "Supervisor@01");
         await userManager.AddToRoleAsync(supervisor, CustomIdentityConstraints.SupervisorRole);
@@ -370,7 +373,8 @@ public class PhygitalInitializer
         var user = new Account()
         {
             Email = "user@phygital.be",
-            UserName = "user@phygital.be", EmailConfirmed = true
+            UserName = "user@phygital.be", EmailConfirmed = true,
+            Name = "User", LastName = "User"
         };
         await userManager.CreateAsync(user, "User@01");
         await userManager.AddToRoleAsync(user, CustomIdentityConstraints.UserRole);

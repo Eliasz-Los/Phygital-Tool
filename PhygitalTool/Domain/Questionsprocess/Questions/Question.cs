@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Phygital.Domain.Datatypes;
-using Phygital.Domain.Themas;
+﻿using Phygital.Domain.Themas;
 
 namespace Phygital.Domain.Questionsprocess.Questions;
 

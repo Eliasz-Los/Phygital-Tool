@@ -70,7 +70,11 @@ const dislikeButtons = document.querySelectorAll('.bi-hand-thumbs-down');
            
         })
         .catch(error => {
-            console.error(error);
+            if(error.status === 400) {
+                alert(error.message.errors.Content[0]);
+            }else{
+                console.error(error);
+            }
         });
    content.value = '';
 }
