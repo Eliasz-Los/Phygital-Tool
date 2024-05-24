@@ -11,13 +11,12 @@ import {
 } from './detailsRest';
 
 
-
 // elementen ophalen
 const flowIdElement: HTMLElement | null = document.getElementById("flowId");
 const flowId: number = flowIdElement ? parseInt(flowIdElement.innerText) : 0;
-const questionsElement: HTMLElement | null  = document.getElementById("questions");
-const infoElements: HTMLElement | null  = document.getElementById("infoAccordion");
-const keys : string[] = ['Key1', 'Key2', 'Key3', 'Key4']; // voor keydown event
+const questionsElement: HTMLElement | null = document.getElementById("questions");
+const infoElements: HTMLElement | null = document.getElementById("infoAccordion");
+const keys: string[] = ['Key1', 'Key2', 'Key3', 'Key4']; // voor keydown event
 
 //Globale functies
 declare global {
@@ -36,9 +35,10 @@ declare global {
 
 
 window.totalQuestions = 0;
-let firstQuestion: boolean = true;
-let totalInformations: number = 0;
+let firstQuestion = true;
+let totalInformations = 0;
 window.currentQuestionNumber = 1;
+
 //typescript bs
 /*let totalQuestions: number = 0;
 let currentQuestion: number = 1;*/
@@ -75,10 +75,8 @@ let currentQuestion: number = 1;*/
 // }
 
 
-
-
 export async function getSingleChoiceQuestionData() {
-     await readSingleChoiceQuestionData(flowId)
+    await readSingleChoiceQuestionData(flowId)
         .then(singleChoiceQuestions => {
             let bodyData = ``;
             for (let i = 0; i < singleChoiceQuestions.length; i++) {
@@ -98,10 +96,10 @@ export async function getSingleChoiceQuestionData() {
             </div>
         </div>`
             }
-              if (questionsElement) {
-                    questionsElement.innerHTML += bodyData;
-                } else {
-                    console.error('Element with id "questions" not found');
+            if (questionsElement) {
+                questionsElement.innerHTML += bodyData;
+            } else {
+                console.error('Element with id "questions" not found');
             }
         }).catch(error => {
             console.error(error);
@@ -135,22 +133,23 @@ export async function getOpenQuestionsData() {
             console.error(error);
         });
 }
+
 export async function getRangeQuestionsData() {
     await readRangeQuestionsData(flowId)
         .then(rangeQuestions => {
             let bodyData = ``;
             for (let i = 0; i < rangeQuestions.length; i++) {
                 const rangeQuestion = rangeQuestions[i];
-                window.totalQuestions +=1;
+                window.totalQuestions += 1;
                 const isActive = firstQuestion ? 'active' : '';
                 if (firstQuestion) firstQuestion = false;
 
-                let options = rangeQuestion.options.map((option,index) => `data-option-${index}="${option}"`).join('')
+                let options = rangeQuestion.options.map((option, index) => `data-option-${index}="${option}"`).join('')
                 bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${rangeQuestion.sequenceNumber}" data-card-id="${rangeQuestion.id}">
             <div class="card-body">
                 <h5 class="card-title">${rangeQuestion.text}</h5>
                 <div class="form-group">
-                    <input type="range" class="form-control-range" id="formControlRange${i}" min="0" max="${rangeQuestion.options.length -1}" 
+                    <input type="range" class="form-control-range" id="formControlRange${i}" min="0" max="${rangeQuestion.options.length - 1}" 
                             ${options} oninput="updateLabel(this, 'rangeLabel${i}')"> <!--oninput="updateLabel(this, 'rangeLabel${i}')"-->
                     <label id="rangeLabel${i}" for="formControlRange${i}"></label>
                 </div>
@@ -173,7 +172,7 @@ export async function getMultipleChoiceQuestionsData() {
         .then(multipleChoiceQuestions => {
             let bodyData = ``;
             for (const multipleChoiceQuestion of multipleChoiceQuestions) {
-                window.totalQuestions +=1;
+                window.totalQuestions += 1;
                 const isActive = firstQuestion ? 'active' : '';
                 if (firstQuestion) firstQuestion = false;
                 bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${multipleChoiceQuestion.sequenceNumber}" data-card-id="${multipleChoiceQuestion.id}">
@@ -218,7 +217,7 @@ export async function getTextData() {
                         </div>
                     </div></div>`;
             }
-            
+
             if (infoElements) {
                 infoElements.innerHTML += bodyData;
             } else {
@@ -252,7 +251,7 @@ export async function getImageData() {
                     </div>
                     </div>`;
             }
-            
+
             if (infoElements) {
                 infoElements.innerHTML += bodyData;
             } else {
@@ -267,10 +266,10 @@ export async function getImageData() {
 export async function getVideoData() {
     await readVideoData(flowId)
         .then(videos => {
-        let bodyData = ``;
-        for (let i = 0; i < videos.length; i++) {
-            totalInformations++;
-            bodyData += `
+            let bodyData = ``;
+            for (let i = 0; i < videos.length; i++) {
+                totalInformations++;
+                bodyData += `
                         <div class="accordion-item">
                         <h2 class="accordion-header" id="heading${totalInformations}">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${totalInformations}" aria-expanded="true" aria-controls="collapse${totalInformations}">
@@ -285,64 +284,74 @@ export async function getVideoData() {
                         </div>
                     </div>
             </div>`;
-        }
-        if (infoElements) {
-            infoElements.innerHTML += bodyData;
-        } else {
-            console.error('Element with id "infoAccordion" not found');
-        }
-    })
+            }
+            if (infoElements) {
+                infoElements.innerHTML += bodyData;
+            } else {
+                console.error('Element with id "infoAccordion" not found');
+            }
+        })
         .catch(error => {
             console.log(error)
         });
 }
 
 
-
 export function getAnswers(): Answer[] {
     const answers: Answer[] = [];
     const carouselItems = document.querySelectorAll('.carousel-item');
 
-    carouselItems.forEach((item, index) => {
-        const questionText = item.querySelector('.card-title')?.textContent || '';
-        const questionId: number = Number(item.getAttribute('data-card-id') || '');
-        const answer: Answer = { question: questionText, chosenOptions: [], openAnswer: '', id: questionId };
+    // Get aantal users
+    const rangeInput = document.getElementById('rangeInput') as HTMLInputElement;
+    const submitButton = document.getElementById('submitButton');
 
-        const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
-        checkboxes.forEach(checkbox => {
-            answer.chosenOptions.push(checkbox.id);
-        });
+    submitButton?.addEventListener('click', function () {
+        const userCount = parseInt(rangeInput.value);
 
-        const textarea = item.querySelector('textarea');
-        if (textarea) {
-            answer.openAnswer = textarea.value;
-        }
+        carouselItems.forEach((item, index) => {
+            const questionText = item.querySelector('.card-title')?.textContent || '';
+            const questionId: number = Number(item.getAttribute('data-card-id') || '');
 
-        const radioButtons = item.querySelectorAll('input[type="radio"]:checked');
-        radioButtons.forEach(radioButton => {
-            if ((radioButton as HTMLInputElement).checked) {
-                answer.chosenOptions.push((radioButton as HTMLInputElement).value);
+            // Repeat the answer collection process for the number of users
+            for (let i = 0; i < userCount; i++) {
+                const answer: Answer = {question: questionText, chosenOptions: [], openAnswer: '', id: questionId};
+
+                const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
+                checkboxes.forEach(checkbox => {
+                    answer.chosenOptions.push(checkbox.id);
+                });
+
+                const textarea = item.querySelector('textarea');
+                if (textarea) {
+                    answer.openAnswer = textarea.value;
+                }
+
+                const radioButtons = item.querySelectorAll('input[type="radio"]:checked');
+                radioButtons.forEach(radioButton => {
+                    if ((radioButton as HTMLInputElement).checked) {
+                        answer.chosenOptions.push((radioButton as HTMLInputElement).value);
+                    }
+                });
+
+                const rangeInput = item.querySelector('input[type="range"]');
+                if (rangeInput) {
+                    let optionText = rangeInput.getAttribute(`data-option-${(rangeInput as HTMLInputElement).value}`);
+                    if (optionText) {
+                        answer.chosenOptions.push(optionText);
+                    }
+                }
+
+                answers.push(answer);
             }
         });
-
-        const rangeInput = item.querySelector('input[type="range"]');
-        if (rangeInput) {
-            let optionText = rangeInput.getAttribute(`data-option-${(rangeInput as HTMLInputElement).value}`);
-            if (optionText) {
-                answer.chosenOptions.push(optionText);
-            }
-        }
-
-        answers.push(answer);
     });
-
     return answers;
 }
 
 export async function commitAnswers() {
     const answers = getAnswers();
     const answerObject: AnswerObject[] = answers.map(answer => ({
-        chosenOptions: answer.chosenOptions.map(option => ({ OptionText: option })),
+        chosenOptions: answer.chosenOptions.map(option => ({OptionText: option})),
         chosenAnswer: answer.openAnswer,
         questionId: answer.id
     }));
@@ -364,4 +373,20 @@ export function updatePorgressBar() {
     console.log("progressbarPerc: ", progressPerc);
 }
 
+export function handleScrollForVideoPlayback(): void {
+    let videos: NodeListOf<HTMLIFrameElement> = document.querySelectorAll("iframe[id^='video']");
+    videos.forEach((video: HTMLIFrameElement) => {
+        let top_of_element: number = video.offsetTop;
+        let bottom_of_element: number = top_of_element + video.offsetHeight;
+        let bottom_of_screen: number = window.pageYOffset + window.innerHeight;
+        let top_of_screen: number = window.pageYOffset;
 
+        if ((bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element)) {
+            // The element is visible, play the video
+            video.contentWindow?.postMessage('{"event":"command","func":"' + 'playVideo' + '","args":""}', '*');
+        } else {
+            // The element is not visible, pause the video
+            video.contentWindow?.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
+        }
+    });
+}
