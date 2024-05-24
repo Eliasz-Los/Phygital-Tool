@@ -5,7 +5,7 @@ namespace Phygital.BL;
 
 public interface IFeedbackManager
 {
-     Task<Post> GetPostWithThemeByIdAsync(long id);
+     Task<Post> GetPostWithAccountAndWithThemeById(long id);
      Task<IEnumerable<Post>> GetAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes();
      void AddPost(string title, string text, long themeId, Account account);
      Task ChangePost(long postId, string title, string text, long themeId);
@@ -20,4 +20,7 @@ public interface IFeedbackManager
      Task<int> GetLikesCountByPostId(long postId);
      Task<int> GetDislikesCountByPostId(long postId);
      Task<IEnumerable<PostReaction>> GetReactionsOfPostByPostId(long postId);
+     
+     Task RemoveReactionToPostById(long postId , long reactionId);
+     Task<Reaction> GetReactionWithAccountById(long reactionId);
 }

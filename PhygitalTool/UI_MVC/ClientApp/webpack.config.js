@@ -17,6 +17,7 @@ module.exports = {
         questions: './src/ts/Questions/questions.ts',
         thema: './src/ts/Thema/thema.ts',
         organisation: './src/ts/Organisation/organisation.ts',
+        feedback: './src/ts/Feedback/feedback.ts',
         
     },
     output: {

@@ -310,20 +310,24 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         
         modelBuilder.Entity<Reaction>()
             .HasMany(r => r.PostReactions)
-            .WithOne(pr => pr.Reaction);
+            .WithOne(pr => pr.Reaction)
+            .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<PostReaction>()
             .HasOne(pr => pr.Reaction)
-            .WithMany(r => r.PostReactions);
+            .WithMany(r => r.PostReactions)
+            .OnDelete(DeleteBehavior.Cascade);
         
         modelBuilder.Entity<Like>()
             .HasMany(l => l.PostLikes)
-            .WithOne(pl => pl.Like);
+            .WithOne(pl => pl.Like)
+            .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<PostLike>()
             .HasOne(pl => pl.Like)
-            .WithMany(l => l.PostLikes);
-        
-        
-            
+            .WithMany(l => l.PostLikes)
+            .OnDelete(DeleteBehavior.Cascade);
+
+
+
     }
     public bool CreateDatabase(bool dropExisting = true)
     {

@@ -1,7 +1,6 @@
 using Phygital.BL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Phygital.BL;
 using Phygital.BL.Managers;
 using Phygital.DAL;
 using Phygital.DAL.EF;

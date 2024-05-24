@@ -73,8 +73,10 @@ public class SessionRepository : ISessionRepository
         }
 
         var totalDuration = participations
-            .Sum(p => (p.EndTime - p.StartTime).TotalSeconds);
-
-        return TimeSpan.FromSeconds(totalDuration / participations.Count);
+            .Sum(p => (p.EndTime - p.StartTime).TotalMinutes);
+        
+        var averageDuration = totalDuration / participations.Count;
+        
+        return TimeSpan.FromMinutes(Math.Round(averageDuration, 2));
     }
 }
