@@ -33,8 +33,8 @@ export async function deleteReaction(postId: number, reactionId: number): Promis
     }
 }
 
-export async function createLikeReaction(postId: number, reactionId: number): Promise<{ likeCount: number, dislikeCount: number }> {
-    const response = await fetch(`/api/feedbacks/${postId}/LikeReaction/${reactionId}`, {
+export async function createLikeReaction( reactionId: number): Promise<{ likeCount: number, dislikeCount: number }> {
+    const response = await fetch(`/api/feedbacks/${reactionId}/LikeReaction`, {
         method: 'POST'
     });
     if (!response.ok) {
@@ -43,8 +43,8 @@ export async function createLikeReaction(postId: number, reactionId: number): Pr
     return await response.json();
 }
 
-export async function createDislikeReaction(postId: number, reactionId: number): Promise<{ likeCount: number, dislikeCount: number }> {
-    const response = await fetch(`/api/feedbacks/${postId}/DislikeReaction/${reactionId}`, {
+export async function createDislikeReaction( reactionId: number): Promise<{ likeCount: number, dislikeCount: number }> {
+    const response = await fetch(`/api/feedbacks/${reactionId}/DislikeReaction`, {
         method: 'POST'
     });
     if (!response.ok) {

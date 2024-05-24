@@ -10,4 +10,7 @@ public class ReactionReadDto
     [MaxLength(1000, ErrorMessage = "Content is too long, max 1000 characters.")]
     public string Content { get; set; }
     public string AccountName { get; set; }
+    
+    /*public int LikeCount { get; set; } 
+    public int DislikeCount { get; set; } */
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
+using Phygital.Domain.Datatypes;
 using Phygital.Domain.User;
 using Phygital.UI_MVC.Models.Dto.Feedback;
 
@@ -40,6 +41,8 @@ public class FeedbacksController : ControllerBase
       Id = r.Id,
       Content = r.Reaction.Content,
       AccountName = r.Reaction.Account.Name
+      /*LikeCount = r.Reaction.ReactionLikes.Count(rl => rl.Like.LikeType == LikeType.ThumbsUp),
+      DislikeCount = r.Reaction.ReactionLikes.Count(rl => rl.Like.LikeType == LikeType.ThumbsDown)*/
     }));
   }
   
@@ -104,15 +107,35 @@ public class FeedbacksController : ControllerBase
   
   [HttpPost("{reactionId}/LikeReaction")]
   [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
-public async Task<IActionResult> LikeReaction(long reactionId)
+  public async Task<IActionResult> LikeReaction(long reactionId)
   {
       Account currentAccount = new Account();
       if (User.Identity?.Name != null)
       {
           currentAccount = await _userManager.FindByNameAsync(User.Identity.Name);
       }        
+      /*
+    _uow.BeginTransaction();
+        
+    var existingDislike = await _feedbackManager.GetDislikeByPostIdAndUserId(postId, currentAccount?.Id);
+        
+    if (existingDislike != null)
+    {
+      await _feedbackManager.RemovePostDislikeByPostId(postId, currentAccount?.Id);
+    }
+    
+    await _feedbackManager.AddPostLikeByPostId(postId, currentAccount);
+    _uow.Commit();
+       */
       _uow.BeginTransaction();
-          
+      
+      var existingDislike = await _feedbackManager.GetDislikeByReactionIdAndUserId(reactionId, currentAccount?.Id);
+        
+      if (existingDislike != null)
+      {
+        await _feedbackManager.RemoveReactionDislikeByReactionIdAndUserId(reactionId, currentAccount?.Id);
+      }
+      
       await _feedbackManager.AddReactionLikeByReactionId(reactionId, currentAccount);
       _uow.Commit();
        
@@ -132,8 +155,15 @@ public async Task<IActionResult> LikeReaction(long reactionId)
     {
       currentAccount = await _userManager.FindByNameAsync(User.Identity.Name);
     }        
+    
     _uow.BeginTransaction();
-          
+    var existingLike = await _feedbackManager.GetLikeByReactionIdAndUserId(reactionId, currentAccount?.Id);
+        
+    if (existingLike != null)
+    {
+      await _feedbackManager.RemoveReactionLikeByReactionIdAndUserId(reactionId, currentAccount?.Id);
+    }
+    
     await _feedbackManager.AddReactionDisLikeByReactionId(reactionId, currentAccount);
     _uow.Commit();
        

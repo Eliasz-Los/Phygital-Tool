@@ -140,4 +140,24 @@ public class FeedbackManager : IFeedbackManager
     {
         return await _feedbackRepository.ReadDislikesCountByReactionId(reactionId);
     }
+
+    public async Task<ReactionLike> GetDislikeByReactionIdAndUserId(long reactionId, string currentAccountId)
+    {
+        return await _feedbackRepository.ReadDislikeByReactionIdAndUserId(reactionId, currentAccountId);
+    }
+
+    public async Task RemoveReactionDislikeByReactionIdAndUserId(long reactionId, string currentAccountId)
+    {
+         await _feedbackRepository.DeleteReactionDislikeByReactionIdAndUserId(reactionId, currentAccountId);
+    }
+
+    public async Task<ReactionLike> GetLikeByReactionIdAndUserId(long reactionId, string currentAccountId)
+    {
+        return await _feedbackRepository.ReadLikeByReactionIdAndUserId(reactionId, currentAccountId);
+    }
+
+    public async Task RemoveReactionLikeByReactionIdAndUserId(long reactionId, string currentAccountId)
+    {
+         await _feedbackRepository.DeleteReactionLikeByReactionIdAndUserId(reactionId, currentAccountId);
+    }
 }
