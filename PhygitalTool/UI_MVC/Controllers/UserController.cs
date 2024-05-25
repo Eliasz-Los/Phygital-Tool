@@ -1,42 +1,43 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Phygital.BL;
-using Phygital.BL.Managers;
 using Phygital.Domain.User;
-using Phygital.UI_MVC.Models;
 
 namespace Phygital.UI_MVC.Controllers;
 
 public class UserController : Controller
 {
-    private readonly ILogger<ThemaController> _logger;
-    private readonly UserManager<Account> _userManager;
+    private readonly ILogger<UserController> _logger;
+    private readonly IUserManager _userManager;
+    private readonly UserManager<Account> _identityManager;
     private readonly UnitOfWork _uow;
 
-    public UserController(ILogger<ThemaController> logger, UserManager<Account> userManager, UnitOfWork uow)
+    public UserController(ILogger<UserController> logger, IUserManager userManager, UserManager<Account> identityManager, UnitOfWork uow)
     {
         _logger = logger;
         _userManager = userManager;
+        _identityManager = identityManager;
         _uow = uow;
     }
-    
+
     [HttpGet]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Index()
     {
-        var loggedInUserEmail = User.Identity.Name;
-
-        var loggedInUser = await _userManager.FindByNameAsync(User.Identity.Name);
-        if (loggedInUser?.Organisation == null)
+        Account currentAccount = new Account();
+        if (User.Identity?.Name != null)
         {
-            // Handle case when user or user's organisation is not found
-            _logger.LogError("User with email {Email} not found or has no organisation", loggedInUserEmail);
+            currentAccount = await _identityManager.Users
+                .Include(u => u.Organisation) // Eagerly load the Organisation property
+                .FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
         }
-
-        var users = _userManager.GetUsersByOrganisationId(loggedInUser.Organisation.id);
-        var user = loggedInUser.Organisation.id;
-        return View(user);
+        var loggedInUserOrganisationId = currentAccount!.Organisation.id;
+        
+        var users = _userManager.GetUsersByOrganisationId(loggedInUserOrganisationId);
+        return View(users);
+        // return View();
     }
     
     [HttpPost]

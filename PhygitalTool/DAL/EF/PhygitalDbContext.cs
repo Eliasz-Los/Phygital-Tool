@@ -93,13 +93,13 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         modelBuilder.Entity<Account>().ToTable("Accounts").HasIndex(user => user.Id).IsUnique();
         modelBuilder.Entity<Organisation>().ToTable("Organisations").HasIndex(organisation =>  organisation.id).IsUnique();
         
-        modelBuilder.Entity<Account>()
-            .HasOne(a => a.Organisation)
-            .WithMany(o => o.Accounts)
-            .HasForeignKey("organisationId");
         modelBuilder.Entity<Organisation>()
             .HasMany(o => o.Accounts)
             .WithOne(a => a.Organisation)
+            .HasForeignKey("organisationId");
+        modelBuilder.Entity<Account>()
+            .HasOne(a => a.Organisation)
+            .WithMany(o => o.Accounts)
             .HasForeignKey("organisationId");
         
         modelBuilder.Entity<Account>()
