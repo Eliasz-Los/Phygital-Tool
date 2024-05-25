@@ -52,51 +52,9 @@ builder.Services.AddScoped<IStatisticsRepository, StatisticsRepository>();
 builder.Services.AddScoped<IStatisticsManager, StatisticsManager>();
 builder.Services.AddScoped<IUserManager, UserManager>();
 
-builder.Services.AddSingleton<ICloudStorage, CloudStorageService>();
-// identity options (optimal)
-// builder.Services.Configure<IdentityOptions>(options =>
-// {
-//     // Password settings.
-//     options.Password.RequireDigit = true;
-//     options.Password.RequireLowercase = true;
-//     options.Password.RequireNonAlphanumeric = true;
-//     options.Password.RequireUppercase = true;
-//     options.Password.RequiredLength = 6;
-//     options.Password.RequiredUniqueChars = 1;
-//
-//     // Lockout settings.
-//     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-//     options.Lockout.MaxFailedAccessAttempts = 5;
-//     options.Lockout.AllowedForNewUsers = true;
-//
-//     // User settings.
-//     options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-//     options.User.RequireUniqueEmail = false;
-// });
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
-// cookies
-// builder.Services.ConfigureApplicationCookie(cfg =>
-// {
-//     cfg.Events.OnRedirectToLogin += ctx =>
-//     {
-//         if (ctx.Request.Path.StartsWithSegments("/api"))
-//         {
-//             ctx.Response.StatusCode = 401;
-//         }
-//
-//         return Task.CompletedTask;
-//     };
-//
-//     cfg.Events.OnRedirectToAccessDenied += ctx =>
-//     {
-//         if (ctx.Request.Path.StartsWithSegments("/api"))
-//         {
-//             ctx.Response.StatusCode = 403;
-//         }
-//
-//         return Task.CompletedTask;
-//     };
-// });
+builder.Services.AddSingleton<ICloudStorage, CloudStorageService>();
 
 var app = builder.Build();
 
@@ -122,4 +80,3 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-public partial class Program{}

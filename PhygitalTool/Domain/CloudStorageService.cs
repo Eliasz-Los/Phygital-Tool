@@ -14,7 +14,7 @@ public class CloudStorageService : ICloudStorage
     
     public CloudStorageService(IConfiguration configuration)
     {
-        _googleCredential = GoogleCredential.FromFile("./bucket-credential-key.json"); //GoogleCredential.FromFile("./bucket-credential-key.json")
+        _googleCredential = GoogleCredential.FromFile("./bucket-credential-key.json");
         _storageClient = StorageClient.Create(_googleCredential);
         _bucketName = configuration["GoogleCloudStorageBucket"];
         Console.WriteLine(_googleCredential);
