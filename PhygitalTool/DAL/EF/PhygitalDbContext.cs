@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Phygital.Domain.Feedback;
@@ -15,7 +13,7 @@ using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace Phygital.DAL.EF;
 
-public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
+public class PhygitalDbContext : IdentityDbContext<Account> 
 {
     // Accounts package
     public DbSet<Account> Accounts { get; set; }
@@ -66,16 +64,6 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        /*if (!optionsBuilder.IsConfigured)
-        {
-            string connectionString = "Host=" + Environment.GetEnvironmentVariable("DB_IP") + ";" +
-                                      "Database=" + Environment.GetEnvironmentVariable("DB_NAME") + ";" +
-                                      "Port=" + Environment.GetEnvironmentVariable("DB_PORT") + ";" +
-                                      "Username=" + Environment.GetEnvironmentVariable("DB_USER") + ";" +
-                                      "Password=" + Environment.GetEnvironmentVariable("DB_PASSWD");
-        
-            optionsBuilder.UseNpgsql(connectionString);
-        }*/
         if (!optionsBuilder.IsConfigured)
         {
             
@@ -102,25 +90,6 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         base.OnConfiguring(optionsBuilder);
 
     }
-    
-    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            if (!String.IsNullOrEmpty(_configuration.ToString()))
-            {
-                optionsBuilder.UseNpgsql(_configuration.GetConnectionString("Phygital.db")); //connectionString:"Phygital.db" 
-
-            }
-            else
-            {
-                optionsBuilder.UseNpgsql("Phygital.db");
-            }
-            optionsBuilder.EnableSensitiveDataLogging();
-        }
-        
-        optionsBuilder.LogTo(message => Debug.WriteLine(message), LogLevel.Information);
-    }*/
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

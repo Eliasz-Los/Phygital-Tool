@@ -55,14 +55,8 @@ public class FeedbackRepository : IFeedbackRepository
         Console.WriteLine($"post in CREATE mode: {post.Title}, {post.Text}, {post.ImageUrl}, {post.PostTime}, {post.Theme}, {post.Account}");
         _dbContext.Posts.Attach(post);
         _dbContext.Posts.Add(post);
-        try
-        {
-            await _dbContext.SaveChangesAsync();
-
-        }catch (Exception e)
-        {
-            Console.WriteLine($"Excepstion while saving new post: {e}");
-        }
+        
+        await _dbContext.SaveChangesAsync();
 
     }
 
@@ -197,6 +191,7 @@ public class FeedbackRepository : IFeedbackRepository
             .CountAsync();
     }
 
+    //TODO: naming convention
     public async Task<IEnumerable<PostReaction>> ReadReactionsOfPostByPostId(long postId)
     {
         /*return await _dbContext.PostReactions
