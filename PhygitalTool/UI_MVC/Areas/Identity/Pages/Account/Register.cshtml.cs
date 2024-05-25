@@ -1,7 +1,3 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -12,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Phygital.Domain.User;
+using Phygital.BL;
 
 namespace Phygital.UI_MVC.Areas.Identity.Pages.Account
 {
@@ -20,63 +17,46 @@ namespace Phygital.UI_MVC.Areas.Identity.Pages.Account
         private readonly SignInManager<Domain.User.Account> _signInManager;
         private readonly UserManager<Domain.User.Account> _userManager;
         private readonly IUserStore<Domain.User.Account> _userStore;
-        private readonly IUserEmailStore<Domain.User.Account> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IUserManager _userManagerService;
 
         public RegisterModel(
             UserManager<Domain.User.Account> userManager,
             IUserStore<Domain.User.Account> userStore,
             SignInManager<Domain.User.Account> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IUserManager userManagerService)
         {
             _userManager = userManager;
             _userStore = userStore;
-            _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _userManagerService = userManagerService;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public string ReturnUrl { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
-            
+
             [Required]
             [Display(Name = "Role")]
             public string Role { get; set; }
-            
+
+            // [Display(Name = "Organisation")]
+            // public Organisation Organisation { get; set; }
+            [Display(Name = "Organisation")]
+            public long? OrganisationId { get; set; }
+
             [Required]
             [Display(Name = "Name")]
             public string Name { get; set; }
@@ -84,46 +64,55 @@ namespace Phygital.UI_MVC.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "LastName")]
             public string LastName { get; set; }
-            
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }
 
+        public IList<Organisation> Organisations { get; set; }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            if (User.IsInRole("Owner"))
+            {
+                Organisations = _userManagerService.GetAllOrganisations().ToList();
+            }
+            // else if (User.IsInRole("Admin") || User.IsInRole("Subadmin") || User.IsInRole("Supervisor"))
+            // {
+            //     var currentUser = await _userManager.GetUserAsync(User);
+            //     Input.OrganisationId = currentUser!.Organisation;
+            // }
         }
-        
+
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new Domain.User.Account {Name = Input.Name, LastName = Input.LastName, UserName = Input.Email, Email = Input.Email };
+                var user = new Domain.User.Account
+                {
+                    Name = Input.Name, 
+                    LastName = Input.LastName, 
+                    UserName = Input.Email, 
+                    Email = Input.Email, 
+                    Organisation = Input.OrganisationId.HasValue ? _userManagerService.GetOrganisationById(Input.OrganisationId.Value) : null
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
-                    // Add user to the selected role
                     await _userManager.AddToRoleAsync(user, Input.Role);
 
                     _logger.LogInformation("User created a new account with password.");
@@ -156,9 +145,9 @@ namespace Phygital.UI_MVC.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
+
         private Domain.User.Account CreateUser()
         {
             try

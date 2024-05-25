@@ -32,6 +32,11 @@ public class UserRepository : IUserRepository
         return _dbContext.Organisations;
     }
 
+    Organisation IUserRepository.ReadOrganisationById(long id)
+    {
+        return _dbContext.Organisations.Find(id);
+    }
+    
     public Organisation ReadOrganisationById(long id)
     {
         return _dbContext.Organisations.Find(id);
