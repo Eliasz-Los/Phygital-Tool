@@ -70,3 +70,4 @@ export async function sendAnswers(flowId: number, answerObject: AnswerObject[]):
     alert("Answers submitted:" + JSON.stringify(answerObject));
     return await response.json();
 }
+

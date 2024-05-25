@@ -27,4 +27,9 @@ public interface IFeedbackManager
      Task<ReactionLike> AddReactionDisLikeByReactionId(long reactionId, Account currentAccount);
      Task<int> GetLikesCountByReactionId(long reactionId);
      Task<int> GetDislikesCountByReactionId(long reactionId);
+     Task<ReactionLike> GetDislikeByReactionIdAndUserId(long reactionId, string currentAccountId);
+     Task RemoveReactionDislikeByReactionIdAndUserId(long reactionId, string currentAccountId);
+     Task<ReactionLike> GetLikeByReactionIdAndUserId(long reactionId, string currentAccountId);
+
+     Task RemoveReactionLikeByReactionIdAndUserId(long reactionId, string currentAccountId);
 }

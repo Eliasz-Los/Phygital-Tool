@@ -187,6 +187,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   getSingleChoiceQuestionData: () => (/* binding */ getSingleChoiceQuestionData),
 /* harmony export */   getTextData: () => (/* binding */ getTextData),
 /* harmony export */   getVideoData: () => (/* binding */ getVideoData),
+/* harmony export */   handleScrollForVideoPlayback: () => (/* binding */ handleScrollForVideoPlayback),
 /* harmony export */   updatePorgressBar: () => (/* binding */ updatePorgressBar)
 /* harmony export */ });
 /* harmony import */ var _detailsRest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./detailsRest */ "./src/ts/Flow/Details/detailsRest.ts");
@@ -488,33 +489,42 @@ function getVideoData() {
 function getAnswers() {
     const answers = [];
     const carouselItems = document.querySelectorAll('.carousel-item');
-    carouselItems.forEach((item, index) => {
-        var _a;
-        const questionText = ((_a = item.querySelector('.card-title')) === null || _a === void 0 ? void 0 : _a.textContent) || '';
-        const questionId = Number(item.getAttribute('data-card-id') || '');
-        const answer = { question: questionText, chosenOptions: [], openAnswer: '', id: questionId };
-        const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
-        checkboxes.forEach(checkbox => {
-            answer.chosenOptions.push(checkbox.id);
-        });
-        const textarea = item.querySelector('textarea');
-        if (textarea) {
-            answer.openAnswer = textarea.value;
-        }
-        const radioButtons = item.querySelectorAll('input[type="radio"]:checked');
-        radioButtons.forEach(radioButton => {
-            if (radioButton.checked) {
-                answer.chosenOptions.push(radioButton.value);
+    // Get aantal users
+    const rangeInput = document.getElementById('rangeInput');
+    const submitButton = document.getElementById('submitButton');
+    submitButton === null || submitButton === void 0 ? void 0 : submitButton.addEventListener('click', function () {
+        const userCount = parseInt(rangeInput.value);
+        carouselItems.forEach((item, index) => {
+            var _a;
+            const questionText = ((_a = item.querySelector('.card-title')) === null || _a === void 0 ? void 0 : _a.textContent) || '';
+            const questionId = Number(item.getAttribute('data-card-id') || '');
+            // Repeat the answer collection process for the number of users
+            for (let i = 0; i < userCount; i++) {
+                const answer = { question: questionText, chosenOptions: [], openAnswer: '', id: questionId };
+                const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
+                checkboxes.forEach(checkbox => {
+                    answer.chosenOptions.push(checkbox.id);
+                });
+                const textarea = item.querySelector('textarea');
+                if (textarea) {
+                    answer.openAnswer = textarea.value;
+                }
+                const radioButtons = item.querySelectorAll('input[type="radio"]:checked');
+                radioButtons.forEach(radioButton => {
+                    if (radioButton.checked) {
+                        answer.chosenOptions.push(radioButton.value);
+                    }
+                });
+                const rangeInput = item.querySelector('input[type="range"]');
+                if (rangeInput) {
+                    let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
+                    if (optionText) {
+                        answer.chosenOptions.push(optionText);
+                    }
+                }
+                answers.push(answer);
             }
         });
-        const rangeInput = item.querySelector('input[type="range"]');
-        if (rangeInput) {
-            let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
-            if (optionText) {
-                answer.chosenOptions.push(optionText);
-            }
-        }
-        answers.push(answer);
     });
     return answers;
 }
@@ -541,6 +551,24 @@ function updatePorgressBar() {
     progressBar.style.width = progressPerc + "%";
     progressBar.setAttribute("aria-valuenow", progressPerc.toString());
     console.log("progressbarPerc: ", progressPerc);
+}
+function handleScrollForVideoPlayback() {
+    let videos = document.querySelectorAll("iframe[id^='video']");
+    videos.forEach((video) => {
+        var _a, _b;
+        let top_of_element = video.offsetTop;
+        let bottom_of_element = top_of_element + video.offsetHeight;
+        let bottom_of_screen = window.pageYOffset + window.innerHeight;
+        let top_of_screen = window.pageYOffset;
+        if ((bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element)) {
+            // The element is visible, play the video
+            (_a = video.contentWindow) === null || _a === void 0 ? void 0 : _a.postMessage('{"event":"command","func":"' + 'playVideo' + '","args":""}', '*');
+        }
+        else {
+            // The element is not visible, pause the video
+            (_b = video.contentWindow) === null || _b === void 0 ? void 0 : _b.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
+        }
+    });
 }
 
 })();

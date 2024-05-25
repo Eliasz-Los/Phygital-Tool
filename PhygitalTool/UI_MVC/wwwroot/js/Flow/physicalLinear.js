@@ -44,8 +44,8 @@ function InitializeFlow() {
                 switch (e.code) {
                     case 'KeyD':
                         btnNext.click();
-                        if (currentQuestionNumber < totalQuestions) {
-                        currentQuestionNumber++;
+                        if (window.currentQuestionNumber < window.totalQuestions) {
+                            window.currentQuestionNumber++;
                             updateButton();
                         }
                         updateProgressBar();
@@ -53,8 +53,8 @@ function InitializeFlow() {
                         break;
                     case 'KeyA':
                         btnPrev.click();
-                        if (currentQuestionNumber > 1) {
-                            currentQuestionNumber--;
+                        if (window.currentQuestionNumber > 1) {
+                            window.currentQuestionNumber--;
                             updateButton();
                         }
                         updateProgressBar();
