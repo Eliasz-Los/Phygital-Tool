@@ -10,23 +10,17 @@ public class FlowElementsController : Controller
     private readonly ILogger<FlowController> _logger;
     private readonly UnitOfWork _uow;
 
-    public FlowElementsController(ILogger<FlowController> logger,UnitOfWork uow)
-    {
-        _logger = logger;
-        _uow = uow;
-    }
-
-
-    // Todo route fixen
-    [HttpPost]
+    [HttpGet]
     public IActionResult AddImage()
     {
-        ImageDto image = new ImageDto();
+        return View();
+    }
+    
+    [HttpPost]
+    public IActionResult AddImage(ImageDto image)
+    {
+        // todo process image
         return View(image);
     }
     
-    // public IActionResult AddImage()
-    // {
-    //     return View();
-    // }
 }
