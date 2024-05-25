@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 using Phygital.DAL;
 using Phygital.Domain.Feedback;
 using Phygital.Domain.User;
@@ -25,7 +26,7 @@ public class FeedbackManager : IFeedbackManager
         return await _feedbackRepository.ReadAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes();
     }
 
-    public void AddPost(string title, string text, long themeId, Account account)
+    public async Task AddPost(string title, string text, long themeId, Account account, IFormFile imageFile)
     {
         var theme = _themeManager.GetThemeById(themeId);
         
@@ -34,11 +35,13 @@ public class FeedbackManager : IFeedbackManager
             Title = title,
             Text = text,
             Theme = theme,
-            Account = account
+            Account = account,
+            ImageFile = imageFile
         };
         Validator.ValidateObject(post, new ValidationContext(post), true);
-        _feedbackRepository.CreatePost(post);
+        await _feedbackRepository.CreatePost(post);
     }
+
 
     public async Task ChangePost(long postId, string title, string text, long themeId)
     {

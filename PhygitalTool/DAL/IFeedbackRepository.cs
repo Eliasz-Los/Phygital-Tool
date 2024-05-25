@@ -10,7 +10,7 @@ public interface IFeedbackRepository
     Task<Post> ReadPostWithAccountAndWithThemeById(long id);
     Task<IEnumerable<Post>> ReadAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes();
     
-    void CreatePost(Post post);
+    Task CreatePost(Post post);
     
     void UpdatePost(Post post);
     

@@ -1,4 +1,5 @@
-﻿using Phygital.Domain.Feedback;
+﻿using Microsoft.AspNetCore.Http;
+using Phygital.Domain.Feedback;
 using Phygital.Domain.User;
 
 namespace Phygital.BL;
@@ -7,7 +8,7 @@ public interface IFeedbackManager
 {
      Task<Post> GetPostWithAccountAndWithThemeById(long id);
      Task<IEnumerable<Post>> GetAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes();
-     void AddPost(string title, string text, long themeId, Account account);
+     Task AddPost(string title, string text, long themeId, Account account, IFormFile imageFile);
      Task ChangePost(long postId, string title, string text, long themeId);
      void RemovePost(long postId);
      Task<PostLike> AddPostLikeByPostId(long postId, Account account);
