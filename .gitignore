@@ -456,3 +456,11 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+wwwroot/dist/
+
+# GoogleCloudStorage
+bucket-credential-key.json
+
+# file that contains key to access Google Cloud Storage bucket
+bucket-credential-key.json
