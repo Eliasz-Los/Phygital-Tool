@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 using Phygital.Domain.Themas;
 using Phygital.Domain.User;
-using Microsoft.Extensions.Configuration; 
 
 namespace Phygital.Domain.Feedback;
 

@@ -53,13 +53,26 @@ public class FeedbackRepository : IFeedbackRepository
     public async Task CreatePost(Post post)
     {
         post = await UploadFile(post);
+        Console.WriteLine($"post in CREATE mode: {post.Title}, {post.Text}, {post.ImageUrl}, {post.PostTime}, {post.Theme}, {post.Account}");
+        _dbContext.Posts.Attach(post);
         _dbContext.Posts.Add(post);
+        try
+        {
+            await _dbContext.SaveChangesAsync();
+
+        }catch (Exception e)
+        {
+            Console.WriteLine($"Excepstion while saving new post: {e}");
+        }
+
     }
 
     private async Task<Post> UploadFile(Post post)
     {
         string fileNameForStorage =  $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}-{new Random().Next()}.{Path.GetExtension(post.ImageFile.FileName)}";
         post.ImageUrl = await _cloudStorageService.UploadFileToBucket(post.ImageFile, fileNameForStorage);
+        Console.WriteLine($"image url: {post.ImageUrl}");
+        Console.WriteLine($"post in UPLOAD mode: {post.Title}" );
         return post;
     }
     public void UpdatePost(Post post)

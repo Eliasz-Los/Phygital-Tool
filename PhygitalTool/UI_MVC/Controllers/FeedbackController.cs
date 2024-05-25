@@ -52,7 +52,7 @@ public class FeedbackController : Controller
     
     [HttpPost]
     [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
-    public IActionResult Add(PostDto postDto)
+    public async Task<IActionResult> Add(PostDto postDto)
     {
         var themes = _themeManager.GetAllThemas();
         ViewBag.Themes = themes;
@@ -66,7 +66,7 @@ public class FeedbackController : Controller
         }
      
         _uow.BeginTransaction();
-        _feedbackManager.AddPost(postDto.Title, postDto.Text, postDto.ThemeId, currentAccount, postDto.ImageFile);
+        await _feedbackManager.AddPost(postDto.Title, postDto.Text, postDto.ThemeId, currentAccount, postDto.ImageFile);
         _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }
