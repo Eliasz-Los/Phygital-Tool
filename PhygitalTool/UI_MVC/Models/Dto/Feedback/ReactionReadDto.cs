@@ -11,6 +11,6 @@ public class ReactionReadDto
     public string Content { get; set; }
     public string AccountName { get; set; }
     
-    /*public int LikeCount { get; set; } 
-    public int DislikeCount { get; set; } */
+    public int LikeCount { get; set; } 
+    public int DislikeCount { get; set; } 
 }

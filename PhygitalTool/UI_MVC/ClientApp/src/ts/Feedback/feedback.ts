@@ -34,17 +34,16 @@ let reactionDislikeButtons = document.querySelectorAll('.reaction-dislike-button
                         <div class="row d-flex">
                                 <div class="col">
                                     <button type="submit" class="btn btn-success bi bi-hand-thumbs-up reaction-like-button" id="likeButtonReact_${reaction.id}" data-reaction-id="${reaction.id}">
-                                        <span id="likeCountReact_${reaction.id}"> 0</span> 
+                                        <span id="likeCountReact_${reaction.id}"> ${reaction.likeCount}</span> 
                                     </button>
                                     <button type="submit" class="btn btn-danger bi bi-hand-thumbs-down reaction-dislike-button"  id="dislikeButtonReact_${reaction.id}" data-reaction-id="${reaction.id}">
-                                        <span id="dislikeCountReact_${reaction.id}"> 0</span>
+                                        <span id="dislikeCountReact_${reaction.id}"> ${reaction.dislikeCount}</span>
                                     </button>
                                 </div>
                          </div>
                     </div>
                 </div>`;
             })
-           /* ${reaction.dislikeCount}*/
             let reactionList = document.getElementById(`listReactions_${postId}`) as HTMLElement;
             if(reactionList){
                 reactionList.innerHTML = bodyData;

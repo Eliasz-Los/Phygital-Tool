@@ -7748,6 +7748,7 @@ function getVideoData() {
 function getAnswers() {
     const answers = [];
     const carouselItems = document.querySelectorAll('.carousel-item');
+    // Get aantal users
     const rangeInput = document.getElementById('rangeInput');
     const submitButton = document.getElementById('submitButton');
     submitButton === null || submitButton === void 0 ? void 0 : submitButton.addEventListener('click', function () {

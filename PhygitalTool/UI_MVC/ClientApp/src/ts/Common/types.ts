@@ -81,8 +81,8 @@ interface ReactionRead {
     id: number;
     accountName: string;
     content: string;
-/*    likeCount : number;
-    dislikeCount : number;*/
+    likeCount : number;
+    dislikeCount : number;
 }
 interface Reaction {
     content: string;

@@ -40,9 +40,9 @@ public class FeedbacksController : ControllerBase
     {
       Id = r.Id,
       Content = r.Reaction.Content,
-      AccountName = r.Reaction.Account.Name
-      /*LikeCount = r.Reaction.ReactionLikes.Count(rl => rl.Like.LikeType == LikeType.ThumbsUp),
-      DislikeCount = r.Reaction.ReactionLikes.Count(rl => rl.Like.LikeType == LikeType.ThumbsDown)*/
+      AccountName = r.Reaction.Account.Name,
+      LikeCount = r.Reaction.ReactionLikes.Count(rl => rl.Like.LikeType == LikeType.ThumbsUp),
+      DislikeCount = r.Reaction.ReactionLikes.Count(rl => rl.Like.LikeType == LikeType.ThumbsDown)
     }));
   }
   

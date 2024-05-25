@@ -211,6 +211,15 @@ public class FeedbackRepository : IFeedbackRepository
     {
         var reaction = await _dbContext.Reactions.FindAsync(reactionId);
         
+        var existingLike = await _dbContext.ReactionLikes
+            .Where(rl => rl.Reaction.Id == reactionId && rl.Like.Account.Id == currentAccount.Id)
+            .FirstOrDefaultAsync();
+
+        if (existingLike != null)
+        {
+            return null;
+        }
+        
         var like = new Like { LikeType = LikeType.ThumbsUp, Account = currentAccount };
         var reactionLike = new ReactionLike { Like = like, Reaction = reaction };
          _dbContext.ReactionLikes.Add(reactionLike);
@@ -220,6 +229,16 @@ public class FeedbackRepository : IFeedbackRepository
     public async Task<ReactionLike> CreateReactionDisLikeByReactionId(long reactionId, Account currentAccount)
     {
         var reaction = await _dbContext.Reactions.FindAsync(reactionId);
+        
+        var existingLike = await _dbContext.ReactionLikes
+            .Where(rl => rl.Reaction.Id == reactionId && rl.Like.Account.Id == currentAccount.Id)
+            .FirstOrDefaultAsync();
+
+        if (existingLike != null)
+        {
+            return null;
+        }
+        
         var like = new Like { LikeType = LikeType.ThumbsDown, Account = currentAccount };
         var reactionLike = new ReactionLike { Like = like, Reaction = reaction };
         _dbContext.ReactionLikes.Add(reactionLike);

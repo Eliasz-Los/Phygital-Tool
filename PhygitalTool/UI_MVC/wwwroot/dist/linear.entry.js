@@ -7748,6 +7748,7 @@ function getVideoData() {
 function getAnswers() {
     const answers = [];
     const carouselItems = document.querySelectorAll('.carousel-item');
+    // Get aantal users
     const rangeInput = document.getElementById('rangeInput');
     const submitButton = document.getElementById('submitButton');
     submitButton === null || submitButton === void 0 ? void 0 : submitButton.addEventListener('click', function () {
@@ -8037,6 +8038,8 @@ function updateButton() {
         btnVerzenden.disabled = false;
     }
 }
+// TODO: visible & invisible van antwoorden voor kiezen gebruikers
+// Dit was test code voor het verbergen van de userCountSection en het tonen van de linearFlowSection maar voorlopig niet werkend
 function visibleF() {
     const submitUserCount = document.getElementById('submitUserCount');
     const userCountSection = document.getElementById('userCountSection');
