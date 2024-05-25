@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Phygital.Domain.Datatypes;
 using Phygital.Domain.Feedback;
 using Phygital.Domain.Questionsprocess;
+using Phygital.Domain.Questionsprocess.Infos;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Session;
 using Phygital.Domain.Themas;
@@ -22,212 +23,13 @@ public class PhygitalInitializer
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Account>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-                Seed(context);
-                SeedIdentity(userManager, roleManager, context).GetAwaiter().GetResult();
+                Seed(userManager, roleManager, context).GetAwaiter().GetResult();
             }
         }
     }
+    
 
-    private static async Task SeedIdentity(UserManager<Account> userManager, RoleManager<IdentityRole> roleManager,
-        PhygitalDbContext context)
-    {
-        // all role types
-        var adminRole = new IdentityRole
-        {
-            Name = CustomIdentityConstraints.AdminRole
-        };
-        await roleManager.CreateAsync(adminRole);
-
-        var subAdminRole = new IdentityRole
-        {
-            Name = CustomIdentityConstraints.SubAdminRole
-        };
-        await roleManager.CreateAsync(subAdminRole);
-
-        var supervisorRole = new IdentityRole
-        {
-            Name = CustomIdentityConstraints.SupervisorRole
-        };
-        await roleManager.CreateAsync(supervisorRole);
-
-        var userRole = new IdentityRole
-        {
-            Name = CustomIdentityConstraints.UserRole
-        };
-        await roleManager.CreateAsync(userRole);
-
-        // hardcoded users implentation and assignment of a role
-        var adminPhygital = new Account()
-        {
-            Email = "admin@phygital.be",
-            UserName = "admin@phygital.be", EmailConfirmed = true
-        };
-        await userManager.CreateAsync(adminPhygital, "Admin@01");
-        await userManager.AddToRoleAsync(adminPhygital, CustomIdentityConstraints.AdminRole);
-
-        var subAdmin = new Account()
-        {
-            Email = "subadmin@phygital.be",
-            UserName = "subadmin@phygital.be", EmailConfirmed = true
-        };
-        await userManager.CreateAsync(subAdmin, "Subadmin@01");
-        await userManager.AddToRoleAsync(subAdmin, CustomIdentityConstraints.SubAdminRole);
-
-        var supervisor = new Account()
-        {
-            Email = "supervisor@phygital.be",
-            UserName = "supervisor@phygital.be", EmailConfirmed = true
-        };
-        await userManager.CreateAsync(supervisor, "Supervisor@01");
-        await userManager.AddToRoleAsync(supervisor, CustomIdentityConstraints.SupervisorRole);
-
-        var user = new Account()
-        {
-            Email = "user@phygital.be",
-            UserName = "user@phygital.be", EmailConfirmed = true
-        };
-        await userManager.CreateAsync(user, "User@01");
-        await userManager.AddToRoleAsync(user, CustomIdentityConstraints.UserRole);
-
-        var Arthur = new Account()
-        {
-            Email = "arthur.linsen@student.kdg.be",
-            UserName = "arthur.linsen@student.kdg.be",
-            EmailConfirmed = true,
-            Name = "Arthur",
-            LastName = "Linsen"
-        };
-        await userManager.CreateAsync(Arthur, "Arthur@01");
-        await userManager.AddToRoleAsync(Arthur, CustomIdentityConstraints.UserRole);
-
-        var Eliasz = new Account()
-        {
-            Email = "eliasz.los@student.kdg.be",
-            UserName = "eliasz.los@student.kdg.be",
-            EmailConfirmed = true,
-            Name = "Eliasz",
-            LastName = "Los"
-        };
-        await userManager.CreateAsync(Eliasz, "Eliasz@01");
-        await userManager.AddToRoleAsync(Eliasz, CustomIdentityConstraints.SubAdminRole);
-
-        var Josse = new Account()
-        {
-            Email = "josse.dresselaers@phygital.be",
-            UserName = "josse.dresselaers@phygital.be",
-            EmailConfirmed = true,
-            Name = "Josse",
-            LastName = "Dresselaers"
-        };
-        await userManager.CreateAsync(Josse, "Josse@01");
-        await userManager.AddToRoleAsync(Josse, CustomIdentityConstraints.SubAdminRole);
-
-        var Jonas = new Account()
-        {
-            Email = "jonas.wuyten@phygital.be",
-            UserName = "jonas.wuyten@phygital.be",
-            EmailConfirmed = true,
-            Name = "Jonas",
-            LastName = "Wuyten",
-        };
-        await userManager.CreateAsync(Jonas, "Jonas@01");
-        await userManager.AddToRoleAsync(Jonas, CustomIdentityConstraints.SubAdminRole);
-
-        var Willem = new Account()
-        {
-            Email = "willem.kuijpers@phygital.be",
-            UserName = "willem.kuijpers@phygital.be",
-            EmailConfirmed = true,
-            Name = "Willem",
-            LastName = "Kuijpers"
-        };
-        await userManager.CreateAsync(Willem, "Willem@01");
-        await userManager.AddToRoleAsync(Willem, CustomIdentityConstraints.SubAdminRole);
-
-
-        var TestUser = new Account()
-        {
-            Email = "tester.kdg@student.kdg.be",
-            UserName = "tester.kdg@student.kdg.be",
-            EmailConfirmed = true,
-            Name = "Kdg",
-            LastName = "Tester"
-        };
-        await userManager.CreateAsync(TestUser, "Test@01");
-        await userManager.AddToRoleAsync(TestUser, CustomIdentityConstraints.UserRole);
-
-        var Organisation1 = new Organisation
-        {
-            Name = "KdG",
-            Description = "Karel de Grote Hogeschool",
-            Accounts = new List<Account>()
-        };
-
-        var Organisation2 = new Organisation
-        {
-            Name = "Treecompany",
-            Description = "opdracht gever",
-            Accounts = new List<Account>()
-        };
-
-        // Create some Posts
-        var post1 = new Post
-        {
-            Title = "Nieuwe thema: Sport",
-            Text = "Ik denk dat thema rond sport een interessante onderwerp zou maken om aan jongeren te vragen.",
-            //Theme = th1,
-            Account = Eliasz
-        };
-        var post2 = new Post
-        { 
-            Title = "Uitgave", 
-            Text = "Wanneer zal de phygital tool uitkomen in Brussel?", // Theme = th2
-            Account = Josse
-        };
-
-        // Create some Reactions
-        var reaction1 = new Reaction { Content = "Klinkt als een goed idee eigenlijk!" , Account = Arthur};
-        var reaction2 = new Reaction { Content = "Waarschijnlijk eind juli", Account = Jonas};
-
-        // Create some Likes
-        var like1 = new Like {  Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
-        var like2 = new Like { Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
-
-        // Create some PostReactions
-        var postReaction1 = new PostReaction { Post = post1, Reaction = reaction1, Timestamp = DateTime.UtcNow };
-        var postReaction2 = new PostReaction { Post = post2, Reaction = reaction2, Timestamp = DateTime.UtcNow };
-
-        // Create some PostLikes
-        var postLike1 = new PostLike { Post = post1, Like = like1, Timestamp = DateTime.UtcNow};
-        var postLike2 = new PostLike { Post = post2, Like = like2, Timestamp = DateTime.UtcNow};
-        
-        
-        //Adding account to organisations
-        Organisation1.Accounts = new List<Account> { Arthur, Eliasz, Josse, Jonas, Willem, TestUser };
-        Organisation2.Accounts = new List<Account> { adminPhygital, subAdmin, supervisor, user };
-
-        // Add to the Posts collection
-        context.Posts.AddRange(new Post[] { post1, post2 });
-
-        // Add to the Reactions collection
-        context.Reactions.AddRange(new Reaction[] { reaction1, reaction2 });
-
-        // Add to the Likes collection
-        context.Likes.AddRange(new Like[] { like1, like2 });
-
-        // Add to the PostReactions collection
-        context.PostReactions.AddRange(new PostReaction[] { postReaction1, postReaction2 });
-
-        // Add to the PostLikes collection
-        context.PostLikes.AddRange(new PostLike[] { postLike1, postLike2 });
-        
-        context.Organisations.AddRange(Organisation1, Organisation2);
-        
-        context.SaveChanges();
-        context.ChangeTracker.Clear();
-    }
-
-    private static void Seed(PhygitalDbContext context)
+    private static async Task Seed(UserManager<Account> userManager, RoleManager<IdentityRole> roleManager,PhygitalDbContext context)
     {
         // In the first part of the seed method we create data to be put into the database
         /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -467,7 +269,7 @@ public class PhygitalInitializer
             StartDate = new DateTime(2024, 5, 6).ToUniversalTime(),
             EndDate = new DateTime(2024, 7, 30).ToUniversalTime(),
             SessionType = SessionType.prive,
-            Installation = new Installation()
+            Installation = installation1
         };
 
         var session2 = new Session
@@ -475,8 +277,7 @@ public class PhygitalInitializer
             StartDate = new DateTime(2024, 5, 6).ToUniversalTime(),
             EndDate = new DateTime(2024, 7, 30).ToUniversalTime(),
             SessionType = SessionType.semipubliek,
-            Installation = new Installation(),
-            Participations = new List<Participation>()
+            Installation = installation1
         };
 
         var participation1 = new Participation
@@ -516,8 +317,187 @@ public class PhygitalInitializer
         };
 
        
+          // all role types
+        var adminRole = new IdentityRole
+        {
+            Name = CustomIdentityConstraints.AdminRole
+        };
+        await roleManager.CreateAsync(adminRole);
+
+        var subAdminRole = new IdentityRole
+        {
+            Name = CustomIdentityConstraints.SubAdminRole
+        };
+        await roleManager.CreateAsync(subAdminRole);
+
+        var supervisorRole = new IdentityRole
+        {
+            Name = CustomIdentityConstraints.SupervisorRole
+        };
+        await roleManager.CreateAsync(supervisorRole);
+
+        var userRole = new IdentityRole
+        {
+            Name = CustomIdentityConstraints.UserRole
+        };
+        await roleManager.CreateAsync(userRole);
+
+        // hardcoded users implentation and assignment of a role
+        var adminPhygital = new Account()
+        {
+            Email = "admin@phygital.be",
+            UserName = "admin@phygital.be", EmailConfirmed = true,
+            Name = "Admin", LastName = "Admin"
+        };
+        await userManager.CreateAsync(adminPhygital, "Admin@01");
+        await userManager.AddToRoleAsync(adminPhygital, CustomIdentityConstraints.AdminRole);
+
+        var subAdmin = new Account()
+        {
+            Email = "subadmin@phygital.be",
+            UserName = "subadmin@phygital.be", EmailConfirmed = true,
+            Name = "Subadmin", LastName = "Subadmin"
+        };
+        await userManager.CreateAsync(subAdmin, "Subadmin@01");
+        await userManager.AddToRoleAsync(subAdmin, CustomIdentityConstraints.SubAdminRole);
+
+        var supervisor = new Account()
+        {
+            Email = "supervisor@phygital.be",
+            UserName = "supervisor@phygital.be", EmailConfirmed = true,
+            Name = "Supervisor", LastName = "Supervisor"
+        };
+        await userManager.CreateAsync(supervisor, "Supervisor@01");
+        await userManager.AddToRoleAsync(supervisor, CustomIdentityConstraints.SupervisorRole);
+
+        var user = new Account()
+        {
+            Email = "user@phygital.be",
+            UserName = "user@phygital.be", EmailConfirmed = true,
+            Name = "User", LastName = "User"
+        };
+        await userManager.CreateAsync(user, "User@01");
+        await userManager.AddToRoleAsync(user, CustomIdentityConstraints.UserRole);
+
+        var Arthur = new Account()
+        {
+            Email = "arthur.linsen@student.kdg.be",
+            UserName = "arthur.linsen@student.kdg.be",
+            EmailConfirmed = true,
+            Name = "Arthur",
+            LastName = "Linsen"
+        };
+        await userManager.CreateAsync(Arthur, "Arthur@01");
+        await userManager.AddToRoleAsync(Arthur, CustomIdentityConstraints.UserRole);
+
+        var Eliasz = new Account()
+        {
+            Email = "eliasz.los@student.kdg.be",
+            UserName = "eliasz.los@student.kdg.be",
+            EmailConfirmed = true,
+            Name = "Eliasz",
+            LastName = "Los"
+        };
+        await userManager.CreateAsync(Eliasz, "Eliasz@01");
+        await userManager.AddToRoleAsync(Eliasz, CustomIdentityConstraints.SubAdminRole);
+
+        var Josse = new Account()
+        {
+            Email = "josse.dresselaers@phygital.be",
+            UserName = "josse.dresselaers@phygital.be",
+            EmailConfirmed = true,
+            Name = "Josse",
+            LastName = "Dresselaers"
+        };
+        await userManager.CreateAsync(Josse, "Josse@01");
+        await userManager.AddToRoleAsync(Josse, CustomIdentityConstraints.SubAdminRole);
+
+        var Jonas = new Account()
+        {
+            Email = "jonas.wuyten@phygital.be",
+            UserName = "jonas.wuyten@phygital.be",
+            EmailConfirmed = true,
+            Name = "Jonas",
+            LastName = "Wuyten",
+        };
+        await userManager.CreateAsync(Jonas, "Jonas@01");
+        await userManager.AddToRoleAsync(Jonas, CustomIdentityConstraints.SubAdminRole);
+
+        var Willem = new Account()
+        {
+            Email = "willem.kuijpers@phygital.be",
+            UserName = "willem.kuijpers@phygital.be",
+            EmailConfirmed = true,
+            Name = "Willem",
+            LastName = "Kuijpers"
+        };
+        await userManager.CreateAsync(Willem, "Willem@01");
+        await userManager.AddToRoleAsync(Willem, CustomIdentityConstraints.SubAdminRole);
 
 
+        var TestUser = new Account()
+        {
+            Email = "tester.kdg@student.kdg.be",
+            UserName = "tester.kdg@student.kdg.be",
+            EmailConfirmed = true,
+            Name = "Kdg",
+            LastName = "Tester"
+        };
+        await userManager.CreateAsync(TestUser, "Test@01");
+        await userManager.AddToRoleAsync(TestUser, CustomIdentityConstraints.UserRole);
+
+        var Organisation1 = new Organisation
+        {
+            Name = "KdG",
+            Description = "Karel de Grote Hogeschool",
+            Accounts = new List<Account>()
+        };
+
+        var Organisation2 = new Organisation
+        {
+            Name = "Treecompany",
+            Description = "opdracht gever",
+            Accounts = new List<Account>()
+        };
+
+        // Create some Posts
+        var post1 = new Post
+        {
+            Title = "Nieuwe thema: Sport",
+            Text = "Ik denk dat thema rond sport een interessante onderwerp zou maken om aan jongeren te vragen.",
+            Theme = th1,
+            Account = Eliasz
+        };
+        var post2 = new Post
+        { 
+            Title = "Uitgave", 
+            Text = "Wanneer zal de phygital tool uitkomen in Brussel?", Theme = th2,
+            Account = Josse
+        };
+
+        // Create some Reactions
+        var reaction1 = new Reaction { Content = "Klinkt als een goed idee eigenlijk!" , Account = Arthur};
+        var reaction2 = new Reaction { Content = "Waarschijnlijk eind juli", Account = Jonas};
+
+        // Create some Likes
+        var like1 = new Like {  Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
+        var like2 = new Like { Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
+        var like3 = new Like { Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
+        var like4 = new Like { Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
+        
+        //Create some ReactionLikes
+        var reactionLike1 = new ReactionLike { Reaction = reaction1, Like = like1, Timestamp = DateTime.UtcNow };
+        var reactionLike2 = new ReactionLike { Reaction = reaction2, Like = like2, Timestamp = DateTime.UtcNow };
+        
+        // Create some PostReactions
+        var postReaction1 = new PostReaction { Post = post1, Reaction = reaction1, Timestamp = DateTime.UtcNow };
+        var postReaction2 = new PostReaction { Post = post2, Reaction = reaction2, Timestamp = DateTime.UtcNow };
+
+        // Create some PostLikes
+        var postLike1 = new PostLike { Post = post1, Like = like1, Timestamp = DateTime.UtcNow};
+        var postLike2 = new PostLike { Post = post2, Like = like2, Timestamp = DateTime.UtcNow};
+        
+        
         // In the second part of the seed method we create the relations between the different classes
         /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -631,6 +611,11 @@ public class PhygitalInitializer
         participation2.Flow = f1;
         participation3.Flow = f2;
         participation4.Flow = f2;
+        
+        //Adding account to organisations
+        Organisation1.Accounts = new List<Account> { Arthur, Eliasz, Josse, Jonas, Willem, TestUser };
+        Organisation2.Accounts = new List<Account> { adminPhygital, subAdmin, supervisor, user };
+
 
         /////////////////////////////////////////
         // Third part: adding to the Database //
@@ -672,6 +657,25 @@ public class PhygitalInitializer
         context.Participations.Add(participation1);
         context.Participations.Add(participation2);
 
+        // Add to the Posts collection
+        context.Posts.AddRange(new Post[] { post1, post2 });
+
+        // Add to the Reactions collection
+        context.Reactions.AddRange(new Reaction[] { reaction1, reaction2 });
+
+        // Add to the Likes collection
+        context.Likes.AddRange(new Like[] { like1, like2 , like3, like4});
+        
+        //add to the ReactionLikes collection
+        context.ReactionLikes.AddRange(new ReactionLike[] { reactionLike1, reactionLike2 });
+
+        // Add to the PostReactions collection
+        context.PostReactions.AddRange(new PostReaction[] { postReaction1, postReaction2 });
+
+        // Add to the PostLikes collection
+        context.PostLikes.AddRange(new PostLike[] { postLike1, postLike2 });
+        
+        context.Organisations.AddRange(Organisation1, Organisation2);
 
         context.SaveChanges();
         context.ChangeTracker.Clear();

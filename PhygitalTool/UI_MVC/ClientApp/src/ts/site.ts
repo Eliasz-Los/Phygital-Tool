@@ -11,5 +11,4 @@ import '../scss/site.scss';
 import 'chart.js';
 import 'xlsx';
 
-
 console.log('site.ts loaded');

@@ -40,7 +40,7 @@ Layout = "_Layout";
                         <a type="button" class="btn btn-warning" asp-controller="Flow" asp-action="Index">Annuleer</a>
                     </div>
                     <div class="col d-flex justify-content-start">
-                        <a type="button" class="btn btn-warning" id="submitFlow" asp-controller="Flow" asp-action="FlowThemeAndType" >Maak flow aan</a>
+                        <a type="button" class="btn btn-warning" id="submitFlow" asp-controller="Flow" asp-action="Index" >Maak flow aan</a>
                     </div>
 
                     <div class="col d-flex justify-content-start">
@@ -55,5 +55,5 @@ Layout = "_Layout";
 
 @section Scripts
 {
-<script src="~/js/Flow/Creation/FlowThemeAndType.js" defer></script>
+<script src="~/dist/flowThemeAndType.entry.js" defer></script>
 }

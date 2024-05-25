@@ -293,7 +293,6 @@ export function getImageData(){
         });
 
 }
-
 export function getVideoData(){
     fetch(`/api/flows/${flowId}/VideoInfos`,
         {
@@ -323,7 +322,7 @@ export function getVideoData(){
                    
                     <div id="collapse${totalInformations}" class="accordion-collapse" aria-labelledby="heading${totalInformations}" data-bs-parent="#infoAccordion">
                         <div class="accordion-body">
-                         <iframe width="560" height="315" src="https://www.youtube.com/embed/${videos[i].url}" title="${videos[i].title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                         <iframe id="video${i}" width="560" height="315" src="https://www.youtube.com/embed/${videos[i].url}" title="${videos[i].title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             <div class="spacing-top">${videos[i].description}</div>
                         </div>
                     </div>
@@ -420,4 +419,21 @@ export function updateProgressBar() {
     progressBar.setAttribute("aria-valuenow", progressPerc);
     console.log("progressbarPerc: ", progressPerc);
 }
+export function handleScrollForVideoPlayback() {
+    let videos = document.querySelectorAll("iframe[id^='video']");
+    videos.forEach(video => {
+        let top_of_element = video.offsetTop;
+        let bottom_of_element = top_of_element + video.offsetHeight;
+        let bottom_of_screen = window.pageYOffset + window.innerHeight;
+        let top_of_screen = window.pageYOffset;
 
+        if((bottom_of_screen > top_of_element) && (top_of_screen < bottom_of_element)){
+            // The element is visible, play the video
+            video.contentWindow.postMessage('{"event":"command","func":"' + 'playVideo' + '","args":""}', '*');
+        }
+        else {
+            // The element is not visible, pause the video
+            video.contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
+        }
+    });
+}

@@ -21,7 +21,7 @@ public class ReactionDto : IValidatableObject
             var cleanedWord = regex.Replace(word, "").ToLower();
             if (vulgarWords.Contains(cleanedWord))
             {
-                string errorMessage = "Geen vulgaire taal in text!!!";
+                string errorMessage = "Geen vulgaire taal in reacties!!!";
                 errors.Add(new ValidationResult(errorMessage, new []{nameof(Content)}));
             }
         }

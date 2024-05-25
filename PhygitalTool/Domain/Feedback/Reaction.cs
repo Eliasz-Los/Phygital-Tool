@@ -12,6 +12,8 @@ public class Reaction : IValidatableObject
     public string Content { get; set; }
     public ICollection<PostReaction> PostReactions { get; set; }
     public Account Account { get; set; }
+    
+    public ICollection<ReactionLike> ReactionLikes { get; set; }
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
         List<ValidationResult> errors = new List<ValidationResult>();

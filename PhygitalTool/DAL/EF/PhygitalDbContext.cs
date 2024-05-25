@@ -7,11 +7,10 @@ using Phygital.Domain.Feedback;
 using Phygital.Domain.Questionsprocess;
 using Phygital.Domain.Questionsprocess.Questions;
 using Phygital.Domain.Session;
-using Phygital.Domain.Subplatform;
 using Phygital.Domain.Themas;
 using Phygital.Domain.User;
-using Version = Phygital.Domain.Subplatform.Version;
 using Microsoft.Extensions.Configuration;
+using Phygital.Domain.Questionsprocess.Infos;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace Phygital.DAL.EF;
@@ -44,17 +43,13 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
     // Thema package
     public DbSet<Theme> Themas { get; set; }
     
-    // Subplatform package
-    public DbSet<Project> Projects { get; set; }
-    public DbSet<Version> Versions { get; set; }
-    
     // feedback package
     public DbSet<Post> Posts { get; set; }
     public DbSet<Reaction> Reactions { get; set; }
     public DbSet<Like> Likes { get; set; }
     public DbSet<PostReaction> PostReactions { get; set; }
     public DbSet<PostLike> PostLikes { get; set; }
-
+    public DbSet<ReactionLike> ReactionLikes { get; set; }
     //om connection string uit te halen
     private readonly IConfiguration _configuration;
     public PhygitalDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
@@ -134,8 +129,8 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         //////////////////////
         // Accounts package //
         //////////////////////
-        /// TODO: moet dit geen ACcount zijn??
-        modelBuilder.Entity<IdentityUser>().ToTable("Accounts").HasIndex(user => user.Id).IsUnique();
+      
+        modelBuilder.Entity<Account>().ToTable("Accounts").HasIndex(user => user.Id).IsUnique();
         modelBuilder.Entity<Organisation>().ToTable("Organisations").HasIndex(organisation =>  organisation.id).IsUnique();
         
         modelBuilder.Entity<Account>()
@@ -232,12 +227,6 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         modelBuilder.Entity<Theme>().ToTable("Theme").HasIndex(thema => thema.Id).IsUnique();
         
         /////////////////////////
-        // Subplatform package //
-        /////////////////////////
-        modelBuilder.Entity<Project>().ToTable("Projects").HasIndex(project => project.Id).IsUnique();
-        modelBuilder.Entity<Version>().ToTable("Versions").HasIndex(version => version.Id).IsUnique();
-        
-        /////////////////////////
         // Feedback package    //
         /////////////////////////
 
@@ -246,6 +235,7 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         modelBuilder.Entity<Like>().ToTable("Likes").HasIndex(like => like.Id).IsUnique();
         modelBuilder.Entity<PostReaction>().ToTable("PostReactions").HasIndex(postReaction => postReaction.Id).IsUnique();
         modelBuilder.Entity<PostLike>().ToTable("PostLikes").HasIndex(postLike => postLike.Id).IsUnique();
+        modelBuilder.Entity<ReactionLike>().ToTable("ReactionLikes").HasIndex(reactionLike => reactionLike.Id).IsUnique();
         
         // Relations
         //one flow has many flowelements 
@@ -338,25 +328,6 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         modelBuilder.Entity<Option>()
             .HasOne(o => o.Answer)
             .WithMany(a => a.ChosenOptions);
-
-        
-        // Subplatform
-        modelBuilder.Entity<Project>()
-            .HasMany(p => p.Versions)
-            .WithOne(v => v.Project);
-
-        modelBuilder.Entity<Project>()
-            .HasMany(p => p.Flows)
-            .WithOne(f => f.Project);
-
-        modelBuilder.Entity<Flow>()
-            .HasOne(f => f.Project)
-            .WithMany(p => p.Flows);
-
-        modelBuilder.Entity<Version>()
-            .HasOne(v => v.Project)
-            .WithMany(p => p.Versions);
-        
         
         // Feedback 
         modelBuilder.Entity<Post>()
@@ -381,20 +352,42 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         
         modelBuilder.Entity<Reaction>()
             .HasMany(r => r.PostReactions)
-            .WithOne(pr => pr.Reaction);
+            .WithOne(pr => pr.Reaction)
+            .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<PostReaction>()
             .HasOne(pr => pr.Reaction)
-            .WithMany(r => r.PostReactions);
+            .WithMany(r => r.PostReactions)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<Reaction>()
+            .HasMany(r => r.PostReactions)
+            .WithOne(l => l.Reaction)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<PostReaction>()
+            .HasOne(pr => pr.Reaction)
+            .WithMany(r => r.PostReactions)
+            .OnDelete(DeleteBehavior.Cascade);
         
         modelBuilder.Entity<Like>()
             .HasMany(l => l.PostLikes)
-            .WithOne(pl => pl.Like);
+            .WithOne(pl => pl.Like)
+            .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<PostLike>()
             .HasOne(pl => pl.Like)
-            .WithMany(l => l.PostLikes);
-        
-        
-            
+            .WithMany(l => l.PostLikes)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Like>()
+            .HasMany(l => l.ReactionLikes)
+            .WithOne(rl => rl.Like)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<ReactionLike>()
+            .HasOne(rl => rl.Like)
+            .WithMany(l => l.ReactionLikes)
+            .OnDelete(DeleteBehavior.Cascade);
+
+
+
     }
     public bool CreateDatabase(bool dropExisting = true)
     {

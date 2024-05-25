@@ -7,7 +7,7 @@ public interface IFeedbackRepository
 {
     
     Task<Post> ReadPostByIdAsync(long id);
-    Task<Post> ReadPostWithThemeByIdAsync(long id);
+    Task<Post> ReadPostWithAccountAndWithThemeById(long id);
     Task<IEnumerable<Post>> ReadAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes();
     
     Task CreatePost(Post post);
@@ -30,4 +30,15 @@ public interface IFeedbackRepository
     Task<int> ReadLikesCountByPostId(long postId);
     Task<int> ReadDislikesCountByPostId(long postId);
     Task<IEnumerable<PostReaction>> ReadReactionsOfPostByPostId(long postId);
+    
+    Task DeleteReactionToPostById(long postId, long reactionId);
+    Task<Reaction> ReadReactionWithAccountById(long reactionId);
+    Task<ReactionLike> CreateReactionLikeByReactionId(long reactionId, Account currentAccount);
+    Task<ReactionLike> CreateReactionDisLikeByReactionId(long reactionId, Account currentAccount);
+    Task<int> ReadLikesCountByReactionId(long reactionId);
+    Task<int> ReadDislikesCountByReactionId(long reactionId);
+    Task<ReactionLike> ReadDislikeByReactionIdAndUserId(long reactionId, string currentAccountId);
+    Task DeleteReactionDislikeByReactionIdAndUserId(long reactionId, string currentAccountId);
+    Task<ReactionLike> ReadLikeByReactionIdAndUserId(long reactionId, string currentAccountId);
+    Task DeleteReactionLikeByReactionIdAndUserId(long reactionId, string currentAccountId);
 }

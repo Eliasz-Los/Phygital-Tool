@@ -1,6 +1,6 @@
 import {
     getSingleChoiceQuestionData, getOpenQuestionsData, getMultipleChoiceQuestionsData, getRangeQuestionsData,
-    getTextData, getImageData, getVideoData, getAnswers, commitAnswer, updateProgressBar
+    getTextData, getImageData, getVideoData, getAnswers, commitAnswer, updateProgressBar, handleScrollForVideoPlayback
 } from './physicalDetails.js';
 
 const addButton = document.getElementById("answerFlow")
@@ -44,8 +44,8 @@ function InitializeFlow() {
                 switch (e.code) {
                     case 'KeyD':
                         btnNext.click();
-                        if (currentQuestionNumber < totalQuestions) {
-                        currentQuestionNumber++;
+                        if (window.currentQuestionNumber < window.totalQuestions) {
+                            window.currentQuestionNumber++;
                             updateButton();
                         }
                         updateProgressBar();
@@ -53,8 +53,8 @@ function InitializeFlow() {
                         break;
                     case 'KeyA':
                         btnPrev.click();
-                        if (currentQuestionNumber > 1) {
-                            currentQuestionNumber--;
+                        if (window.currentQuestionNumber > 1) {
+                            window.currentQuestionNumber--;
                             updateButton();
                         }
                         updateProgressBar();
@@ -112,6 +112,6 @@ getTextData();
 getImageData();
 getVideoData();
 getAnswers();
-
+$(window).scroll(handleScrollForVideoPlayback);
 
 addButton.addEventListener("click", commitAnswer);

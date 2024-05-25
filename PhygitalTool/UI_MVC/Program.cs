@@ -1,7 +1,7 @@
 using Phygital.BL;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using Phygital.BL;
 using Phygital.BL.Managers;
 using Phygital.DAL;
 using Phygital.DAL.EF;
@@ -36,7 +36,6 @@ builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IFlowElementRepository, FlowElementRepository>();
 builder.Services.AddScoped<IFlowRepository, FlowRepository>();
 builder.Services.AddScoped<IPlatformRepository, PlatformRepository>();
-builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IThemeRepository, ThemeRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -46,7 +45,6 @@ builder.Services.AddScoped<IFeedbackManager, FeedbackManager>();
 builder.Services.AddScoped<IFlowElementManager, FlowElementManager>();
 builder.Services.AddScoped<IFlowManager, FlowManager>();
 builder.Services.AddScoped<IPlatformManager, PlatformManager>();
-builder.Services.AddScoped<IProjectManager, ProjectManager>();
 builder.Services.AddScoped<ISessionManager, SessionManager>();
 builder.Services.AddScoped<IThemeManager, ThemeManager>();
 builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
@@ -124,3 +122,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+public partial class Program{}

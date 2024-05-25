@@ -27,7 +27,6 @@
         });
 }
 
-
 function addFlow() {
     var selectedType = document.getElementById('TypeSelect').value;
     var selectedTheme = document.getElementById('ThemaSelect');
@@ -63,4 +62,5 @@ function addFlow() {
 }
 
 document.getElementById("submitFlow").addEventListener("click", addFlow);
+// document.getElementById("getquestion").addEventListener("click", addFlow);
 fillSubthemesSelect();

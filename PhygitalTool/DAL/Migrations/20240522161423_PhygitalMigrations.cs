@@ -7,11 +7,36 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Phygital.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class PhygitalMigration : Migration
+    public partial class PhygitalMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    UserName = table.Column<string>(type: "text", nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "text", nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Accounts", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -27,40 +52,15 @@ namespace Phygital.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    LastName = table.Column<string>(type: "text", nullable: true),
-                    RoleName = table.Column<string>(type: "text", nullable: true),
-                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Installation",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Location = table.Column<string>(type: "text", nullable: true)
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    PostalCode = table.Column<int>(type: "integer", nullable: false),
+                    Street = table.Column<string>(type: "text", nullable: true),
+                    StreetNumber = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,29 +68,17 @@ namespace Phygital.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Projects",
+                name: "Organisations",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true)
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Projects", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Reactions",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Content = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reactions", x => x.Id);
+                    table.PrimaryKey("PK_Organisations", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -99,8 +87,8 @@ namespace Phygital.DAL.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
                     ThemeId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
@@ -132,6 +120,80 @@ namespace Phygital.DAL.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Session",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    SessionType = table.Column<int>(type: "integer", nullable: false),
+                    installationId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Session", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Session_Installation_installationId",
+                        column: x => x.installationId,
+                        principalTable: "Installation",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: true),
+                    organisationId = table.Column<long>(type: "bigint", nullable: true),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Organisations_organisationId",
+                        column: x => x.organisationId,
+                        principalTable: "Organisations",
+                        principalColumn: "id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Flow",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    FlowType = table.Column<int>(type: "integer", nullable: false),
+                    IsOpen = table.Column<bool>(type: "boolean", nullable: false),
+                    ThemeId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Flow", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Flow_Theme_ThemeId",
+                        column: x => x.ThemeId,
+                        principalTable: "Theme",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -220,69 +282,22 @@ namespace Phygital.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Versions",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    DateTimeOfEdit = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    ProjectId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Versions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Versions_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Likes",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ReactionId = table.Column<long>(type: "bigint", nullable: true),
                     Timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    LikeType = table.Column<int>(type: "integer", nullable: false)
+                    LikeType = table.Column<int>(type: "integer", nullable: false),
+                    AccountId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Likes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Likes_Reactions_ReactionId",
-                        column: x => x.ReactionId,
-                        principalTable: "Reactions",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Flow",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FlowType = table.Column<int>(type: "integer", nullable: false),
-                    IsOpen = table.Column<bool>(type: "boolean", nullable: false),
-                    ThemeId = table.Column<long>(type: "bigint", nullable: true),
-                    ProjectId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Flow", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Flow_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Flow_Theme_ThemeId",
-                        column: x => x.ThemeId,
-                        principalTable: "Theme",
+                        name: "FK_Likes_AspNetUsers_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id");
                 });
 
@@ -293,16 +308,42 @@ namespace Phygital.DAL.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    Text = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
-                    ThemeId = table.Column<long>(type: "bigint", nullable: true)
+                    Text = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    PostTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ThemeId = table.Column<long>(type: "bigint", nullable: true),
+                    AccountId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Posts", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Posts_AspNetUsers_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Posts_Theme_ThemeId",
                         column: x => x.ThemeId,
                         principalTable: "Theme",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reactions",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Content = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    AccountId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reactions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reactions_AspNetUsers_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id");
                 });
 
@@ -336,8 +377,10 @@ namespace Phygital.DAL.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Duration = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     AmountOfParticipants = table.Column<int>(type: "integer", nullable: false),
+                    sessionId = table.Column<long>(type: "bigint", nullable: true),
                     flowId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
@@ -348,6 +391,11 @@ namespace Phygital.DAL.Migrations
                         column: x => x.flowId,
                         principalTable: "Flow",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Participation_Session_sessionId",
+                        column: x => x.sessionId,
+                        principalTable: "Session",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -356,10 +404,9 @@ namespace Phygital.DAL.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PostId = table.Column<long>(type: "bigint", nullable: true),
-                    LikeId = table.Column<long>(type: "bigint", nullable: true),
                     Timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsLiked = table.Column<bool>(type: "boolean", nullable: false)
+                    PostId = table.Column<long>(type: "bigint", nullable: true),
+                    LikeId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -368,7 +415,8 @@ namespace Phygital.DAL.Migrations
                         name: "FK_PostLikes_Likes_LikeId",
                         column: x => x.LikeId,
                         principalTable: "Likes",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PostLikes_Posts_PostId",
                         column: x => x.PostId,
@@ -383,10 +431,9 @@ namespace Phygital.DAL.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PostId = table.Column<long>(type: "bigint", nullable: true),
-                    ReactionId = table.Column<long>(type: "bigint", nullable: true),
                     Timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    PostId = table.Column<long>(type: "bigint", nullable: true),
+                    ReactionId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -401,7 +448,8 @@ namespace Phygital.DAL.Migrations
                         name: "FK_PostReactions_Reactions_ReactionId",
                         column: x => x.ReactionId,
                         principalTable: "Reactions",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -462,42 +510,15 @@ namespace Phygital.DAL.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Comment = table.Column<string>(type: "text", nullable: true),
-                    ParticipationId = table.Column<long>(type: "bigint", nullable: true)
+                    Comment = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
+                    participationId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Note", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Note_Participation_ParticipationId",
-                        column: x => x.ParticipationId,
-                        principalTable: "Participation",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Session",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    SessionType = table.Column<int>(type: "integer", nullable: false),
-                    InstallationId = table.Column<long>(type: "bigint", nullable: true),
-                    ParticipationId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Session", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Session_Installation_InstallationId",
-                        column: x => x.InstallationId,
-                        principalTable: "Installation",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Session_Participation_ParticipationId",
-                        column: x => x.ParticipationId,
+                        name: "FK_Note_Participation_participationId",
+                        column: x => x.participationId,
                         principalTable: "Participation",
                         principalColumn: "Id");
                 });
@@ -629,7 +650,7 @@ namespace Phygital.DAL.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     flowId = table.Column<long>(type: "bigint", nullable: true),
                     SubThemeId = table.Column<long>(type: "bigint", nullable: true),
-                    ChosenAnswer = table.Column<string>(type: "text", nullable: true),
+                    ChosenAnswer = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
                     MultipleChoiceId = table.Column<long>(type: "bigint", nullable: true),
                     RangeQuestionId = table.Column<long>(type: "bigint", nullable: true),
                     SingleChoiceQuestionId = table.Column<long>(type: "bigint", nullable: true),
@@ -729,6 +750,12 @@ namespace Phygital.DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Accounts_Id",
+                table: "Accounts",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Answers_flowId",
                 table: "Answers",
                 column: "flowId");
@@ -791,6 +818,11 @@ namespace Phygital.DAL.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_organisationId",
+                table: "AspNetUsers",
+                column: "organisationId");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -801,11 +833,6 @@ namespace Phygital.DAL.Migrations
                 table: "Flow",
                 column: "Id",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Flow_ProjectId",
-                table: "Flow",
-                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Flow_ThemeId",
@@ -828,20 +855,32 @@ namespace Phygital.DAL.Migrations
                 column: "FlowElementId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Installation_Id",
+                table: "Installation",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_AccountId",
+                table: "Likes",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Likes_Id",
                 table: "Likes",
                 column: "Id",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Likes_ReactionId",
-                table: "Likes",
-                column: "ReactionId");
+                name: "IX_Note_Id",
+                table: "Note",
+                column: "Id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Note_ParticipationId",
+                name: "IX_Note_participationId",
                 table: "Note",
-                column: "ParticipationId");
+                column: "participationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenQuestions_answerId",
@@ -876,6 +915,12 @@ namespace Phygital.DAL.Migrations
                 column: "SingleChoiceQuestionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Organisations_id",
+                table: "Organisations",
+                column: "id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Participation_flowId",
                 table: "Participation",
                 column: "flowId");
@@ -885,6 +930,11 @@ namespace Phygital.DAL.Migrations
                 table: "Participation",
                 column: "Id",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Participation_sessionId",
+                table: "Participation",
+                column: "sessionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostLikes_Id",
@@ -919,6 +969,11 @@ namespace Phygital.DAL.Migrations
                 column: "ReactionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Posts_AccountId",
+                table: "Posts",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Posts_Id",
                 table: "Posts",
                 column: "Id",
@@ -928,12 +983,6 @@ namespace Phygital.DAL.Migrations
                 name: "IX_Posts_ThemeId",
                 table: "Posts",
                 column: "ThemeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Projects_Id",
-                table: "Projects",
-                column: "Id",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_FlowElementId",
@@ -946,20 +995,26 @@ namespace Phygital.DAL.Migrations
                 column: "ThemeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reactions_AccountId",
+                table: "Reactions",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reactions_Id",
                 table: "Reactions",
                 column: "Id",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Session_InstallationId",
+                name: "IX_Session_Id",
                 table: "Session",
-                column: "InstallationId");
+                column: "Id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Session_ParticipationId",
+                name: "IX_Session_installationId",
                 table: "Session",
-                column: "ParticipationId");
+                column: "installationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Theme_Id",
@@ -971,22 +1026,14 @@ namespace Phygital.DAL.Migrations
                 name: "IX_Theme_ThemeId",
                 table: "Theme",
                 column: "ThemeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Versions_Id",
-                table: "Versions",
-                column: "Id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Versions_ProjectId",
-                table: "Versions",
-                column: "ProjectId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Accounts");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -1021,13 +1068,7 @@ namespace Phygital.DAL.Migrations
                 name: "PostReactions");
 
             migrationBuilder.DropTable(
-                name: "Session");
-
-            migrationBuilder.DropTable(
                 name: "Texts");
-
-            migrationBuilder.DropTable(
-                name: "Versions");
 
             migrationBuilder.DropTable(
                 name: "Videos");
@@ -1036,7 +1077,7 @@ namespace Phygital.DAL.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Participation");
 
             migrationBuilder.DropTable(
                 name: "Answers");
@@ -1048,13 +1089,13 @@ namespace Phygital.DAL.Migrations
                 name: "Posts");
 
             migrationBuilder.DropTable(
-                name: "Installation");
-
-            migrationBuilder.DropTable(
-                name: "Participation");
+                name: "Reactions");
 
             migrationBuilder.DropTable(
                 name: "Infos");
+
+            migrationBuilder.DropTable(
+                name: "Session");
 
             migrationBuilder.DropTable(
                 name: "MultipleChoices");
@@ -1066,19 +1107,22 @@ namespace Phygital.DAL.Migrations
                 name: "SingleChoiceQuestions");
 
             migrationBuilder.DropTable(
-                name: "Reactions");
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Installation");
 
             migrationBuilder.DropTable(
                 name: "Questions");
+
+            migrationBuilder.DropTable(
+                name: "Organisations");
 
             migrationBuilder.DropTable(
                 name: "FlowElement");
 
             migrationBuilder.DropTable(
                 name: "Flow");
-
-            migrationBuilder.DropTable(
-                name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "Theme");

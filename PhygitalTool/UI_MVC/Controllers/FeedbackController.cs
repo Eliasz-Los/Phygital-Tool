@@ -78,7 +78,7 @@ public class FeedbackController : Controller
         var themes = _themeManager.GetAllThemas();
         ViewBag.Themes = themes;
         
-        var post = await _feedbackManager.GetPostWithThemeByIdAsync(id);
+        var post = await _feedbackManager.GetPostWithAccountAndWithThemeById(id);
         Account user = new Account();
         if (User.Identity?.Name != null)
         {
@@ -121,7 +121,7 @@ public class FeedbackController : Controller
             user = await _userManager.FindByNameAsync(User.Identity.Name);
         }
         
-        var post = await _feedbackManager.GetPostWithThemeByIdAsync(id);
+        var post = await _feedbackManager.GetPostWithAccountAndWithThemeById(id);
         
         if (post == null)
             return NotFound();
@@ -131,7 +131,7 @@ public class FeedbackController : Controller
         
         if (post.Account.UserName != user.UserName && !User.IsInRole("Admin") && !User.IsInRole("SubAdmin"))
         {
-            _logger.LogInformation("Unauthorized user, {user} : {post}", user.UserName, post.Account.UserName);
+            _logger.LogError("Unauthorized user, {user} : {post}", user.UserName, post.Account.UserName);
             return Forbid();
         }
         
