@@ -42,7 +42,7 @@ public class UserController : Controller
     
     [HttpPost]
     [Authorize(Roles = "Admin")]
-    public IActionResult Delete(long id)
+    public IActionResult Delete(String id)
     {
         try
         {
@@ -53,7 +53,7 @@ public class UserController : Controller
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error deleting theme with id {Id}", id);
+            _logger.LogError(ex, "Error deleting user with id {Id}", id);
             TempData["ErrorMessage"] = "Deze user kan niet verwijderd worden.";
             return RedirectToAction("Index");
         }

@@ -17,7 +17,7 @@ public class UserManager : IUserManager
         return _userRepository.ReadUsersByOrganisationId(organisationId);
     }
     
-    public void RemoveUser(long id)
+    public void RemoveUser(String id)
     {
         _userRepository.DeleteUser(id);
     }

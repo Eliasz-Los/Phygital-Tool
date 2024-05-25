@@ -5,7 +5,7 @@ namespace Phygital.BL;
 public interface IUserManager
 {
     IEnumerable<Account> GetUsersByOrganisationId(long organisationId);
-    void RemoveUser(long id);
+    void RemoveUser(String id);
     Account GetUserByEmail(string email);
     IEnumerable<Organisation> GetAllOrganisations();
     Organisation GetOrganisationById(long id);

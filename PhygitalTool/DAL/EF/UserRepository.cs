@@ -16,7 +16,7 @@ public class UserRepository : IUserRepository
         return _dbContext.Users.Where(user => user.Organisation.id == organisationId).ToList();
     }
     
-    public void DeleteUser(long id)
+    public void DeleteUser(String id)
     {
         var userToDelete = _dbContext.Users.Find(id);
         _dbContext.Users.Remove(userToDelete!);
