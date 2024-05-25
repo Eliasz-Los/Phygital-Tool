@@ -88,11 +88,14 @@ namespace Phygital.UI_MVC.Areas.Identity.Pages.Account
             {
                 Organisations = _userManagerService.GetAllOrganisations().ToList();
             }
-            // else if (User.IsInRole("Admin") || User.IsInRole("Subadmin") || User.IsInRole("Supervisor"))
-            // {
-            //     var currentUser = await _userManager.GetUserAsync(User);
-            //     Input.OrganisationId = currentUser!.Organisation;
-            // }
+            else if (User.IsInRole("Admin") || User.IsInRole("Subadmin"))
+            {
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser is { Organisation: not null })
+                {
+                    Input.OrganisationId = currentUser.Organisation.id;
+                }
+            }
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)

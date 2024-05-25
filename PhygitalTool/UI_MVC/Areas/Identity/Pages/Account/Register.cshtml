@@ -32,7 +32,7 @@
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
 
-            @if (User.Identity != null && !User.Identity.IsAuthenticated)
+            @if (User.Identity is { IsAuthenticated: false })
             {
                 <div class="form-floating mb-3">
                     <select asp-for="Input.Role" class="form-control">
