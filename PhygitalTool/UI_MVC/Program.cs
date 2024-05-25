@@ -5,6 +5,7 @@ using Phygital.BL;
 using Phygital.BL.Managers;
 using Phygital.DAL;
 using Phygital.DAL.EF;
+using Phygital.Domain;
 using Phygital.Domain.User;
 using Phygital.UI_MVC.Services;
 using FlowManager = Phygital.BL.Managers.FlowManager;
@@ -52,8 +53,8 @@ builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IStatisticsRepository, StatisticsRepository>();
 builder.Services.AddScoped<IStatisticsManager, StatisticsManager>();
 builder.Services.AddScoped<IUserManager, UserManager>();
-builder.Services.AddScoped<CloudStorageService>();
 
+builder.Services.AddSingleton<ICloudStorage, CloudStorageService>();
 // identity options (optimal)
 // builder.Services.Configure<IdentityOptions>(options =>
 // {

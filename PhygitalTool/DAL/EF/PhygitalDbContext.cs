@@ -63,11 +63,11 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
     }
     
     //Nieuwe constructor voor identity migration, miss niet de beste oplossing
-    /*public PhygitalDbContext() : this(new DbContextOptionsBuilder<PhygitalDbContext>()
+    public PhygitalDbContext() : this(new DbContextOptionsBuilder<PhygitalDbContext>()
             .UseNpgsql("Host=localhost;Database=Phygital.db;Port=5001;Username=postgres;Password=postgres").Options,
         null)
     {
-    }*/
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

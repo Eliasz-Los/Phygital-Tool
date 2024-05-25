@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Phygital.DAL.EF;
@@ -11,9 +12,11 @@ using Phygital.DAL.EF;
 namespace Phygital.DAL.Migrations
 {
     [DbContext(typeof(PhygitalDbContext))]
-    partial class PhygitalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240525124658_ImageFile")]
+    partial class ImageFile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

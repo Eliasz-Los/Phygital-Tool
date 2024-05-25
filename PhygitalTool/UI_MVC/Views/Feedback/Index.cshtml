@@ -43,7 +43,14 @@
                 </div>
             </div>
             <div class="card-body container">
+                @{
+                    if (post.ImageUrl != null)
+                    {
+                        <img src="@Url.Content(post.ImageUrl)" class="card-img-top" alt="Foto van post"/> @*@post.ImageUrl   @Url.Content(post.ImageUrl)*@
+                    }
+                }
                 <p>@post.Text</p>
+
                 <div class="row">
                     <div class="col d-flex">
                         <div class="col d-flex gap-2">
