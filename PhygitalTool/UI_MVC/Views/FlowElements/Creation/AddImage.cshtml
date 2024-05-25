@@ -1,19 +1,37 @@
 ﻿@page
-@model Phygital.UI_MVC.Views.FlowElements.Creation.AddImage
+@model Phygital.UI_MVC.Models.Dto.Infos.ImageDto
 
 @{
-    Layout = null;
+    ViewBag.Title = "Phygital";
+    Layout = "_Layout";
 }
 
-<!DOCTYPE html>
+<!-- This page displays some elements to create an openquestion -->
 
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    
+<div class="text-center">
+    <h3 class="align-content-center p-4">Voeg hier een image toe</h3>
+    <div class="container-fluid">
+        <form class="row" enctype="multipart/form-data">
+            <div class="col-12 d-flex justify-content-center">
+                <div>
+                    @*<label asp-for="FlowId">Flow waar het toebehoort</label>
+                    <select asp-for="FlowId" asp-items="@(ViewBag.highest)" class="form-control"></select>
+                    <span asp-validation-for="FlowId" class="text-danger"></span>*@
+                    <div>@(ViewBag.Highest)</div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ImageFile" class="input-group-text border border-warning mb-3">Kies een afbeelding</label>
+                    <input asp-for="ImageFile" type="file" class="form-control">
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
-</body>
-</html>
+
+
+@section Scripts
+{
+    <script src="" defer></script>
+}

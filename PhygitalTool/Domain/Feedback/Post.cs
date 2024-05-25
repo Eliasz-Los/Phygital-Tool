@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Http;
 using Phygital.Domain.Themas;
 using Phygital.Domain.User;
 
@@ -15,6 +17,12 @@ public class Post : IValidatableObject
     [MaxLength(1000, ErrorMessage = "Text is too long, max 1000 characters.")]
     public string Text { get; set; }
     public DateTime PostTime { get; set; } = DateTime.UtcNow.ToUniversalTime().AddHours(2);
+    
+    [DataType(DataType.Url)]
+    public string ImageUrl { get; set; }
+    
+    [NotMapped]
+    public virtual IFormFile ImageFile { get; set; }
     public ICollection<PostReaction> PostReactions { get; set; }
     public ICollection<PostLike> PostLikes { get; set; }
     public Theme Theme { get; set; }

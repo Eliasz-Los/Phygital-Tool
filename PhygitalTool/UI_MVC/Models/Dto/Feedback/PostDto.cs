@@ -13,6 +13,7 @@ public class PostDto : IValidatableObject
     public string Text { get; set; }
     
     public long ThemeId { get; set; }
+    public  IFormFile ImageFile { get; set; }
     
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
