@@ -5,11 +5,6 @@ namespace Phygital.UI_MVC.Services;
 public class CloudStorageService
 {
     
-    /*
-    private readonly string projectId;
-            projectId = configuration["GCloud:ProjectId"];
-              "image/jpeg", // A very hardcoded MIME type ...
-    */
     private readonly GoogleCredential _googleCredential;
     private readonly StorageClient _storageClient;
     private readonly string _bucketName;
@@ -26,6 +21,13 @@ public class CloudStorageService
         var storageObject = _storageClient.UploadObject(_bucketName, fileNameForStorage, null, memoryStream);
         // TODO: IMPORTANT: store the url (MediaLink) somewhere ...
         return storageObject.MediaLink;
+    }
+    
+    private static string FormFileName(string title, string fileName)
+    {
+        var fileExtension = Path.GetExtension(fileName);
+        var fileNameForStorage = $"{title}-{DateTime.Now.ToString("yyyyMMddHHmmss")}{fileExtension}";
+        return fileNameForStorage;
     }
 
 }

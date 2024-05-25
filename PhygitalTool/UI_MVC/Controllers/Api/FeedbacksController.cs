@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Phygital.BL;
 using Phygital.Domain.User;
 using Phygital.UI_MVC.Models.Dto.Feedback;
+using Phygital.UI_MVC.Services;
 
 namespace Phygital.UI_MVC.Controllers.Api;
 
@@ -14,12 +16,14 @@ public class FeedbacksController : ControllerBase
   private readonly IFeedbackManager _feedbackManager;
   private readonly UnitOfWork _uow;
   private readonly UserManager<Account> _userManager;
+  private readonly CloudStorageService _cloudStorageService;
 
-  public FeedbacksController(IFeedbackManager feedbackManager, UnitOfWork uow, UserManager<Account> userManager)
+  public FeedbacksController(IFeedbackManager feedbackManager, UnitOfWork uow, UserManager<Account> userManager, CloudStorageService cloudStorageService)
   {
     _feedbackManager = feedbackManager;
     _uow = uow;
     _userManager = userManager;
+    _cloudStorageService = cloudStorageService;
   }
   
   
