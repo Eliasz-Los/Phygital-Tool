@@ -32582,25 +32582,16 @@ input[type=range]::-moz-range-thumb {
 }
 
 /******************* NEW NAVBAR *******************/
-nav {
-  background-color: #ffffff;
+nav ul li a:active, nav ul li a:focus {
+  border-bottom: 2px solid black;
 }
-nav li {
-  color: #808080;
+nav ul li a.nav-link:hover {
+  border-bottom: 2px solid black;
 }
-nav li:hover {
-  color: #ffc107;
-}
-
-a.nav-link:hover {
-  border: 2px solid cornflowerblue;
-  text-decoration: none;
-  background-color: coral;
-}
-
-a.nav-link:active {
+nav ul li a.nav-link:active, nav ul li a.nav-link:focus {
+  border: 2px solid black;
   background-color: #ffc107;
-  color: white;
+  color: #ffffff;
 }
 
 /*# sourceMappingURL=site.css.map*/

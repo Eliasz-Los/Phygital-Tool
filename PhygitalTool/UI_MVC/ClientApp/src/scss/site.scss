@@ -39,7 +39,7 @@ body {
 
 /******************* FLOW DETAILS CSS *******************/
 .white-text {
-  color: #ffffff;
+  color: $white-color;
 }
 
 /*:root {
@@ -155,23 +155,29 @@ input[type="range"]::-moz-range-thumb {
 /******************* NEW NAVBAR *******************/
 
 nav {
-  background-color: $white-color;
-  li{
-    color: $grey-color;
-    
-    &:hover{
-      color: $yellow-color;
+  
+  ul {
+   
+    li{
+      a{
+        &:active, &:focus {
+          border-bottom: 2px solid black;
+        }
+        
+        &.nav-link:hover{
+          border-bottom: 2px solid black;
+        }
+
+        &.nav-link:active, &.nav-link:focus {
+          border: 2px solid black;
+          background-color: $yellow-color;
+          color: $white-color;
+        }
+      }
+      
     }
   }
+  
 }
 
 
-a.nav-link:hover{
-  border: 2px solid cornflowerblue;
-  text-decoration: none;
-  background-color: coral;
-}
-a.nav-link:active{
-  background-color: $yellow-color;
-  color: white;
-}
