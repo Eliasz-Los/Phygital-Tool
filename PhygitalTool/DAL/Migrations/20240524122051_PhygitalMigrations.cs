@@ -13,31 +13,6 @@ namespace Phygital.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Accounts",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    UserName = table.Column<string>(type: "text", nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "text", nullable: true),
-                    Email = table.Column<string>(type: "text", nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "text", nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Accounts", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -57,9 +32,9 @@ namespace Phygital.DAL.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: false),
                     PostalCode = table.Column<int>(type: "integer", nullable: false),
-                    Street = table.Column<string>(type: "text", nullable: true),
+                    Street = table.Column<string>(type: "text", nullable: false),
                     StreetNumber = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -73,8 +48,8 @@ namespace Phygital.DAL.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true)
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -87,8 +62,8 @@ namespace Phygital.DAL.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
                     ThemeId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
@@ -144,7 +119,7 @@ namespace Phygital.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
+                name: "Accounts",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -168,9 +143,9 @@ namespace Phygital.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.PrimaryKey("PK_Accounts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Organisations_organisationId",
+                        name: "FK_Accounts_Organisations_organisationId",
                         column: x => x.organisationId,
                         principalTable: "Organisations",
                         principalColumn: "id");
@@ -210,9 +185,9 @@ namespace Phygital.DAL.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        name: "FK_AspNetUserClaims_Accounts_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Accounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -230,9 +205,9 @@ namespace Phygital.DAL.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        name: "FK_AspNetUserLogins_Accounts_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Accounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -248,15 +223,15 @@ namespace Phygital.DAL.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
+                        name: "FK_AspNetUserRoles_Accounts_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Accounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -274,9 +249,9 @@ namespace Phygital.DAL.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        name: "FK_AspNetUserTokens_Accounts_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Accounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -295,9 +270,9 @@ namespace Phygital.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Likes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Likes_AspNetUsers_AccountId",
+                        name: "FK_Likes_Accounts_AccountId",
                         column: x => x.AccountId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Accounts",
                         principalColumn: "Id");
                 });
 
@@ -317,9 +292,9 @@ namespace Phygital.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Posts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Posts_AspNetUsers_AccountId",
+                        name: "FK_Posts_Accounts_AccountId",
                         column: x => x.AccountId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Accounts",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Posts_Theme_ThemeId",
@@ -341,9 +316,9 @@ namespace Phygital.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Reactions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reactions_AspNetUsers_AccountId",
+                        name: "FK_Reactions_Accounts_AccountId",
                         column: x => x.AccountId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Accounts",
                         principalColumn: "Id");
                 });
 
@@ -510,7 +485,7 @@ namespace Phygital.DAL.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Comment = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
+                    Comment = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     participationId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
@@ -528,9 +503,9 @@ namespace Phygital.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: true),
-                    Url = table.Column<string>(type: "text", nullable: true),
-                    AltText = table.Column<string>(type: "text", nullable: true)
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: false),
+                    AltText = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -548,8 +523,8 @@ namespace Phygital.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: true),
-                    Content = table.Column<string>(type: "text", nullable: true)
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Content = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -567,9 +542,9 @@ namespace Phygital.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: true),
-                    Url = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true)
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -650,7 +625,7 @@ namespace Phygital.DAL.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     flowId = table.Column<long>(type: "bigint", nullable: true),
                     SubThemeId = table.Column<long>(type: "bigint", nullable: true),
-                    ChosenAnswer = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
+                    ChosenAnswer = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     MultipleChoiceId = table.Column<long>(type: "bigint", nullable: true),
                     RangeQuestionId = table.Column<long>(type: "bigint", nullable: true),
                     SingleChoiceQuestionId = table.Column<long>(type: "bigint", nullable: true),
@@ -691,7 +666,7 @@ namespace Phygital.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
-                    Text = table.Column<string>(type: "text", nullable: true),
+                    Text = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     Active = table.Column<bool>(type: "boolean", nullable: false),
                     SequenceNumber = table.Column<int>(type: "integer", nullable: false),
                     answerId = table.Column<long>(type: "bigint", nullable: true)
@@ -721,7 +696,7 @@ namespace Phygital.DAL.Migrations
                     MultipleChoiceId = table.Column<long>(type: "bigint", nullable: true),
                     RangeQuestionId = table.Column<long>(type: "bigint", nullable: true),
                     SingleChoiceQuestionId = table.Column<long>(type: "bigint", nullable: true),
-                    OptionText = table.Column<string>(type: "text", nullable: true),
+                    OptionText = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     AnswerId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
@@ -750,9 +725,25 @@ namespace Phygital.DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "Accounts",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Accounts_Id",
                 table: "Accounts",
                 column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accounts_organisationId",
+                table: "Accounts",
+                column: "organisationId");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "Accounts",
+                column: "NormalizedUserName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -811,22 +802,6 @@ namespace Phygital.DAL.Migrations
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "EmailIndex",
-                table: "AspNetUsers",
-                column: "NormalizedEmail");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_organisationId",
-                table: "AspNetUsers",
-                column: "organisationId");
-
-            migrationBuilder.CreateIndex(
-                name: "UserNameIndex",
-                table: "AspNetUsers",
-                column: "NormalizedUserName",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Flow_Id",
@@ -1032,9 +1007,6 @@ namespace Phygital.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Accounts");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -1107,7 +1079,7 @@ namespace Phygital.DAL.Migrations
                 name: "SingleChoiceQuestions");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Accounts");
 
             migrationBuilder.DropTable(
                 name: "Installation");

@@ -19,28 +19,41 @@ public class OrganisatieController : Controller
     }
 
     [HttpGet]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Owner")]
     public IActionResult Index()
     {
         var organisations = _userManager.GetAllOrganisations();
         return View(organisations);
     }
     
-    [HttpGet]
-    [Authorize(Roles = "Admin")]
+    [HttpPost]
+    [Authorize(Roles = "Owner")]
     public IActionResult Add()
     {
         return View();
     }
+
+    [HttpPost]
+    [Authorize(Roles = "Owner")]
+    public IActionResult Add(OrganisatieDto organisatieDto)
+    {
+        if (!ModelState.IsValid)
+            return View();
+        
+        _uow.BeginTransaction();
+        _userManager.AddOrganisation(organisatieDto.Name, organisatieDto.Description);
+        _uow.Commit();
+        return RedirectToAction("Index", "Organisatie");
+    }
     
     [HttpGet]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Owner")]
     public IActionResult Edit(long id)
     {
         var organisation = _userManager.GetOrganisationById(id);
         var organisatieDto = new OrganisatieDto()
         {
-            id = organisation.id,
+            Id = organisation.Id,
             Name = organisation.Name,
             Description = organisation.Description
         };
@@ -49,7 +62,7 @@ public class OrganisatieController : Controller
 
 
     [HttpPost]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Owner")]
     public IActionResult Edit(long id, OrganisatieDto organisatie)
     {
         try
@@ -60,7 +73,7 @@ public class OrganisatieController : Controller
             }
 
             _uow.BeginTransaction();
-            _userManager.ChangeOrganisation(organisatie.id, organisatie.Name, organisatie.Description);
+            _userManager.ChangeOrganisation(organisatie.Id, organisatie.Name, organisatie.Description);
             _uow.Commit();
             return RedirectToAction("Index");
 
@@ -74,7 +87,7 @@ public class OrganisatieController : Controller
     }
     
     [HttpPost]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Owner")]
     public IActionResult Delete(long id)
     {
         try

@@ -2,6 +2,7 @@
 
 public static class CustomIdentityConstraints
 {
+    public const string OwnerRole = "Owner";
     public const string AdminRole = "Admin";
     public const string SubAdminRole = "SubAdmin";
     public const string SupervisorRole = "Supervisor";

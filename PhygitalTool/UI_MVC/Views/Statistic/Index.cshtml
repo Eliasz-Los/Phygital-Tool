@@ -11,7 +11,7 @@
 <nav aria-label="statistic-page">
     <ul class="nav nav-pills ">
         <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#plain-data" href="#plain-data">Plain data</a> @*href="#plain-data"*@
+            <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#plain-data" href="#plain-data">Plain data</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" data-bs-target="#charts" href="#charts">Visual Data</a>
@@ -59,7 +59,6 @@
 </div>
 
 <section class="tab-content">
-    @* Plain data *@
     <section class="container tab-pane fade show active" id="plain-data">
         @foreach (var outerItem in Model)
         {
@@ -83,8 +82,7 @@
             </table>
         }
     </section>
-
-    @* Charts *@
+    
     <section class="container tab-pane fade" id="charts">
         <div class="row">
             @foreach (var outerItem in Model)

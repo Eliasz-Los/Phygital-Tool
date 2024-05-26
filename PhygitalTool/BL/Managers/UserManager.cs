@@ -12,6 +12,21 @@ public class UserManager : IUserManager
         _userRepository = userRepository;
     }
 
+    public IEnumerable<Account> GetUsersByOrganisationId(long organisationId)
+    {
+        return _userRepository.ReadUsersByOrganisationId(organisationId);
+    }
+    
+    public void RemoveUser(String id)
+    {
+        _userRepository.DeleteUser(id);
+    }
+    
+    public Account GetUserByEmail(string email)
+    {
+        return _userRepository.ReadUserByEmail(email);
+    }
+    
     public IEnumerable<Organisation> GetAllOrganisations()
     {
         return _userRepository.ReadAllOrganisations();
@@ -36,8 +51,13 @@ public class UserManager : IUserManager
         _userRepository.DeleteOrganisation(id);
     }
 
-    public void AddOrganisation(Organisation organisation)
+    public void AddOrganisation(string name, string description)
     {
+        var organisation = new Organisation
+        {
+            Name = name,
+            Description = description
+        };
         _userRepository.CreateOrganisation(organisation);
     }
 }

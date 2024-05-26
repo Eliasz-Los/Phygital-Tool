@@ -318,6 +318,12 @@ public class PhygitalInitializer
 
        
           // all role types
+        var ownerRole = new  IdentityRole
+        {
+            Name = CustomIdentityConstraints.OwnerRole
+        };
+        await roleManager.CreateAsync(ownerRole);
+        
         var adminRole = new IdentityRole
         {
             Name = CustomIdentityConstraints.AdminRole
@@ -343,6 +349,15 @@ public class PhygitalInitializer
         await roleManager.CreateAsync(userRole);
 
         // hardcoded users implentation and assignment of a role
+        var ownerPhygital = new Account()
+        {
+            Email = "owner@treecompany.be",
+            UserName = "owner@treecompany.be", EmailConfirmed = true,
+            Name = "Owner", LastName = "Owner"
+        };
+        await userManager.CreateAsync(ownerPhygital, "Owner@01");
+        await userManager.AddToRoleAsync(ownerPhygital, CustomIdentityConstraints.OwnerRole);
+        
         var adminPhygital = new Account()
         {
             Email = "admin@phygital.be",
@@ -455,8 +470,8 @@ public class PhygitalInitializer
 
         var Organisation2 = new Organisation
         {
-            Name = "Treecompany",
-            Description = "opdracht gever",
+            Name = "UAntwerpen",
+            Description = "Universiteit stad Antwerpen",
             Accounts = new List<Account>()
         };
 

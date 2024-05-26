@@ -1,5 +1,4 @@
-﻿@using Phygital.Domain.Questionsprocess;
-@model IEnumerable<Phygital.Domain.Themas.Theme>
+﻿@model IEnumerable<Phygital.Domain.Themas.Theme>
 
 @{
     ViewBag.Title = "Thema Overzicht";
@@ -16,7 +15,7 @@
 }
 
 
-@if (User.IsInRole("SubAdmin"))
+@if (User.IsInRole("Admin") || User.IsInRole("SubAdmin"))
 {
     <table class="table table-striped text-center">
         <thead>
@@ -56,4 +55,3 @@
         </div>
     </div>
 }
-
