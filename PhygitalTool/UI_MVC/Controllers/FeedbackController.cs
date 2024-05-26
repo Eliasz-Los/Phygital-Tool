@@ -52,7 +52,7 @@ public class FeedbackController : Controller
     
     [HttpPost]
     [Authorize(Roles = "Owner, Admin, SubAdmin, Supervisor, User")]
-    public IActionResult Add(PostDto postDto)
+    public async Task<IActionResult> Add(PostDto postDto)
     {
         var themes = _themeManager.GetAllThemas();
         ViewBag.Themes = themes;
