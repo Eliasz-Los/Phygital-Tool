@@ -88,15 +88,13 @@ namespace Phygital.UI_MVC.Areas.Identity.Pages.Account
             {
                 Organisations = _userManagerService.GetAllOrganisations().ToList();
             }
-            else if (User.IsInRole("Admin") || User.IsInRole("Subadmin"))
+            else if (User.IsInRole("Admin") || User.IsInRole("SubAdmin"))
             {
                 var currentUser = await _userManager.GetUserAsync(User);
                 if (currentUser is { Organisation: not null })
                 {
                     Input.OrganisationId = currentUser.Organisation.Id;
                 }
-                Console.WriteLine("onGetAsync User: {0}", currentUser?.Name);
-                Console.WriteLine("onGetAsync Organisatie: {0}", currentUser?.Organisation);
             }
         }
 
@@ -119,12 +117,12 @@ namespace Phygital.UI_MVC.Areas.Identity.Pages.Account
                 // If the current user has an organisation, set the new user's organisation to the same
                 if (currentUser?.Organisation != null)
                 {
-                    _logger.LogError("Current user has an organisation, setting to current user's organisation");
-                    user.Organisation = currentUser.Organisation;
+                    _logger.LogInformation("Current user has an organisation, setting to current user's organisation");
+                    user.Organisation.Id = currentUser.Organisation.Id;
                 }
                 else if (Input.OrganisationId.HasValue)
                 {
-                    _logger.LogError("Organisation found, setting to organisation");
+                    _logger.LogInformation("Organisation found, setting to organisation");
                     user.Organisation = _userManagerService.GetOrganisationById(Input.OrganisationId.Value);
                 }
                 else
