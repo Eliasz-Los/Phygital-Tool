@@ -29,11 +29,9 @@
     </div>
     
     <div>
-        <div>
-            <label asp-for="ImageFile" class="form-label">Plaats een afbeelding</label>
-            <input type="file" asp-for="ImageFile" class="form-control" > @*accept="image/png, image/jpeg, image/jpg, image/webp"*@
-            <span asp-validation-for="ImageFile" class="text-danger"></span>
-        </div>
+        <label asp-for="ImageFile" class="form-label">Plaats een afbeelding</label>
+        <input type="file" asp-for="ImageFile" class="form-control" > @*accept="image/png, image/jpeg, image/jpg, image/webp"*@
+        <span asp-validation-for="ImageFile" class="text-danger"></span>
     </div>
     
     <input type="submit" value="Add" class="btn btn-outline-warning"/>
