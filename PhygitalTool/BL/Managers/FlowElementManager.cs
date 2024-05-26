@@ -74,6 +74,11 @@ public class FlowElementManager : IFlowElementManager
         _flowElementRepository.CreateOption(option);
     }
 
+    public void AddImage(Image image)
+    {
+        _flowElementRepository.CreateImage(image);
+    }
+
     public void AddMultipleChoiceQuestion(MultipleChoice multipleChoiceQuestion)
     {
         _flowElementRepository.CreateMultipleChoiceQuestion(multipleChoiceQuestion);
