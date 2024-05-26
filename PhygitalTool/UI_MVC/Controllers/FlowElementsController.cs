@@ -37,6 +37,10 @@ public class FlowElementsController : Controller
         
         Image imageToAdd = new Image
         {
+            Title = image.Title,
+            AltText = image.AltText,
+            SubTheme = _themeManager.GetThemeById(image.subthemeId),
+            Url = "test",
             ImageFile = image.ImageFile
         };
         
