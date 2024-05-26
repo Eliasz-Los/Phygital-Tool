@@ -51,9 +51,7 @@ namespace Phygital.UI_MVC.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Role")]
             public string Role { get; set; }
-
-            // [Display(Name = "Organisation")]
-            // public Organisation Organisation { get; set; }
+            
             [Display(Name = "Organisation")]
             public long? OrganisationId { get; set; }
 
