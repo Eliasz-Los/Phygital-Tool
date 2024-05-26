@@ -26,11 +26,24 @@ public class OrganisatieController : Controller
         return View(organisations);
     }
     
-    [HttpGet]
+    [HttpPost]
     [Authorize(Roles = "Owner")]
     public IActionResult Add()
     {
         return View();
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Owner")]
+    public IActionResult Add(OrganisatieDto organisatieDto)
+    {
+        if (!ModelState.IsValid)
+            return View();
+        
+        _uow.BeginTransaction();
+        _userManager.AddOrganisation(organisatieDto.Name, organisatieDto.Description);
+        _uow.Commit();
+        return RedirectToAction("Index", "Organisatie");
     }
     
     [HttpGet]
@@ -40,7 +53,7 @@ public class OrganisatieController : Controller
         var organisation = _userManager.GetOrganisationById(id);
         var organisatieDto = new OrganisatieDto()
         {
-            id = organisation.id,
+            Id = organisation.Id,
             Name = organisation.Name,
             Description = organisation.Description
         };
@@ -60,7 +73,7 @@ public class OrganisatieController : Controller
             }
 
             _uow.BeginTransaction();
-            _userManager.ChangeOrganisation(organisatie.id, organisatie.Name, organisatie.Description);
+            _userManager.ChangeOrganisation(organisatie.Id, organisatie.Name, organisatie.Description);
             _uow.Commit();
             return RedirectToAction("Index");
 

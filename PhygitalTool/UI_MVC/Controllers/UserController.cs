@@ -33,7 +33,7 @@ public class UserController : Controller
                 .Include(u => u.Organisation) // Eagerly load the Organisation property
                 .FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
         }
-        var loggedInUserOrganisationId = currentAccount!.Organisation.id;
+        var loggedInUserOrganisationId = currentAccount!.Organisation.Id;
         
         var users = _userManager.GetUsersByOrganisationId(loggedInUserOrganisationId);
         return View(users);

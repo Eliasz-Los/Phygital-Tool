@@ -91,7 +91,7 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         //////////////////////
       
         modelBuilder.Entity<Account>().ToTable("Accounts").HasIndex(user => user.Id).IsUnique();
-        modelBuilder.Entity<Organisation>().ToTable("Organisations").HasIndex(organisation =>  organisation.id).IsUnique();
+        modelBuilder.Entity<Organisation>().ToTable("Organisations").HasIndex(organisation =>  organisation.Id).IsUnique();
         
         modelBuilder.Entity<Organisation>()
             .HasMany(o => o.Accounts)

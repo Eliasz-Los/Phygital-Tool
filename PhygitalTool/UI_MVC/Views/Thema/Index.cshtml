@@ -15,7 +15,7 @@
 }
 
 
-@if (User.IsInRole("SubAdmin"))
+@if (User.IsInRole("Admin") || User.IsInRole("SubAdmin"))
 {
     <table class="table table-striped text-center">
         <thead>

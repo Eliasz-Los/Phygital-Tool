@@ -13,7 +13,7 @@ public class UserRepository : IUserRepository
 
     public IEnumerable<Account> ReadUsersByOrganisationId(long organisationId)
     {
-        return _dbContext.Users.Where(user => user.Organisation.id == organisationId).ToList();
+        return _dbContext.Users.Where(user => user.Organisation.Id == organisationId).ToList();
     }
     
     public void DeleteUser(String id)
@@ -51,7 +51,7 @@ public class UserRepository : IUserRepository
     {
         var organisationToDelete = _dbContext.Organisations.Find(id);
         
-        var relatedAccounts = _dbContext.Accounts.Where(a => a.Organisation.id == id);
+        var relatedAccounts = _dbContext.Accounts.Where(a => a.Organisation.Id == id);
         foreach (var account in relatedAccounts)
         {
             account.Organisation = null; 

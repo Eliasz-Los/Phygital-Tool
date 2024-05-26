@@ -91,7 +91,7 @@ namespace Phygital.UI_MVC.Areas.Identity.Pages.Account
                 var currentUser = await _userManager.GetUserAsync(User);
                 if (currentUser is { Organisation: not null })
                 {
-                    Input.OrganisationId = currentUser.Organisation.id;
+                    Input.OrganisationId = currentUser.Organisation.Id;
                 }
             }
         }
