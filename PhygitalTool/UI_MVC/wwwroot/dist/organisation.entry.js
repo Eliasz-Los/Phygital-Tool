@@ -25,10 +25,10 @@ function addOrganisationData(organisationObject) {
     return __awaiter(this, void 0, void 0, function* () {
         const response = yield fetch(`/api/Organisations/AddOrganisation`, {
             method: "POST",
-            body: JSON.stringify(organisationObject),
             headers: {
                 "Content-Type": "application/json"
-            }
+            },
+            body: JSON.stringify(organisationObject)
         });
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -107,8 +107,8 @@ __webpack_require__.r(__webpack_exports__);
 
 const addButton = document.getElementById('submitOrg');
 function addOrganisatie() {
-    const orgNameInput = document.getElementById('orgName');
-    const orgDescriptionInput = document.getElementById('orgDescription');
+    const orgNameInput = document.getElementById('orgNameInput');
+    const orgDescriptionInput = document.getElementById('orgDescriptionInput');
     if (orgNameInput && orgDescriptionInput) {
         const orgName = orgNameInput.value;
         const orgDescription = orgDescriptionInput.value;
@@ -116,6 +116,7 @@ function addOrganisatie() {
             name: orgName,
             description: orgDescription
         };
+        console.log("Adding organisation: " + orgName + " with description: " + orgDescription + " to the database.)");
         (0,_organisationRest__WEBPACK_IMPORTED_MODULE_0__.addOrganisationData)(orgObject)
             .then(response => {
             console.log(response);

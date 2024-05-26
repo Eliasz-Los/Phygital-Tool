@@ -136,6 +136,11 @@ public class FlowElementRepository : IFlowElementRepository
     {
         _dbContext.Texts.Add(text);
     }
+    
+    public void CreateVideo(Video video)
+    {
+        _dbContext.Videos.Add(video);
+    }
 
 
     public IEnumerable<Text> ReadTextInfosOfFlowById(long flowId)

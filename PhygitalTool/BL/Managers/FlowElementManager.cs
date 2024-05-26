@@ -79,6 +79,11 @@ public class FlowElementManager : IFlowElementManager
         _flowElementRepository.CreateText(text);
     }
 
+    public void AddVideo(Video video)
+    {
+        _flowElementRepository.CreateVideo(video);
+    }
+
     public void AddImage(Image image)
     {
         _flowElementRepository.CreateImage(image);

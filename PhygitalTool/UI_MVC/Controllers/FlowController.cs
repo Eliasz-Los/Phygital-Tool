@@ -25,7 +25,7 @@ public class FlowController : Controller
 
 
     [HttpGet]
-    [Authorize(Roles = "Admin, SubAdmin, Supervisor")]
+    [Authorize(Roles = "Owner, Admin, SubAdmin, Supervisor")]
     public IActionResult Index()
     {
         var flows = _flowManager.GetAllFlows();
@@ -33,7 +33,7 @@ public class FlowController : Controller
     }
 
     [HttpGet]
-    [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
+    [Authorize(Roles = "Owner, Admin, SubAdmin, Supervisor, User")]
     public IActionResult Details(long id)
     {
         var flow = _flowManager.GetFlowById(id);

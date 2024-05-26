@@ -8,17 +8,18 @@ interface Organisation {
 }
 
 function addOrganisatie() {
-    const orgNameInput: HTMLInputElement | null = document.getElementById('orgName') as HTMLInputElement;
-    const orgDescriptionInput : HTMLInputElement | null = document.getElementById('orgDescription') as HTMLInputElement;
+    const orgNameInput: HTMLInputElement | null = document.getElementById('orgNameInput') as HTMLInputElement;
+    const orgDescriptionInput : HTMLInputElement | null = document.getElementById('orgDescriptionInput') as HTMLInputElement;
 
     if (orgNameInput && orgDescriptionInput) {
         const orgName: string = orgNameInput.value;
         const orgDescription: string = orgDescriptionInput.value;
-
+        
         const orgObject: Organisation = {
             name: orgName,
             description: orgDescription
         };
+        console.log("Adding organisation: " + orgName + " with description: " + orgDescription + " to the database.)");
 
         addOrganisationData(orgObject)
             .then(response => {

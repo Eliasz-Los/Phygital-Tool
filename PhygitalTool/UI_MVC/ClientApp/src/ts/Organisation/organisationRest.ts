@@ -1,10 +1,10 @@
-﻿export async function addOrganisationData(organisationObject: Organisation): Promise<any> {
+﻿export async function addOrganisationData(organisationObject: Organisation): Promise<Organisation> {
         const response = await fetch(`/api/Organisations/AddOrganisation`, {
             method: "POST",
-            body: JSON.stringify(organisationObject),
             headers: {
                 "Content-Type": "application/json"
-            }
+            },
+            body: JSON.stringify(organisationObject)
         });
 
         if (!response.ok) {

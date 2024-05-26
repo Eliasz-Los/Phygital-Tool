@@ -4,7 +4,7 @@ namespace Phygital.Domain.User;
 
 public class Organisation
 {
-    public long id { get; set; }
+    public long Id { get; set; }
     [Required(ErrorMessage = "Title is required.")]
     [MinLength(3, ErrorMessage = "Name is too short, min 3 characters.")]
     public string Name { get; set; }

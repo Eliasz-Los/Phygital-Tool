@@ -54,8 +54,6 @@ builder.Services.AddScoped<IUserManager, UserManager>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
-builder.Services.AddSingleton<ICloudStorage, CloudStorageService>();
-
 var app = builder.Build();
 
 PhygitalInitializer.InitializeDatabaseAndSeedData(app.Services);
@@ -74,9 +72,5 @@ app.UseRouting();
 app.UseAuthorization();
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
