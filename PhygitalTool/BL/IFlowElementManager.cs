@@ -19,6 +19,7 @@ public interface IFlowElementManager
     IEnumerable<OpenQuestion> GetAllOpenQuestionByThemeId(long themeId);
     void AddOption(Option option);
     void AddText(Text text);
+    void AddVideo(Video video);
     void AddImage(Image image);
     void AddMultipleChoiceQuestion(MultipleChoice multipleChoiceQuestion);
     void AddSingleChoiceQuestion(SingleChoiceQuestion singleChoiceQuestion);

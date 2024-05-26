@@ -38,11 +38,19 @@ public class FlowElementsController : Controller
         return View();
     }
 
+    [HttpGet]
+    public IActionResult AddVideo()
+    {
+        var themes = _themeManager.GetAllThemas();
+        ViewBag.Themes = themes;
+        return View();
+    }
+
     
     [HttpPost]
     public IActionResult AddImage(ImageDto image)
     {
-        // todo flowid toevoegen
+        // todo flowid toevoegen, url staat p test omdat het crasht, ookal is het niet required
         
         Image imageToAdd = new Image
         {
@@ -78,4 +86,23 @@ public class FlowElementsController : Controller
         return RedirectToAction("Index", "Flow");
     }
     
+        
+    [HttpPost]
+    public IActionResult AddVideo(VideoDto video)
+    {
+        // Todo flow id
+        Video videoToAdd = new Video
+        {
+            Title = video.Title,
+            Url = video.Url,
+            Description = video.Description,
+            SubTheme = _themeManager.GetThemeById(video.SubTheme),
+        };
+        
+        _uow.BeginTransaction();
+        _flowElementManager.AddVideo(videoToAdd);
+        _uow.Commit();
+
+        return RedirectToAction("Index", "Flow");
+    }
 }
