@@ -10,7 +10,7 @@ public class ImageDto
     [Required(ErrorMessage = "Title is required.")]
     [MinLength(3, ErrorMessage = "Title is too short, min 3 characters.")]
     public string Title { get; set; }
-    [Required(ErrorMessage = "Url is required.")]
+    
     [DataType(DataType.ImageUrl)]
     public string Url { get; set; }
     

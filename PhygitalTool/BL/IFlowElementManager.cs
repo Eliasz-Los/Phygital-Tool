@@ -18,6 +18,8 @@ public interface IFlowElementManager
     Option GetOptionByText(string optionText);
     IEnumerable<OpenQuestion> GetAllOpenQuestionByThemeId(long themeId);
     void AddOption(Option option);
+    void AddText(Text text);
+    void AddImage(Image image);
     void AddMultipleChoiceQuestion(MultipleChoice multipleChoiceQuestion);
     void AddSingleChoiceQuestion(SingleChoiceQuestion singleChoiceQuestion);
     void AddRangeQuestion(RangeQuestion rangeQuestion);

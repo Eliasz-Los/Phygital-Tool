@@ -127,6 +127,16 @@ public class FlowElementRepository : IFlowElementRepository
         _dbContext.RangeQuestions.Add(rangeQuestion);
     }
 
+    public void CreateImage(Image image)
+    {
+        _dbContext.Images.Add(image);
+    }
+
+    public void CreateText(Text text)
+    {
+        _dbContext.Texts.Add(text);
+    }
+
 
     public IEnumerable<Text> ReadTextInfosOfFlowById(long flowId)
     {

@@ -5,13 +5,14 @@
 @model FlowDto
 
 @{
-ViewBag.Title = "Edit flow";
-Layout = "_Layout";
+    ViewBag.Title = "Edit flow";
+    Layout = "_Layout";
 }
 
 <div>
     <h2>Edit flow</h2>
-    <form asp-controller="Flow" asp-action="Edit" method="post"> @* asp-route-id="@Model.Id"*@
+    <form asp-controller="Flow" asp-action="Edit" method="post">
+        @* asp-route-id="@Model.Id"*@
         @*<input type="hidden" name="_method" value="put" />*@
         <div class="form-group">
             <label asp-for="Id">Id</label>
@@ -43,16 +44,15 @@ Layout = "_Layout";
             </select>
             <span asp-validation-for="ThemeId" class="text-danger"></span>
         </div>
+        <div class="col d-flex justify-content-begin">
+            <a asp-controller="FlowElements" asp-action="AddImage" class="btn btn-warning m-1">Add Image</a>
+            <a asp-controller="FlowElements" asp-action="AddText" class="btn btn-warning m-1">Add Text</a>
+        </div>
 
-        <div class="row align-content-center py-3">
-            <div class="col d-flex justify-content-end">
-                <input type="submit" value="Save" class="btn btn-warning"/>
-            </div>
-            <div class="col d-flex justify-content-start">
-                <a asp-action="Index" class="btn btn-warning">Cancel</a>
-            </div>
-            <div class="col d-flex justify-content-start">
-                <a asp-controller="FlowElements" asp-action="AddImage" class="btn btn-warning">Add Image</a>
+        <div class="row align-content-center py-3 text-center justify-content-center">
+            <div class="col d-flex justify-content-center">
+                <input type="submit" value="Save" class="btn btn-warning m-1"/>
+                <a asp-action="Index" class="btn btn-warning m-1">Cancel</a>
             </div>
         </div>
     </form>
