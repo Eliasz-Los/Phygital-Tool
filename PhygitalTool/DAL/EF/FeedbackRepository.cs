@@ -1,17 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Phygital.Domain;
 using Phygital.Domain.Datatypes;
 using Phygital.Domain.Feedback;
 using Phygital.Domain.User;
 
 namespace Phygital.DAL.EF;
-
 public class FeedbackRepository : IFeedbackRepository
 {
     private readonly PhygitalDbContext _dbContext;
-
-    public FeedbackRepository(PhygitalDbContext dbContext)
+    private readonly ICloudStorage _cloudStorageService;
+    public FeedbackRepository(PhygitalDbContext dbContext, ICloudStorage cloudStorageService)
     {
         _dbContext = dbContext;
+        _cloudStorageService = cloudStorageService;
     }
 
 
@@ -20,7 +21,6 @@ public class FeedbackRepository : IFeedbackRepository
         return await _dbContext.Posts.FindAsync(id);
     }
 
-    //todo: naming convention
     public async Task<Post> ReadPostWithAccountAndWithThemeById(long id)
     {
         return await _dbContext.Posts.Include(p => p.Account)
@@ -28,12 +28,12 @@ public class FeedbackRepository : IFeedbackRepository
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public Post ReadPostById(long id)
+    private Post ReadPostById(long id)
     {
         return _dbContext.Posts.Find(id);
     }
 
-    public async Task<IEnumerable<Post>> ReadAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes()
+    public async Task<IEnumerable<Post>> ReadAllPostsWithAccountWithThemeAndWithReactionsAndLikes()
     {
         var result = await _dbContext.Posts
             .Include(p => p.Account)
@@ -45,11 +45,26 @@ public class FeedbackRepository : IFeedbackRepository
         return result;
     }
 
-    public void CreatePost(Post post)
+    public async Task CreatePost(Post post)
     {
+        post = await UploadFile(post);
+        /*
+        _dbContext.Posts.Attach(post);
+        */
         _dbContext.Posts.Add(post);
+        
+        await _dbContext.SaveChangesAsync();
+
     }
 
+    private async Task<Post> UploadFile(Post post)
+    {
+        string fileNameForStorage =  $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}-{new Random().Next()}.{Path.GetExtension(post.ImageFile.FileName)}";
+        post.ImageUrl = await _cloudStorageService.UploadFileToBucket(post.ImageFile, fileNameForStorage);
+        Console.WriteLine($"image url: {post.ImageUrl}");
+        Console.WriteLine($"post in UPLOAD mode: {post.Title}" );
+        return post;
+    }
     public void UpdatePost(Post post)
     {
         var postToUpdate = ReadPostById(post.Id);
@@ -108,19 +123,7 @@ public class FeedbackRepository : IFeedbackRepository
 
         return postLike;
     }
-
-    //TODO; has to go bye bye
-    public async Task<PostLike> DeletePostLike(long postId, long likeId)
-    {
-        var postLike = await _dbContext.PostLikes
-            .Where(pl => pl.Post.Id == postId && pl.Like.Id == likeId)
-            .FirstOrDefaultAsync();
-
-        _dbContext.PostLikes.Remove(postLike);
-
-        return postLike;
-    }
-
+    
     public async Task<Reaction> CreateReactionToPostById(long postId, Reaction reaction, Account account)
     {
         var post = await ReadPostByIdAsync(postId);
@@ -131,30 +134,30 @@ public class FeedbackRepository : IFeedbackRepository
         return reaction;
     }
 
-    public async Task<PostLike> ReadDislikeByPostIdAndUserId(long postId, string currentAccountId)
+    public async Task<PostLike> ReadDislikeByPostIdAndAccountId(long postId, string currentAccountId)
     {
         return await _dbContext.PostLikes.Where(pl => pl.Post.Id == postId && pl.Like.Account.Id == currentAccountId)
             .FirstOrDefaultAsync();
     }
 
-    public async Task DeletePostDislikeByPostId(long postId, string id)
+    public async Task DeletePostDislikeByPostIdAndAccountId(long postId, string currenAccountId)
     {
-        var dislike = await ReadDislikeByPostIdAndUserId(postId, id);
+        var dislike = await ReadDislikeByPostIdAndAccountId(postId, currenAccountId);
         if (dislike != null)
         {
             _dbContext.PostLikes.Remove(dislike);
         }
     }
 
-    public async Task<PostLike> ReadLikeByPostIdAndUserId(long postId, string currentAccountId)
+    public async Task<PostLike> ReadLikeByPostIdAndAccountId(long postId, string currentAccountId)
     {
         return await _dbContext.PostLikes.Where(pl => pl.Post.Id == postId && pl.Like.Account.Id == currentAccountId)
             .FirstOrDefaultAsync();
     }
-
-    public async Task DeletePostLikeByPostId(long postId, string id)
+    
+    public async Task DeletePostLikeByPostIdAndAccountId(long postId, string currentAccountId)
     {
-        var like = await ReadLikeByPostIdAndUserId(postId, id);
+        var like = await ReadLikeByPostIdAndAccountId(postId, currentAccountId);
         if (like != null)
         {
             _dbContext.PostLikes.Remove(like);
@@ -173,16 +176,19 @@ public class FeedbackRepository : IFeedbackRepository
             .CountAsync();
     }
 
-    public async Task<IEnumerable<PostReaction>> ReadReactionsOfPostByPostId(long postId)
+    public async Task<IEnumerable<PostReaction>> ReadReactionsWithAccountAndLikesOfPostByPostId(long postId)
     {
         return await _dbContext.PostReactions
             .Include(pr => pr.Reaction)
-            .ThenInclude(r => r.Account)
+              .ThenInclude(r => r.Account)
+            .Include(pr => pr.Reaction)
+                .ThenInclude(r => r.ReactionLikes)
+                     .ThenInclude(rl => rl.Like)
             .Where(pr => pr.Post.Id == postId)
             .ToListAsync();
     }
 
-    public async Task DeleteReactionToPostById(long postId, long reactionId)
+    public async Task DeleteReactionToPostByPostIdAndReactionId(long postId, long reactionId)
     {
         var deleteReaction = await _dbContext.PostReactions
             .Include( pr => pr.Reaction)
@@ -197,4 +203,68 @@ public class FeedbackRepository : IFeedbackRepository
             .Where(r => r.Id == reactionId)
             .FirstOrDefaultAsync();
     }
+
+    public async Task<ReactionLike> CreateReactionLikeByReactionIdAndAccount(long reactionId, Account currentAccount)
+    {
+        var reaction = await _dbContext.Reactions.FindAsync(reactionId);
+        
+        var existingLike = await _dbContext.ReactionLikes
+            .Include(rl => rl.Like)
+            .Where(rl => rl.Reaction.Id == reactionId && rl.Like.Account.Id == currentAccount.Id)
+            .FirstOrDefaultAsync();
+
+        if (existingLike?.Like != null)
+        {
+            if(existingLike.Like.LikeType == LikeType.ThumbsUp)
+            {
+                return null;
+            }
+            else
+            {
+                _dbContext.ReactionLikes.Remove(existingLike);
+            }
+        }
+        
+        var like = new Like { LikeType = LikeType.ThumbsUp, Account = currentAccount };
+        var reactionLike = new ReactionLike { Like = like, Reaction = reaction };
+         _dbContext.ReactionLikes.Add(reactionLike);
+         return reactionLike;
+    }
+
+    public async Task<ReactionLike> CreateReactionDisLikeByReactionIdAndAccount(long reactionId, Account currentAccount)
+    {
+        var reaction = await _dbContext.Reactions.FindAsync(reactionId);
+        
+        var existingLike = await _dbContext.ReactionLikes
+            .Include(rl => rl.Like)
+            .Where(rl => rl.Reaction.Id == reactionId && rl.Like.Account.Id == currentAccount.Id)
+            .FirstOrDefaultAsync();
+
+        if (existingLike?.Like != null)
+        {
+            if (existingLike.Like.LikeType == LikeType.ThumbsDown)
+            {
+                return null;
+            }else
+            {
+                _dbContext.ReactionLikes.Remove(existingLike);
+            }
+        }
+        
+        var like = new Like { LikeType = LikeType.ThumbsDown, Account = currentAccount };
+        var reactionLike = new ReactionLike { Like = like, Reaction = reaction };
+        _dbContext.ReactionLikes.Add(reactionLike);
+        return reactionLike;
+    }
+
+    public async Task<int> ReadLikesCountByReactionId(long reactionId)
+    {
+        return await _dbContext.ReactionLikes.CountAsync(l => l.Like.LikeType == LikeType.ThumbsUp && l.Reaction.Id == reactionId);
+    }
+
+    public async Task<int> ReadDislikesCountByReactionId(long reactionId)
+    {
+        return await _dbContext.ReactionLikes.CountAsync(l => l.Like.LikeType == LikeType.ThumbsDown && l.Reaction.Id == reactionId);
+    }
+    
 }

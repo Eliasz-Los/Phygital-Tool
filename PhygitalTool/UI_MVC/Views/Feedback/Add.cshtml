@@ -8,7 +8,7 @@
 
 <h2>Voeg nieuwe Post</h2>
 
-<form asp-controller="Feedback" asp-action="Add" method="post">
+<form asp-controller="Feedback" enctype="multipart/form-data" asp-action="Add" method="post" >
     <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
     <div>
         <label asp-for="Title">Titel van de post:</label>
@@ -26,6 +26,12 @@
         <label asp-for="Text">Text van de post:</label>
         <textarea class="form-control" rows="4" asp-for="Text" type="text" name="Text" ></textarea>
         <span asp-validation-for="Text" class="text-danger"></span>
+    </div>
+    
+    <div>
+        <label asp-for="ImageFile" class="form-label">Plaats een afbeelding</label>
+        <input type="file" asp-for="ImageFile" class="form-control" > @*accept="image/png, image/jpeg, image/jpg, image/webp"*@
+        <span asp-validation-for="ImageFile" class="text-danger"></span>
     </div>
     
     <input type="submit" value="Add" class="btn btn-outline-warning"/>

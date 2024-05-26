@@ -11,7 +11,9 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createDislikePost: () => (/* binding */ createDislikePost),
+/* harmony export */   createDislikeReaction: () => (/* binding */ createDislikeReaction),
 /* harmony export */   createLikePost: () => (/* binding */ createLikePost),
+/* harmony export */   createLikeReaction: () => (/* binding */ createLikeReaction),
 /* harmony export */   createReaction: () => (/* binding */ createReaction),
 /* harmony export */   deleteReaction: () => (/* binding */ deleteReaction),
 /* harmony export */   readReactions: () => (/* binding */ readReactions)
@@ -61,10 +63,43 @@ function deleteReaction(postId, reactionId) {
         }
     });
 }
+function createLikeReaction(reactionId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const response = yield fetch(`/api/feedbacks/${reactionId}/LikeReaction`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        if (!response.ok) {
+            const error = yield response.json();
+            throw { status: response.status, message: error };
+        }
+        return yield response.json();
+    });
+}
+function createDislikeReaction(reactionId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const response = yield fetch(`/api/feedbacks/${reactionId}/DislikeReaction`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        if (!response.ok) {
+            const error = yield response.json();
+            throw { status: response.status, message: error };
+        }
+        return yield response.json();
+    });
+}
 function createLikePost(postId) {
     return __awaiter(this, void 0, void 0, function* () {
         const response = yield fetch(`/api/feedbacks/${postId}/LikePost`, {
-            method: 'POST'
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
         });
         if (!response.ok) {
             throw new Error("Error liking post");
@@ -75,7 +110,10 @@ function createLikePost(postId) {
 function createDislikePost(postId) {
     return __awaiter(this, void 0, void 0, function* () {
         const response = yield fetch(`/api/feedbacks/${postId}/DislikePost`, {
-            method: 'POST'
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
         });
         if (!response.ok) {
             throw new Error("Error disliking post");
@@ -162,8 +200,10 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 };
 
 let posts = document.querySelectorAll('.post');
-const likeButtons = document.querySelectorAll('.bi-hand-thumbs-up');
-const dislikeButtons = document.querySelectorAll('.bi-hand-thumbs-down');
+const likeButtons = document.querySelectorAll('.like-button');
+const dislikeButtons = document.querySelectorAll('.dislike-button');
+let reactionLikeButtons = document.querySelectorAll('.reaction-like-button');
+let reactionDislikeButtons = document.querySelectorAll('.reaction-dislike-button');
 function getReactionsOfPost(postId) {
     return __awaiter(this, void 0, void 0, function* () {
         yield (0,_feedbackRest__WEBPACK_IMPORTED_MODULE_0__.readReactions)(postId)
@@ -171,8 +211,8 @@ function getReactionsOfPost(postId) {
             let bodyData = ``;
             reactions.forEach(reaction => {
                 bodyData += `
+            <div class="input-group gap-2 reaction">
                 <div class="row d-flex spacing-top form-control">
-                    <div class="input-group gap-2">
                         <div class="col-2 d-flex justify-content-start">
                             <p class="form-control">${reaction.accountName}</p>
                         </div>
@@ -184,6 +224,16 @@ function getReactionsOfPost(postId) {
                                 <button class="btn btn-danger bi bi-trash" id="${reaction.id}"></button>
                             </div>
                         </div>
+                        <div class="row d-flex">
+                                <div class="col">
+                                    <button type="submit" class="btn btn-success bi bi-hand-thumbs-up reaction-like-button" id="likeButtonReact_${reaction.id}" data-reaction-id="${reaction.id}">
+                                        <span id="likeCountReact_${reaction.id}"> ${reaction.likeCount}</span> 
+                                    </button>
+                                    <button type="submit" class="btn btn-danger bi bi-hand-thumbs-down reaction-dislike-button"  id="dislikeButtonReact_${reaction.id}" data-reaction-id="${reaction.id}">
+                                        <span id="dislikeCountReact_${reaction.id}"> ${reaction.likeCount}</span>
+                                    </button>
+                                </div>
+                         </div>
                     </div>
                 </div>`;
             });
@@ -195,6 +245,12 @@ function getReactionsOfPost(postId) {
                 console.log(`reactionList for post ${postId} is null`);
             }
             removeReaction(postId, reactions);
+            //update the reaction like/Dislike collections for the new reactions
+            reactionLikeButtons = document.querySelectorAll('.reaction-like-button');
+            reactionDislikeButtons = document.querySelectorAll('.reaction-dislike-button');
+            //event listeners aan toekoppelen
+            handleReactionLikes();
+            handleReactionDislikes();
         })
             .catch(error => {
             console.error(error);
@@ -237,6 +293,7 @@ function sendReaction(postId) {
             }
         });
         content.value = '';
+        yield getReactionsOfPost(postId);
     });
 }
 function removeReaction(postId, reactions) {
@@ -249,7 +306,6 @@ function removeReaction(postId, reactions) {
                     yield (0,_feedbackRest__WEBPACK_IMPORTED_MODULE_0__.deleteReaction)(postId, reaction.id)
                         .then(() => {
                         console.log(`Reaction ${reaction.id} deleted`);
-                        //todo: update reaction count in UI realtime => shouldn't go under 0
                         let reactionCountElement = document.getElementById(`reactionCount_${postId}`);
                         if (reactionCountElement !== null) {
                             let currentCount = parseInt(reactionCountElement.innerText);
@@ -268,6 +324,62 @@ function removeReaction(postId, reactions) {
                     });
                 }));
             }
+        });
+    });
+}
+function handleReactionLikes() {
+    return __awaiter(this, void 0, void 0, function* () {
+        reactionLikeButtons.forEach(button => {
+            button.addEventListener('click', (event) => __awaiter(this, void 0, void 0, function* () {
+                const reactionId = button.getAttribute('data-reaction-id');
+                event.preventDefault();
+                if (reactionId !== null) {
+                    button.disabled = true;
+                    yield (0,_feedbackRest__WEBPACK_IMPORTED_MODULE_0__.createLikeReaction)(parseInt(reactionId))
+                        .then(result => {
+                        console.log(`Reaction ${reactionId} liked`);
+                        const { likeCount, dislikeCount } = result;
+                        const likeCountElement = document.getElementById(`likeCountReact_${reactionId}`);
+                        const dislikeCountElement = document.getElementById(`dislikeCountReact_${reactionId}`);
+                        if (likeCountElement !== null && dislikeCountElement !== null) {
+                            likeCountElement.innerText = likeCount.toString();
+                            dislikeCountElement.innerText = dislikeCount.toString();
+                        }
+                    })
+                        .catch(error => console.error(error.message));
+                    button.disabled = false;
+                }
+            }));
+        });
+    });
+}
+function handleReactionDislikes() {
+    return __awaiter(this, void 0, void 0, function* () {
+        reactionDislikeButtons.forEach(button => {
+            button.addEventListener('click', (event) => __awaiter(this, void 0, void 0, function* () {
+                const reactionId = button.getAttribute('data-reaction-id');
+                event.preventDefault();
+                if (reactionId !== null) {
+                    button.disabled = true;
+                    yield (0,_feedbackRest__WEBPACK_IMPORTED_MODULE_0__.createDislikeReaction)(parseInt(reactionId))
+                        .then(result => {
+                        console.log(`Reaction ${reactionId} disliked`);
+                        if (typeof result === 'object' && result !== null) {
+                            const { likeCount, dislikeCount } = result;
+                            const likeCountElement = document.getElementById(`likeCountReact_${reactionId}`);
+                            const dislikeCountElement = document.getElementById(`dislikeCountReact_${reactionId}`);
+                            if (likeCountElement !== null && dislikeCountElement !== null) {
+                                likeCountElement.innerText = likeCount.toString();
+                                dislikeCountElement.innerText = dislikeCount.toString();
+                            }
+                        }
+                    })
+                        .catch(error => {
+                        console.error(error.message);
+                    });
+                    button.disabled = false;
+                }
+            }));
         });
     });
 }
@@ -330,9 +442,6 @@ function handlePostDislikes() {
         });
     });
 }
-getReactions();
-handlePostLikes();
-handlePostDislikes();
 posts.forEach(post => {
     let postId = post.getAttribute('data-post-id');
     if (postId !== null) {
@@ -341,11 +450,13 @@ posts.forEach(post => {
             event.preventDefault();
             if (postId !== null) {
                 yield sendReaction(parseInt(postId));
-                yield getReactionsOfPost(parseInt(postId));
             }
         }));
     }
 });
+getReactions();
+handlePostLikes();
+handlePostDislikes();
 
 })();
 

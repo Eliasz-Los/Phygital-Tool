@@ -20,6 +20,9 @@ public interface IFlowElementRepository
     void CreateMultipleChoiceQuestion(MultipleChoice multipleChoiceQuestion);
     void CreateSingleChoiceQuestion(SingleChoiceQuestion singleChoiceQuestion);
     void CreateRangeQuestion(RangeQuestion rangeQuestion);
+    void CreateImage(Image image);
+    void CreateText(Text text);
+    void CreateVideo(Video video);
 
     IEnumerable<Text> ReadTextInfosOfFlowById(long flowId);
     IEnumerable<Image> ReadImageInfosOfFlowById(long flowId);

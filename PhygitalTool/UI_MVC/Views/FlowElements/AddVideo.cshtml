@@ -1,0 +1,57 @@
+﻿@model Phygital.UI_MVC.Models.Dto.Infos.VideoDto
+
+@{
+    ViewBag.Title = "Phygital";
+    Layout = "_Layout";
+}
+
+<!-- This page displays some elements to create a video -->
+
+<div>
+    <h2 >Voeg hier video toe</h2>
+        <form asp-controller="FlowElements" asp-action="AddVideo" class="row" enctype="multipart/form-data">
+            <div class="container-fluid">
+                <div class="col-12 d-flex justify-content-center">
+                    @*<label asp-for="FlowId">Flow waar het toebehoort</label>
+                    <select asp-for="FlowId" asp-items="@(ViewBag.highest)" class="form-control"></select>
+                    <span asp-validation-for="FlowId" class="text-danger"></span>*@
+                </div>
+
+                <div class="form-group mb-2">
+                    <label asp-for="Title">Titel van de video:</label>
+                    <input class="form-control" asp-for="Title" type="text" name="Title">
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-2">
+                    <label asp-for="Description">Description:</label>
+                    <input class="form-control" asp-for="Description" type="text" name="Description">
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-2">
+                    <label asp-for="SubTheme">Kies het thema waar je text toebehoord:</label>
+                    <select asp-for="SubTheme" asp-items="@(new SelectList(ViewBag.Themes, "Id", "Title"))" class="form-control"></select>
+                    <span asp-validation-for="SubTheme" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-2">
+                    <label asp-for="Url">URL:</label>
+                    <input class="form-control" asp-for="Url" type="text" name="Url">
+                    <span asp-validation-for="Url" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row align-content-center py-3 text-center justify-content-center">
+                <div class="col d-flex justify-content-center">
+                    <input type="submit" value="Add" class="btn btn-warning"/>
+                </div>
+            </div>
+        </form>
+
+</div>
+
+
+@section Scripts
+{
+    <script src="" defer></script>
+}

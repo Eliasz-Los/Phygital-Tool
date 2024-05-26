@@ -33,9 +33,40 @@ export async function deleteReaction(postId: number, reactionId: number): Promis
     }
 }
 
+export async function createLikeReaction( reactionId: number): Promise<{ likeCount: number, dislikeCount: number }> {
+    const response = await fetch(`/api/feedbacks/${reactionId}/LikeReaction`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+    if (!response.ok) {
+        const error = await response.json();
+        throw {status: response.status, message: error};
+    }
+    return await response.json();
+}
+
+export async function createDislikeReaction( reactionId: number): Promise<{ likeCount: number, dislikeCount: number }> {
+    const response = await fetch(`/api/feedbacks/${reactionId}/DislikeReaction`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+    if (!response.ok) {
+        const error = await response.json();
+        throw {status: response.status, message: error};
+    }
+    return await response.json();
+}
+
 export async function createLikePost(postId: number): Promise<{ likeCount: number, dislikeCount: number }> {
     const response = await fetch(`/api/feedbacks/${postId}/LikePost`, {
-        method: 'POST'
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
     });
     if (!response.ok) {
         throw new Error("Error liking post");
@@ -45,7 +76,10 @@ export async function createLikePost(postId: number): Promise<{ likeCount: numbe
 
 export async function createDislikePost(postId: number): Promise<{ likeCount: number, dislikeCount: number }> {
     const response = await fetch(`/api/feedbacks/${postId}/DislikePost`, {
-        method: 'POST'
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
     });
     if (!response.ok) {
         throw new Error("Error disliking post");

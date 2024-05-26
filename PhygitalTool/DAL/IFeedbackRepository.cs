@@ -8,9 +8,9 @@ public interface IFeedbackRepository
     
     Task<Post> ReadPostByIdAsync(long id);
     Task<Post> ReadPostWithAccountAndWithThemeById(long id);
-    Task<IEnumerable<Post>> ReadAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes();
+    Task<IEnumerable<Post>> ReadAllPostsWithAccountWithThemeAndWithReactionsAndLikes();
     
-    void CreatePost(Post post);
+    Task CreatePost(Post post);
     
     void UpdatePost(Post post);
     
@@ -21,16 +21,20 @@ public interface IFeedbackRepository
     Task<PostLike> DislikePost(long postId, Account account);
     Task<Reaction> CreateReactionToPostById(long postId, Reaction reaction, Account account);
     
-    Task<PostLike> ReadDislikeByPostIdAndUserId(long postId, string currentAccountId);
+    Task<PostLike> ReadDislikeByPostIdAndAccountId(long postId, string currentAccountId);
     
-    Task DeletePostDislikeByPostId(long postId, string id);
+    Task DeletePostDislikeByPostIdAndAccountId(long postId, string currenAccountId);
 
-    Task<PostLike> ReadLikeByPostIdAndUserId(long postId, string currentAccountId);
-    Task DeletePostLikeByPostId(long postId, string id);
+    Task<PostLike> ReadLikeByPostIdAndAccountId(long postId, string currentAccountId);
+    Task DeletePostLikeByPostIdAndAccountId(long postId, string currentAccountId);
     Task<int> ReadLikesCountByPostId(long postId);
     Task<int> ReadDislikesCountByPostId(long postId);
-    Task<IEnumerable<PostReaction>> ReadReactionsOfPostByPostId(long postId);
+    Task<IEnumerable<PostReaction>> ReadReactionsWithAccountAndLikesOfPostByPostId(long postId);
     
-    Task DeleteReactionToPostById(long postId, long reactionId);
+    Task DeleteReactionToPostByPostIdAndReactionId(long postId, long reactionId);
     Task<Reaction> ReadReactionWithAccountById(long reactionId);
+    Task<ReactionLike> CreateReactionLikeByReactionIdAndAccount(long reactionId, Account currentAccount);
+    Task<ReactionLike> CreateReactionDisLikeByReactionIdAndAccount(long reactionId, Account currentAccount);
+    Task<int> ReadLikesCountByReactionId(long reactionId);
+    Task<int> ReadDislikesCountByReactionId(long reactionId);
 }

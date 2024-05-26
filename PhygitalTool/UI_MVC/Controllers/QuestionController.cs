@@ -6,8 +6,6 @@ namespace Phygital.UI_MVC.Controllers;
 // This controller is for all the question pages
 public class QuestionController : Controller
 {
-    
-    
     private readonly IFlowManager _flowManager;
 
     public QuestionController(IFlowManager flowManager)

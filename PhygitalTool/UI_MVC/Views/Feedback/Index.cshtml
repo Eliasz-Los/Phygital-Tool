@@ -42,15 +42,22 @@
                 </div>
             </div>
             <div class="card-body container">
+                @{
+                    if (post.ImageUrl != null)
+                    {
+                        <img src="@Url.Content(post.ImageUrl)" class="img-fluid" width="300" height="300" alt="Foto van post"/> 
+                    }
+                }
                 <p>@post.Text</p>
+
                 <div class="row">
                     <div class="col d-flex">
                         <div class="col d-flex gap-2">
-                            <button type="submit" class="btn btn-success bi bi-hand-thumbs-up" id="likeButton_@post.Id" data-post-id="@post.Id">
-                                <span id="likeCount_@post.Id">@post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsUp)</span> @*@post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsUp)*@
+                            <button type="submit" class="btn btn-success bi bi-hand-thumbs-up like-button" id="likeButton_@post.Id" data-post-id="@post.Id">
+                                <span id="likeCount_@post.Id">@post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsUp)</span> 
                             </button>
-                            <button type="submit" class="btn btn-danger bi bi-hand-thumbs-down" id="dislikeButton_@post.Id" data-post-id="@post.Id">
-                                <span id="dislikeCount_@post.Id">@post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsDown)</span> @*@post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsDown)*@
+                            <button type="submit" class="btn btn-danger bi bi-hand-thumbs-down dislike-button" id="dislikeButton_@post.Id" data-post-id="@post.Id">
+                                <span id="dislikeCount_@post.Id">@post.PostLikes.Count(like => like.Like.LikeType == LikeType.ThumbsDown)</span> 
                             </button>
                         </div>
 

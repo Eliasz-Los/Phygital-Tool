@@ -9,6 +9,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Google.Cloud.Storage.V1" Version="4.10.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
         <PrivateAssets>all</PrivateAssets>
@@ -19,6 +21,12 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.AspNetCore.Http.Features">
+        <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\8.0.4\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

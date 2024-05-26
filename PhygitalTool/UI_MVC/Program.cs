@@ -5,18 +5,27 @@ using Microsoft.EntityFrameworkCore;
 using Phygital.BL.Managers;
 using Phygital.DAL;
 using Phygital.DAL.EF;
+using Phygital.Domain;
 using Phygital.Domain.User;
 using Phygital.UI_MVC.Services;
 using FlowManager = Phygital.BL.Managers.FlowManager;
 
 var builder = WebApplication.CreateBuilder(args);
+// add environment variables
+builder.Configuration.AddEnvironmentVariables();
+string connectionString = "Host=" + Environment.GetEnvironmentVariable("DB_IP") + ";" +
+                          "Port=" + Environment.GetEnvironmentVariable("DB_PORT") + ";" +
+                          "Database=" + Environment.GetEnvironmentVariable("DB_NAME") + ";" +
+                          "Username=" + Environment.GetEnvironmentVariable("DB_USER") + ";" +
+                          "Password=" + Environment.GetEnvironmentVariable("DB_PASSWD");
+Console.WriteLine(connectionString);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<PhygitalDbContext>(
-    o => o.UseNpgsql(builder.Configuration.GetConnectionString("Phygital.db")));
+    o => o.UseNpgsql(connectionString));
 
 builder.Services.AddDefaultIdentity<Account>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
@@ -43,7 +52,7 @@ builder.Services.AddScoped<IStatisticsRepository, StatisticsRepository>();
 builder.Services.AddScoped<IStatisticsManager, StatisticsManager>();
 builder.Services.AddScoped<IUserManager, UserManager>();
 
-builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 

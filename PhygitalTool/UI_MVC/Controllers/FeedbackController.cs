@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
+using Phygital.Domain;
 using Phygital.Domain.User;
 using Phygital.UI_MVC.Models.Dto.Feedback;
+using Phygital.UI_MVC.Services;
 
 namespace Phygital.UI_MVC.Controllers;
 
@@ -14,21 +16,23 @@ public class FeedbackController : Controller
     private readonly IThemeManager _themeManager;
     private readonly UserManager<Account> _userManager;
     private readonly ILogger<FeedbackController> _logger;
+    private readonly ICloudStorage _cloudStorage;
     
-    public FeedbackController(UnitOfWork uow, IFeedbackManager feedbackManager, IThemeManager themeManager, UserManager<Account> userManager, ILogger<FeedbackController> logger)
+    public FeedbackController(UnitOfWork uow, IFeedbackManager feedbackManager, IThemeManager themeManager, UserManager<Account> userManager, ILogger<FeedbackController> logger, ICloudStorage cloudStorage)
     {
         _uow = uow;
         _feedbackManager = feedbackManager;
         _themeManager = themeManager;
         _userManager = userManager;
         _logger = logger;
+        _cloudStorage = cloudStorage;
     }
     
     [HttpGet]
     [Authorize(Roles = "Owner, Admin, SubAdmin, Supervisor, User")]
     public async Task<IActionResult> Index()
     {
-        var posts = await _feedbackManager.GetAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes();
+        var posts = await _feedbackManager.GetAllPostsWithAccountWithThemeAndWithReactionsAndLikes();
         var viewModel = new FeedbackViewModel
         {
             Posts = posts,
@@ -62,7 +66,7 @@ public class FeedbackController : Controller
         }
      
         _uow.BeginTransaction();
-        _feedbackManager.AddPost(postDto.Title, postDto.Text, postDto.ThemeId, currentAccount);
+        await _feedbackManager.AddPost(postDto.Title, postDto.Text, postDto.ThemeId, currentAccount, postDto.ImageFile);
         _uow.Commit();
         return RedirectToAction("Index", "Feedback");
     }

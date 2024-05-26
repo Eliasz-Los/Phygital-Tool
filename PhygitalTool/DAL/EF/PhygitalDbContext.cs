@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Phygital.Domain.Feedback;
@@ -15,7 +13,7 @@ using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace Phygital.DAL.EF;
 
-public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
+public class PhygitalDbContext : IdentityDbContext<Account> 
 {
     // Accounts package
     public DbSet<Account> Accounts { get; set; }
@@ -49,7 +47,7 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
     public DbSet<Like> Likes { get; set; }
     public DbSet<PostReaction> PostReactions { get; set; }
     public DbSet<PostLike> PostLikes { get; set; }
-
+    public DbSet<ReactionLike> ReactionLikes { get; set; }
     //om connection string uit te halen
     private readonly IConfiguration _configuration;
     public PhygitalDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
@@ -58,7 +56,8 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
     }
     
     //Nieuwe constructor voor identity migration, miss niet de beste oplossing
-    public PhygitalDbContext() : this(new DbContextOptionsBuilder<PhygitalDbContext>().UseNpgsql("Host=localhost;Database=Phygital.db;Port=5001;Username=postgres;Password=postgres").Options,
+    public PhygitalDbContext() : this(new DbContextOptionsBuilder<PhygitalDbContext>()
+            .UseNpgsql("Host=localhost;Database=Phygital.db;Port=5001;Username=postgres;Password=postgres").Options,
         null)
     {
     }
@@ -67,19 +66,29 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            if (!String.IsNullOrEmpty(_configuration.ToString()))
-            {
-                optionsBuilder.UseNpgsql(_configuration.GetConnectionString("Phygital.db")); //connectionString:"Phygital.db" 
+            
+            
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
+            if (environment == "Production")
+            {
+                string connectionString = "Host=" + Environment.GetEnvironmentVariable("DB_IP") + ";" +
+                                          "Port=" + Environment.GetEnvironmentVariable("DB_PORT") + ";" +
+                                          "Database=" + Environment.GetEnvironmentVariable("DB_NAME") + ";" +
+                                          "Username=" + Environment.GetEnvironmentVariable("DB_USER") + ";" +
+                                          "Password=" + Environment.GetEnvironmentVariable("DB_PASSWD");
+                optionsBuilder.UseNpgsql(connectionString);
             }
             else
             {
-                optionsBuilder.UseNpgsql("Phygital.db");
+                var connectionString = _configuration.GetConnectionString("Phygital.db");
+                optionsBuilder.UseNpgsql(connectionString);
+                optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
             }
-            optionsBuilder.EnableSensitiveDataLogging();
         }
         
-        optionsBuilder.LogTo(message => Debug.WriteLine(message), LogLevel.Information);
+        base.OnConfiguring(optionsBuilder);
+
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -195,6 +204,7 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         modelBuilder.Entity<Like>().ToTable("Likes").HasIndex(like => like.Id).IsUnique();
         modelBuilder.Entity<PostReaction>().ToTable("PostReactions").HasIndex(postReaction => postReaction.Id).IsUnique();
         modelBuilder.Entity<PostLike>().ToTable("PostLikes").HasIndex(postLike => postLike.Id).IsUnique();
+        modelBuilder.Entity<ReactionLike>().ToTable("ReactionLikes").HasIndex(reactionLike => reactionLike.Id).IsUnique();
         
         // Relations
         //one flow has many flowelements 
@@ -318,6 +328,15 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
             .WithMany(r => r.PostReactions)
             .OnDelete(DeleteBehavior.Cascade);
         
+        modelBuilder.Entity<Reaction>()
+            .HasMany(r => r.PostReactions)
+            .WithOne(l => l.Reaction)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<PostReaction>()
+            .HasOne(pr => pr.Reaction)
+            .WithMany(r => r.PostReactions)
+            .OnDelete(DeleteBehavior.Cascade);
+        
         modelBuilder.Entity<Like>()
             .HasMany(l => l.PostLikes)
             .WithOne(pl => pl.Like)
@@ -325,6 +344,15 @@ public class PhygitalDbContext : IdentityDbContext<Account> //dbContext
         modelBuilder.Entity<PostLike>()
             .HasOne(pl => pl.Like)
             .WithMany(l => l.PostLikes)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Like>()
+            .HasMany(l => l.ReactionLikes)
+            .WithOne(rl => rl.Like)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<ReactionLike>()
+            .HasOne(rl => rl.Like)
+            .WithMany(l => l.ReactionLikes)
             .OnDelete(DeleteBehavior.Cascade);
 
 

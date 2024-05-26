@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Phygital.DAL.EF;
@@ -11,9 +12,11 @@ using Phygital.DAL.EF;
 namespace Phygital.DAL.Migrations
 {
     [DbContext(typeof(PhygitalDbContext))]
-    partial class PhygitalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240525124658_ImageFile")]
+    partial class ImageFile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,6 +74,61 @@ namespace Phygital.DAL.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -316,8 +374,7 @@ namespace Phygital.DAL.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("ChosenAnswer")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("text");
 
                     b.Property<long?>("MultipleChoiceId")
                         .HasColumnType("bigint");
@@ -369,6 +426,9 @@ namespace Phygital.DAL.Migrations
                     b.Property<bool>("IsOpen")
                         .HasColumnType("boolean");
 
+                    b.Property<long?>("ProjectId")
+                        .HasColumnType("bigint");
+
                     b.Property<long?>("ThemeId")
                         .HasColumnType("bigint");
 
@@ -376,6 +436,8 @@ namespace Phygital.DAL.Migrations
 
                     b.HasIndex("Id")
                         .IsUnique();
+
+                    b.HasIndex("ProjectId");
 
                     b.HasIndex("ThemeId");
 
@@ -422,8 +484,7 @@ namespace Phygital.DAL.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("OptionText")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("text");
 
                     b.Property<long?>("RangeQuestionId")
                         .HasColumnType("bigint");
@@ -456,14 +517,12 @@ namespace Phygital.DAL.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("PostalCode")
                         .HasColumnType("integer");
 
                     b.Property<string>("Street")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("StreetNumber")
@@ -486,8 +545,7 @@ namespace Phygital.DAL.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Comment")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("text");
 
                     b.Property<long?>("participationId")
                         .HasColumnType("bigint");
@@ -608,9 +666,9 @@ namespace Phygital.DAL.Migrations
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.HasIndex("installationId");
+                    b.HasIndex("ProjectId");
 
-                    b.ToTable("Session", (string)null);
+                    b.ToTable("Versions", (string)null);
                 });
 
             modelBuilder.Entity("Phygital.Domain.Themas.Theme", b =>
@@ -622,9 +680,7 @@ namespace Phygital.DAL.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("text");
 
                     b.Property<long?>("ThemeId")
                         .HasColumnType("bigint");
@@ -706,9 +762,6 @@ namespace Phygital.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id")
-                        .IsUnique();
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -718,7 +771,7 @@ namespace Phygital.DAL.Migrations
 
                     b.HasIndex("organisationId");
 
-                    b.ToTable("Accounts", (string)null);
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Phygital.Domain.User.Organisation", b =>
@@ -730,12 +783,9 @@ namespace Phygital.DAL.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("id");
@@ -746,7 +796,7 @@ namespace Phygital.DAL.Migrations
                     b.ToTable("Organisations", (string)null);
                 });
 
-            modelBuilder.Entity("Phygital.Domain.Questionsprocess.Infos.Info", b =>
+            modelBuilder.Entity("Phygital.Domain.Questionsprocess.Info", b =>
                 {
                     b.HasBaseType("Phygital.Domain.Questionsprocess.FlowElement");
 
@@ -775,57 +825,46 @@ namespace Phygital.DAL.Migrations
                     b.ToTable("Questions", (string)null);
                 });
 
-            modelBuilder.Entity("Phygital.Domain.Questionsprocess.Infos.Image", b =>
+            modelBuilder.Entity("Phygital.Domain.Questionsprocess.Image", b =>
                 {
-                    b.HasBaseType("Phygital.Domain.Questionsprocess.Infos.Info");
+                    b.HasBaseType("Phygital.Domain.Questionsprocess.Info");
 
                     b.Property<string>("AltText")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.ToTable("Images", (string)null);
                 });
 
-            modelBuilder.Entity("Phygital.Domain.Questionsprocess.Infos.Text", b =>
+            modelBuilder.Entity("Phygital.Domain.Questionsprocess.Text", b =>
                 {
-                    b.HasBaseType("Phygital.Domain.Questionsprocess.Infos.Info");
+                    b.HasBaseType("Phygital.Domain.Questionsprocess.Info");
 
                     b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.ToTable("Texts", (string)null);
                 });
 
-            modelBuilder.Entity("Phygital.Domain.Questionsprocess.Infos.Video", b =>
+            modelBuilder.Entity("Phygital.Domain.Questionsprocess.Video", b =>
                 {
-                    b.HasBaseType("Phygital.Domain.Questionsprocess.Infos.Info");
+                    b.HasBaseType("Phygital.Domain.Questionsprocess.Info");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.ToTable("Videos", (string)null);
@@ -858,8 +897,7 @@ namespace Phygital.DAL.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Text")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("text");
 
                     b.Property<long?>("answerId")
                         .HasColumnType("bigint");
@@ -981,8 +1019,7 @@ namespace Phygital.DAL.Migrations
                 {
                     b.HasOne("Phygital.Domain.Feedback.Like", "Like")
                         .WithMany("PostLikes")
-                        .HasForeignKey("LikeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("LikeId");
 
                     b.HasOne("Phygital.Domain.Feedback.Post", "Post")
                         .WithMany("PostLikes")
@@ -1003,8 +1040,7 @@ namespace Phygital.DAL.Migrations
 
                     b.HasOne("Phygital.Domain.Feedback.Reaction", "Reaction")
                         .WithMany("PostReactions")
-                        .HasForeignKey("ReactionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ReactionId");
 
                     b.Navigation("Post");
 
@@ -1055,9 +1091,15 @@ namespace Phygital.DAL.Migrations
 
             modelBuilder.Entity("Phygital.Domain.Questionsprocess.Flow", b =>
                 {
+                    b.HasOne("Phygital.Domain.Subplatform.Project", "Project")
+                        .WithMany("Flows")
+                        .HasForeignKey("ProjectId");
+
                     b.HasOne("Phygital.Domain.Themas.Theme", "Theme")
                         .WithMany("Flows")
                         .HasForeignKey("ThemeId");
+
+                    b.Navigation("Project");
 
                     b.Navigation("Theme");
                 });
@@ -1162,7 +1204,7 @@ namespace Phygital.DAL.Migrations
                     b.Navigation("Organisation");
                 });
 
-            modelBuilder.Entity("Phygital.Domain.Questionsprocess.Infos.Info", b =>
+            modelBuilder.Entity("Phygital.Domain.Questionsprocess.Info", b =>
                 {
                     b.HasOne("Phygital.Domain.Questionsprocess.FlowElement", null)
                         .WithMany("Infos")
@@ -1170,7 +1212,7 @@ namespace Phygital.DAL.Migrations
 
                     b.HasOne("Phygital.Domain.Questionsprocess.FlowElement", null)
                         .WithOne()
-                        .HasForeignKey("Phygital.Domain.Questionsprocess.Infos.Info", "Id")
+                        .HasForeignKey("Phygital.Domain.Questionsprocess.Info", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1194,29 +1236,29 @@ namespace Phygital.DAL.Migrations
                     b.Navigation("Theme");
                 });
 
-            modelBuilder.Entity("Phygital.Domain.Questionsprocess.Infos.Image", b =>
+            modelBuilder.Entity("Phygital.Domain.Questionsprocess.Image", b =>
                 {
-                    b.HasOne("Phygital.Domain.Questionsprocess.Infos.Info", null)
+                    b.HasOne("Phygital.Domain.Questionsprocess.Info", null)
                         .WithOne()
-                        .HasForeignKey("Phygital.Domain.Questionsprocess.Infos.Image", "Id")
+                        .HasForeignKey("Phygital.Domain.Questionsprocess.Image", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Phygital.Domain.Questionsprocess.Infos.Text", b =>
+            modelBuilder.Entity("Phygital.Domain.Questionsprocess.Text", b =>
                 {
-                    b.HasOne("Phygital.Domain.Questionsprocess.Infos.Info", null)
+                    b.HasOne("Phygital.Domain.Questionsprocess.Info", null)
                         .WithOne()
-                        .HasForeignKey("Phygital.Domain.Questionsprocess.Infos.Text", "Id")
+                        .HasForeignKey("Phygital.Domain.Questionsprocess.Text", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Phygital.Domain.Questionsprocess.Infos.Video", b =>
+            modelBuilder.Entity("Phygital.Domain.Questionsprocess.Video", b =>
                 {
-                    b.HasOne("Phygital.Domain.Questionsprocess.Infos.Info", null)
+                    b.HasOne("Phygital.Domain.Questionsprocess.Info", null)
                         .WithOne()
-                        .HasForeignKey("Phygital.Domain.Questionsprocess.Infos.Video", "Id")
+                        .HasForeignKey("Phygital.Domain.Questionsprocess.Video", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1318,9 +1360,11 @@ namespace Phygital.DAL.Migrations
                     b.Navigation("Participations");
                 });
 
-            modelBuilder.Entity("Phygital.Domain.Session.Session", b =>
+            modelBuilder.Entity("Phygital.Domain.Subplatform.Project", b =>
                 {
-                    b.Navigation("Participations");
+                    b.Navigation("Flows");
+
+                    b.Navigation("Versions");
                 });
 
             modelBuilder.Entity("Phygital.Domain.Themas.Theme", b =>

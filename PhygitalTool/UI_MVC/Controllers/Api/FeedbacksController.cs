@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Phygital.BL;
+using Phygital.Domain.Datatypes;
 using Phygital.Domain.User;
 using Phygital.UI_MVC.Models.Dto.Feedback;
+using Phygital.UI_MVC.Services;
 
 namespace Phygital.UI_MVC.Controllers.Api;
 
@@ -29,7 +32,7 @@ public class FeedbacksController : ControllerBase
   [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
   public async Task<ActionResult<IEnumerable<ReactionReadDto>>> GetReactions(long postId)
   {
-    var reactions = await _feedbackManager.GetReactionsOfPostByPostId(postId);
+    var reactions = await _feedbackManager.GetReactionsWithAccountAndLikesOfPostByPostId(postId);
     if (!reactions.Any())
     {
       return NoContent();
@@ -39,7 +42,9 @@ public class FeedbacksController : ControllerBase
     {
       Id = r.Id,
       Content = r.Reaction.Content,
-      AccountName = r.Reaction.Account.Name
+      AccountName = r.Reaction.Account.Name,
+      LikeCount = r.Reaction.ReactionLikes.Count(rl => rl.Like.LikeType == LikeType.ThumbsUp),
+      DislikeCount = r.Reaction.ReactionLikes.Count(rl => rl.Like.LikeType == LikeType.ThumbsDown)
     }));
   }
   
@@ -68,7 +73,7 @@ public class FeedbacksController : ControllerBase
     await _feedbackManager.AddReactionToPostById(postId, reactionDto.Content, currentAccount);
     _uow.Commit();
 
-    var reactionsCount =  _feedbackManager.GetReactionsOfPostByPostId(postId).Result.Count();
+    var reactionsCount =  _feedbackManager.GetReactionsWithAccountAndLikesOfPostByPostId(postId).Result.Count();
     return Ok(reactionsCount);
   }
   
@@ -96,12 +101,52 @@ public class FeedbacksController : ControllerBase
     }
     
     _uow.BeginTransaction();
-    await _feedbackManager.RemoveReactionToPostById(postId, reactionId);
+    await _feedbackManager.RemoveReactionToPostByPostIdAndReactionId(postId, reactionId);
     _uow.Commit();
     return Ok();
   }
  
   
+  [HttpPost("{reactionId}/LikeReaction")]
+  [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
+  public async Task<IActionResult> LikeReaction(long reactionId)
+  {
+      Account currentAccount = new Account();
+      if (User.Identity?.Name != null)
+      {
+          currentAccount = await _userManager.FindByNameAsync(User.Identity.Name);
+      }        
+
+      _uow.BeginTransaction();
+      await _feedbackManager.AddReactionLikeByReactionIdAndAccount(reactionId, currentAccount);
+      _uow.Commit();
+       
+      int likeCount = await _feedbackManager.GetLikesCountByReactionId(reactionId);
+      int dislikeCount = await _feedbackManager.GetDislikesCountByReactionId(reactionId);
+      
+      return Ok( new { likeCount, dislikeCount });
+  }
+  
+
+  [HttpPost("{reactionId}/DislikeReaction")]
+  [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
+  public async Task<IActionResult> DislikeReaction(long reactionId)
+  {
+    Account currentAccount = new Account();
+    if (User.Identity?.Name != null)
+    {
+      currentAccount = await _userManager.FindByNameAsync(User.Identity.Name);
+    }
+    
+    _uow.BeginTransaction();
+    await _feedbackManager.AddReactionDisLikeByReactionIdAndAccount(reactionId, currentAccount);
+    _uow.Commit();
+       
+    int likeCount = await _feedbackManager.GetLikesCountByReactionId(reactionId);
+    int dislikeCount = await _feedbackManager.GetDislikesCountByReactionId(reactionId);
+      
+    return Ok( new { likeCount, dislikeCount });
+  }
   
   
   [HttpPost("{postId}/LikePost")]
@@ -115,11 +160,11 @@ public class FeedbacksController : ControllerBase
     }        
     _uow.BeginTransaction();
         
-    var existingDislike = await _feedbackManager.GetDislikeByPostIdAndUserId(postId, currentAccount?.Id);
+    var existingDislike = await _feedbackManager.GetDislikeByPostIdAndAccountId(postId, currentAccount?.Id);
         
     if (existingDislike != null)
     {
-      await _feedbackManager.RemovePostDislikeByPostId(postId, currentAccount?.Id);
+      await _feedbackManager.RemovePostDislikeByPostIdAndAccountId(postId, currentAccount?.Id);
     }
     
     await _feedbackManager.AddPostLikeByPostId(postId, currentAccount);
@@ -143,11 +188,11 @@ public class FeedbacksController : ControllerBase
     }        
     _uow.BeginTransaction();
         
-    var existingDislike = await _feedbackManager.GetLikeByPostIdAndUserId(postId, currentAccount?.Id);
+    var existingDislike = await _feedbackManager.GetLikeByPostIdAndAccountId(postId, currentAccount?.Id);
         
     if (existingDislike != null)
     {
-      await _feedbackManager.RemovePostLikeByPostId(postId, currentAccount?.Id);
+      await _feedbackManager.RemovePostLikeByPostIdAndAccountId(postId, currentAccount?.Id);
     }
     
     await _feedbackManager.AddDislikePostByPostId(postId, currentAccount);

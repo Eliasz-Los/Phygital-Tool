@@ -497,7 +497,13 @@ public class PhygitalInitializer
         // Create some Likes
         var like1 = new Like {  Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
         var like2 = new Like { Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
-
+        var like3 = new Like { Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
+        var like4 = new Like { Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
+        
+        //Create some ReactionLikes
+        var reactionLike1 = new ReactionLike { Reaction = reaction1, Like = like1, Timestamp = DateTime.UtcNow };
+        var reactionLike2 = new ReactionLike { Reaction = reaction2, Like = like2, Timestamp = DateTime.UtcNow };
+        
         // Create some PostReactions
         var postReaction1 = new PostReaction { Post = post1, Reaction = reaction1, Timestamp = DateTime.UtcNow };
         var postReaction2 = new PostReaction { Post = post2, Reaction = reaction2, Timestamp = DateTime.UtcNow };
@@ -673,7 +679,10 @@ public class PhygitalInitializer
         context.Reactions.AddRange(new Reaction[] { reaction1, reaction2 });
 
         // Add to the Likes collection
-        context.Likes.AddRange(new Like[] { like1, like2 });
+        context.Likes.AddRange(new Like[] { like1, like2 , like3, like4});
+        
+        //add to the ReactionLikes collection
+        context.ReactionLikes.AddRange(new ReactionLike[] { reactionLike1, reactionLike2 });
 
         // Add to the PostReactions collection
         context.PostReactions.AddRange(new PostReaction[] { postReaction1, postReaction2 });
