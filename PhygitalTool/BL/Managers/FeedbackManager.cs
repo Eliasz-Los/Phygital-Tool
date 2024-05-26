@@ -21,9 +21,9 @@ public class FeedbackManager : IFeedbackManager
         return await _feedbackRepository.ReadPostWithAccountAndWithThemeById(id);
     }
 
-    public async Task<IEnumerable<Post>> GetAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes()
+    public async Task<IEnumerable<Post>> GetAllPostsWithAccountWithThemeAndWithReactionsAndLikes()
     {
-        return await _feedbackRepository.ReadAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes();
+        return await _feedbackRepository.ReadAllPostsWithAccountWithThemeAndWithReactionsAndLikes();
     }
 
     public async Task AddPost(string title, string text, long themeId, Account account, IFormFile imageFile)
@@ -79,24 +79,24 @@ public class FeedbackManager : IFeedbackManager
         return await _feedbackRepository.CreateReactionToPostById(postId, reaction, account);
     }
 
-    public async Task<PostLike> GetDislikeByPostIdAndUserId(long postId, string currentAccountId)
+    public async Task<PostLike> GetDislikeByPostIdAndAccountId(long postId, string currentAccountId)
     {
-        return await _feedbackRepository.ReadDislikeByPostIdAndUserId(postId, currentAccountId);
+        return await _feedbackRepository.ReadDislikeByPostIdAndAccountId(postId, currentAccountId);
     }
 
-    public async Task RemovePostDislikeByPostId(long postId, string id)
+    public async Task RemovePostDislikeByPostIdAndAccountId(long postId, string id)
     {
-        await _feedbackRepository.DeletePostDislikeByPostId(postId, id);
+        await _feedbackRepository.DeletePostLikeByPostIdAndAccountId(postId, id);
     }
 
-    public async Task<PostLike> GetLikeByPostIdAndUserId(long postId, string currentAccountId)
+    public async Task<PostLike> GetLikeByPostIdAndAccountId(long postId, string currentAccountId)
     {
-      return await _feedbackRepository.ReadLikeByPostIdAndUserId(postId, currentAccountId);
+      return await _feedbackRepository.ReadLikeByPostIdAndAccountId(postId, currentAccountId);
     }
 
-    public async Task RemovePostLikeByPostId(long postId, string id)
+    public async Task RemovePostLikeByPostIdAndAccountId(long postId, string id)
     {
-        await _feedbackRepository.DeletePostLikeByPostId(postId, id);
+        await _feedbackRepository.DeletePostLikeByPostIdAndAccountId(postId, id);
     }
 
     public async Task<int> GetLikesCountByPostId(long postId)
@@ -109,14 +109,14 @@ public class FeedbackManager : IFeedbackManager
         return await  _feedbackRepository.ReadDislikesCountByPostId(postId);
     }
 
-    public async Task<IEnumerable<PostReaction>> GetReactionsOfPostByPostId(long postId)
+    public async Task<IEnumerable<PostReaction>> GetReactionsWithAccountAndLikesOfPostByPostId(long postId)
     {
-        return await _feedbackRepository.ReadReactionsOfPostByPostId(postId);
+        return await _feedbackRepository.ReadReactionsWithAccountAndLikesOfPostByPostId(postId);
     }
 
-    public async Task RemoveReactionToPostById(long postId, long reactionId)
+    public async Task RemoveReactionToPostByPostIdAndReactionId(long postId, long reactionId)
     {
-         await _feedbackRepository.DeleteReactionToPostById(postId, reactionId);
+         await _feedbackRepository.DeleteReactionToPostByPostIdAndReactionId(postId, reactionId);
     }
 
     public async Task<Reaction> GetReactionWithAccountById(long reactionId)
@@ -124,14 +124,14 @@ public class FeedbackManager : IFeedbackManager
         return await _feedbackRepository.ReadReactionWithAccountById(reactionId);
     }
 
-    public async Task<ReactionLike> AddReactionLikeByReactionId(long reactionId, Account currentAccount)
+    public async Task<ReactionLike> AddReactionLikeByReactionIdAndAccount(long reactionId, Account currentAccount)
     {
-        return await _feedbackRepository.CreateReactionLikeByReactionId(reactionId, currentAccount);
+        return await _feedbackRepository.CreateReactionLikeByReactionIdAndAccount(reactionId, currentAccount);
     }
 
-    public async Task<ReactionLike> AddReactionDisLikeByReactionId(long reactionId, Account currentAccount)
+    public async Task<ReactionLike> AddReactionDisLikeByReactionIdAndAccount(long reactionId, Account currentAccount)
     {
-        return await _feedbackRepository.CreateReactionDisLikeByReactionId(reactionId, currentAccount);
+        return await _feedbackRepository.CreateReactionDisLikeByReactionIdAndAccount(reactionId, currentAccount);
     }
 
     public async Task<int> GetLikesCountByReactionId(long reactionId)
@@ -142,25 +142,5 @@ public class FeedbackManager : IFeedbackManager
     public async Task<int> GetDislikesCountByReactionId(long reactionId)
     {
         return await _feedbackRepository.ReadDislikesCountByReactionId(reactionId);
-    }
-
-    public async Task<ReactionLike> GetDislikeByReactionIdAndUserId(long reactionId, string currentAccountId)
-    {
-        return await _feedbackRepository.ReadDislikeByReactionIdAndUserId(reactionId, currentAccountId);
-    }
-
-    public async Task RemoveReactionDislikeByReactionIdAndUserId(long reactionId, string currentAccountId)
-    {
-         await _feedbackRepository.DeleteReactionDislikeByReactionIdAndUserId(reactionId, currentAccountId);
-    }
-
-    public async Task<ReactionLike> GetLikeByReactionIdAndUserId(long reactionId, string currentAccountId)
-    {
-        return await _feedbackRepository.ReadLikeByReactionIdAndUserId(reactionId, currentAccountId);
-    }
-
-    public async Task RemoveReactionLikeByReactionIdAndUserId(long reactionId, string currentAccountId)
-    {
-         await _feedbackRepository.DeleteReactionLikeByReactionIdAndUserId(reactionId, currentAccountId);
     }
 }

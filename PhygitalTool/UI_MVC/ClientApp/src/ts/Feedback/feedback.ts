@@ -37,7 +37,7 @@ let reactionDislikeButtons = document.querySelectorAll('.reaction-dislike-button
                                         <span id="likeCountReact_${reaction.id}"> ${reaction.likeCount}</span> 
                                     </button>
                                     <button type="submit" class="btn btn-danger bi bi-hand-thumbs-down reaction-dislike-button"  id="dislikeButtonReact_${reaction.id}" data-reaction-id="${reaction.id}">
-                                        <span id="dislikeCountReact_${reaction.id}"> ${reaction.dislikeCount}</span>
+                                        <span id="dislikeCountReact_${reaction.id}"> ${reaction.likeCount}</span>
                                     </button>
                                 </div>
                          </div>
@@ -61,7 +61,6 @@ let reactionDislikeButtons = document.querySelectorAll('.reaction-dislike-button
         .catch(error => {
             console.error(error);
         });
-
 }
 
  async function getReactions(){
@@ -98,6 +97,7 @@ let reactionDislikeButtons = document.querySelectorAll('.reaction-dislike-button
             }
         });
    content.value = '';
+   await getReactionsOfPost(postId);
 }
 
 async function removeReaction(postId: number, reactions: ReactionRead[]){
@@ -142,13 +142,13 @@ async function handleReactionLikes(){
                         console.log(`Reaction ${reactionId} liked`);
                         const { likeCount, dislikeCount } = result;
                         const likeCountElement = document.getElementById(`likeCountReact_${reactionId}`);
-                        const dislikeCountElement = document.getElementById(`likeCountReact_${reactionId}`);
+                        const dislikeCountElement = document.getElementById(`dislikeCountReact_${reactionId}`);
                         if (likeCountElement !== null && dislikeCountElement !== null) {
                             likeCountElement.innerText = likeCount.toString();
                             dislikeCountElement.innerText = dislikeCount.toString();
                         }
                     })
-                    .catch(error => console.error(error));
+                    .catch(error => console.error(error.message));
                 (button as HTMLButtonElement).disabled = false;
             }
         });
@@ -168,8 +168,8 @@ async function handleReactionDislikes(){
 
                         if (typeof result === 'object' && result !== null){
                             const {likeCount, dislikeCount} = result;
-                            const likeCountElement = document.getElementById(`dislikeCountReact_${reactionId}`);
-                            const dislikeCountElement = document.getElementById(`dislikeButtonReact_${reactionId}`);
+                            const likeCountElement = document.getElementById(`likeCountReact_${reactionId}`);
+                            const dislikeCountElement = document.getElementById(`dislikeCountReact_${reactionId}`);
                             if (likeCountElement !== null && dislikeCountElement !== null) {
                                 likeCountElement.innerText = likeCount.toString();
                                 dislikeCountElement.innerText = dislikeCount.toString();
@@ -177,7 +177,7 @@ async function handleReactionDislikes(){
                         }
                     })
                     .catch(error => {
-                        console.error(error);
+                        console.error(error.message);
                     });
                 (button as HTMLButtonElement).disabled = false;
             }
@@ -257,7 +257,6 @@ async function handlePostDislikes(){
             event.preventDefault();
             if (postId !== null){
                 await sendReaction(parseInt(postId));
-                await getReactionsOfPost(parseInt(postId));
             }
         });
     }
@@ -267,5 +266,3 @@ async function handlePostDislikes(){
 getReactions();
 handlePostLikes();
 handlePostDislikes();
-handleReactionLikes();
-handleReactionDislikes();

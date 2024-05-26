@@ -32,7 +32,7 @@ public class FeedbackController : Controller
     [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
     public async Task<IActionResult> Index()
     {
-        var posts = await _feedbackManager.GetAllPostsLinkedToAccountWithThemeAndWithReactionsAndLikes();
+        var posts = await _feedbackManager.GetAllPostsWithAccountWithThemeAndWithReactionsAndLikes();
         var viewModel = new FeedbackViewModel
         {
             Posts = posts,
