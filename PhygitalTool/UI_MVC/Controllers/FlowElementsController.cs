@@ -30,10 +30,19 @@ public class FlowElementsController : Controller
         return View();
     }
     
+    [HttpGet]
+    public IActionResult AddText()
+    {
+        var themes = _themeManager.GetAllThemas();
+        ViewBag.Themes = themes;
+        return View();
+    }
+
+    
     [HttpPost]
     public IActionResult AddImage(ImageDto image)
     {
-        // todo image.flowId, subthemeId,?
+        // todo flowid toevoegen
         
         Image imageToAdd = new Image
         {
@@ -46,6 +55,24 @@ public class FlowElementsController : Controller
         
         _uow.BeginTransaction();
         _flowElementManager.AddImage(imageToAdd);
+        _uow.Commit();
+
+        return RedirectToAction("Index", "Flow");
+    }
+    
+    [HttpPost]
+    public IActionResult AddText(TextDto text)
+    {
+        // Todo flow id
+        Text textToAdd = new Text
+        {
+            Title = text.Title,
+            Content = text.Content,
+            SubTheme = _themeManager.GetThemeById(text.SubTheme),
+        };
+        
+        _uow.BeginTransaction();
+        _flowElementManager.AddText(textToAdd);
         _uow.Commit();
 
         return RedirectToAction("Index", "Flow");

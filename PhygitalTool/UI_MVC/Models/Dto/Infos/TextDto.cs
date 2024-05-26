@@ -4,7 +4,7 @@ namespace Phygital.UI_MVC.Models.Dto.Infos;
 
 public class TextDto
 {
-    public Theme SubTheme { get; set; }
+    public long SubTheme { get; set; }
     public string Title { get; set; }
     public string Content { get; set; }
 }

@@ -74,6 +74,11 @@ public class FlowElementManager : IFlowElementManager
         _flowElementRepository.CreateOption(option);
     }
 
+    public void AddText(Text text)
+    {
+        _flowElementRepository.CreateText(text);
+    }
+
     public void AddImage(Image image)
     {
         _flowElementRepository.CreateImage(image);
