@@ -102,6 +102,26 @@ public class FlowElementRepository : IFlowElementRepository
         return _dbContext.RangeQuestions.Where(q => q.SubTheme == subTheme).ToList();
     }
 
+    public OpenQuestion ReadOpenQuestionById(long id)
+    {
+        return _dbContext.OpenQuestions.Find(id);
+    }
+
+    public SingleChoiceQuestion ReadSingleQuestionById(long id)
+    {
+        return _dbContext.SingleChoiceQuestions.Find(id);
+    }
+
+    public MultipleChoice ReadMultipleChoiceQuestionById(long id)
+    {
+        return _dbContext.MultipleChoices.Find(id);
+    }
+
+    public RangeQuestion ReadRangeQuestionById(long id)
+    {
+        return _dbContext.RangeQuestions.Find(id);
+    }
+
     public void CreateOpenQuestion(OpenQuestion openQuestion)
     {
         _dbContext.OpenQuestions.Add(openQuestion);
@@ -136,7 +156,7 @@ public class FlowElementRepository : IFlowElementRepository
     {
         _dbContext.Texts.Add(text);
     }
-    
+
     public void CreateVideo(Video video)
     {
         _dbContext.Videos.Add(video);
@@ -187,12 +207,23 @@ public class FlowElementRepository : IFlowElementRepository
     public IEnumerable<SingleChoiceQuestion> ReadAllSingleQuestionByFlowId(long flowId)
     {
         return _dbContext.SingleChoiceQuestions.Where(q => q.Flow.Id == flowId);
-
     }
 
     public IEnumerable<RangeQuestion> ReadAllRangeQuestionByFlowId(long flowId)
     {
         return _dbContext.RangeQuestions.Where(q => q.Flow.Id == flowId);
+    }
+
+
+    public void DeleteOpenQuestionFromFlow(long questionId)
+    {
+        var question = _dbContext.OpenQuestions.FirstOrDefault(q => q.Id == questionId);
+
+        if (question != null)
+        {
+            question.Flow = null;
+            _dbContext.SaveChanges();
+        }
     }
 
     /*public IEnumerable<OpenQuestion> ReadAllOpenQuestionsByTheme(Theme subTheme)

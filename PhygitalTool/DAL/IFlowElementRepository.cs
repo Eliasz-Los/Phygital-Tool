@@ -15,6 +15,12 @@ public interface IFlowElementRepository
     IEnumerable<OpenQuestion> ReadAllOpenQuestionsByTheme(Theme subTheme);
     IEnumerable<SingleChoiceQuestion> ReadAllSingleChoiceQuestionsByTheme(Theme subTheme);
     IEnumerable<RangeQuestion> ReadAllRangeQuestionsByTheme(Theme subTheme);
+
+    OpenQuestion ReadOpenQuestionById(long id);
+    SingleChoiceQuestion ReadSingleQuestionById(long id);
+    MultipleChoice ReadMultipleChoiceQuestionById(long id);
+    RangeQuestion ReadRangeQuestionById(long id);
+    
     void CreateOpenQuestion(OpenQuestion openQuestion);
     void CreateOption(Option option);
     void CreateMultipleChoiceQuestion(MultipleChoice multipleChoiceQuestion);
@@ -33,4 +39,6 @@ public interface IFlowElementRepository
     IEnumerable<MultipleChoice> ReadAllMultipleChoiceQuestionByFlowId(long flowId);
     IEnumerable<SingleChoiceQuestion> ReadAllSingleQuestionByFlowId(long flowId);
     IEnumerable<RangeQuestion> ReadAllRangeQuestionByFlowId(long flowId);
+
+    public void DeleteOpenQuestionFromFlow(long questionId);
 }

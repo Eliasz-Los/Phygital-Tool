@@ -11,6 +11,10 @@ public interface IFlowElementManager
     IEnumerable<RangeQuestion> GetRangeQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<OpenQuestion> GetOpenQuestionsWithAnswerOfFlowById(long flowId);
     Question GetQuestionById(long questionId);
+    OpenQuestion getOpenQuestionById(long id);
+    MultipleChoice getMultipleChoiceQuestionById(long id);
+    SingleChoiceQuestion getSingleChoiceQuestionById(long id);
+    RangeQuestion getRangeQuestionById(long id);
     IEnumerable<Text> GetTextInfosOfFlowById(long flowId);
     IEnumerable<Image> GetImageInfosOfFlowById(long flowId);
     IEnumerable<Video> GetVideoInfosOfFlowById(long flowId);
@@ -28,4 +32,5 @@ public interface IFlowElementManager
     void AddMultipleChoiceQuestion(MultipleChoice multipleChoiceQuestion);
     void AddSingleChoiceQuestion(SingleChoiceQuestion singleChoiceQuestion);
     void AddRangeQuestion(RangeQuestion rangeQuestion);
+    public void RemoveOpenQuestionFromFlow(long questionId);
 }

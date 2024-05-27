@@ -10,11 +10,13 @@ public class QuestionController : Controller
 {
     private readonly IFlowManager _flowManager;
     private readonly IFlowElementManager _flowElementManager;
+    private readonly UnitOfWork _uow;
 
-    public QuestionController(IFlowManager flowManager, IFlowElementManager flowElementManager)
+    public QuestionController(IFlowManager flowManager, IFlowElementManager flowElementManager, UnitOfWork unitOfWork)
     {
         _flowManager = flowManager;
         _flowElementManager = flowElementManager;
+        _uow = unitOfWork;
     }
 
     [HttpGet]
@@ -31,6 +33,7 @@ public class QuestionController : Controller
             questionToAdd.Text = question.Text;
             questionToAdd.isActive = question.Active;
             questionToAdd.Type = "Open";
+            // TODO ookal is het gedelete wordt het nogsteeds opgehaald
             questionToAdd.FlowId = id;
             openQuestions.Add(questionToAdd);
         }
@@ -53,5 +56,19 @@ public class QuestionController : Controller
     public IActionResult AddQuestion()
     {
         return View("Creation/AddQuestion");
+    }
+
+    [HttpPost]
+    public IActionResult Delete(long questionId, string questionType)
+    {
+        switch (questionType)
+        {
+            case "Open":
+                _uow.BeginTransaction();
+                _flowElementManager.RemoveOpenQuestionFromFlow(_flowElementManager.getOpenQuestionById(questionId).Id);
+                _uow.Commit();
+                break;
+        }
+        return RedirectToAction("Index", "Flow");
     }
 }

@@ -39,6 +39,26 @@ public class FlowElementManager : IFlowElementManager
         return _flowElementRepository.ReadQuestionById(questionId);
     }
 
+    public OpenQuestion getOpenQuestionById(long id)
+    {
+        return _flowElementRepository.ReadOpenQuestionById(id);
+    }
+
+    public MultipleChoice getMultipleChoiceQuestionById(long id)
+    {
+        return _flowElementRepository.ReadMultipleChoiceQuestionById(id);
+    }
+
+    public SingleChoiceQuestion getSingleChoiceQuestionById(long id)
+    {
+        return _flowElementRepository.ReadSingleQuestionById(id);
+    }
+
+    public RangeQuestion getRangeQuestionById(long id)
+    {
+        return _flowElementRepository.ReadRangeQuestionById(id);
+    }
+
     public IEnumerable<Text> GetTextInfosOfFlowById(long flowId)
     {
         return _flowElementRepository.ReadTextInfosOfFlowById(flowId);
@@ -122,5 +142,10 @@ public class FlowElementManager : IFlowElementManager
     public void AddRangeQuestion(RangeQuestion rangeQuestion)
     {
         _flowElementRepository.CreateRangeQuestion(rangeQuestion);
+    }
+
+    public void RemoveOpenQuestionFromFlow(long questionId)
+    {
+        _flowElementRepository.DeleteOpenQuestionFromFlow(questionId);
     }
 }
