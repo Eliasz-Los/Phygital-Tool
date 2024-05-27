@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Phygital.UI_MVC.Models.Dto.QuestionDto>
+
+@{
+    ViewBag.Title = "Questions Overzicht";
+    Layout = "_Layout";
+}
+
+<table class="table table-striped text-center">
+    <thead>
+    <tr>
+        <th>Type</th>
+        <th>Tekst</th>
+        <th>Active?</th>
+        <th>Verwijder uit flow</th>
+    </tr>
+    </thead>
+    @{
+        foreach (var question in Model)
+        {
+            <tr>
+                <td>@question.Type</td>
+                <td>@question.Text</td>
+                <td>
+                    @* todo id alleen is niet genoeg omdat ze van andere types zijn *@
+                    @* <a asp-controller="Question" asp-action="Edit" asp-route-id="@question.Id" class="btn btn-success bi bi-pencil-square"></a> *@
+                </td>
+                <td>
+                    <form asp-controller="Question" asp-action="Delete" asp-route-id="@question.Id" method="post">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash" ></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    }
+</table>
+<div class="row align-content-center">
+    <div class="col d-flex justify-content-end">
+        <a type="button" class="btn btn-warning" asp-area="" asp-controller="Flow" asp-action="Index">Home</a>
+    </div>
+</div>

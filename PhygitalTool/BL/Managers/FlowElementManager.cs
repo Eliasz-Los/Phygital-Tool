@@ -69,6 +69,26 @@ public class FlowElementManager : IFlowElementManager
         return _flowElementRepository.ReadAllOpenQuestionByThemeId(themeId);
     }
 
+    public IEnumerable<OpenQuestion> GetAllOpenQuestionByFlowId(long flowId)
+    {
+        return _flowElementRepository.ReadAllOpenQuestionByFlowId(flowId);
+    }
+
+    public IEnumerable<SingleChoiceQuestion> GetAllSingleQuestionByFlowId(long flowId)
+    {
+        return _flowElementRepository.ReadAllSingleQuestionByFlowId(flowId);
+    }
+
+    public IEnumerable<MultipleChoice> GetAllMultipleChoiceQuestionByFlowId(long flowId)
+    {
+        return _flowElementRepository.ReadAllMultipleChoiceQuestionByFlowId(flowId);
+    }
+
+    public IEnumerable<RangeQuestion> GetAllRangeQuestionByFlowId(long flowId)
+    {
+        return _flowElementRepository.ReadAllRangeQuestionByFlowId(flowId);
+    }
+
     public void AddOption(Option option)
     {
         _flowElementRepository.CreateOption(option);

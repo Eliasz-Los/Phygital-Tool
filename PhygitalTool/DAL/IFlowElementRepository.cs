@@ -29,4 +29,8 @@ public interface IFlowElementRepository
     IEnumerable<Video> ReadVideoInfosOfFlowById(long flowId);
     Option ReadOptionByText(string optionText);
     IEnumerable<OpenQuestion> ReadAllOpenQuestionByThemeId(long themeId);
+    IEnumerable<OpenQuestion> ReadAllOpenQuestionByFlowId(long flowId);
+    IEnumerable<MultipleChoice> ReadAllMultipleChoiceQuestionByFlowId(long flowId);
+    IEnumerable<SingleChoiceQuestion> ReadAllSingleQuestionByFlowId(long flowId);
+    IEnumerable<RangeQuestion> ReadAllRangeQuestionByFlowId(long flowId);
 }

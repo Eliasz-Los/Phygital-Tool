@@ -17,6 +17,10 @@ public interface IFlowElementManager
     void AddOpenQuestion(OpenQuestion openQuestion);
     Option GetOptionByText(string optionText);
     IEnumerable<OpenQuestion> GetAllOpenQuestionByThemeId(long themeId);
+    IEnumerable<OpenQuestion> GetAllOpenQuestionByFlowId(long flowId);
+    IEnumerable<SingleChoiceQuestion> GetAllSingleQuestionByFlowId(long flowId);
+    IEnumerable<MultipleChoice> GetAllMultipleChoiceQuestionByFlowId(long flowId);
+    IEnumerable<RangeQuestion> GetAllRangeQuestionByFlowId(long flowId);
     void AddOption(Option option);
     void AddText(Text text);
     void AddVideo(Video video);

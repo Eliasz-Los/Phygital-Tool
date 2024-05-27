@@ -174,6 +174,27 @@ public class FlowElementRepository : IFlowElementRepository
         return test;
     }
 
+    public IEnumerable<OpenQuestion> ReadAllOpenQuestionByFlowId(long flowId)
+    {
+        return _dbContext.OpenQuestions.Where(q => q.Flow.Id == flowId).Include(q => q.SubTheme);
+    }
+
+    public IEnumerable<MultipleChoice> ReadAllMultipleChoiceQuestionByFlowId(long flowId)
+    {
+        return _dbContext.MultipleChoices.Where(q => q.Flow.Id == flowId);
+    }
+
+    public IEnumerable<SingleChoiceQuestion> ReadAllSingleQuestionByFlowId(long flowId)
+    {
+        return _dbContext.SingleChoiceQuestions.Where(q => q.Flow.Id == flowId);
+
+    }
+
+    public IEnumerable<RangeQuestion> ReadAllRangeQuestionByFlowId(long flowId)
+    {
+        return _dbContext.RangeQuestions.Where(q => q.Flow.Id == flowId);
+    }
+
     /*public IEnumerable<OpenQuestion> ReadAllOpenQuestionsByTheme(Theme subTheme)
     {
         // Todo aan het debuggen hier
