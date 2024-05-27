@@ -67,7 +67,6 @@ export async function sendAnswers(flowId: number, answerObject: AnswerObject[]):
     if (!response.ok) {
         throw new Error("Error committing answers");
     }
-    alert("Answers submitted:" + JSON.stringify(answerObject));
     return await response.json();
 }
 

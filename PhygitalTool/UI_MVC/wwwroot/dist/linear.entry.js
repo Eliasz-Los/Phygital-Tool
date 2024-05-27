@@ -7558,7 +7558,7 @@ function getOpenQuestionsData() {
             <div class="card-body">
                 <h5 class="card-title">${openQuestion.text}</h5>
                 <div class="form-group">
-                    <textarea class="form-control" id="openQuestion${openQuestion.text}" rows="3"></textarea>
+                    <textarea class="form-control" tabindex="0" id="openQuestion${openQuestion.text}" rows="3"></textarea>
                 </div>
             </div>
         </div>`;
@@ -7937,7 +7937,6 @@ function sendAnswers(flowId, answerObject) {
         if (!response.ok) {
             throw new Error("Error committing answers");
         }
-        alert("Answers submitted:" + JSON.stringify(answerObject));
         return yield response.json();
     });
 }
@@ -8015,7 +8014,6 @@ __webpack_require__.r(__webpack_exports__);
 const addButton = document.getElementById("answerFlow");
 const btnNext = document.getElementById("nextBtn");
 const btnPrev = document.getElementById("prevBtn");
-const btnVerzenden = document.getElementById("answerFlow");
 if (btnPrev)
     btnPrev.disabled = true;
 /*let currentQuestionNumber: number = 1;
@@ -8031,11 +8029,11 @@ function updateButton() {
     }
     if (window.currentQuestionNumber === window.totalQuestions) {
         btnNext.disabled = true;
-        btnVerzenden.disabled = false;
+        addButton.disabled = false;
     }
     else if (btnNext) {
         btnNext.disabled = false;
-        btnVerzenden.disabled = false;
+        addButton.disabled = true;
     }
 }
 // TODO: visible & invisible van antwoorden voor kiezen gebruikers
@@ -8073,28 +8071,28 @@ function InitializeFlow() {
             let activeCarouselItem = document.querySelector('.carousel-item.active');
             let rangeInput = activeCarouselItem.querySelector('input[type="range"]');
             switch (e.code) {
-                case 'KeyD':
-                    btnNext.click();
+                case 'ArrowRight':
                     if (window.currentQuestionNumber < window.totalQuestions) {
                         window.currentQuestionNumber++;
                         updateButton();
+                        carousel.next();
+                    }
+                    (0,_details__WEBPACK_IMPORTED_MODULE_1__.updatePorgressBar)();
+                    break;
+                case 'ArrowLeft':
+                    if (window.currentQuestionNumber > 1) {
+                        window.currentQuestionNumber--;
+                        updateButton();
+                        carousel.prev();
                     }
                     (0,_details__WEBPACK_IMPORTED_MODULE_1__.updatePorgressBar)();
                     break;
                 case 'KeyA':
-                    btnPrev.click();
-                    if (window.currentQuestionNumber > 1) {
-                        window.currentQuestionNumber--;
-                        updateButton();
-                    }
-                    (0,_details__WEBPACK_IMPORTED_MODULE_1__.updatePorgressBar)();
-                    break;
-                case 'KeyW':
                     checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key1"]');
                     radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key1"]');
                     rangeInput = activeCarouselItem.querySelector('input[type="range"]');
                     if (rangeInput) {
-                        rangeInput.value = (parseInt(rangeInput.value) + 1).toString();
+                        rangeInput.value = (parseInt(rangeInput.value) - 1).toString();
                         rangeInput.dispatchEvent(new Event('input'));
                     }
                     break;
@@ -8103,20 +8101,17 @@ function InitializeFlow() {
                     radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key2"]');
                     rangeInput = activeCarouselItem.querySelector('input[type="range"]');
                     if (rangeInput) {
-                        rangeInput.value = (parseInt(rangeInput.value) - 1).toString();
+                        rangeInput.value = (parseInt(rangeInput.value) + 1).toString();
                         rangeInput.dispatchEvent(new Event('input'));
                     }
                     break;
-                case 'KeyF':
+                case 'KeyD':
                     checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key3"]');
                     radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key3"]');
                     break;
-                case 'KeyG':
+                case 'KeyF':
                     checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key4"]');
                     radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key4"]');
-                    break;
-                case 'Space':
-                    addButton.click();
                     break;
                 default:
                     break;
@@ -8130,6 +8125,11 @@ function InitializeFlow() {
                 radiobuttonToToggle.checked = !radiobuttonToToggle.checked;
             }
             console.log(window.currentQuestionNumber);
+        });
+        document.addEventListener('click', function (e) {
+            if (e.button === 0) {
+                addButton.click();
+            }
         });
     });
 }

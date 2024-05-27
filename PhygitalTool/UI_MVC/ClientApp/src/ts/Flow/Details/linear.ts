@@ -1,11 +1,13 @@
 import {Carousel} from "bootstrap";
-import {getSingleChoiceQuestionData, getOpenQuestionsData, getRangeQuestionsData, getMultipleChoiceQuestionsData,
-    getTextData, getImageData, getVideoData, commitAnswers, updatePorgressBar} from "./details";
+import {
+    getSingleChoiceQuestionData, getOpenQuestionsData, getRangeQuestionsData, getMultipleChoiceQuestionsData,
+    getTextData, getImageData, getVideoData, commitAnswers, updatePorgressBar
+} from "./details";
 
-const addButton: HTMLElement | null = document.getElementById("answerFlow");
+const
+    addButton: HTMLElement | null = document.getElementById("answerFlow");
 const btnNext: HTMLElement | null = document.getElementById("nextBtn");
 const btnPrev: HTMLElement | null = document.getElementById("prevBtn");
-const btnVerzenden: HTMLElement | null = document.getElementById("answerFlow");
 if (btnPrev) (btnPrev as HTMLInputElement).disabled = true;
 
 /*let currentQuestionNumber: number = 1;
@@ -15,18 +17,18 @@ let checkboxToToggle = null;
 let radiobuttonToToggle = null;
 
 function updateButton(): void {
-    if (window.currentQuestionNumber < 2 ) {
+    if (window.currentQuestionNumber < 2) {
         (btnPrev as HTMLInputElement).disabled = true;
     } else if (btnPrev) {
         (btnPrev as HTMLInputElement).disabled = false;
     }
+
     if (window.currentQuestionNumber === window.totalQuestions) {
         (btnNext as HTMLInputElement).disabled = true;
-        (btnVerzenden as HTMLInputElement).disabled = false;
+        (addButton as HTMLInputElement).disabled = false;
     } else if (btnNext) {
         (btnNext as HTMLInputElement).disabled = false;
-        (btnVerzenden as HTMLInputElement).disabled = false;
-
+        (addButton as HTMLInputElement).disabled = true;
     }
 }
 
@@ -38,7 +40,7 @@ function visibleF() {
     const linearFlowSection: HTMLElement | null = document.getElementById('linearFlow');
 
     if (submitUserCount) {
-        submitUserCount.addEventListener('click', function() {
+        submitUserCount.addEventListener('click', function () {
             if (userCountSection && linearFlowSection) {
                 // Use Bootstrap classes to hide and show elements
                 userCountSection.classList.remove('visible ');
@@ -71,30 +73,30 @@ function InitializeFlow(): void {
                 let activeCarouselItem: Element = document.querySelector('.carousel-item.active')!;
                 let rangeInput: HTMLInputElement | null = activeCarouselItem.querySelector('input[type="range"]');
                 switch (e.code) {
-                    case 'KeyD':
-                        (btnNext as HTMLInputElement).click();
+                    case 'ArrowRight':
                         if (window.currentQuestionNumber < window.totalQuestions) {
-                        window.currentQuestionNumber++;
+                            window.currentQuestionNumber++;
                             updateButton();
+                            carousel.next();
                         }
                         updatePorgressBar();
-
                         break;
-                    case 'KeyA':
-                        (btnPrev as HTMLInputElement).click();
+
+                    case 'ArrowLeft':
                         if (window.currentQuestionNumber > 1) {
                             window.currentQuestionNumber--;
                             updateButton();
+                            carousel.prev();
                         }
                         updatePorgressBar();
                         break;
 
-                    case 'KeyW':
+                    case 'KeyA':
                         checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key1"]');
                         radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key1"]');
                         rangeInput = activeCarouselItem.querySelector('input[type="range"]');
                         if (rangeInput) {
-                            rangeInput.value = (parseInt(rangeInput.value) + 1).toString();
+                            rangeInput.value = (parseInt(rangeInput.value) - 1).toString();
                             rangeInput.dispatchEvent(new Event('input'));
                         }
                         break;
@@ -103,20 +105,17 @@ function InitializeFlow(): void {
                         radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key2"]');
                         rangeInput = activeCarouselItem.querySelector('input[type="range"]');
                         if (rangeInput) {
-                            rangeInput.value = (parseInt(rangeInput.value) - 1).toString();
+                            rangeInput.value = (parseInt(rangeInput.value) + 1).toString();
                             rangeInput.dispatchEvent(new Event('input'));
                         }
                         break;
-                    case 'KeyF':
+                    case 'KeyD':
                         checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key3"]');
                         radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key3"]');
                         break;
-                    case 'KeyG':
+                    case 'KeyF':
                         checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key4"]');
                         radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key4"]');
-                        break;
-                    case 'Space':
-                        (addButton as HTMLInputElement).click();
                         break;
                     default:
                         break;
@@ -129,13 +128,18 @@ function InitializeFlow(): void {
                 if (radiobuttonToToggle) {
                     radiobuttonToToggle.checked = !radiobuttonToToggle.checked;
                 }
-
                 console.log(window.currentQuestionNumber)
             });
 
+            document.addEventListener('click', function (e) {
+                if (e.button === 0) {
+                    (addButton as HTMLInputElement).click();
+                }
+            });
         }
     );
 }
+
 visibleF();
 InitializeFlow();
 getTextData();

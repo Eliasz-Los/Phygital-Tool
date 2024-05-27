@@ -106,7 +106,6 @@ function sendAnswers(flowId, answerObject) {
         if (!response.ok) {
             throw new Error("Error committing answers");
         }
-        alert("Answers submitted:" + JSON.stringify(answerObject));
         return yield response.json();
     });
 }
@@ -299,7 +298,7 @@ function getOpenQuestionsData() {
             <div class="card-body">
                 <h5 class="card-title">${openQuestion.text}</h5>
                 <div class="form-group">
-                    <textarea class="form-control" id="openQuestion${openQuestion.text}" rows="3"></textarea>
+                    <textarea class="form-control" tabindex="0" id="openQuestion${openQuestion.text}" rows="3"></textarea>
                 </div>
             </div>
         </div>`;
