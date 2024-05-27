@@ -126,28 +126,28 @@ public class PhygitalInitializer
             Options = new List<Option>()
         };
 
-        var q6 = new RangeQuestion()
+        var q6 = new RangeQuestion
         {
             Text = "Hoe tevreden bent u over de huidige regering?",
             Active = true,
             SequenceNumber = 6,
             Options = new List<Option>()
         };
-        var q7 = new RangeQuestion()
+        var q7 = new RangeQuestion
         {
             Text = "Wat is uw mening over de huidige belastingtarieven voor bedrijven?",
             Active = true,
             SequenceNumber = 7,
             Options = new List<Option>()
         };
-        var q8 = new SingleChoiceQuestion()
+        var q8 = new SingleChoiceQuestion
         {
             Text = "Bent u voorstander van een verplichte dienstplicht?",
             Active = true,
             SequenceNumber = 8,
             Options = new List<Option>()
         };
-        var q9 = new OpenQuestion()
+        var q9 = new OpenQuestion
         {
             Text = "Waarom bent u voor of tegen de dienstplicht?",
             Active = true,
@@ -155,7 +155,7 @@ public class PhygitalInitializer
             Answer = new Answer(),
             SubTheme = th1
         };
-        var q10 = new OpenQuestion()
+        var q10 = new OpenQuestion
         {
             Text =
                 "Hoe zou u het beleid op het gebied van gendergelijkheid en LGBTQ+-rechten willen zien veranderen of verbeteren?",
@@ -164,28 +164,28 @@ public class PhygitalInitializer
             Answer = new Answer(),
             SubTheme = th1
         };
-        var q11 = new RangeQuestion()
+        var q11 = new RangeQuestion
         {
             Text = "Kies je eerder voor een linkse, neutrale of rechtse partij?",
             Active = true,
             SequenceNumber = 11,
             Options = new List<Option>()
         };
-        var q12 = new SingleChoiceQuestion()
+        var q12 = new SingleChoiceQuestion
         {
             Text = "Welke linkse partij?",
             Active = true,
             SequenceNumber = 12,
             Options = new List<Option>()
         };
-        var q13 = new SingleChoiceQuestion()
+        var q13 = new SingleChoiceQuestion
         {
             Text = "Welke rechtse partij?",
             Active = true,
             SequenceNumber = 13,
             Options = new List<Option>()
         };
-        var q14 = new SingleChoiceQuestion()
+        var q14 = new SingleChoiceQuestion
         {
             Text = "Welke centrale partij?",
             Active = true,
@@ -349,7 +349,7 @@ public class PhygitalInitializer
         await roleManager.CreateAsync(userRole);
 
         // hardcoded users implentation and assignment of a role
-        var ownerPhygital = new Account()
+        var ownerPhygital = new Account
         {
             Email = "owner@treecompany.be",
             UserName = "owner@treecompany.be", EmailConfirmed = true,
@@ -358,7 +358,7 @@ public class PhygitalInitializer
         await userManager.CreateAsync(ownerPhygital, "Owner@01");
         await userManager.AddToRoleAsync(ownerPhygital, CustomIdentityConstraints.OwnerRole);
         
-        var adminPhygital = new Account()
+        var adminPhygital = new Account
         {
             Email = "admin@phygital.be",
             UserName = "admin@phygital.be", EmailConfirmed = true,
@@ -367,7 +367,7 @@ public class PhygitalInitializer
         await userManager.CreateAsync(adminPhygital, "Admin@01");
         await userManager.AddToRoleAsync(adminPhygital, CustomIdentityConstraints.AdminRole);
 
-        var subAdmin = new Account()
+        var subAdmin = new Account
         {
             Email = "subadmin@phygital.be",
             UserName = "subadmin@phygital.be", EmailConfirmed = true,
@@ -376,7 +376,7 @@ public class PhygitalInitializer
         await userManager.CreateAsync(subAdmin, "Subadmin@01");
         await userManager.AddToRoleAsync(subAdmin, CustomIdentityConstraints.SubAdminRole);
 
-        var supervisor = new Account()
+        var supervisor = new Account
         {
             Email = "supervisor@phygital.be",
             UserName = "supervisor@phygital.be", EmailConfirmed = true,
@@ -385,7 +385,7 @@ public class PhygitalInitializer
         await userManager.CreateAsync(supervisor, "Supervisor@01");
         await userManager.AddToRoleAsync(supervisor, CustomIdentityConstraints.SupervisorRole);
 
-        var user = new Account()
+        var user = new Account
         {
             Email = "user@phygital.be",
             UserName = "user@phygital.be", EmailConfirmed = true,
@@ -394,7 +394,7 @@ public class PhygitalInitializer
         await userManager.CreateAsync(user, "User@01");
         await userManager.AddToRoleAsync(user, CustomIdentityConstraints.UserRole);
 
-        var Arthur = new Account()
+        var arthur = new Account
         {
             Email = "arthur.linsen@student.kdg.be",
             UserName = "arthur.linsen@student.kdg.be",
@@ -402,10 +402,10 @@ public class PhygitalInitializer
             Name = "Arthur",
             LastName = "Linsen"
         };
-        await userManager.CreateAsync(Arthur, "Arthur@01");
-        await userManager.AddToRoleAsync(Arthur, CustomIdentityConstraints.UserRole);
+        await userManager.CreateAsync(arthur, "Arthur@01");
+        await userManager.AddToRoleAsync(arthur, CustomIdentityConstraints.UserRole);
 
-        var Eliasz = new Account()
+        var eliasz = new Account
         {
             Email = "eliasz.los@student.kdg.be",
             UserName = "eliasz.los@student.kdg.be",
@@ -413,10 +413,10 @@ public class PhygitalInitializer
             Name = "Eliasz",
             LastName = "Los"
         };
-        await userManager.CreateAsync(Eliasz, "Eliasz@01");
-        await userManager.AddToRoleAsync(Eliasz, CustomIdentityConstraints.SubAdminRole);
+        await userManager.CreateAsync(eliasz, "Eliasz@01");
+        await userManager.AddToRoleAsync(eliasz, CustomIdentityConstraints.SubAdminRole);
 
-        var Josse = new Account()
+        var josse = new Account
         {
             Email = "josse.dresselaers@phygital.be",
             UserName = "josse.dresselaers@phygital.be",
@@ -424,10 +424,10 @@ public class PhygitalInitializer
             Name = "Josse",
             LastName = "Dresselaers"
         };
-        await userManager.CreateAsync(Josse, "Josse@01");
-        await userManager.AddToRoleAsync(Josse, CustomIdentityConstraints.SubAdminRole);
+        await userManager.CreateAsync(josse, "Josse@01");
+        await userManager.AddToRoleAsync(josse, CustomIdentityConstraints.SubAdminRole);
 
-        var Jonas = new Account()
+        var jonas = new Account
         {
             Email = "jonas.wuyten@phygital.be",
             UserName = "jonas.wuyten@phygital.be",
@@ -435,10 +435,10 @@ public class PhygitalInitializer
             Name = "Jonas",
             LastName = "Wuyten",
         };
-        await userManager.CreateAsync(Jonas, "Jonas@01");
-        await userManager.AddToRoleAsync(Jonas, CustomIdentityConstraints.SubAdminRole);
+        await userManager.CreateAsync(jonas, "Jonas@01");
+        await userManager.AddToRoleAsync(jonas, CustomIdentityConstraints.SubAdminRole);
 
-        var Willem = new Account()
+        var willem = new Account
         {
             Email = "willem.kuijpers@phygital.be",
             UserName = "willem.kuijpers@phygital.be",
@@ -446,11 +446,11 @@ public class PhygitalInitializer
             Name = "Willem",
             LastName = "Kuijpers"
         };
-        await userManager.CreateAsync(Willem, "Willem@01");
-        await userManager.AddToRoleAsync(Willem, CustomIdentityConstraints.SubAdminRole);
+        await userManager.CreateAsync(willem, "Willem@01");
+        await userManager.AddToRoleAsync(willem, CustomIdentityConstraints.SubAdminRole);
 
 
-        var TestUser = new Account()
+        var testUser = new Account
         {
             Email = "tester.kdg@student.kdg.be",
             UserName = "tester.kdg@student.kdg.be",
@@ -458,17 +458,17 @@ public class PhygitalInitializer
             Name = "Kdg",
             LastName = "Tester"
         };
-        await userManager.CreateAsync(TestUser, "Test@01");
-        await userManager.AddToRoleAsync(TestUser, CustomIdentityConstraints.UserRole);
+        await userManager.CreateAsync(testUser, "Test@01");
+        await userManager.AddToRoleAsync(testUser, CustomIdentityConstraints.UserRole);
 
-        var Organisation1 = new Organisation
+        var organisation1 = new Organisation
         {
             Name = "KdG",
             Description = "Karel de Grote Hogeschool",
             Accounts = new List<Account>()
         };
 
-        var Organisation2 = new Organisation
+        var organisation2 = new Organisation
         {
             Name = "UAntwerpen",
             Description = "Universiteit stad Antwerpen",
@@ -481,24 +481,24 @@ public class PhygitalInitializer
             Title = "Nieuwe thema: Sport",
             Text = "Ik denk dat thema rond sport een interessante onderwerp zou maken om aan jongeren te vragen.",
             Theme = th1,
-            Account = Eliasz
+            Account = eliasz
         };
         var post2 = new Post
         { 
             Title = "Uitgave", 
             Text = "Wanneer zal de phygital tool uitkomen in Brussel?", Theme = th2,
-            Account = Josse
+            Account = josse
         };
 
         // Create some Reactions
-        var reaction1 = new Reaction { Content = "Klinkt als een goed idee eigenlijk!" , Account = Arthur};
-        var reaction2 = new Reaction { Content = "Waarschijnlijk eind juli", Account = Jonas};
+        var reaction1 = new Reaction { Content = "Klinkt als een goed idee eigenlijk!" , Account = arthur};
+        var reaction2 = new Reaction { Content = "Waarschijnlijk eind juli", Account = jonas};
 
         // Create some Likes
-        var like1 = new Like {  Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
-        var like2 = new Like { Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
-        var like3 = new Like { Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
-        var like4 = new Like { Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = Willem};
+        var like1 = new Like {  Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = willem};
+        var like2 = new Like { Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = willem};
+        var like3 = new Like { Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = willem};
+        var like4 = new Like { Timestamp = DateTime.UtcNow, LikeType = LikeType.ThumbsUp , Account = willem};
         
         //Create some ReactionLikes
         var reactionLike1 = new ReactionLike { Reaction = reaction1, Like = like1, Timestamp = DateTime.UtcNow };
@@ -628,8 +628,8 @@ public class PhygitalInitializer
         participation4.Flow = f2;
         
         //Adding account to organisations
-        Organisation1.Accounts = new List<Account> { Arthur, Eliasz, Josse, Jonas, Willem, TestUser };
-        Organisation2.Accounts = new List<Account> { adminPhygital, subAdmin, supervisor, user };
+        organisation1.Accounts = new List<Account> { arthur, eliasz, josse, jonas, willem, testUser };
+        organisation2.Accounts = new List<Account> { adminPhygital, subAdmin, supervisor, user };
 
 
         /////////////////////////////////////////
@@ -648,17 +648,12 @@ public class PhygitalInitializer
         context.Themas.Add(th2);
 
         // adding FlowElements
-        context.FlowElements.AddRange(new FlowElement[]
-            { q1, q2, q3, q4, q6, q7, q8, q9, q10, q11, q12, q13, q14, i1, i2, i3, i4, i5, i6 });
+        context.FlowElements.AddRange(q1, q2, q3, q4, q6, q7, q8, q9, q10, q11, q12, q13, q14, i1, i2, i3, i4, i5, i6);
         // adding options
-        context.AddRange(new Option[]
-        {
-            o1, o2, o3, o4, o5, o6, o7, o8, o9, o10, o11, o12, o13, o14, o15, o16, o17, o18, o19, o20, o21, o22, o23,
-            o24, o25, o26, o27, o28, o29
-        });
+        context.AddRange(o1, o2, o3, o4, o5, o6, o7, o8, o9, o10, o11, o12, o13, o14, o15, o16, o17, o18, o19, o20, o21, o22, o23, o24, o25, o26, o27, o28, o29);
 
         // Adding answers
-        context.AddRange(new Answer[] { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 });
+        context.AddRange(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12);
 
         // Adding installations
         context.Installations.Add(installation1);
@@ -673,24 +668,24 @@ public class PhygitalInitializer
         context.Participations.Add(participation2);
 
         // Add to the Posts collection
-        context.Posts.AddRange(new Post[] { post1, post2 });
+        context.Posts.AddRange(post1, post2);
 
         // Add to the Reactions collection
-        context.Reactions.AddRange(new Reaction[] { reaction1, reaction2 });
+        context.Reactions.AddRange(reaction1, reaction2);
 
         // Add to the Likes collection
-        context.Likes.AddRange(new Like[] { like1, like2 , like3, like4});
+        context.Likes.AddRange(like1, like2, like3, like4);
         
         //add to the ReactionLikes collection
-        context.ReactionLikes.AddRange(new ReactionLike[] { reactionLike1, reactionLike2 });
+        context.ReactionLikes.AddRange(reactionLike1, reactionLike2);
 
         // Add to the PostReactions collection
-        context.PostReactions.AddRange(new PostReaction[] { postReaction1, postReaction2 });
+        context.PostReactions.AddRange(postReaction1, postReaction2);
 
         // Add to the PostLikes collection
-        context.PostLikes.AddRange(new PostLike[] { postLike1, postLike2 });
+        context.PostLikes.AddRange(postLike1, postLike2);
         
-        context.Organisations.AddRange(Organisation1, Organisation2);
+        context.Organisations.AddRange(organisation1, organisation2);
 
         context.SaveChanges();
         context.ChangeTracker.Clear();

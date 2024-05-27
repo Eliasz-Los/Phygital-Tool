@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Phygital.BL;
 using Microsoft.AspNetCore.Mvc;
+using Phygital.BL.Managers;
 using Phygital.Domain.Session;
 using Phygital.UI_MVC.Models.Dto;
 

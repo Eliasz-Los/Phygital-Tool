@@ -44,6 +44,6 @@ public class ThemeRepository : IThemeRepository
     public void DeleteTheme(long id)
     {
         var themaToDelete = _dbContext.Themas.Find(id);
-        _dbContext.Themas.Remove(themaToDelete);    
+        _dbContext.Themas.Remove(themaToDelete!);    
     }
 }

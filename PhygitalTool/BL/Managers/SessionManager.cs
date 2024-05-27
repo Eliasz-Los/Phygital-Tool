@@ -42,11 +42,11 @@ public class SessionManager : ISessionManager
         return _sessionRepository.ReadAllParticipations();
     }
 
-    public void ChangeParticipation(long id, DateTime StartTime, DateTime EndTime)
+    public void ChangeParticipation(long id, DateTime startTime, DateTime endTime)
     {
         var participation = _sessionRepository.ReadParticipationById(id);
-        participation.StartTime = StartTime;
-        participation.EndTime = EndTime;
+        participation.StartTime = startTime;
+        participation.EndTime = endTime;
         _sessionRepository.UpdateParticipation(participation);
     }
 

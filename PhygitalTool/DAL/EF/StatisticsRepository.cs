@@ -5,19 +5,13 @@ namespace Phygital.DAL.EF;
 
 public class StatisticsRepository : IStatisticsRepository
 {
-    private readonly IFlowRepository _flowRepository;
-    private readonly ISessionRepository _sessionRepository;
     private readonly PhygitalDbContext _dbContext;
 
-    public StatisticsRepository(IFlowRepository flowRepository, ISessionRepository sessionRepository,
-        PhygitalDbContext dbContext)
+    public StatisticsRepository(PhygitalDbContext dbContext)
     {
-        _flowRepository = flowRepository;
-        _sessionRepository = sessionRepository;
         _dbContext = dbContext;
     }
-
-
+    
     public IEnumerable<Statistic> GetFlowStatistics(long flowId)
     {
         var answers = _dbContext.Answers

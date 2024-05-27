@@ -1,6 +1,6 @@
 ﻿using Phygital.DAL.EF;
 
-namespace Phygital.BL;
+namespace Phygital.BL.Managers;
 
 public class UnitOfWork
 {
