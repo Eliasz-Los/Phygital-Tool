@@ -2,7 +2,6 @@
 using Phygital.Domain.Datatypes;
 using Phygital.Domain.Questionsprocess;
 
-
 namespace Phygital.BL.Managers;
 
 public class FlowManager : IFlowManager

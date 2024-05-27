@@ -10,7 +10,7 @@ public interface ISessionManager
     Installation GetInstallationById(long id);
     Participation GetParticipationById(long id);
     IEnumerable<Participation> GetAllParticipations();
-    void ChangeParticipation(long id, DateTime StartTime, DateTime EndTime);
+    void ChangeParticipation(long id, DateTime startTime, DateTime endTime);
     IEnumerable<Participation> GetParticipationsByFlowId(long flowId);
     int GetTotalParticipationsByFlowId(long flowId);
     TimeSpan GetAverageTimeSpentByFlowId(long flowId);

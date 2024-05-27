@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Phygital.BL;
+using Phygital.BL.Managers;
 using Phygital.Domain;
 using Phygital.Domain.User;
 using Phygital.UI_MVC.Models.Dto.Feedback;

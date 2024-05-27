@@ -1,5 +1,4 @@
-﻿using Phygital.Domain.Session;
-using Phygital.Domain.Statistics;
+﻿using Phygital.Domain.Statistics;
 
 namespace Phygital.DAL;
 
