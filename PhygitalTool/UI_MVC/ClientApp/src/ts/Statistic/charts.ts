@@ -65,11 +65,9 @@ function createDoughnutChart(tableId: string, chartId: string, questionText: str
 
 function createCharts(): any{
     var tables = document.querySelectorAll('table[id^="table-"]');
-    console.log(tables);
     tables.forEach(function(table) {
         var safeId = table.id.replace('table-', '');
         createDoughnutChart('table-' + safeId, 'chart-' + safeId, safeId);
     });
 }
 createCharts();
-console.log('charts.ts REloaded');
