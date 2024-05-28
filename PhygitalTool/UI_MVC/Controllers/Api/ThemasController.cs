@@ -10,13 +10,11 @@ namespace Phygital.UI_MVC.Controllers.Api;
 [Route("/api/[controller]")]
 public class ThemasController : ControllerBase
 {
-    private readonly IFlowManager _flowManager;
     private readonly IThemeManager _themeManager;
     private readonly UnitOfWork _unitOfWork;
 
-    public ThemasController(IFlowManager flowManager, IThemeManager themeManager, UnitOfWork unitOfWork)
+    public ThemasController(IThemeManager themeManager, UnitOfWork unitOfWork)
     {
-        _flowManager = flowManager;
         _themeManager = themeManager;
         _unitOfWork = unitOfWork;
     }
@@ -57,20 +55,4 @@ public class ThemasController : ControllerBase
         _unitOfWork.Commit();
         return Ok(subThema);
     }
-
-    /*
-    [HttpDelete("deleteSubTheme/{id}")]
-    public IActionResult DeleteTheme(int id)
-    {
-        try
-        {
-            _themeManager.RemoveTheme(id);
-            return Ok(); // Theme deleted successfully, return 200
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, "An error occurred while deleting the theme."); // Return 500 for server error
-        }
-    }
-    */
 }
