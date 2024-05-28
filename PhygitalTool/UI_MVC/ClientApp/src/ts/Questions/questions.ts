@@ -101,8 +101,7 @@ export async function addQuestionData(): Promise<void> {
     if (flowElement) {
         const textContent = flowElement.textContent;
         if (textContent) {
-            // TODO wack manier maar werkt
-            flowid = parseInt(textContent, 10) + 1;
+            flowid = parseInt(textContent, 10);
         }
     }
     const data: Question = {
