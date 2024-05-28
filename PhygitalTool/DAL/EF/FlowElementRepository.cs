@@ -198,6 +198,11 @@ public class FlowElementRepository : IFlowElementRepository
         return _dbContext.OpenQuestions.Where(q => q.Flow.Id == flowId).Include(q => q.SubTheme);
     }
 
+    public IEnumerable<Question> ReadAllQuestionsByFlowId(long flowId)
+    {
+        return _dbContext.Questions.Where(q => q.Flow.Id == flowId).Include(q => q.SubTheme);
+    }
+
     public IEnumerable<MultipleChoice> ReadAllMultipleChoiceQuestionByFlowId(long flowId)
     {
         return _dbContext.MultipleChoices.Where(q => q.Flow.Id == flowId);
@@ -213,10 +218,9 @@ public class FlowElementRepository : IFlowElementRepository
         return _dbContext.RangeQuestions.Where(q => q.Flow.Id == flowId);
     }
 
-    // todo Testing met openquestion
     public void UpdateActive(long questionId)
     {
-        var question = _dbContext.OpenQuestions.SingleOrDefault(q => q.Id == questionId);
+        var question = _dbContext.Questions.SingleOrDefault(q => q.Id == questionId);
 
         if (question != null)
         {

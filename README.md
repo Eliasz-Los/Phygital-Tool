@@ -9,7 +9,7 @@
 - Willem Kuijpers
 
 ## Omschrijving
-Project voor Integratieproject vak waarbij we verschillende technologiën en libraries samen brengen om een afgewerkt product in te dienen aan ons klant met een fysieke installatie voor Phygital Tool
+Project voor het vak Integratieproject 1, waarbij we verschillende technologiën en libraries samen brengen om een afgewerkt product in te dienen aan onze klant met een fysieke installatie voor de Phygital Tool.
 
 ## Commando's
 `cd ./UI_MVC/ClientApp`- om naar de juiste folder te gaan voor webpack

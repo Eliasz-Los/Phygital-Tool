@@ -14,6 +14,7 @@ public interface IFlowElementManager
     MultipleChoice getMultipleChoiceQuestionById(long id);
     SingleChoiceQuestion getSingleChoiceQuestionById(long id);
     RangeQuestion getRangeQuestionById(long id);
+    IEnumerable<Question> getQuestionsByFlowId(long id);
     IEnumerable<Text> GetTextInfosOfFlowById(long flowId);
     IEnumerable<Image> GetImageInfosOfFlowById(long flowId);
     IEnumerable<Video> GetVideoInfosOfFlowById(long flowId);
