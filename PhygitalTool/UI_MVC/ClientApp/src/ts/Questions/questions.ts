@@ -8,6 +8,7 @@ export interface Question {
     isActive: boolean;
     SubTheme: number;
     Type: string;
+    FlowId: number;
 }
 
 
@@ -94,12 +95,22 @@ export async function addQuestionData(): Promise<void> {
     const selectedThemeId = selectedTheme.options[selectedTheme.selectedIndex].value;
     const isActive = (document.getElementById('ActiveCheckbox') as HTMLInputElement).checked;
     const selectedType = (document.getElementById('TypeSelect') as HTMLSelectElement).value;
+    const flowElement = document.getElementById('FlowId');
+    let flowid: number = 0; // Default value
 
+    if (flowElement) {
+        const textContent = flowElement.textContent;
+        if (textContent) {
+            // TODO wack manier maar werkt
+            flowid = parseInt(textContent, 10) + 1;
+        }
+    }
     const data: Question = {
         Text: questionTitle,
         isActive: isActive,
         SubTheme: parseInt(selectedThemeId),
-        Type: selectedType
+        Type: selectedType,
+        FlowId: flowid
     };
 
     await addQuestion(data)
