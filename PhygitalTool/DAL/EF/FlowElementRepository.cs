@@ -232,12 +232,17 @@ public class FlowElementRepository : IFlowElementRepository
 
     public void DeleteOpenQuestionFromFlow(long questionId)
     {
-        var question = _dbContext.OpenQuestions.FirstOrDefault(q => q.Id == questionId);
-
-        if (question != null)
+        var flowElement = _dbContext.FlowElements.Find(questionId);
+           
+        if( flowElement!= null)
         {
-            question.Flow = null;
-            _dbContext.SaveChanges();
+            flowElement.Flow = null;
+            //flowElement.Active = false;
+            /*flowElement.Flow = null;
+            flowElement.SubTheme = null;
+            flowElement.Questions = null;
+            flowElement.Infos = null;*/
+            //_dbContext.FlowElements.Remove(flowElement);
         }
     }
 

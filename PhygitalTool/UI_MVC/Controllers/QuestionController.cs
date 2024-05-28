@@ -12,7 +12,6 @@ public class QuestionController : Controller
     private readonly IFlowManager _flowManager;
     private readonly IFlowElementManager _flowElementManager;
     private readonly UnitOfWork _uow;
-
     public QuestionController(IFlowManager flowManager, IFlowElementManager flowElementManager, UnitOfWork unitOfWork)
     {
         _flowManager = flowManager;
@@ -66,7 +65,8 @@ public class QuestionController : Controller
         {
             case "Open":
                 _uow.BeginTransaction();
-                _flowElementManager.RemoveOpenQuestionFromFlow(_flowElementManager.getOpenQuestionById(questionId).Id);
+                var delete = _flowElementManager.getOpenQuestionById(questionId);
+                _flowElementManager.RemoveOpenQuestionFromFlow(delete.Id);
                 _uow.Commit();
                 break;
         }

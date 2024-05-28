@@ -11,5 +11,5 @@ public interface IUserRepository
     Organisation ReadOrganisationById(long id);
     void UpdateOrganisation(Organisation organisation);
     void DeleteOrganisation(long id);
-    void CreateOrganisation(Organisation organisation);
+    Task CreateOrganisation(Organisation organisation);
 }

@@ -51,13 +51,13 @@ public class UserManager : IUserManager
         _userRepository.DeleteOrganisation(id);
     }
 
-    public void AddOrganisation(string name, string description)
+    public async Task AddOrganisation(string name, string description)
     {
         var organisation = new Organisation
         {
             Name = name,
             Description = description
         };
-        _userRepository.CreateOrganisation(organisation);
+        await _userRepository.CreateOrganisation(organisation);
     }
 }

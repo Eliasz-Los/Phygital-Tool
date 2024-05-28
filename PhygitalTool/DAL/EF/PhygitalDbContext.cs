@@ -23,11 +23,13 @@ public class PhygitalDbContext : IdentityDbContext<Account>
     public DbSet<Flow> Flows { get; set; }
     public DbSet<FlowElement> FlowElements { get; set; }
     public DbSet<Answer> Answers { get; set; }
+    public DbSet<Question> Questions { get; set; }
     public DbSet<SingleChoiceQuestion> SingleChoiceQuestions { get; set; }
     public DbSet<RangeQuestion> RangeQuestions { get; set; }
     public DbSet<OpenQuestion> OpenQuestions { get; set; }
     public DbSet<MultipleChoice> MultipleChoices { get; set; }
     public DbSet<Option> Options { get; set; }
+    public DbSet<Info> Info { get; set; }
     public DbSet<Image> Images { get; set; }
     public DbSet<Text> Texts { get; set; }
     public DbSet<Video> Videos { get; set; }
@@ -141,7 +143,7 @@ public class PhygitalDbContext : IdentityDbContext<Account>
         
         //flowelement, info and Question is abstract
         modelBuilder.Entity<FlowElement>().ToTable("FlowElement").HasKey(fe => fe.Id);
-        modelBuilder.Entity<Info>().ToTable("Infos").HasBaseType<FlowElement>();
+        modelBuilder.Entity<Info>().ToTable("Info").HasBaseType<FlowElement>();
         modelBuilder.Entity<Video>().ToTable("Videos").HasBaseType<Info>();
         modelBuilder.Entity<Image>().ToTable("Images").HasBaseType<Info>();
         modelBuilder.Entity<Text>().ToTable("Texts").HasBaseType<Info>();
@@ -216,10 +218,6 @@ public class PhygitalDbContext : IdentityDbContext<Account>
             .HasOne(fe => fe.Flow)
             .WithMany(f => f.FlowElements)
             .HasForeignKey("flowId");
-        //theme linking
-        modelBuilder.Entity<FlowElement>()
-            .HasOne(q => q.SubTheme)
-            .WithMany(s => s.FlowElements);
         
         // one flow has many answers
         modelBuilder.Entity<Flow>()
@@ -248,7 +246,6 @@ public class PhygitalDbContext : IdentityDbContext<Account>
         modelBuilder.Entity<Flow>()
             .HasOne(f => f.Theme)
             .WithMany(t => t.Flows);
-        
         // one subtheme can be used in multiple flow elements 
         modelBuilder.Entity<Theme>()
             .HasMany(t => t.FlowElements)
@@ -257,6 +254,9 @@ public class PhygitalDbContext : IdentityDbContext<Account>
         modelBuilder.Entity<FlowElement>()
             .HasOne(fe => fe.SubTheme)
             .WithMany(t => t.FlowElements);
+        
+        //abstracte klasses linken
+   
         
         //  Questions //
         // SingleChoiceQuestion has many options
@@ -322,7 +322,6 @@ public class PhygitalDbContext : IdentityDbContext<Account>
         modelBuilder.Entity<Reaction>()
             .HasMany(r => r.PostReactions)
             .WithOne(pr => pr.Reaction);
-            /*.OnDelete(DeleteBehavior.Cascade);*/
         modelBuilder.Entity<PostReaction>()
             .HasOne(pr => pr.Reaction)
             .WithMany(r => r.PostReactions)
@@ -331,7 +330,6 @@ public class PhygitalDbContext : IdentityDbContext<Account>
         modelBuilder.Entity<Like>()
             .HasMany(l => l.PostLikes)
             .WithOne(pl => pl.Like);
-            /*.OnDelete(DeleteBehavior.Cascade);*/
         modelBuilder.Entity<PostLike>()
             .HasOne(pl => pl.Like)
             .WithMany(l => l.PostLikes)
@@ -340,7 +338,6 @@ public class PhygitalDbContext : IdentityDbContext<Account>
         modelBuilder.Entity<Like>()
             .HasMany(l => l.ReactionLikes)
             .WithOne(rl => rl.Like);
-            /*.OnDelete(DeleteBehavior.Cascade);*/
         modelBuilder.Entity<ReactionLike>()
             .HasOne(rl => rl.Like)
             .WithMany(l => l.ReactionLikes)
