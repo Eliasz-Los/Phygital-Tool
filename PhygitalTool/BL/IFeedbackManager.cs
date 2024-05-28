@@ -20,7 +20,7 @@ public interface IFeedbackManager
      Task RemovePostLikeByPostIdAndAccountId(long postId, string id);
      Task<int> GetLikesCountByPostId(long postId);
      Task<int> GetDislikesCountByPostId(long postId);
-     Task<IEnumerable<PostReaction>> GetReactionsWithAccountAndLikesOfPostByPostId(long postId);
+     Task<IEnumerable<PostReaction>> GetReactionsWithAccountAndLikesOfPostByPostIdOrderdByDescPostTime(long postId);
      
      Task RemoveReactionToPostByPostIdAndReactionId(long postId , long reactionId);
      Task<Reaction> GetReactionWithAccountById(long reactionId);

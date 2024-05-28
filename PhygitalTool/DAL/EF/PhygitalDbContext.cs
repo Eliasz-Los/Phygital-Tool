@@ -318,29 +318,20 @@ public class PhygitalDbContext : IdentityDbContext<Account>
         modelBuilder.Entity<Post>()
             .HasOne(p => p.Theme)
             .WithMany(t => t.Posts);
-        
+
         modelBuilder.Entity<Reaction>()
             .HasMany(r => r.PostReactions)
-            .WithOne(pr => pr.Reaction)
-            .OnDelete(DeleteBehavior.Cascade);
+            .WithOne(pr => pr.Reaction);
+            /*.OnDelete(DeleteBehavior.Cascade);*/
         modelBuilder.Entity<PostReaction>()
             .HasOne(pr => pr.Reaction)
             .WithMany(r => r.PostReactions)
             .OnDelete(DeleteBehavior.Cascade);
-        
-        modelBuilder.Entity<Reaction>()
-            .HasMany(r => r.PostReactions)
-            .WithOne(l => l.Reaction)
-            .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder.Entity<PostReaction>()
-            .HasOne(pr => pr.Reaction)
-            .WithMany(r => r.PostReactions)
-            .OnDelete(DeleteBehavior.Cascade);
-        
+
         modelBuilder.Entity<Like>()
             .HasMany(l => l.PostLikes)
-            .WithOne(pl => pl.Like)
-            .OnDelete(DeleteBehavior.Cascade);
+            .WithOne(pl => pl.Like);
+            /*.OnDelete(DeleteBehavior.Cascade);*/
         modelBuilder.Entity<PostLike>()
             .HasOne(pl => pl.Like)
             .WithMany(l => l.PostLikes)
@@ -348,8 +339,8 @@ public class PhygitalDbContext : IdentityDbContext<Account>
 
         modelBuilder.Entity<Like>()
             .HasMany(l => l.ReactionLikes)
-            .WithOne(rl => rl.Like)
-            .OnDelete(DeleteBehavior.Cascade);
+            .WithOne(rl => rl.Like);
+            /*.OnDelete(DeleteBehavior.Cascade);*/
         modelBuilder.Entity<ReactionLike>()
             .HasOne(rl => rl.Like)
             .WithMany(l => l.ReactionLikes)

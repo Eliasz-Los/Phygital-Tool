@@ -29,7 +29,7 @@ public interface IFeedbackRepository
     Task DeletePostLikeByPostIdAndAccountId(long postId, string currentAccountId);
     Task<int> ReadLikesCountByPostId(long postId);
     Task<int> ReadDislikesCountByPostId(long postId);
-    Task<IEnumerable<PostReaction>> ReadReactionsWithAccountAndLikesOfPostByPostId(long postId);
+    Task<IEnumerable<PostReaction>> ReadReactionsWithAccountAndLikesOfPostByPostIdOrderdByDescPostTime(long postId);
     
     Task DeleteReactionToPostByPostIdAndReactionId(long postId, long reactionId);
     Task<Reaction> ReadReactionWithAccountById(long reactionId);

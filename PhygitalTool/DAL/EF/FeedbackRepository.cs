@@ -41,6 +41,7 @@ public class FeedbackRepository : IFeedbackRepository
             .Include(p => p.PostReactions)
             .Include(p => p.PostLikes)
             .ThenInclude(pl => pl.Like)
+            .OrderByDescending(p => p.PostTime)
             .ToListAsync();
         return result;
     }
@@ -48,21 +49,14 @@ public class FeedbackRepository : IFeedbackRepository
     public async Task CreatePost(Post post)
     {
         post = await UploadFile(post);
-        /*
-        _dbContext.Posts.Attach(post);
-        */
         _dbContext.Posts.Add(post);
-        
         await _dbContext.SaveChangesAsync();
-
     }
 
     private async Task<Post> UploadFile(Post post)
     {
         string fileNameForStorage =  $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}-{new Random().Next()}.{Path.GetExtension(post.ImageFile.FileName)}";
         post.ImageUrl = await _cloudStorageService.UploadFileToBucket(post.ImageFile, fileNameForStorage);
-        Console.WriteLine($"image url: {post.ImageUrl}");
-        Console.WriteLine($"post in UPLOAD mode: {post.Title}" );
         return post;
     }
     public void UpdatePost(Post post)
@@ -176,7 +170,7 @@ public class FeedbackRepository : IFeedbackRepository
             .CountAsync();
     }
 
-    public async Task<IEnumerable<PostReaction>> ReadReactionsWithAccountAndLikesOfPostByPostId(long postId)
+    public async Task<IEnumerable<PostReaction>> ReadReactionsWithAccountAndLikesOfPostByPostIdOrderdByDescPostTime(long postId)
     {
         return await _dbContext.PostReactions
             .Include(pr => pr.Reaction)
@@ -191,10 +185,9 @@ public class FeedbackRepository : IFeedbackRepository
     public async Task DeleteReactionToPostByPostIdAndReactionId(long postId, long reactionId)
     {
         var deleteReaction = await _dbContext.PostReactions
-            .Include( pr => pr.Reaction)
             .Where(pr => pr.Post.Id == postId && pr.Reaction.Id == reactionId)
             .FirstOrDefaultAsync();
-         _dbContext.PostReactions.Remove(deleteReaction);
+          _dbContext.PostReactions.Remove(deleteReaction);
     }
 
     public async Task<Reaction> ReadReactionWithAccountById(long reactionId)
