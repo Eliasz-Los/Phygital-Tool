@@ -120,24 +120,25 @@ namespace Phygital.UI_MVC.Areas.Identity.Pages.Account
                     UserName = Input.Email, 
                     Email = Input.Email, 
                 };
-                // Fetch the current user's details
-                var currentUser = await _userManager.GetUserAsync(User);
                 
-                // If the current user has an organisation, set the new user's organisation to the same
-                if (currentUser?.Organisation != null)
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (User.IsInRole("Admin") || User.IsInRole("SubAdmin"))
                 {
-                    _logger.LogInformation("Current user has an organisation, setting to current user's organisation");
-                    user.Organisation.Id = currentUser.Organisation.Id;
-                }
-                else if (Input.OrganisationId.HasValue)
-                {
-                    _logger.LogInformation("Organisation found, setting to organisation");
-                    user.Organisation = _userManagerService.GetOrganisationById(Input.OrganisationId.Value);
-                }
-                else
-                {
-                    _logger.LogError("No organisation found, setting to default organisation");
-                    user.Organisation = _userManagerService.GetOrganisationById(1);
+                    if (currentUser?.Organisation != null)
+                    {
+                        _logger.LogInformation("Current user has an organisation, setting to current user's organisation");
+                        user.Organisation.Id = currentUser.Organisation.Id;
+                    }
+                    else if (Input.OrganisationId.HasValue)
+                    {
+                        _logger.LogInformation("Organisation found, setting to organisation");
+                        user.Organisation = _userManagerService.GetOrganisationById(Input.OrganisationId.Value);
+                    }
+                    else
+                    {
+                        _logger.LogError("No organisation found, setting to default organisation");
+                        user.Organisation = _userManagerService.GetOrganisationById(2);
+                    }
                 }
                 
                 var result = await _userManager.CreateAsync(user, Input.Password);
