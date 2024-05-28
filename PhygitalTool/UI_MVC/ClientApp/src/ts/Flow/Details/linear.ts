@@ -1,144 +1,210 @@
-import {Carousel} from "bootstrap";
-import {getSingleChoiceQuestionData, getOpenQuestionsData, getRangeQuestionsData, getMultipleChoiceQuestionsData,
-    getTextData, getImageData, getVideoData, commitAnswers, updatePorgressBar} from "./details";
+import {Carousel, Modal} from "bootstrap";
 
-const addButton: HTMLElement | null = document.getElementById("answerFlow");
+
+import {
+    getSingleChoiceQuestionData, getOpenQuestionsData, getRangeQuestionsData, getMultipleChoiceQuestionsData,
+    getTextData, getImageData, getVideoData, commitAnswers, updatePorgressBar
+} from "./details";
+
+const userCountModalElement = document.getElementById('userCountModal');
+const submitButtonElement= userCountModalElement?.querySelector('.btn-warning');
+const userCountDisplayElement = document.getElementById('userCountDisplay');
+
+const addButton: HTMLElement | null = document.getElementById("answerFlow") as HTMLButtonElement;
 const btnNext: HTMLElement | null = document.getElementById("nextBtn");
 const btnPrev: HTMLElement | null = document.getElementById("prevBtn");
-const btnVerzenden: HTMLElement | null = document.getElementById("answerFlow");
+let numberOfPeople: number = 1;
+const personAnsweringElement = document.getElementById("personAnswering") as HTMLElement;
+
 if (btnPrev) (btnPrev as HTMLInputElement).disabled = true;
 
-/*let currentQuestionNumber: number = 1;
-let totalQuestions: number = 0;*/
-
-let checkboxToToggle = null;
-let radiobuttonToToggle = null;
-
 function updateButton(): void {
-    if (window.currentQuestionNumber < 2 ) {
+    if (window.currentQuestionNumber < 2) {
         (btnPrev as HTMLInputElement).disabled = true;
     } else if (btnPrev) {
         (btnPrev as HTMLInputElement).disabled = false;
     }
+
     if (window.currentQuestionNumber === window.totalQuestions) {
         (btnNext as HTMLInputElement).disabled = true;
-        (btnVerzenden as HTMLInputElement).disabled = false;
     } else if (btnNext) {
         (btnNext as HTMLInputElement).disabled = false;
-        (btnVerzenden as HTMLInputElement).disabled = false;
-
     }
 }
 
-// TODO: visible & invisible van antwoorden voor kiezen gebruikers
-// Dit was test code voor het verbergen van de userCountSection en het tonen van de linearFlowSection maar voorlopig niet werkend
-function visibleF() {
-    const submitUserCount: HTMLElement | null = document.getElementById('submitUserCount');
-    const userCountSection: HTMLElement | null = document.getElementById('userCountSection');
-    const linearFlowSection: HTMLElement | null = document.getElementById('linearFlow');
 
-    if (submitUserCount) {
-        submitUserCount.addEventListener('click', function() {
-            if (userCountSection && linearFlowSection) {
-                // Use Bootstrap classes to hide and show elements
-                userCountSection.classList.remove('visible ');
-                userCountSection.classList.add('invisible');
+// Get the modal, submit button elements
+if (userCountModalElement && submitButtonElement) {
+    const userCountModal = new Modal(userCountModalElement, {
+        backdrop: 'static'
+    });
+    submitButtonElement.addEventListener('click', function (e) {
+        e.stopPropagation() // zodat die nie zomaar dicht gaat
+        //om nummer in een variable te steken
+        const userCountRange = document.getElementById('userCountRange') as HTMLInputElement;
+        numberOfPeople = parseInt(userCountRange.value);
+        userCountModal.hide();
+    });
+//ooke effe async
+    userCountModalElement.addEventListener('hidden.bs.modal', async function () {
+        const userCountRange = document.getElementById('userCountRange') as HTMLInputElement;
+       console.log(userCountRange.value);   //checken of de waarde goed is
+        await InitializeFlow();
+        const modalBackdrop = document.querySelector('.modal-backdrop');
+        if (modalBackdrop) {
+            modalBackdrop.remove();
+        }
+    });
+    userCountModal.show();
+}
 
-                linearFlowSection.classList.remove('invisible');
-                linearFlowSection.classList.add('visible');
+
+// Display the modal when the Linear page is loaded
+window.addEventListener('DOMContentLoaded', (event) => {
+    const userCountModalElement = document.getElementById('userCountModal');
+    if (userCountModalElement) {
+        const userCountModal = new Modal(userCountModalElement);
+        userCountModal.show();
+        window.addEventListener("keydown", function (e: KeyboardEvent) {
+            let rangeInput: HTMLInputElement | null = userCountModalElement.querySelector('input[type="range"]');
+            switch (e.code) {
+                case 'KeyA':
+                    rangeInput = userCountModalElement.querySelector('input[type="range"]');
+                    if (rangeInput) {
+                        rangeInput.value = (parseInt(rangeInput.value) - 1).toString();
+                        rangeInput.dispatchEvent(new Event('input'));
+                        userCountDisplayElement!.textContent = rangeInput.value;
+                    }
+                    break;
+                case 'KeyS':
+                    rangeInput = userCountModalElement.querySelector('input[type="range"]');
+                    if (rangeInput) {
+                        rangeInput.value = (parseInt(rangeInput.value) + 1).toString();
+                        rangeInput.dispatchEvent(new Event('input'));
+                        userCountDisplayElement!.textContent = rangeInput.value;
+                    }
+                    break;
+                case 'ArrowRight':
+                    (submitButtonElement as HTMLInputElement).click();
+                    break;
+                default:
+                    break;
             }
+            //??? why is this here
+            console.log(window.currentQuestionNumber)
         });
     }
-}
+});
 
-
-function InitializeFlow(): void {
+async function  InitializeFlow(): Promise<void> {
     Promise.all([
-        getSingleChoiceQuestionData(),
-        getOpenQuestionsData(), //Maybe with QR CODE? //TODO: Add open questions
-        getRangeQuestionsData(),
-        getMultipleChoiceQuestionsData(),
+        await getSingleChoiceQuestionData(numberOfPeople),
+        await getRangeQuestionsData(numberOfPeople),
+        await getMultipleChoiceQuestionsData(numberOfPeople),
+        await getOpenQuestionsData(numberOfPeople)
     ]).then(() => {
 
-            let carousel: bootstrap.Carousel = new Carousel(document.getElementById('linearFlow') as HTMLElement, {
-                interval: false,
-                wrap: true
-            });
+        let carouselElement: HTMLElement = document.getElementById('linearFlow') as HTMLElement;
+        let carousel: bootstrap.Carousel = new Carousel(carouselElement, {
+            interval: false,
+            wrap: true
+        });
 
-            window.addEventListener("keydown", function (e: KeyboardEvent) {
-                let checkboxToToggle: HTMLInputElement | null;
-                let radiobuttonToToggle: HTMLInputElement | null;
-                let activeCarouselItem: Element = document.querySelector('.carousel-item.active')!;
-                let rangeInput: HTMLInputElement | null = activeCarouselItem.querySelector('input[type="range"]');
-                switch (e.code) {
-                    case 'KeyD':
-                        (btnNext as HTMLInputElement).click();
-                        if (window.currentQuestionNumber < window.totalQuestions) {
+        carouselElement.addEventListener('slid.bs.carousel', function () {
+            let carouselItems = document.querySelectorAll('.carousel-item');
+            let currentIndex = Array.from(carouselItems).findIndex(item => item.classList.contains('active'));
+            const questionsPerPerson = window.totalQuestions / numberOfPeople;
+            const currentPerson = Math.floor((currentIndex)/questionsPerPerson) + 1;
+            personAnsweringElement!.innerText = `Person ${currentPerson} : `;
+        });
+
+        window.addEventListener("keydown", function (e: KeyboardEvent) {
+            let checkboxToToggle: HTMLInputElement | null;
+            let radiobuttonToToggle: HTMLInputElement | null;
+            let activeCarouselItem: Element = document.querySelector('.carousel-item.active')!;
+            let rangeInput: HTMLInputElement | null = activeCarouselItem.querySelector('input[type="range"]');
+            let openInput: HTMLInputElement | null;
+            openInput = activeCarouselItem.querySelector('textarea[type="text"]');
+            if (openInput) {
+                openInput.focus();
+            }
+
+            switch (e.code) {
+                case 'ArrowRight':
+                    if (window.currentQuestionNumber < window.totalQuestions) {
                         window.currentQuestionNumber++;
-                            updateButton();
-                        }
-                        updatePorgressBar();
+                        updateButton();
+                        carousel.next();
+                    }
+                    updatePorgressBar();
+                    break;
 
-                        break;
-                    case 'KeyA':
-                        (btnPrev as HTMLInputElement).click();
-                        if (window.currentQuestionNumber > 1) {
-                            window.currentQuestionNumber--;
-                            updateButton();
-                        }
-                        updatePorgressBar();
-                        break;
+                case 'ArrowLeft':
+                    if (window.currentQuestionNumber > 1) {
+                        window.currentQuestionNumber--;
+                        updateButton();
+                        carousel.prev();
+                    }
+                    updatePorgressBar();
+                    break;
 
-                    case 'KeyW':
-                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key1"]');
-                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key1"]');
-                        rangeInput = activeCarouselItem.querySelector('input[type="range"]');
-                        if (rangeInput) {
-                            rangeInput.value = (parseInt(rangeInput.value) + 1).toString();
-                            rangeInput.dispatchEvent(new Event('input'));
-                        }
-                        break;
-                    case 'KeyS':
-                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key2"]');
-                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key2"]');
-                        rangeInput = activeCarouselItem.querySelector('input[type="range"]');
-                        if (rangeInput) {
-                            rangeInput.value = (parseInt(rangeInput.value) - 1).toString();
-                            rangeInput.dispatchEvent(new Event('input'));
-                        }
-                        break;
-                    case 'KeyF':
-                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key3"]');
-                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key3"]');
-                        break;
-                    case 'KeyG':
-                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key4"]');
-                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key4"]');
-                        break;
-                    case 'Space':
-                        (addButton as HTMLInputElement).click();
-                        break;
-                    default:
-                        break;
-                }
-                // @ts-ignore
-                if (checkboxToToggle) {
-                    checkboxToToggle.checked = !checkboxToToggle.checked;
-                }
-                // @ts-ignore
-                if (radiobuttonToToggle) {
-                    radiobuttonToToggle.checked = !radiobuttonToToggle.checked;
-                }
+                case 'KeyA':
+                    checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key1"]');
+                    radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key1"]');
+                    rangeInput = activeCarouselItem.querySelector('input[type="range"]');
+                    if (rangeInput) {
+                        rangeInput.value = (parseInt(rangeInput.value) - 1).toString();
+                        rangeInput.dispatchEvent(new Event('input'));
+                    }
+                    break;
+                case 'KeyS':
+                    checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key2"]');
+                    radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key2"]');
+                    rangeInput = activeCarouselItem.querySelector('input[type="range"]');
+                    if (rangeInput) {
+                        rangeInput.value = (parseInt(rangeInput.value) + 1).toString();
+                        rangeInput.dispatchEvent(new Event('input'));
+                    }
+                    break;
+                case 'KeyD':
+                    checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key3"]');
+                    radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key3"]');
+                    break;
+                case 'KeyF':
+                    checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key4"]');
+                    radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key4"]');
+                    break;
+                default:
+                    break;
+            }
+            // @ts-ignore
+            if (checkboxToToggle) {
+                checkboxToToggle.checked = !checkboxToToggle.checked;
+            }
+            // @ts-ignore
+            if (radiobuttonToToggle) {
+                radiobuttonToToggle.checked = !radiobuttonToToggle.checked;
+            }
+            console.log(window.currentQuestionNumber)
+        });
 
-                console.log(window.currentQuestionNumber)
-            });
+        document.addEventListener('click', function (e) {
+            if (e.button === 0) {
+                (addButton as HTMLInputElement).click();
+            }
+        });
+        
+    });
+        
 
-        }
-    );
+         
+          
+      
 }
-visibleF();
-InitializeFlow();
+
+
+
 getTextData();
 getImageData();
 getVideoData();
-addButton?.addEventListener("click", commitAnswers);
+addButton.addEventListener("click", commitAnswers);

@@ -39,52 +39,18 @@ let firstQuestion = true;
 let totalInformations = 0;
 window.currentQuestionNumber = 1;
 
-//typescript bs
-/*let totalQuestions: number = 0;
-let currentQuestion: number = 1;*/
 
-//Functies
-
-// export function setUpQrCode(): void {
-//     const uriElement = document.getElementById("qrCodeData");
-//     const uri: string | null = uriElement ? uriElement.getAttribute('data-url') : null;
-//     const qrCode = new QRCodeStyling({
-//         width: 400,
-//         height: 400,
-//         type: "svg",
-//         data: uri,
-//         dotsOptions: {
-//             color: "#000000",
-//             type: "rounded"
-//         },
-//         backgroundOptions: {
-//             color: "#e9ebee",
-//         },
-//         imageOptions: {
-//             crossOrigin: "anonymous",
-//             imageSize: 1,
-//             hideBackgroundDots: false,
-//             margin: 2
-//         }
-//     });
-//
-//     const qrCodeElement = document.getElementById("qrCode");
-//     if (qrCodeElement) {
-//         qrCode.append(qrCodeElement);
-//     }
-// }
-
-
-export async function getSingleChoiceQuestionData() {
+export async function getSingleChoiceQuestionData(numberOfPeople: number) {
     await readSingleChoiceQuestionData(flowId)
         .then(singleChoiceQuestions => {
             let bodyData = ``;
-            for (let i = 0; i < singleChoiceQuestions.length; i++) {
-                const singleChoiceQuestion = singleChoiceQuestions[i];
-                window.totalQuestions += 1;
-                const isActive = firstQuestion ? 'active' : '';
-                if (firstQuestion) firstQuestion = false;
-                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${singleChoiceQuestion.sequenceNumber}" data-card-id="${singleChoiceQuestion.id}">
+            for (let i =0; i < numberOfPeople; i++){
+                for (let j = 0; j < singleChoiceQuestions.length; j++) {
+                    const singleChoiceQuestion = singleChoiceQuestions[j];
+                    window.totalQuestions += 1;
+                    const isActive = firstQuestion ? 'active' : '';
+                    if (firstQuestion) firstQuestion = false;
+                    bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${singleChoiceQuestion.sequenceNumber}" data-card-id="${singleChoiceQuestion.id}">
             <div class="card-body">
                 <h5 class="card-title">${singleChoiceQuestion.text}</h5>
                 ${singleChoiceQuestion.options.map((option, index) => `<div class="form-check">
@@ -95,7 +61,9 @@ export async function getSingleChoiceQuestionData() {
                 </div>`).join('')}
             </div>
         </div>`
+                }
             }
+           
             if (questionsElement) {
                 questionsElement.innerHTML += bodyData;
             } else {
@@ -106,24 +74,28 @@ export async function getSingleChoiceQuestionData() {
         });
 }
 
-export async function getOpenQuestionsData() {
+export async function getOpenQuestionsData(numberOfPeople: number) {
     await readOpenQuestionsData(flowId)
         .then(openQuestions => {
             let bodyData = ``;
-            for (let i = 0; i < openQuestions.length; i++) {
-                const openQuestion = openQuestions[i];
-                window.totalQuestions += 1;
-                const isActive = firstQuestion ? 'active' : '';
-                if (firstQuestion) firstQuestion = false;
-                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${openQuestion.sequenceNumber}" data-card-id="${openQuestion.id}">
-            <div class="card-body">
-                <h5 class="card-title">${openQuestion.text}</h5>
-                <div class="form-group">
-                    <textarea class="form-control" id="openQuestion${openQuestion.text}" rows="3"></textarea>
-                </div>
-            </div>
-        </div>`
+            for(let i = 0; i < numberOfPeople; i++){
+
+                for (let j = 0; j < openQuestions.length; j++) {
+                    const openQuestion = openQuestions[j];
+                    window.totalQuestions += 1;
+                    const isActive = firstQuestion ? 'active' : '';
+                    if (firstQuestion) firstQuestion = false;
+                    bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${openQuestion.sequenceNumber}" data-card-id="${openQuestion.id}">
+                        <div class="card-body">
+                            <h5 class="card-title">${openQuestion.text}</h5>
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" id="openQuestion${openQuestion.text}" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>`
+                }
             }
+         
             if (questionsElement) {
                 questionsElement.innerHTML += bodyData;
             } else {
@@ -134,28 +106,32 @@ export async function getOpenQuestionsData() {
         });
 }
 
-export async function getRangeQuestionsData() {
+export async function getRangeQuestionsData(numberOfPeople: number) {
     await readRangeQuestionsData(flowId)
         .then(rangeQuestions => {
             let bodyData = ``;
-            for (let i = 0; i < rangeQuestions.length; i++) {
-                const rangeQuestion = rangeQuestions[i];
-                window.totalQuestions += 1;
-                const isActive = firstQuestion ? 'active' : '';
-                if (firstQuestion) firstQuestion = false;
+            for (let i = 0; i < numberOfPeople; i++){
+                
+                for (let i = 0; i < rangeQuestions.length; i++) {
+                    const rangeQuestion = rangeQuestions[i];
+                    window.totalQuestions += 1;
+                    const isActive = firstQuestion ? 'active' : '';
+                    if (firstQuestion) firstQuestion = false;
 
-                let options = rangeQuestion.options.map((option, index) => `data-option-${index}="${option}"`).join('')
-                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${rangeQuestion.sequenceNumber}" data-card-id="${rangeQuestion.id}">
-            <div class="card-body">
-                <h5 class="card-title">${rangeQuestion.text}</h5>
-                <div class="form-group">
-                    <input type="range" class="form-control-range" id="formControlRange${i}" min="0" max="${rangeQuestion.options.length - 1}" 
-                            ${options} oninput="updateLabel(this, 'rangeLabel${i}')"> <!--oninput="updateLabel(this, 'rangeLabel${i}')"-->
-                    <label id="rangeLabel${i}" for="formControlRange${i}"></label>
-                </div>
-            </div>
-        </div>`
+                    let options = rangeQuestion.options.map((option, index) => `data-option-${index}="${option}"`).join('')
+                    bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${rangeQuestion.sequenceNumber}" data-card-id="${rangeQuestion.id}">
+                        <div class="card-body">
+                            <h5 class="card-title">${rangeQuestion.text}</h5>
+                            <div class="form-group">
+                                <input type="range" class="form-control-range" id="formControlRange${i}" min="0" max="${rangeQuestion.options.length - 1}" 
+                                        ${options} oninput="updateLabel(this, 'rangeLabel${i}')"> <!--oninput="updateLabel(this, 'rangeLabel${i}')"-->
+                                <label id="rangeLabel${i}" for="formControlRange${i}"></label>
+                            </div>
+                        </div>
+                    </div>`
+                }
             }
+          
             if (questionsElement) {
                 questionsElement.innerHTML += bodyData;
             } else {
@@ -167,26 +143,30 @@ export async function getRangeQuestionsData() {
         });
 }
 
-export async function getMultipleChoiceQuestionsData() {
+export async function getMultipleChoiceQuestionsData(numberOfPeople: number) {
     await readMultipleChoiceQuestionsData(flowId)
         .then(multipleChoiceQuestions => {
             let bodyData = ``;
-            for (const multipleChoiceQuestion of multipleChoiceQuestions) {
-                window.totalQuestions += 1;
-                const isActive = firstQuestion ? 'active' : '';
-                if (firstQuestion) firstQuestion = false;
-                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${multipleChoiceQuestion.sequenceNumber}" data-card-id="${multipleChoiceQuestion.id}">
-            <div class="card-body">
-                <h5 class="card-title">${multipleChoiceQuestion.text}</h5>
-                ${multipleChoiceQuestion.options.map((option, index) => `<div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="${multipleChoiceQuestion.text}" id="${option}" data-key-index="${keys[index]}">
-                    <label class="form-check-label" for="${option}" data-key-index="${keys[index]}">
-                        ${option}
-                    </label>
-                </div>`).join('')}
-            </div>
-        </div>`
+            for (let i = 0; i < numberOfPeople; i++){
+                
+                for (const multipleChoiceQuestion of multipleChoiceQuestions) {
+                    window.totalQuestions += 1;
+                    const isActive = firstQuestion ? 'active' : '';
+                    if (firstQuestion) firstQuestion = false;
+                    bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${multipleChoiceQuestion.sequenceNumber}" data-card-id="${multipleChoiceQuestion.id}">
+                        <div class="card-body">
+                            <h5 class="card-title">${multipleChoiceQuestion.text}</h5>
+                            ${multipleChoiceQuestion.options.map((option, index) => `<div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="${multipleChoiceQuestion.text}" id="${option}" data-key-index="${keys[index]}">
+                                <label class="form-check-label" for="${option}" data-key-index="${keys[index]}">
+                                    ${option}
+                                </label>
+                            </div>`).join('')}
+                        </div>
+                    </div>`
+                }
             }
+           
             if (questionsElement) {
                 questionsElement.innerHTML += bodyData;
             } else {
@@ -297,48 +277,7 @@ export async function getVideoData() {
 }
 
 
-/*export function getAnswers(): Answer[] {
-    const answers: Answer[] = [];
-    const carouselItems = document.querySelectorAll('.carousel-item');
- 
-        carouselItems.forEach((item, index) => {
-            const questionText = item.querySelector('.card-title')?.textContent || '';
-            const questionId: number = Number(item.getAttribute('data-card-id') || '');
-
-            const answer: Answer = {question: questionText, chosenOptions: [], openAnswer: '', id: questionId};
-
-            const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
-            checkboxes.forEach(checkbox => {
-                answer.chosenOptions.push(checkbox.id);
-            });
-
-            const textarea = item.querySelector('textarea');
-            if (textarea) {
-                answer.openAnswer = textarea.value;
-            }
-
-            const radioButtons = item.querySelectorAll('input[type="radio"]:checked');
-            radioButtons.forEach(radioButton => {
-                if ((radioButton as HTMLInputElement).checked) {
-                    answer.chosenOptions.push((radioButton as HTMLInputElement).value);
-                }
-            });
-
-            const rangeInput = item.querySelector('input[type="range"]');
-            if (rangeInput) {
-                let optionText = rangeInput.getAttribute(`data-option-${(rangeInput as HTMLInputElement).value}`);
-                if (optionText) {
-                    answer.chosenOptions.push(optionText);
-                }
-            }
-
-            answers.push(answer);
-        });
-    return answers;
-}*/
-
-
-function getAnswers(): Answer[] {
+export function getAnswers(): Answer[] {
     const answers: Answer[] = [];
     const carouselItems = document.querySelectorAll('.carousel-item');
 
@@ -373,7 +312,6 @@ function getAnswers(): Answer[] {
         }
 
         answers.push(answer);
-        console.log(answers);
     });
 
     return answers;
@@ -382,7 +320,7 @@ function getAnswers(): Answer[] {
 export async function commitAnswers() {
     const answers = getAnswers();
     const answerObject: AnswerObject[] = answers.map(answer => ({
-        chosenOptions: answer.chosenOptions.map(option => ({OptionText: option})),
+        chosenOptions: answer.chosenOptions.map(option => ({ OptionText: option })),
         chosenAnswer: answer.openAnswer,
         questionId: answer.id
     }));
@@ -404,6 +342,8 @@ export function updatePorgressBar() {
     console.log("progressbarPerc: ", progressPerc);
 }
 
+
+//Werkt nog niet, mag eventueel weg maar dan hebben we geen manier om video te spelen 🥲
 export function handleScrollForVideoPlayback(): void {
     let videos: NodeListOf<HTMLIFrameElement> = document.querySelectorAll("iframe[id^='video']");
     videos.forEach((video: HTMLIFrameElement) => {

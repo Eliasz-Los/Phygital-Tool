@@ -18,6 +18,7 @@ module.exports = {
         thema: './src/ts/Thema/thema.ts',
         organisation: './src/ts/Organisation/organisation.ts',
         feedback: './src/ts/Feedback/feedback.ts',
+        register: './src/ts/Account/register.ts',
         
     },
     output: {

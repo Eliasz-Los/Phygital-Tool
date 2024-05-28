@@ -1,15 +1,18 @@
 // Purpose: Contains functions for the end page.
-const btnNo = document.getElementById("btnNo") as HTMLButtonElement;
-const btnYes = document.getElementById("btnYes") as HTMLButtonElement;
+const btnNo: HTMLElement | null = document.getElementById("btnNo");
+const btnYes: HTMLElement | null = document.getElementById("btnYes");
 
-function Initialize() {
-    window.addEventListener("keydown", function (e) {
+function InitializeEndpage(): void {
+    window.addEventListener("keydown", function (e: KeyboardEvent) {
         switch (e.code) {
             case 'ArrowRight':
-                btnYes.click();
+                btnYes?.click();
                 break;
             case 'ArrowLeft':
-                btnNo.click();
+                btnNo?.click();
                 break;
-        }});}
-Initialize();
+        }
+    });
+}
+
+InitializeEndpage();

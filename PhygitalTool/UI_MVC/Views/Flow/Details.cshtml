@@ -12,18 +12,30 @@
 @{
     if (@Model.FlowType == Flowtype.linear)
     {
-        // Hier vragen we het aantal users en gebruiken we dit voor het aantal antwoorden
-        <form id="userCountSection" class="form-group visible">
-            <label for="userCount">Aantal gebruikers:</label>
-            <input type="range" class="form-control-range" id="userCount" name="userCount" min="1" max="4" data-option-0="Zwaar voor" data-option-1="1" data-option-2="2" data-option-3="3" data-option-4="4" oninput="updateLabel(this, 'rangeLabel')">
-            <label id="rangeLabel" for="userCount">1</label>
-            <button id="submitUserCount" class="btn btn-primary">Begin vragen</button>
-        </form>
+
+        <!-- Modal -->
+        <div class="modal fade" id="userCountModal" tabindex="-1" aria-labelledby="userCountModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="userCountModalLabel">Select Number of Users</h5>
+                    </div>
+                    <div class="modal-body">
+                        <label for="userCountRange">Number of Users:</label>
+                        <input type="range" id="userCountRange" min="1" max="4" value="1">
+                        <span id="userCountDisplay">1</span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="confirmUserCount" class="btn btn-warning">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
-
-        //data-bs-ride="carousel" dit van onder weg zodat de carousel nie beweegt
-        <div id="linearFlow" class="carousel slide spacing-top visible" >
+        <div id="linearFlow" class="carousel slide spacing-top">
+            
+            <div id="personAnswering" class="border spacing-top">Person 1 :</div>
             
             <div class="carousel-inner">
                 <div id="questions"></div>
