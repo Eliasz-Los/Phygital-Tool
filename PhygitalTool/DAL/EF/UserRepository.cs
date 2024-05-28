@@ -60,8 +60,9 @@ public class UserRepository : IUserRepository
         _dbContext.Organisations.Remove(organisationToDelete!);
     }
 
-    public void CreateOrganisation(Organisation organisation)
+    public async Task CreateOrganisation(Organisation organisation)
     {
         _dbContext.Organisations.Add(organisation);
+        await _dbContext.SaveChangesAsync();
     }
 }

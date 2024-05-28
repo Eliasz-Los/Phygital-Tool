@@ -27,7 +27,7 @@ public class OrganisatieController : Controller
         return View(organisations);
     }
     
-    [HttpPost]
+    [HttpGet]
     [Authorize(Roles = "Owner")]
     public IActionResult Add()
     {
@@ -36,13 +36,13 @@ public class OrganisatieController : Controller
 
     [HttpPost]
     [Authorize(Roles = "Owner")]
-    public IActionResult Add(OrganisatieDto organisatieDto)
+    public async Task<IActionResult> Add(OrganisatieDto organisatieDto)
     {
         if (!ModelState.IsValid)
             return View();
         
         _uow.BeginTransaction();
-        _userManager.AddOrganisation(organisatieDto.Name, organisatieDto.Description);
+        await _userManager.AddOrganisation(organisatieDto.Name, organisatieDto.Description);
         _uow.Commit();
         return RedirectToAction("Index", "Organisatie");
     }
