@@ -9,44 +9,45 @@
 
 <div>
     <h2 >Voeg hier een image toe</h2>
-        <form asp-controller="FlowElements" asp-action="AddImage" class="row" enctype="multipart/form-data">
-            <div class="container-fluid">
-                <div class="col-12 d-flex justify-content-center">
-                    @*<label asp-for="FlowId">Flow waar het toebehoort</label>
-                    <select asp-for="FlowId" asp-items="@(ViewBag.highest)" class="form-control"></select>
-                    <span asp-validation-for="FlowId" class="text-danger"></span>*@
-                </div>
-
-                <div class="form-group mb-2">
-                    <label asp-for="Title">Titel van de image:</label>
-                    <input class="form-control" asp-for="Title" type="text" name="Title">
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-
-                <div class="form-group mb-2">
-                    <label asp-for="AltText">Korte beschrijving van de image:</label>
-                    <input class="form-control" asp-for="AltText" type="text" name="AltText">
-                    <span asp-validation-for="AltText" class="text-danger"></span>
-                </div>
-
-                <div class="form-group mb-2">
-                    <label asp-for="subthemeId">Kies het thema waar je image toebehoord:</label>
-                    <select asp-for="subthemeId" asp-items="@(new SelectList(ViewBag.Themes, "Id", "Title"))" class="form-control"></select>
-                    <span asp-validation-for="subthemeId" class="text-danger"></span>
-                </div>
-
-                <div class="form-group mb-2">
-                    <label asp-for="ImageFile">Kies een afbeelding:</label>
-                    <input asp-for="ImageFile" type="file" class="form-control">
-                    <span asp-validation-for="ImageFile" class="text-danger"></span>
-                </div>
+    <form asp-controller="FlowElements" asp-action="AddImage" class="row" enctype="multipart/form-data">
+        <div class="container-fluid">
+            <div class="col-12 d-flex justify-content-center">
+                <input type="hidden" name="flowId" value="@ViewBag.flowId" />
             </div>
-            <div class="row align-content-center py-3 text-center justify-content-center">
-                <div class="col d-flex justify-content-center">
-                    <input type="submit" value="Add" class="btn btn-warning"/>
-                </div>
+
+            <div class="form-group mb-2">
+                <label asp-for="Title">Titel van de image:</label>
+                <input class="form-control" asp-for="Title" type="text" name="Title">
+                <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-        </form>
+
+            <div class="form-group mb-2">
+                <label asp-for="AltText">Korte beschrijving van de image:</label>
+                <input class="form-control" asp-for="AltText" type="text" name="AltText">
+                <span asp-validation-for="AltText" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-2">
+                <label asp-for="subthemeId">Kies het thema waar je image toebehoord:</label>
+                <select asp-for="subthemeId" asp-items="@(new SelectList(ViewBag.Themes, "Id", "Title"))" class="form-control"></select>
+                <span asp-validation-for="subthemeId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-2">
+                <label asp-for="ImageFile">Kies een afbeelding:</label>
+                <input asp-for="ImageFile" type="file" class="form-control">
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            @* <div class="form-group mb-2"> *@
+            @*     <label asp-for="flowId">@ViewBag.flowId</label> *@
+            @* </div> *@
+        </div>
+        <div class="row align-content-center py-3 text-center justify-content-center">
+            <div class="col d-flex justify-content-center">
+                <input type="submit" value="Add" class="btn btn-warning"/>
+            </div>
+        </div>
+    </form>
 
 </div>
 

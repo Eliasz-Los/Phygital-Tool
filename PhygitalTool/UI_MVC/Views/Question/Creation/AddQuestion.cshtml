@@ -16,7 +16,7 @@
                     @*<label asp-for="FlowId">Flow waar het toebehoort</label>
                     <select asp-for="FlowId" asp-items="@(ViewBag.highest)" class="form-control"></select>
                     <span asp-validation-for="FlowId" class="text-danger"></span>*@
-                    <div id="FlowId">@(Model.Id)</div>
+                    <div class="invisible"  id="FlowId">@(Model.Id)</div>
                 </div>
 
                 <label class="input-group-text border border-warning mb-3" for="TypeSelect">Selecteer het type vraag</label>
@@ -61,7 +61,7 @@
             <div class="container-fluid p-2">
                 <div class="row align-content-center">
                     <div class="col d-flex justify-content-end">
-                        <a type="button" class="btn btn-warning" asp-controller="Flow" asp-action="Index">Annuleer</a>
+                        <a type="button" class="btn btn-warning" asp-controller="Flow" asp-action="Index">Ga terug</a>
                     </div>
                     <div class="col d-flex justify-content-start">
                         <a type="button" class="btn btn-warning" id="submitQuestion">Maak question aan</a>
