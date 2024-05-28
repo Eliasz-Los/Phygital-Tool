@@ -2,7 +2,7 @@
 const btnNo: HTMLElement | null = document.getElementById("btnNo");
 const btnYes: HTMLElement | null = document.getElementById("btnYes");
 
-function Initialize(): void {
+function InitializeEndpage(): void {
     window.addEventListener("keydown", function (e: KeyboardEvent) {
         switch (e.code) {
             case 'ArrowRight':
@@ -15,4 +15,4 @@ function Initialize(): void {
     });
 }
 
-Initialize();
+InitializeEndpage();

@@ -8,7 +8,7 @@ var __webpack_exports__ = {};
 // Purpose: Contains functions for the end page.
 const btnNo = document.getElementById("btnNo");
 const btnYes = document.getElementById("btnYes");
-function Initialize() {
+function InitializeEndpage() {
     window.addEventListener("keydown", function (e) {
         switch (e.code) {
             case 'ArrowRight':
@@ -20,7 +20,7 @@ function Initialize() {
         }
     });
 }
-Initialize();
+InitializeEndpage();
 
 /******/ })()
 ;

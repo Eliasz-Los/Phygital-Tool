@@ -8054,39 +8054,37 @@ function InitializeFlow() {
             let radiobuttonToToggle;
             let activeCarouselItem = document.querySelector('.carousel-item.active');
             let rangeInput = activeCarouselItem.querySelector('input[type="range"]');
+            let openInput;
+            openInput = activeCarouselItem.querySelector('textarea[type="text"]');
+            if (openInput) {
+                openInput.focus();
+            }
             switch (e.code) {
-                case 'ArrowLeft':
-                    if (rangeInput) {
-                        rangeInput.value = (parseInt(rangeInput.value) + 1).toString();
-                        rangeInput.dispatchEvent(new Event('input'));
-                    }
-                    break;
-                case 'ArrowRight':
+                case 'KeyA':
+                    checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key1"]');
+                    radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key1"]');
+                    rangeInput = activeCarouselItem.querySelector('input[type="range"]');
                     if (rangeInput) {
                         rangeInput.value = (parseInt(rangeInput.value) - 1).toString();
                         rangeInput.dispatchEvent(new Event('input'));
                     }
                     break;
-                case 'KeyW':
-                    checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key1"]');
-                    radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key1"]');
-                    break;
                 case 'KeyS':
                     checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key2"]');
                     radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key2"]');
+                    rangeInput = activeCarouselItem.querySelector('input[type="range"]');
+                    if (rangeInput) {
+                        rangeInput.value = (parseInt(rangeInput.value) + 1).toString();
+                        rangeInput.dispatchEvent(new Event('input'));
+                    }
                     break;
-                case 'KeyF':
+                case 'KeyD':
                     checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key3"]');
                     radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key3"]');
                     break;
-                case 'KeyG':
+                case 'KeyF':
                     checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key4"]');
                     radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key4"]');
-                    break;
-                case 'Space':
-                    if (addButton) {
-                        addButton.click();
-                    }
                     break;
                 default:
                     break;
@@ -8098,6 +8096,11 @@ function InitializeFlow() {
             // @ts-ignore
             if (radiobuttonToToggle) {
                 radiobuttonToToggle.checked = !radiobuttonToToggle.checked;
+            }
+        });
+        document.addEventListener('click', function (e) {
+            if (e.button === 0) {
+                addButton.click();
             }
         });
         startTimer();

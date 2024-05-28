@@ -8027,7 +8027,7 @@ function InitializeFlow() {
             let radiobuttonToToggle;
             let activeCarouselItem = document.querySelector('.carousel-item.active');
             let rangeInput = activeCarouselItem.querySelector('input[type="range"]');
-            let openInput = activeCarouselItem.querySelector('input[type="text"]');
+            let openInput;
             openInput = activeCarouselItem.querySelector('textarea[type="text"]');
             if (openInput) {
                 openInput.focus();
@@ -8100,7 +8100,7 @@ InitializeFlow();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getTextData)();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getImageData)();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getVideoData)();
-addButton === null || addButton === void 0 ? void 0 : addButton.addEventListener("click", _details__WEBPACK_IMPORTED_MODULE_1__.commitAnswers);
+addButton.addEventListener("click", _details__WEBPACK_IMPORTED_MODULE_1__.commitAnswers);
 
 })();
 

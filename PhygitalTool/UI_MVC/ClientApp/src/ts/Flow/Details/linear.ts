@@ -4,7 +4,7 @@ import {
     getTextData, getImageData, getVideoData, commitAnswers, updatePorgressBar
 } from "./details";
 
-const addButton: HTMLElement | null = document.getElementById("answerFlow");
+const addButton: HTMLElement | null = document.getElementById("answerFlow") as HTMLButtonElement;
 const btnNext: HTMLElement | null = document.getElementById("nextBtn");
 const btnPrev: HTMLElement | null = document.getElementById("prevBtn");
 if (btnPrev) (btnPrev as HTMLInputElement).disabled = true;
@@ -69,8 +69,7 @@ function InitializeFlow(): void {
                 let radiobuttonToToggle: HTMLInputElement | null;
                 let activeCarouselItem: Element = document.querySelector('.carousel-item.active')!;
                 let rangeInput: HTMLInputElement | null = activeCarouselItem.querySelector('input[type="range"]');
-                let openInput: HTMLInputElement | null = activeCarouselItem.querySelector('input[type="text"]');
-
+                let openInput: HTMLInputElement | null ;
                 openInput = activeCarouselItem.querySelector('textarea[type="text"]');
                 if (openInput) {
                     openInput.focus();
@@ -149,4 +148,4 @@ InitializeFlow();
 getTextData();
 getImageData();
 getVideoData();
-addButton?.addEventListener("click", commitAnswers);
+addButton.addEventListener("click", commitAnswers);
