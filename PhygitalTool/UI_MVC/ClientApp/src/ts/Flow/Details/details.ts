@@ -327,6 +327,8 @@ export function updatePorgressBar() {
     console.log("progressbarPerc: ", progressPerc);
 }
 
+
+//Werkt nog niet, mag eventueel weg maar dan hebben we geen manier om video te spelen 🥲
 export function handleScrollForVideoPlayback(): void {
     let videos: NodeListOf<HTMLIFrameElement> = document.querySelectorAll("iframe[id^='video']");
     videos.forEach((video: HTMLIFrameElement) => {

@@ -148,4 +148,5 @@ InitializeFlow();
 getTextData();
 getImageData();
 getVideoData();
+
 addButton.addEventListener("click", commitAnswers);

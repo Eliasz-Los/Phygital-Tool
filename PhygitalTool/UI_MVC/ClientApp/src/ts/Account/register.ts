@@ -3,12 +3,14 @@ const registerSubmit: HTMLElement | null = document.getElementById("registerSubm
 
 function InitializeRegister(): void {
 
-    let element: Element = document.querySelector('.active')!;
+    let formElement: HTMLElement | null = document.getElementById("registerForm");
     let openInput: HTMLInputElement | null;
 
-    openInput = element.querySelector('input[type="text"]');
-    if (openInput) {
-        openInput.focus();
+    if (formElement) {
+        openInput = formElement.querySelector('input[type="email"]');
+        if (openInput) {
+            openInput.focus();
+        }
     }
 
 

@@ -510,6 +510,7 @@ function updatePorgressBar() {
     progressBar.setAttribute("aria-valuenow", progressPerc.toString());
     console.log("progressbarPerc: ", progressPerc);
 }
+//Werkt nog niet, mag eventueel weg maar dan hebben we geen manier om video te spelen 🥲
 function handleScrollForVideoPlayback() {
     let videos = document.querySelectorAll("iframe[id^='video']");
     videos.forEach((video) => {
