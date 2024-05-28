@@ -1,6 +1,3 @@
-//TODO: alle types in een file zetten zodat ze overal gebruikt kunnen worden en
-// typescript die kan gebruiken zodat we properties kunnen gebruiken
-
 //details.ts
 type Keys = 'Key1' | 'Key2' | 'Key3' | 'Key4';
 

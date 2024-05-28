@@ -297,54 +297,85 @@ export async function getVideoData() {
 }
 
 
-export function getAnswers(): Answer[] {
+/*export function getAnswers(): Answer[] {
     const answers: Answer[] = [];
     const carouselItems = document.querySelectorAll('.carousel-item');
-
-    // Get aantal users
-    const rangeInput = document.getElementById('rangeInput') as HTMLInputElement;
-    const submitButton = document.getElementById('submitButton');
-
-    submitButton?.addEventListener('click', function () {
-        const userCount = parseInt(rangeInput.value);
-
+ 
         carouselItems.forEach((item, index) => {
             const questionText = item.querySelector('.card-title')?.textContent || '';
             const questionId: number = Number(item.getAttribute('data-card-id') || '');
 
-            // Repeat the answer collection process for the number of users
-            for (let i = 0; i < userCount; i++) {
-                const answer: Answer = {question: questionText, chosenOptions: [], openAnswer: '', id: questionId};
+            const answer: Answer = {question: questionText, chosenOptions: [], openAnswer: '', id: questionId};
 
-                const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
-                checkboxes.forEach(checkbox => {
-                    answer.chosenOptions.push(checkbox.id);
-                });
+            const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
+            checkboxes.forEach(checkbox => {
+                answer.chosenOptions.push(checkbox.id);
+            });
 
-                const textarea = item.querySelector('textarea');
-                if (textarea) {
-                    answer.openAnswer = textarea.value;
+            const textarea = item.querySelector('textarea');
+            if (textarea) {
+                answer.openAnswer = textarea.value;
+            }
+
+            const radioButtons = item.querySelectorAll('input[type="radio"]:checked');
+            radioButtons.forEach(radioButton => {
+                if ((radioButton as HTMLInputElement).checked) {
+                    answer.chosenOptions.push((radioButton as HTMLInputElement).value);
                 }
+            });
 
-                const radioButtons = item.querySelectorAll('input[type="radio"]:checked');
-                radioButtons.forEach(radioButton => {
-                    if ((radioButton as HTMLInputElement).checked) {
-                        answer.chosenOptions.push((radioButton as HTMLInputElement).value);
-                    }
-                });
-
-                const rangeInput = item.querySelector('input[type="range"]');
-                if (rangeInput) {
-                    let optionText = rangeInput.getAttribute(`data-option-${(rangeInput as HTMLInputElement).value}`);
-                    if (optionText) {
-                        answer.chosenOptions.push(optionText);
-                    }
+            const rangeInput = item.querySelector('input[type="range"]');
+            if (rangeInput) {
+                let optionText = rangeInput.getAttribute(`data-option-${(rangeInput as HTMLInputElement).value}`);
+                if (optionText) {
+                    answer.chosenOptions.push(optionText);
                 }
+            }
 
-                answers.push(answer);
+            answers.push(answer);
+        });
+    return answers;
+}*/
+
+
+function getAnswers(): Answer[] {
+    const answers: Answer[] = [];
+    const carouselItems = document.querySelectorAll('.carousel-item');
+
+    carouselItems.forEach((item, index) => {
+        const questionText = item.querySelector('.card-title')?.textContent || '';
+        const questionId: number = Number(item.getAttribute('data-card-id') || '');
+        const answer: Answer = { question: questionText, chosenOptions: [], openAnswer: '', id: questionId };
+
+        const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
+        checkboxes.forEach(checkbox => {
+            answer.chosenOptions.push(checkbox.id);
+        });
+
+        const textarea = item.querySelector('textarea');
+        if (textarea) {
+            answer.openAnswer = textarea.value;
+        }
+
+        const radioButtons = item.querySelectorAll('input[type="radio"]:checked');
+        radioButtons.forEach(radioButton => {
+            if ((radioButton as HTMLInputElement).checked) {
+                answer.chosenOptions.push((radioButton as HTMLInputElement).value);
             }
         });
+
+        const rangeInput = item.querySelector('input[type="range"]');
+        if (rangeInput) {
+            let optionText = rangeInput.getAttribute(`data-option-${(rangeInput as HTMLInputElement).value}`);
+            if (optionText) {
+                answer.chosenOptions.push(optionText);
+            }
+        }
+
+        answers.push(answer);
+        console.log(answers);
     });
+
     return answers;
 }
 

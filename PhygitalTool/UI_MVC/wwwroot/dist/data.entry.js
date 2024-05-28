@@ -24681,13 +24681,11 @@ __webpack_require__.r(__webpack_exports__);
 
 const csv = document.getElementById('download-csv');
 const excel = document.getElementById('download-excel');
-/*npm install --save-dev @types/xlsx OM specifieke types van library te kunnen gebruiken in typescript*/
 function csvFileMaker() {
     const tables = document.querySelectorAll('table[id^="table-"]');
     let csv = [];
     tables.forEach((table) => {
         var _a;
-        //                                                         .innerText
         const questionText = ((_a = table.previousElementSibling) === null || _a === void 0 ? void 0 : _a.textContent) || '';
         csv.push(questionText);
         const rows = table.querySelectorAll('tr');
@@ -24724,12 +24722,8 @@ function excelFileMaker() {
     });
     xlsx__WEBPACK_IMPORTED_MODULE_0__.writeFile(wb, 'data.xlsx');
 }
-if (csv) {
-    csv.addEventListener('click', csvFileMaker);
-}
-if (excel) {
-    excel.addEventListener('click', excelFileMaker);
-}
+csv.addEventListener('click', csvFileMaker);
+excel.addEventListener('click', excelFileMaker);
 
 })();
 

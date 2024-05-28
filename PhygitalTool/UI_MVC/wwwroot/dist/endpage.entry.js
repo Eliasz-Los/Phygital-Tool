@@ -11,10 +11,10 @@ const btnYes = document.getElementById("btnYes");
 function Initialize() {
     window.addEventListener("keydown", function (e) {
         switch (e.code) {
-            case 'KeyD':
+            case 'ArrowRight':
                 btnYes.click();
                 break;
-            case 'KeyA':
+            case 'ArrowLeft':
                 btnNo.click();
                 break;
         }
