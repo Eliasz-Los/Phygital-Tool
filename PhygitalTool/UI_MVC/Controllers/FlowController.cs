@@ -38,7 +38,6 @@ public class FlowController : Controller
     public IActionResult Details(long id)
     {
         var flow = _flowManager.GetFlowById(id);
-
         var session = _sessionManager.GetSessionById(1);
         
         var participation = new Participation
