@@ -7539,10 +7539,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-//TODO: alle entries Flow, Thema, Question, Statistis ... hierin importeren
 
 
-console.log('site.ts loaded');
 
 })();
 

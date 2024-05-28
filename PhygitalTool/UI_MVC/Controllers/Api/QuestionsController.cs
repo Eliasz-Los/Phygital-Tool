@@ -14,6 +14,7 @@ public class QuestionsController : Controller
 {
     private readonly IFlowElementManager _flowElementManager;
     private readonly IThemeManager _themeManager;
+    private readonly IFlowManager _FlowManager;
     private readonly UnitOfWork _unitOfWork;
     private List<Option> optionlist = new List<Option>(); 
     
@@ -23,6 +24,7 @@ public class QuestionsController : Controller
         _flowElementManager = flowElementManager;
         _themeManager = themeManager;
         _unitOfWork = unitOfWork;
+        _FlowManager = flowManager;
     }
 
     
@@ -55,6 +57,7 @@ public class QuestionsController : Controller
                     Text = questionDto.Text,
                     Active = questionDto.isActive,
                     Theme = _themeManager.GetThemeById(questionDto.SubTheme),
+                    Flow = _FlowManager.GetFlowById(questionDto.FlowId)
                 };
 
                 // Add question to database
@@ -69,6 +72,7 @@ public class QuestionsController : Controller
                     Text = questionDto.Text,
                     Active = questionDto.isActive,
                     Theme = _themeManager.GetThemeById(questionDto.SubTheme),
+                    Flow = _FlowManager.GetFlowById(questionDto.FlowId),
                     Options = optionlist
                 };
                 _unitOfWork.BeginTransaction();
@@ -82,6 +86,7 @@ public class QuestionsController : Controller
                     Text = questionDto.Text,
                     Active = questionDto.isActive,
                     Theme = _themeManager.GetThemeById(questionDto.SubTheme),
+                    Flow = _FlowManager.GetFlowById(questionDto.FlowId),
                     Options = optionlist
                 };
                 _unitOfWork.BeginTransaction();
@@ -95,6 +100,7 @@ public class QuestionsController : Controller
                     Text = questionDto.Text,
                     Active = questionDto.isActive,
                     Theme = _themeManager.GetThemeById(questionDto.SubTheme),
+                    Flow = _FlowManager.GetFlowById(questionDto.FlowId),
                     Options = optionlist
                 };
                 _unitOfWork.BeginTransaction();
