@@ -1,4 +1,4 @@
-﻿@model Phygital.UI_MVC.Models.Dto.QuestionDto
+﻿@model Phygital.UI_MVC.Models.Dto.FlowDto
 
 @{
     ViewBag.Title = "Phygital";
@@ -16,7 +16,7 @@
                     @*<label asp-for="FlowId">Flow waar het toebehoort</label>
                     <select asp-for="FlowId" asp-items="@(ViewBag.highest)" class="form-control"></select>
                     <span asp-validation-for="FlowId" class="text-danger"></span>*@
-                    <div id="FlowId">@(ViewBag.Highest)</div>
+                    <div id="FlowId">@(Model.Id)</div>
                 </div>
 
                 <label class="input-group-text border border-warning mb-3" for="TypeSelect">Selecteer het type vraag</label>

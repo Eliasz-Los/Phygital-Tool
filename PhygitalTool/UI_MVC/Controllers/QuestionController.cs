@@ -22,9 +22,9 @@ public class QuestionController : Controller
     [HttpGet]
     public IActionResult Edit(long id)
     {
-        List<QuestionDto> openQuestions = new List<QuestionDto>();
+        List<QuestionDto> questions = new List<QuestionDto>();
 
-        foreach (var question in _flowElementManager.GetAllOpenQuestionByFlowId(id))
+        foreach (var question in _flowElementManager.getQuestionsByFlowId(id))
         {
             var questionToAdd = new QuestionDto();
             questionToAdd.Id = question.Id;
@@ -32,24 +32,29 @@ public class QuestionController : Controller
             questionToAdd.SubTheme = question.SubTheme?.Id ?? 1;
             questionToAdd.Text = question.Text;
             questionToAdd.isActive = question.Active;
-            questionToAdd.Type = "Open";
             // TODO ookal is het gedelete wordt het nogsteeds opgehaald
             questionToAdd.FlowId = id;
-            openQuestions.Add(questionToAdd);
+            questions.Add(questionToAdd);
         }
-
-        IEnumerable<QuestionDto> questionDtos = openQuestions;
+        ViewBag.SharedFlowId = id;
+        IEnumerable<QuestionDto> questionDtos = questions;
         return View(questionDtos);
     }
 
 
     [HttpGet("Creation/AddQuestion")]
-    public IActionResult GetQuestion()
+    public IActionResult GetQuestion(long id)
     {
-        var highest = _flowManager.GetAllFlows().Count();
-        ViewBag.Highest = highest;
-
-        return View("Creation/AddQuestion");
+        FlowDto model = new FlowDto
+        {
+            Id = id
+        };
+        
+        if (model.Id == 0)
+        {
+            model.Id = _flowManager.GetAllFlows().Count() + 1;
+        }
+        return View("Creation/AddQuestion", model);
     }
 
     [HttpPost]
@@ -74,17 +79,12 @@ public class QuestionController : Controller
     }
     
     [HttpPost]
-    public IActionResult UpdateActive(long questionId, string questionType, long flowId)
+    public IActionResult UpdateActive(long questionId, long questionFlowId)
     {
-        switch (questionType)
-        {
-            case "Open":
-                _uow.BeginTransaction();
-                _flowElementManager.UpdateActive(questionId);
-                _uow.Commit();
-                break;
-        }
-        // todo flowid bestaat en heeft een value in de pagina, maar hij geeft altijd 0 hier?
-        return RedirectToAction("Edit", "Question", flowId);
+        _uow.BeginTransaction();
+        _flowElementManager.UpdateActive(questionId);
+        _uow.Commit();
+        
+        return RedirectToAction("Edit", "Question", new { id = questionFlowId });
     }
 }
