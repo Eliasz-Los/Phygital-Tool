@@ -34,18 +34,18 @@ public class OrganisatieController : Controller
         return View();
     }
 
-    [HttpPost]
-    [Authorize(Roles = "Owner")]
-    public async Task<IActionResult> Add(OrganisatieDto organisatieDto)
-    {
-        if (!ModelState.IsValid)
-            return View();
-        
-        _uow.BeginTransaction();
-        await _userManager.AddOrganisation(organisatieDto.Name, organisatieDto.Description);
-        _uow.Commit();
-        return RedirectToAction("Index", "Organisatie");
-    }
+    // [HttpPost]
+    // [Authorize(Roles = "Owner")]
+    // public async Task<IActionResult> Add(OrganisatieDto organisatieDto)
+    // {
+    //     if (!ModelState.IsValid)
+    //         return View();
+    //     
+    //     _uow.BeginTransaction();
+    //     await _userManager.AddOrganisation(organisatieDto.Name, organisatieDto.Description);
+    //     _uow.Commit();
+    //     return RedirectToAction("Index", "Organisatie");
+    // }
     
     [HttpGet]
     [Authorize(Roles = "Owner")]

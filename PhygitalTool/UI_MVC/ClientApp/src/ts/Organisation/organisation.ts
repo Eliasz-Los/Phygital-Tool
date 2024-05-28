@@ -9,11 +9,11 @@ interface Organisation {
 
 async function addOrganisatie() {
     const orgNameInput: HTMLInputElement | null = document.getElementById('orgNameInput') as HTMLInputElement;
-    const orgDescriptionInput : HTMLInputElement | null = document.getElementById('orgDescriptionInput') as HTMLInputElement;
+    const orgDescInput : HTMLInputElement | null = document.getElementById('orgDescriptionInput') as HTMLInputElement;
 
-    if (orgNameInput && orgDescriptionInput) {
+    if (orgNameInput && orgDescInput) {
         const orgName: string = orgNameInput.value;
-        const orgDescription: string = orgDescriptionInput.value;
+        const orgDescription: string = orgDescInput.value;
 
         const orgObject: Organisation = {
             name: orgName,

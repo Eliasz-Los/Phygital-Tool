@@ -11,5 +11,5 @@ public interface IUserManager
     Organisation GetOrganisationById(long id);
     void ChangeOrganisation(long id, string name, string description);
     void RemoveOrganisation(long id);
-    Task AddOrganisation(string name, string description);
+    void AddOrganisation(Organisation organisation);
 }
