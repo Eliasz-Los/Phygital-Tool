@@ -9,7 +9,7 @@
 <div class="text-center">
     <h3 class="align-content-center p-4">Maak nieuwe organisatie</h3>
     <div class="container-fluid">
-        <form class="">
+        <form asp-controller="Organisatie" asp-action="Add" method="post">
             <div class="d-flex justify-content-center">
                 <div class="col-lg-6 text-start">
                     <label for="orgNameInput">Organisatie</label>
@@ -17,7 +17,6 @@
                     <label for="orgDescriptionInput">Beschrijving</label>
                     <textarea class="form-control border border-warning mb-3" id="orgDescriptionInput" rows="5"
                     placeholder="Beschrijving..."></textarea>
-
                 </div>
             </div>
             <div class="container-fluid p-2">
@@ -26,7 +25,7 @@
                         <a onclick="history.back()" type="button" class="btn btn-warning">Annuleer</a>
                     </div>
                     <div class="col d-flex justify-content-start">
-                        <a type="button" class="btn btn-warning" id="submitOrg" asp-area="" asp-controller="Organisatie" asp-action="Index">Maak organisatie</a>
+                        <a type="button" class="btn btn-warning" id="submitOrg" asp-controller="Organisatie" asp-action="Add">Maak organisatie</a>
                     </div>
                 </div>
             </div>
