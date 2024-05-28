@@ -7979,10 +7979,6 @@ const btnNext = document.getElementById("nextBtn");
 const btnPrev = document.getElementById("prevBtn");
 if (btnPrev)
     btnPrev.disabled = true;
-/*let currentQuestionNumber: number = 1;
-let totalQuestions: number = 0;*/
-let checkboxToToggle = null;
-let radiobuttonToToggle = null;
 function updateButton() {
     if (window.currentQuestionNumber < 2) {
         btnPrev.disabled = true;
@@ -8002,10 +7998,13 @@ if (userCountModalElement && submitButtonElement) {
     const userCountModal = new bootstrap__WEBPACK_IMPORTED_MODULE_0__.Modal(userCountModalElement, {
         backdrop: 'static'
     });
-    submitButtonElement.addEventListener('click', function () {
+    submitButtonElement.addEventListener('click', function (e) {
+        e.stopPropagation(); // zodat die nie zomaar dicht gaat
         userCountModal.hide();
     });
     userCountModalElement.addEventListener('hidden.bs.modal', function () {
+        const userCountRange = document.getElementById('userCountRange');
+        console.log(userCountRange.value); //checken of de waarde goed is
         InitializeFlow();
         const modalBackdrop = document.querySelector('.modal-backdrop');
         if (modalBackdrop) {
@@ -8042,6 +8041,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 default:
                     break;
             }
+            console.log(userCountDisplayElement.textContent);
+            //??? why is this here
             console.log(window.currentQuestionNumber);
         });
         document.addEventListener('click', function (e) {
@@ -8051,6 +8052,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         });
     }
 });
+// BOVENSTAANDE CODE (DE MODAL) laat de radio en checkboxen niet werken...
+// voor radio & checkboxen werken ze tenzij ze na OPENQUESTIONS komen dan ist fucked up
+// en links klikken ga nie door de modal... zal zo kijken
 function InitializeFlow() {
     Promise.all([
         (0,_details__WEBPACK_IMPORTED_MODULE_1__.getSingleChoiceQuestionData)(),

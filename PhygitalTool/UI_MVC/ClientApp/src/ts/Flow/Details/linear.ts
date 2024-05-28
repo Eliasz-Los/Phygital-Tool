@@ -11,13 +11,9 @@ const userCountDisplayElement = document.getElementById('userCountDisplay');
 const addButton: HTMLElement | null = document.getElementById("answerFlow") as HTMLButtonElement;
 const btnNext: HTMLElement | null = document.getElementById("nextBtn");
 const btnPrev: HTMLElement | null = document.getElementById("prevBtn");
+let numberOfPeople: number = 1;
+
 if (btnPrev) (btnPrev as HTMLInputElement).disabled = true;
-
-/*let currentQuestionNumber: number = 1;
-let totalQuestions: number = 0;*/
-
-let checkboxToToggle = null;
-let radiobuttonToToggle = null;
 
 function updateButton(): void {
     if (window.currentQuestionNumber < 2) {
@@ -39,11 +35,17 @@ if (userCountModalElement && submitButtonElement) {
     const userCountModal = new Modal(userCountModalElement, {
         backdrop: 'static'
     });
-    submitButtonElement.addEventListener('click', function () {
+    submitButtonElement.addEventListener('click', function (e) {
+        e.stopPropagation() // zodat die nie zomaar dicht gaat
+        //om nummer in een variable te steken
+        const userCountRange = document.getElementById('userCountRange') as HTMLInputElement;
+        numberOfPeople = parseInt(userCountRange.value);
         userCountModal.hide();
     });
 
     userCountModalElement.addEventListener('hidden.bs.modal', function () {
+        const userCountRange = document.getElementById('userCountRange') as HTMLInputElement;
+       console.log(userCountRange.value);   //checken of de waarde goed is
         InitializeFlow();
         const modalBackdrop = document.querySelector('.modal-backdrop');
         if (modalBackdrop) {
@@ -82,6 +84,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 default:
                     break;
             }
+            //??? why is this here
             console.log(window.currentQuestionNumber)
         });
 
@@ -94,6 +97,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 });
 
 // BOVENSTAANDE CODE (DE MODAL) laat de radio en checkboxen niet werken...
+// voor radio & checkboxen werken ze tenzij ze na OPENQUESTIONS komen dan ist fucked up
+// en links klikken ga nie door de modal... zal zo kijken
 
 function InitializeFlow(): void {
     Promise.all([
