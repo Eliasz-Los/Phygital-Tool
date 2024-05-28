@@ -86,7 +86,7 @@ public class FeedbackManager : IFeedbackManager
 
     public async Task RemovePostDislikeByPostIdAndAccountId(long postId, string id)
     {
-        await _feedbackRepository.DeletePostLikeByPostIdAndAccountId(postId, id);
+        await _feedbackRepository.DeletePostDislikeByPostIdAndAccountId(postId, id);
     }
 
     public async Task<PostLike> GetLikeByPostIdAndAccountId(long postId, string currentAccountId)
@@ -109,9 +109,9 @@ public class FeedbackManager : IFeedbackManager
         return await  _feedbackRepository.ReadDislikesCountByPostId(postId);
     }
 
-    public async Task<IEnumerable<PostReaction>> GetReactionsWithAccountAndLikesOfPostByPostId(long postId)
+    public async Task<IEnumerable<PostReaction>> GetReactionsWithAccountAndLikesOfPostByPostIdOrderdByDescPostTime(long postId)
     {
-        return await _feedbackRepository.ReadReactionsWithAccountAndLikesOfPostByPostId(postId);
+        return await _feedbackRepository.ReadReactionsWithAccountAndLikesOfPostByPostIdOrderdByDescPostTime(postId);
     }
 
     public async Task RemoveReactionToPostByPostIdAndReactionId(long postId, long reactionId)

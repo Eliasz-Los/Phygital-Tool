@@ -1,13 +1,11 @@
 import * as XLSX from 'xlsx';
 
-const csv: HTMLElement | null = document.getElementById('download-csv');
-const excel: HTMLElement | null = document.getElementById('download-excel');
-/*npm install --save-dev @types/xlsx OM specifieke types van library te kunnen gebruiken in typescript*/
+const csv: HTMLElement | null = document.getElementById('download-csv') as HTMLButtonElement;
+const excel: HTMLElement | null = document.getElementById('download-excel') as HTMLButtonElement;
 function csvFileMaker(): void {
     const tables: NodeListOf<HTMLTableElement> = document.querySelectorAll('table[id^="table-"]');
     let csv: string[] = [];
     tables.forEach((table: HTMLTableElement) => {
-        //                                                         .innerText
         const questionText: string = table.previousElementSibling?.textContent || '';
         csv.push(questionText);
 
@@ -51,10 +49,5 @@ function excelFileMaker(): void {
     XLSX.writeFile(wb, 'data.xlsx');
 }
 
-if (csv) {
-    csv.addEventListener('click', csvFileMaker);
-}
-
-if (excel) {
-    excel.addEventListener('click', excelFileMaker);
-}
+csv.addEventListener('click', csvFileMaker);
+excel.addEventListener('click', excelFileMaker);

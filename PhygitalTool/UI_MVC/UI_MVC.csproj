@@ -14,7 +14,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="bootstrap" Version="5.3.3" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.4" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.4" />
@@ -32,6 +31,20 @@
       <_ContentIncludedByDefault Remove="Views\OpenQuestion\Index.cshtml" />
       <_ContentIncludedByDefault Remove="wwwroot\js\Statistic\chart.js" />
       <_ContentIncludedByDefault Remove="wwwroot\js\Statistic\dataFileMaker.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\EndPage\endpage.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Flow\circular.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Flow\Creation\FlowQuestions.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Flow\Creation\FlowThemeAndType.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Flow\details.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Flow\linear.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Flow\physicalCircular.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Flow\physicalDetails.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Flow\physicalLinear.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Project\project.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Questions\Creation\Question.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\site.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Thema\thema.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Thema\themaList.js" />
     </ItemGroup>
     
     <ItemGroup>
