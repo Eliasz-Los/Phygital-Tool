@@ -33,7 +33,7 @@ public class FeedbacksController : ControllerBase
   [Authorize(Roles = "Admin, SubAdmin, Supervisor, User")]
   public async Task<ActionResult<IEnumerable<ReactionReadDto>>> GetReactions(long postId)
   {
-    var reactions = await _feedbackManager.GetReactionsWithAccountAndLikesOfPostByPostIdOrderdByDescPostTime(postId);
+    var reactions = await _feedbackManager.GetReactionsWithAccountAndLikesOfPostByPostId(postId);
     if (!reactions.Any())
     {
       return NoContent();
@@ -74,7 +74,7 @@ public class FeedbacksController : ControllerBase
     await _feedbackManager.AddReactionToPostById(postId, reactionDto.Content, currentAccount);
     _uow.Commit();
 
-    var reactionsCount =  _feedbackManager.GetReactionsWithAccountAndLikesOfPostByPostIdOrderdByDescPostTime(postId).Result.Count();
+    var reactionsCount =  _feedbackManager.GetReactionsWithAccountAndLikesOfPostByPostId(postId).Result.Count();
     return Ok(reactionsCount);
   }
   

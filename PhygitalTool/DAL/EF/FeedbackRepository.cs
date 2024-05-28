@@ -33,7 +33,7 @@ public class FeedbackRepository : IFeedbackRepository
         return _dbContext.Posts.Find(id);
     }
 
-    public async Task<IEnumerable<Post>> ReadAllPostsWithAccountWithThemeAndWithReactionsAndLikes()
+    public async Task<IEnumerable<Post>> ReadAllPostsWithAccountWithThemeAndWithReactionsAndLikesOrderByDescPostTime()
     {
         var result = await _dbContext.Posts
             .Include(p => p.Account)
@@ -170,7 +170,7 @@ public class FeedbackRepository : IFeedbackRepository
             .CountAsync();
     }
 
-    public async Task<IEnumerable<PostReaction>> ReadReactionsWithAccountAndLikesOfPostByPostIdOrderdByDescPostTime(long postId)
+    public async Task<IEnumerable<PostReaction>> ReadReactionsWithAccountAndLikesOfPostByPostId(long postId)
     {
         return await _dbContext.PostReactions
             .Include(pr => pr.Reaction)
@@ -184,10 +184,11 @@ public class FeedbackRepository : IFeedbackRepository
 
     public async Task DeleteReactionToPostByPostIdAndReactionId(long postId, long reactionId)
     {
-        var deleteReaction = await _dbContext.PostReactions
+        var deleteReaction =  await _dbContext.PostReactions
             .Where(pr => pr.Post.Id == postId && pr.Reaction.Id == reactionId)
+            .Select(pr => pr.Reaction)
             .FirstOrDefaultAsync();
-          _dbContext.PostReactions.Remove(deleteReaction);
+         _dbContext.Reactions.Remove(deleteReaction);
     }
 
     public async Task<Reaction> ReadReactionWithAccountById(long reactionId)
@@ -202,19 +203,19 @@ public class FeedbackRepository : IFeedbackRepository
         var reaction = await _dbContext.Reactions.FindAsync(reactionId);
         
         var existingLike = await _dbContext.ReactionLikes
-            .Include(rl => rl.Like)
             .Where(rl => rl.Reaction.Id == reactionId && rl.Like.Account.Id == currentAccount.Id)
+            .Select(rl => rl.Like)
             .FirstOrDefaultAsync();
 
-        if (existingLike?.Like != null)
+        if (existingLike != null)
         {
-            if(existingLike.Like.LikeType == LikeType.ThumbsUp)
+            if(existingLike.LikeType == LikeType.ThumbsUp)
             {
                 return null;
             }
             else
             {
-                _dbContext.ReactionLikes.Remove(existingLike);
+                _dbContext.Likes.Remove(existingLike);
             }
         }
         
@@ -229,18 +230,18 @@ public class FeedbackRepository : IFeedbackRepository
         var reaction = await _dbContext.Reactions.FindAsync(reactionId);
         
         var existingLike = await _dbContext.ReactionLikes
-            .Include(rl => rl.Like)
             .Where(rl => rl.Reaction.Id == reactionId && rl.Like.Account.Id == currentAccount.Id)
+            .Select(rl => rl.Like)
             .FirstOrDefaultAsync();
 
-        if (existingLike?.Like != null)
+        if (existingLike != null)
         {
-            if (existingLike.Like.LikeType == LikeType.ThumbsDown)
+            if (existingLike.LikeType == LikeType.ThumbsDown)
             {
                 return null;
             }else
             {
-                _dbContext.ReactionLikes.Remove(existingLike);
+                _dbContext.Likes.Remove(existingLike);
             }
         }
         

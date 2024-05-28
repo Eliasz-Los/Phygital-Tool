@@ -21,9 +21,9 @@ public class FeedbackManager : IFeedbackManager
         return await _feedbackRepository.ReadPostWithAccountAndWithThemeById(id);
     }
 
-    public async Task<IEnumerable<Post>> GetAllPostsWithAccountWithThemeAndWithReactionsAndLikes()
+    public async Task<IEnumerable<Post>> GetAllPostsWithAccountWithThemeAndWithReactionsAndLikesOrderByDescPostTime()
     {
-        return await _feedbackRepository.ReadAllPostsWithAccountWithThemeAndWithReactionsAndLikes();
+        return await _feedbackRepository.ReadAllPostsWithAccountWithThemeAndWithReactionsAndLikesOrderByDescPostTime();
     }
 
     public async Task AddPost(string title, string text, long themeId, Account account, IFormFile imageFile)
@@ -109,9 +109,9 @@ public class FeedbackManager : IFeedbackManager
         return await  _feedbackRepository.ReadDislikesCountByPostId(postId);
     }
 
-    public async Task<IEnumerable<PostReaction>> GetReactionsWithAccountAndLikesOfPostByPostIdOrderdByDescPostTime(long postId)
+    public async Task<IEnumerable<PostReaction>> GetReactionsWithAccountAndLikesOfPostByPostId(long postId)
     {
-        return await _feedbackRepository.ReadReactionsWithAccountAndLikesOfPostByPostIdOrderdByDescPostTime(postId);
+        return await _feedbackRepository.ReadReactionsWithAccountAndLikesOfPostByPostId(postId);
     }
 
     public async Task RemoveReactionToPostByPostIdAndReactionId(long postId, long reactionId)
