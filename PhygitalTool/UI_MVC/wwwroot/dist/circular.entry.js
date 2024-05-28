@@ -7966,8 +7966,6 @@ function sendAnswers(flowId, answerObject) {
         if (!response.ok) {
             throw new Error("Error committing answers");
         }
-        console.log("Answers submitted:" + JSON.stringify(answerObject));
-        alert("Answers submitted:" + JSON.stringify(answerObject));
         return yield response.json();
     });
 }

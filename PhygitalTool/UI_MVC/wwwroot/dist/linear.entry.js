@@ -7966,8 +7966,6 @@ function sendAnswers(flowId, answerObject) {
         if (!response.ok) {
             throw new Error("Error committing answers");
         }
-        console.log("Answers submitted:" + JSON.stringify(answerObject));
-        alert("Answers submitted:" + JSON.stringify(answerObject));
         return yield response.json();
     });
 }
@@ -8045,8 +8043,11 @@ __webpack_require__.r(__webpack_exports__);
 const addButton = document.getElementById("answerFlow");
 const btnNext = document.getElementById("nextBtn");
 const btnPrev = document.getElementById("prevBtn");
+const btnVerzenden = document.getElementById("answerFlow");
 if (btnPrev)
     btnPrev.disabled = true;
+/*let currentQuestionNumber: number = 1;
+let totalQuestions: number = 0;*/
 let checkboxToToggle = null;
 let radiobuttonToToggle = null;
 function updateButton() {
@@ -8058,9 +8059,11 @@ function updateButton() {
     }
     if (window.currentQuestionNumber === window.totalQuestions) {
         btnNext.disabled = true;
+        btnVerzenden.disabled = false;
     }
     else if (btnNext) {
         btnNext.disabled = false;
+        btnVerzenden.disabled = false;
     }
 }
 // TODO: visible & invisible van antwoorden voor kiezen gebruikers
@@ -8163,7 +8166,7 @@ InitializeFlow();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getTextData)();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getImageData)();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getVideoData)();
-addButton.addEventListener("click", _details__WEBPACK_IMPORTED_MODULE_1__.commitAnswers);
+addButton === null || addButton === void 0 ? void 0 : addButton.addEventListener("click", _details__WEBPACK_IMPORTED_MODULE_1__.commitAnswers);
 
 })();
 
