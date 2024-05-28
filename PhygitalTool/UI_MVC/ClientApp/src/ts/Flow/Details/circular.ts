@@ -7,6 +7,8 @@ import {
 const addButton: HTMLElement | null = document.getElementById("answerFlow");
 const endbox: HTMLElement | null = document.getElementById('end-box');
 
+let numberOfPeople: number = 1;
+
 function resetCarouselInputs(): void {
     const inputs: NodeListOf<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement> = document.querySelectorAll('#circularFlow .carousel-item input, #circularFlow .carousel-item select, #circularFlow .carousel-item textarea');
 
@@ -85,17 +87,11 @@ function startTimer(): void {
 
 function InitializeFlow(): void {
     Promise.all([
-        getSingleChoiceQuestionData(),
-        getRangeQuestionsData(),
-        getMultipleChoiceQuestionsData(),
-        getOpenQuestionsData()
+        getSingleChoiceQuestionData(numberOfPeople),
+        getRangeQuestionsData(numberOfPeople),
+        getMultipleChoiceQuestionsData(numberOfPeople),
+        getOpenQuestionsData(numberOfPeople)
     ]).then(() => {
-        
-/*        const carousel: Carousel = new Carousel(document.getElementById('circularFlow') as HTMLElement, {
-            interval: false,
-            wrap: true
-        });*/
-        
         window.addEventListener("keydown", function (e: KeyboardEvent) {
             let checkboxToToggle: HTMLInputElement | null;
             let radiobuttonToToggle: HTMLInputElement | null;
