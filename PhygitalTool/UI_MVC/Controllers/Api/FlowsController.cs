@@ -146,6 +146,7 @@ public class FlowsController : ControllerBase
         }));
     }
     
+    // TODO eerste kker adden werkt niet
     [HttpPost("AddFlow")]
     // Post method to add a flow to the database with elements retrieved from the page
     public ActionResult PostFlow([FromBody] FlowCreationModel flowModel)

@@ -12,9 +12,7 @@
         <form asp-controller="FlowElements" asp-action="AddText" class="row" enctype="multipart/form-data">
             <div class="container-fluid">
                 <div class="col-12 d-flex justify-content-center">
-                    @*<label asp-for="FlowId">Flow waar het toebehoort</label>
-                    <select asp-for="FlowId" asp-items="@(ViewBag.highest)" class="form-control"></select>
-                    <span asp-validation-for="FlowId" class="text-danger"></span>*@
+                    <input type="hidden" name="flowId" value="@ViewBag.flowId" />
                 </div>
 
                 <div class="form-group mb-2">

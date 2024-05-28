@@ -35,6 +35,7 @@ public interface IFlowElementRepository
     Option ReadOptionByText(string optionText);
     IEnumerable<OpenQuestion> ReadAllOpenQuestionByThemeId(long themeId);
     IEnumerable<OpenQuestion> ReadAllOpenQuestionByFlowId(long flowId);
+    IEnumerable<Question> ReadAllQuestionsByFlowId(long flowId);
     IEnumerable<MultipleChoice> ReadAllMultipleChoiceQuestionByFlowId(long flowId);
     IEnumerable<SingleChoiceQuestion> ReadAllSingleQuestionByFlowId(long flowId);
     IEnumerable<RangeQuestion> ReadAllRangeQuestionByFlowId(long flowId);

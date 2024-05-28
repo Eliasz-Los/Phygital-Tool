@@ -7993,10 +7993,20 @@ const userCountDisplayElement = document.getElementById('userCountDisplay');
 const addButton = document.getElementById("answerFlow");
 const btnNext = document.getElementById("nextBtn");
 const btnPrev = document.getElementById("prevBtn");
+<<<<<<< HEAD
 let numberOfPeople = 1;
 const personAnsweringElement = document.getElementById("personAnswering");
 if (btnPrev)
     btnPrev.disabled = true;
+=======
+const btnVerzenden = document.getElementById("answerFlow");
+if (btnPrev)
+    btnPrev.disabled = true;
+/*let currentQuestionNumber: number = 1;
+let totalQuestions: number = 0;*/
+let checkboxToToggle = null;
+let radiobuttonToToggle = null;
+>>>>>>> 4426f833011f5411f818753aaa4e9141a4514002
 function updateButton() {
     if (window.currentQuestionNumber < 2) {
         btnPrev.disabled = true;
@@ -8006,9 +8016,11 @@ function updateButton() {
     }
     if (window.currentQuestionNumber === window.totalQuestions) {
         btnNext.disabled = true;
+        btnVerzenden.disabled = false;
     }
     else if (btnNext) {
         btnNext.disabled = false;
+        btnVerzenden.disabled = false;
     }
 }
 // Get the modal, submit button elements
@@ -8170,7 +8182,7 @@ function InitializeFlow() {
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getTextData)();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getImageData)();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getVideoData)();
-addButton.addEventListener("click", _details__WEBPACK_IMPORTED_MODULE_1__.commitAnswers);
+addButton === null || addButton === void 0 ? void 0 : addButton.addEventListener("click", _details__WEBPACK_IMPORTED_MODULE_1__.commitAnswers);
 
 })();
 

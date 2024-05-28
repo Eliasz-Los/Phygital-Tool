@@ -58,6 +58,11 @@ public class FlowElementManager : IFlowElementManager
         return _flowElementRepository.ReadRangeQuestionById(id);
     }
 
+    public IEnumerable<Question> getQuestionsByFlowId(long id)
+    {
+        return _flowElementRepository.ReadAllQuestionsByFlowId(id);
+    }
+
     public IEnumerable<Text> GetTextInfosOfFlowById(long flowId)
     {
         return _flowElementRepository.ReadTextInfosOfFlowById(flowId);
