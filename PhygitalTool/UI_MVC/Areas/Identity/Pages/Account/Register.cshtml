@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <select asp-for="Input.OrganisationId" asp-items="@(new SelectList(Model.Organisations, "id", "Name"))" class="form-control"></select>
+                    <select asp-for="Input.OrganisationId" asp-items="@(ViewData["Organisations"] as SelectList)" class="form-control"></select>
                     <label asp-for="Input.OrganisationId">Organisation</label>
                     <span asp-validation-for="Input.OrganisationId" class="text-danger"></span>
                 </div>

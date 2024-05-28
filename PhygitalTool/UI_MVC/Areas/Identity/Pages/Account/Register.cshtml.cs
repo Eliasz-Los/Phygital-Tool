@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Phygital.Domain.User;
 using Phygital.BL;
@@ -84,13 +85,21 @@ namespace Phygital.UI_MVC.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
+            var currentUser = await _userManager.GetUserAsync(User);
+            
             if (User.IsInRole("Owner"))
             {
-                Organisations = _userManagerService.GetAllOrganisations().ToList();
+                var organisations = _userManagerService.GetAllOrganisations().ToList();
+                ViewData["Organisations"] = new SelectList(organisations, "Id", "Name");
+                
+                _logger.LogInformation("Amount of organisations found: {0}", organisations.Count);
+                foreach (var organisation in organisations)
+                {
+                    _logger.LogInformation("Organisations found: {0}", organisation.Name);
+                }
             }
             else if (User.IsInRole("Admin") || User.IsInRole("SubAdmin"))
             {
-                var currentUser = await _userManager.GetUserAsync(User);
                 if (currentUser is { Organisation: not null })
                 {
                     Input.OrganisationId = currentUser.Organisation.Id;
