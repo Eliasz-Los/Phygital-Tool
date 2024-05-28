@@ -7971,6 +7971,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _details__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./details */ "./src/ts/Flow/Details/details.ts");
 
 
+const userCountModalElement = document.getElementById('userCountModal');
+const submitButtonElement = userCountModalElement === null || userCountModalElement === void 0 ? void 0 : userCountModalElement.querySelector('.btn-warning');
+const userCountDisplayElement = document.getElementById('userCountDisplay');
 const addButton = document.getElementById("answerFlow");
 const btnNext = document.getElementById("nextBtn");
 const btnPrev = document.getElementById("prevBtn");
@@ -7994,24 +7997,60 @@ function updateButton() {
         btnNext.disabled = false;
     }
 }
-// TODO: visible & invisible van antwoorden voor kiezen gebruikers
-// Dit was test code voor het verbergen van de userCountSection en het tonen van de linearFlowSection maar voorlopig niet werkend
-function visibleF() {
-    const submitUserCount = document.getElementById('submitUserCount');
-    const userCountSection = document.getElementById('userCountSection');
-    const linearFlowSection = document.getElementById('linearFlow');
-    if (submitUserCount) {
-        submitUserCount.addEventListener('click', function () {
-            if (userCountSection && linearFlowSection) {
-                // Use Bootstrap classes to hide and show elements
-                userCountSection.classList.remove('visible ');
-                userCountSection.classList.add('invisible');
-                linearFlowSection.classList.remove('invisible');
-                linearFlowSection.classList.add('visible');
+// Get the modal, submit button elements
+if (userCountModalElement && submitButtonElement) {
+    const userCountModal = new bootstrap__WEBPACK_IMPORTED_MODULE_0__.Modal(userCountModalElement, {
+        backdrop: 'static'
+    });
+    submitButtonElement.addEventListener('click', function () {
+        userCountModal.hide();
+    });
+    userCountModalElement.addEventListener('hidden.bs.modal', function () {
+        InitializeFlow();
+        const modalBackdrop = document.querySelector('.modal-backdrop');
+        if (modalBackdrop) {
+            modalBackdrop.remove();
+        }
+    });
+    userCountModal.show();
+}
+// Display the modal when the Linear page is loaded
+window.addEventListener('DOMContentLoaded', (event) => {
+    const userCountModalElement = document.getElementById('userCountModal');
+    if (userCountModalElement) {
+        const userCountModal = new bootstrap__WEBPACK_IMPORTED_MODULE_0__.Modal(userCountModalElement);
+        userCountModal.show();
+        window.addEventListener("keydown", function (e) {
+            let rangeInput = userCountModalElement.querySelector('input[type="range"]');
+            switch (e.code) {
+                case 'KeyA':
+                    rangeInput = userCountModalElement.querySelector('input[type="range"]');
+                    if (rangeInput) {
+                        rangeInput.value = (parseInt(rangeInput.value) - 1).toString();
+                        rangeInput.dispatchEvent(new Event('input'));
+                        userCountDisplayElement.textContent = rangeInput.value;
+                    }
+                    break;
+                case 'KeyS':
+                    rangeInput = userCountModalElement.querySelector('input[type="range"]');
+                    if (rangeInput) {
+                        rangeInput.value = (parseInt(rangeInput.value) + 1).toString();
+                        rangeInput.dispatchEvent(new Event('input'));
+                        userCountDisplayElement.textContent = rangeInput.value;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            console.log(window.currentQuestionNumber);
+        });
+        document.addEventListener('click', function (e) {
+            if (e.button === 0) {
+                submitButtonElement.click();
             }
         });
     }
-}
+});
 function InitializeFlow() {
     Promise.all([
         (0,_details__WEBPACK_IMPORTED_MODULE_1__.getSingleChoiceQuestionData)(),
@@ -8096,8 +8135,6 @@ function InitializeFlow() {
         });
     });
 }
-visibleF();
-InitializeFlow();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getTextData)();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getImageData)();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getVideoData)();

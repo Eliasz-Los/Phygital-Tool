@@ -1,8 +1,12 @@
-import {Carousel} from "bootstrap";
+import {Carousel, Modal} from "bootstrap";
 import {
     getSingleChoiceQuestionData, getOpenQuestionsData, getRangeQuestionsData, getMultipleChoiceQuestionsData,
     getTextData, getImageData, getVideoData, commitAnswers, updatePorgressBar
 } from "./details";
+
+const userCountModalElement = document.getElementById('userCountModal');
+const submitButtonElement= userCountModalElement?.querySelector('.btn-warning');
+const userCountDisplayElement = document.getElementById('userCountDisplay');
 
 const addButton: HTMLElement | null = document.getElementById("answerFlow") as HTMLButtonElement;
 const btnNext: HTMLElement | null = document.getElementById("nextBtn");
@@ -29,27 +33,67 @@ function updateButton(): void {
     }
 }
 
-// TODO: visible & invisible van antwoorden voor kiezen gebruikers
-// Dit was test code voor het verbergen van de userCountSection en het tonen van de linearFlowSection maar voorlopig niet werkend
-function visibleF() {
-    const submitUserCount: HTMLElement | null = document.getElementById('submitUserCount');
-    const userCountSection: HTMLElement | null = document.getElementById('userCountSection');
-    const linearFlowSection: HTMLElement | null = document.getElementById('linearFlow');
 
-    if (submitUserCount) {
-        submitUserCount.addEventListener('click', function () {
-            if (userCountSection && linearFlowSection) {
-                // Use Bootstrap classes to hide and show elements
-                userCountSection.classList.remove('visible ');
-                userCountSection.classList.add('invisible');
+// Get the modal, submit button elements
+if (userCountModalElement && submitButtonElement) {
+    const userCountModal = new Modal(userCountModalElement, {
+        backdrop: 'static'
+    });
+    submitButtonElement.addEventListener('click', function () {
+        userCountModal.hide();
+    });
 
-                linearFlowSection.classList.remove('invisible');
-                linearFlowSection.classList.add('visible');
+    userCountModalElement.addEventListener('hidden.bs.modal', function () {
+        InitializeFlow();
+        const modalBackdrop = document.querySelector('.modal-backdrop');
+        if (modalBackdrop) {
+            modalBackdrop.remove();
+        }
+    });
+    userCountModal.show();
+}
+
+
+// Display the modal when the Linear page is loaded
+window.addEventListener('DOMContentLoaded', (event) => {
+    const userCountModalElement = document.getElementById('userCountModal');
+    if (userCountModalElement) {
+        const userCountModal = new Modal(userCountModalElement);
+        userCountModal.show();
+        window.addEventListener("keydown", function (e: KeyboardEvent) {
+            let rangeInput: HTMLInputElement | null = userCountModalElement.querySelector('input[type="range"]');
+            switch (e.code) {
+                case 'KeyA':
+                    rangeInput = userCountModalElement.querySelector('input[type="range"]');
+                    if (rangeInput) {
+                        rangeInput.value = (parseInt(rangeInput.value) - 1).toString();
+                        rangeInput.dispatchEvent(new Event('input'));
+                        userCountDisplayElement!.textContent = rangeInput.value;
+                    }
+                    break;
+                case 'KeyS':
+                    rangeInput = userCountModalElement.querySelector('input[type="range"]');
+                    if (rangeInput) {
+                        rangeInput.value = (parseInt(rangeInput.value) + 1).toString();
+                        rangeInput.dispatchEvent(new Event('input'));
+                        userCountDisplayElement!.textContent = rangeInput.value;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            console.log(window.currentQuestionNumber)
+        });
+
+        document.addEventListener('click', function (e) {
+            if (e.button === 0) {
+                (submitButtonElement as HTMLInputElement).click();
             }
         });
     }
-}
+});
 
+// BOVENSTAANDE CODE (DE MODAL) laat de radio en checkboxen niet werken...
 
 function InitializeFlow(): void {
     Promise.all([
@@ -69,7 +113,7 @@ function InitializeFlow(): void {
                 let radiobuttonToToggle: HTMLInputElement | null;
                 let activeCarouselItem: Element = document.querySelector('.carousel-item.active')!;
                 let rangeInput: HTMLInputElement | null = activeCarouselItem.querySelector('input[type="range"]');
-                let openInput: HTMLInputElement | null ;
+                let openInput: HTMLInputElement | null;
                 openInput = activeCarouselItem.querySelector('textarea[type="text"]');
                 if (openInput) {
                     openInput.focus();
@@ -143,10 +187,9 @@ function InitializeFlow(): void {
     );
 }
 
-visibleF();
-InitializeFlow();
+
+
 getTextData();
 getImageData();
 getVideoData();
-
 addButton.addEventListener("click", commitAnswers);
