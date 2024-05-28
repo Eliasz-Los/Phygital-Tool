@@ -13,35 +13,40 @@ public class FlowElementsController : Controller
     private readonly IThemeManager _themeManager;
     private readonly UnitOfWork _uow;
     private readonly IFlowElementManager _flowElementManager;
+    private readonly IFlowManager _flowManager;
 
-    public FlowElementsController(ILogger<FlowController> logger, IThemeManager themeManager, UnitOfWork uow, IFlowElementManager flowElementManager)
+    public FlowElementsController(IFlowManager flowManager ,ILogger<FlowController> logger, IThemeManager themeManager, UnitOfWork uow, IFlowElementManager flowElementManager)
     {
         _logger = logger;
         _themeManager = themeManager;
         _uow = uow;
         _flowElementManager = flowElementManager;
+        _flowManager = flowManager;
     }
 
     [HttpGet]
-    public IActionResult AddImage()
+    public IActionResult AddImage(long flowId)
     {
         var themes = _themeManager.GetAllThemas();
+        ViewBag.flowId = flowId;
         ViewBag.Themes = themes;
         return View();
     }
     
     [HttpGet]
-    public IActionResult AddText()
+    public IActionResult AddText(long flowId)
     {
         var themes = _themeManager.GetAllThemas();
+        ViewBag.flowId = flowId;
         ViewBag.Themes = themes;
         return View();
     }
 
     [HttpGet]
-    public IActionResult AddVideo()
+    public IActionResult AddVideo(long flowId)
     {
         var themes = _themeManager.GetAllThemas();
+        ViewBag.flowId = flowId;
         ViewBag.Themes = themes;
         return View();
     }
@@ -50,13 +55,13 @@ public class FlowElementsController : Controller
     [HttpPost]
     public IActionResult AddImage(ImageDto image)
     {
-        // todo flowid toevoegen, url staat p test omdat het crasht, ookal is het niet required
-        
         Image imageToAdd = new Image
         {
+            Flow = _flowManager.GetFlowById(image.flowId),
             Title = image.Title,
             AltText = image.AltText,
             SubTheme = _themeManager.GetThemeById(image.subthemeId),
+            // todo needed else crash
             Url = "test",
             ImageFile = image.ImageFile
         };
@@ -71,9 +76,9 @@ public class FlowElementsController : Controller
     [HttpPost]
     public IActionResult AddText(TextDto text)
     {
-        // Todo flow id
         Text textToAdd = new Text
         {
+            Flow = _flowManager.GetFlowById(text.flowId),
             Title = text.Title,
             Content = text.Content,
             SubTheme = _themeManager.GetThemeById(text.SubTheme),
@@ -90,9 +95,9 @@ public class FlowElementsController : Controller
     [HttpPost]
     public IActionResult AddVideo(VideoDto video)
     {
-        // Todo flow id
         Video videoToAdd = new Video
         {
+            Flow = _flowManager.GetFlowById(video.flowId),
             Title = video.Title,
             Url = video.Url,
             Description = video.Description,
