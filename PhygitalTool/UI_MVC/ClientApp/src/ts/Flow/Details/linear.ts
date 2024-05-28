@@ -4,8 +4,7 @@ import {
     getTextData, getImageData, getVideoData, commitAnswers, updatePorgressBar
 } from "./details";
 
-const
-    addButton: HTMLElement | null = document.getElementById("answerFlow");
+const addButton: HTMLElement | null = document.getElementById("answerFlow");
 const btnNext: HTMLElement | null = document.getElementById("nextBtn");
 const btnPrev: HTMLElement | null = document.getElementById("prevBtn");
 if (btnPrev) (btnPrev as HTMLInputElement).disabled = true;
@@ -25,10 +24,8 @@ function updateButton(): void {
 
     if (window.currentQuestionNumber === window.totalQuestions) {
         (btnNext as HTMLInputElement).disabled = true;
-        (addButton as HTMLInputElement).disabled = false;
     } else if (btnNext) {
         (btnNext as HTMLInputElement).disabled = false;
-        (addButton as HTMLInputElement).disabled = true;
     }
 }
 
@@ -59,7 +56,7 @@ function InitializeFlow(): void {
         getSingleChoiceQuestionData(),
         getOpenQuestionsData(), //Maybe with QR CODE? //TODO: Add open questions
         getRangeQuestionsData(),
-        getMultipleChoiceQuestionsData(),
+        getMultipleChoiceQuestionsData()
     ]).then(() => {
 
             let carousel: bootstrap.Carousel = new Carousel(document.getElementById('linearFlow') as HTMLElement, {
@@ -72,6 +69,13 @@ function InitializeFlow(): void {
                 let radiobuttonToToggle: HTMLInputElement | null;
                 let activeCarouselItem: Element = document.querySelector('.carousel-item.active')!;
                 let rangeInput: HTMLInputElement | null = activeCarouselItem.querySelector('input[type="range"]');
+                let openInput: HTMLInputElement | null = activeCarouselItem.querySelector('input[type="text"]');
+
+                openInput = activeCarouselItem.querySelector('textarea[type="text"]');
+                if (openInput) {
+                    openInput.focus();
+                }
+
                 switch (e.code) {
                     case 'ArrowRight':
                         if (window.currentQuestionNumber < window.totalQuestions) {

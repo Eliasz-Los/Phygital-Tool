@@ -7477,38 +7477,6 @@ window.totalQuestions = 0;
 let firstQuestion = true;
 let totalInformations = 0;
 window.currentQuestionNumber = 1;
-//typescript bs
-/*let totalQuestions: number = 0;
-let currentQuestion: number = 1;*/
-//Functies
-// export function setUpQrCode(): void {
-//     const uriElement = document.getElementById("qrCodeData");
-//     const uri: string | null = uriElement ? uriElement.getAttribute('data-url') : null;
-//     const qrCode = new QRCodeStyling({
-//         width: 400,
-//         height: 400,
-//         type: "svg",
-//         data: uri,
-//         dotsOptions: {
-//             color: "#000000",
-//             type: "rounded"
-//         },
-//         backgroundOptions: {
-//             color: "#e9ebee",
-//         },
-//         imageOptions: {
-//             crossOrigin: "anonymous",
-//             imageSize: 1,
-//             hideBackgroundDots: false,
-//             margin: 2
-//         }
-//     });
-//
-//     const qrCodeElement = document.getElementById("qrCode");
-//     if (qrCodeElement) {
-//         qrCode.append(qrCodeElement);
-//     }
-// }
 function getSingleChoiceQuestionData() {
     return __awaiter(this, void 0, void 0, function* () {
         yield (0,_detailsRest__WEBPACK_IMPORTED_MODULE_0__.readSingleChoiceQuestionData)(flowId)
@@ -7558,7 +7526,7 @@ function getOpenQuestionsData() {
             <div class="card-body">
                 <h5 class="card-title">${openQuestion.text}</h5>
                 <div class="form-group">
-                    <textarea class="form-control" tabindex="0" id="openQuestion${openQuestion.text}" rows="3"></textarea>
+                    <textarea type="text" class="form-control" id="openQuestion${openQuestion.text}" rows="3"></textarea>
                 </div>
             </div>
         </div>`;
@@ -7748,42 +7716,33 @@ function getVideoData() {
 function getAnswers() {
     const answers = [];
     const carouselItems = document.querySelectorAll('.carousel-item');
-    // Get aantal users
-    const rangeInput = document.getElementById('rangeInput');
-    const submitButton = document.getElementById('submitButton');
-    submitButton === null || submitButton === void 0 ? void 0 : submitButton.addEventListener('click', function () {
-        const userCount = parseInt(rangeInput.value);
-        carouselItems.forEach((item, index) => {
-            var _a;
-            const questionText = ((_a = item.querySelector('.card-title')) === null || _a === void 0 ? void 0 : _a.textContent) || '';
-            const questionId = Number(item.getAttribute('data-card-id') || '');
-            // Repeat the answer collection process for the number of users
-            for (let i = 0; i < userCount; i++) {
-                const answer = { question: questionText, chosenOptions: [], openAnswer: '', id: questionId };
-                const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
-                checkboxes.forEach(checkbox => {
-                    answer.chosenOptions.push(checkbox.id);
-                });
-                const textarea = item.querySelector('textarea');
-                if (textarea) {
-                    answer.openAnswer = textarea.value;
-                }
-                const radioButtons = item.querySelectorAll('input[type="radio"]:checked');
-                radioButtons.forEach(radioButton => {
-                    if (radioButton.checked) {
-                        answer.chosenOptions.push(radioButton.value);
-                    }
-                });
-                const rangeInput = item.querySelector('input[type="range"]');
-                if (rangeInput) {
-                    let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
-                    if (optionText) {
-                        answer.chosenOptions.push(optionText);
-                    }
-                }
-                answers.push(answer);
+    carouselItems.forEach((item, index) => {
+        var _a;
+        const questionText = ((_a = item.querySelector('.card-title')) === null || _a === void 0 ? void 0 : _a.textContent) || '';
+        const questionId = Number(item.getAttribute('data-card-id') || '');
+        const answer = { question: questionText, chosenOptions: [], openAnswer: '', id: questionId };
+        const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
+        checkboxes.forEach(checkbox => {
+            answer.chosenOptions.push(checkbox.id);
+        });
+        const textarea = item.querySelector('textarea');
+        if (textarea) {
+            answer.openAnswer = textarea.value;
+        }
+        const radioButtons = item.querySelectorAll('input[type="radio"]:checked');
+        radioButtons.forEach(radioButton => {
+            if (radioButton.checked) {
+                answer.chosenOptions.push(radioButton.value);
             }
         });
+        const rangeInput = item.querySelector('input[type="range"]');
+        if (rangeInput) {
+            let optionText = rangeInput.getAttribute(`data-option-${rangeInput.value}`);
+            if (optionText) {
+                answer.chosenOptions.push(optionText);
+            }
+        }
+        answers.push(answer);
     });
     return answers;
 }
@@ -8029,11 +7988,9 @@ function updateButton() {
     }
     if (window.currentQuestionNumber === window.totalQuestions) {
         btnNext.disabled = true;
-        addButton.disabled = false;
     }
     else if (btnNext) {
         btnNext.disabled = false;
-        addButton.disabled = true;
     }
 }
 // TODO: visible & invisible van antwoorden voor kiezen gebruikers
@@ -8059,7 +8016,7 @@ function InitializeFlow() {
         (0,_details__WEBPACK_IMPORTED_MODULE_1__.getSingleChoiceQuestionData)(),
         (0,_details__WEBPACK_IMPORTED_MODULE_1__.getOpenQuestionsData)(),
         (0,_details__WEBPACK_IMPORTED_MODULE_1__.getRangeQuestionsData)(),
-        (0,_details__WEBPACK_IMPORTED_MODULE_1__.getMultipleChoiceQuestionsData)(),
+        (0,_details__WEBPACK_IMPORTED_MODULE_1__.getMultipleChoiceQuestionsData)()
     ]).then(() => {
         let carousel = new bootstrap__WEBPACK_IMPORTED_MODULE_0__.Carousel(document.getElementById('linearFlow'), {
             interval: false,
@@ -8070,6 +8027,11 @@ function InitializeFlow() {
             let radiobuttonToToggle;
             let activeCarouselItem = document.querySelector('.carousel-item.active');
             let rangeInput = activeCarouselItem.querySelector('input[type="range"]');
+            let openInput = activeCarouselItem.querySelector('input[type="text"]');
+            openInput = activeCarouselItem.querySelector('textarea[type="text"]');
+            if (openInput) {
+                openInput.focus();
+            }
             switch (e.code) {
                 case 'ArrowRight':
                     if (window.currentQuestionNumber < window.totalQuestions) {
