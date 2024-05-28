@@ -28,6 +28,8 @@ public interface IFlowElementManager
     void AddText(Text text);
     void AddVideo(Video video);
     void AddImage(Image image);
+    public void UpdateActive(long questionId);
+
     void AddMultipleChoiceQuestion(MultipleChoice multipleChoiceQuestion);
     void AddSingleChoiceQuestion(SingleChoiceQuestion singleChoiceQuestion);
     void AddRangeQuestion(RangeQuestion rangeQuestion);

@@ -11,6 +11,7 @@
         <th>Type</th>
         <th>Tekst</th>
         <th>Active?</th>
+        <th>Maak Actief/Inactief</th>
         <th>Verwijder uit flow</th>
     </tr>
     </thead>
@@ -20,14 +21,21 @@
             <tr>
                 <td>@question.Type</td>
                 <td>@question.Text</td>
+                <td>@question.isActive</td>
                 <td>
-                    @* todo id alleen is niet genoeg omdat ze van andere types zijn *@
-                    @* <a asp-controller="Question" asp-action="Edit" asp-route-id="@question.Id" class="btn btn-success bi bi-pencil-square"></a> *@
+                    <form asp-controller="Question" asp-action="UpdateActive" asp-route-id="@question.Id" method="post">
+                        <input type="hidden" name="questionId" value="@question.Id"/>
+                        <input type="hidden" name="questionType" value="@question.Type"/>
+                        <input type="hidden" name="questionFlowId" value="@question.FlowId"/>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-check"></i>
+                        </button>
+                    </form>
                 </td>
                 <td>
                     <form asp-controller="Question" asp-action="Delete" asp-route-id="@question.Id" method="post">
                         <button type="submit" class="btn btn-danger">
-                            @* todo Misschien stoem *@
+
                             <input type="hidden" name="questionId" value="@question.Id"/>
                             <input type="hidden" name="questionType" value="@question.Type"/>
                             <i class="bi bi-trash"></i>

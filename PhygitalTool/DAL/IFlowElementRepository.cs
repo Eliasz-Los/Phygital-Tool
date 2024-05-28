@@ -38,6 +38,8 @@ public interface IFlowElementRepository
     IEnumerable<MultipleChoice> ReadAllMultipleChoiceQuestionByFlowId(long flowId);
     IEnumerable<SingleChoiceQuestion> ReadAllSingleQuestionByFlowId(long flowId);
     IEnumerable<RangeQuestion> ReadAllRangeQuestionByFlowId(long flowId);
+    
+    public void UpdateActive(long questionId);
 
     public void DeleteOpenQuestionFromFlow(long questionId);
 }

@@ -213,6 +213,22 @@ public class FlowElementRepository : IFlowElementRepository
         return _dbContext.RangeQuestions.Where(q => q.Flow.Id == flowId);
     }
 
+    // todo Testing met openquestion
+    public void UpdateActive(long questionId)
+    {
+        var question = _dbContext.OpenQuestions.SingleOrDefault(q => q.Id == questionId);
+
+        if (question != null)
+        {
+            question.Active = !question.Active;
+            _dbContext.SaveChanges();
+        }
+        else
+        {
+            throw new Exception("Question not found.");
+        }
+    }
+
 
     public void DeleteOpenQuestionFromFlow(long questionId)
     {
