@@ -119,10 +119,10 @@ const addButton = document.getElementById('submitOrg');
 function addOrganisatie() {
     return __awaiter(this, void 0, void 0, function* () {
         const orgNameInput = document.getElementById('orgNameInput');
-        const orgDescriptionInput = document.getElementById('orgDescriptionInput');
-        if (orgNameInput && orgDescriptionInput) {
+        const orgDescInput = document.getElementById('orgDescriptionInput');
+        if (orgNameInput && orgDescInput) {
             const orgName = orgNameInput.value;
-            const orgDescription = orgDescriptionInput.value;
+            const orgDescription = orgDescInput.value;
             const orgObject = {
                 name: orgName,
                 description: orgDescription

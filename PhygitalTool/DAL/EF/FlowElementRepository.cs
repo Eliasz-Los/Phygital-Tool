@@ -224,9 +224,7 @@ public class FlowElementRepository : IFlowElementRepository
 
         if (question != null)
         {
-            /*
             question.Active = !question.Active;
-            */
             _dbContext.SaveChanges();
         }
         else

@@ -248,12 +248,7 @@ function addQuestionData() {
         if (flowElement) {
             const textContent = flowElement.textContent;
             if (textContent) {
-                // TODO wack manier maar werkt
-<<<<<<< HEAD
-                flowid = parseInt(textContent, 10) + 1;
-=======
                 flowid = parseInt(textContent, 10);
->>>>>>> 4426f833011f5411f818753aaa4e9141a4514002
             }
         }
         const data = {
