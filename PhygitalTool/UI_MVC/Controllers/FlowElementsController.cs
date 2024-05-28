@@ -55,10 +55,6 @@ public class FlowElementsController : Controller
     [HttpPost]
     public IActionResult AddImage(ImageDto image)
     {
-<<<<<<< HEAD
-        
-=======
->>>>>>> 4426f833011f5411f818753aaa4e9141a4514002
         Image imageToAdd = new Image
         {
             Flow = _flowManager.GetFlowById(image.flowId),

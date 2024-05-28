@@ -5,7 +5,8 @@ using Phygital.UI_MVC.Models.Dto;
 
 namespace Phygital.UI_MVC.Controllers;
 
-
+// This controller is for all the question pages
+// TODO als er op add gedrukt wordt komt er een melding succes, maar ook undefined (Typescript error)
 public class QuestionController : Controller
 {
     private readonly IFlowManager _flowManager;
@@ -27,14 +28,11 @@ public class QuestionController : Controller
         {
             var questionToAdd = new QuestionDto();
             questionToAdd.Id = question.Id;
+            // Todo tijdelijk subtheme default op 1 omdat het crasht
             questionToAdd.SubTheme = question.SubTheme?.Id ?? 1;
             questionToAdd.Text = question.Text;
             questionToAdd.isActive = question.Active;
-<<<<<<< HEAD
-            questionToAdd.Type = "Open";
-=======
             // TODO ookal is het gedelete wordt het nogsteeds opgehaald
->>>>>>> 4426f833011f5411f818753aaa4e9141a4514002
             questionToAdd.FlowId = id;
             questions.Add(questionToAdd);
         }
@@ -83,22 +81,10 @@ public class QuestionController : Controller
     [HttpPost]
     public IActionResult UpdateActive(long questionId, long questionFlowId)
     {
-<<<<<<< HEAD
-        switch (questionType)
-        {
-            case "Open":
-                _uow.BeginTransaction();
-                _flowElementManager.UpdateActive(questionId);
-                _uow.Commit();
-                break;
-        }
-        return RedirectToAction("Edit", "Question", flowId);
-=======
         _uow.BeginTransaction();
         _flowElementManager.UpdateActive(questionId);
         _uow.Commit();
         
         return RedirectToAction("Edit", "Question", new { id = questionFlowId });
->>>>>>> 4426f833011f5411f818753aaa4e9141a4514002
     }
 }
