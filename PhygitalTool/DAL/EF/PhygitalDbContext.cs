@@ -321,28 +321,27 @@ public class PhygitalDbContext : IdentityDbContext<Account>
 
         modelBuilder.Entity<Reaction>()
             .HasMany(r => r.PostReactions)
-            .WithOne(pr => pr.Reaction);
+            .WithOne(pr => pr.Reaction)
+            .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<PostReaction>()
             .HasOne(pr => pr.Reaction)
-            .WithMany(r => r.PostReactions)
-            .OnDelete(DeleteBehavior.Cascade);
+            .WithMany(r => r.PostReactions);
 
         modelBuilder.Entity<Like>()
             .HasMany(l => l.PostLikes)
-            .WithOne(pl => pl.Like);
+            .WithOne(pl => pl.Like)
+            .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<PostLike>()
             .HasOne(pl => pl.Like)
-            .WithMany(l => l.PostLikes)
-            .OnDelete(DeleteBehavior.Cascade);
+            .WithMany(l => l.PostLikes);
 
         modelBuilder.Entity<Like>()
             .HasMany(l => l.ReactionLikes)
-            .WithOne(rl => rl.Like);
+            .WithOne(rl => rl.Like)
+            .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<ReactionLike>()
             .HasOne(rl => rl.Like)
-            .WithMany(l => l.ReactionLikes)
-            .OnDelete(DeleteBehavior.Cascade);
-
+            .WithMany(l => l.ReactionLikes);
 
 
     }

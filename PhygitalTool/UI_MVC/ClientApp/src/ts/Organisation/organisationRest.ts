@@ -8,7 +8,8 @@
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const error = await response.json();
+            throw {status: response.status, message: error};
         }
         return await response.json();
 }

@@ -4,7 +4,7 @@ import {
     getTextData, getImageData, getVideoData,  commitAnswers, updatePorgressBar
 } from './details';
 
-const addButton: HTMLElement | null = document.getElementById("answerFlow");
+const addButton: HTMLElement | null = document.getElementById("answerFlow") as HTMLButtonElement;
 const endbox: HTMLElement | null = document.getElementById('end-box');
 
 function resetCarouselInputs(): void {
@@ -131,9 +131,8 @@ function InitializeFlow(): void {
                     radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key4"]');
                     break;
                 case 'Space':
-                    if (addButton) {
-                        addButton.click();
-                    }
+                    // @ts-ignore
+                    addButton.click();
                     break;
                 default:
                     break;
@@ -156,6 +155,5 @@ getTextData();
 getImageData();
 getVideoData();
 
-if (addButton) {
-    addButton.addEventListener("click", commitAnswers);
-}
+
+addButton.addEventListener("click", commitAnswers);
