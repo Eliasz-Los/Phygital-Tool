@@ -1,4 +1,5 @@
-﻿@model dynamic
+﻿@using Phygital.UI_MVC.Models.Dto
+@model OrganisatieDto
 
 @{
     ViewBag.Title = "Add Organisation";
@@ -25,7 +26,7 @@
                         <a onclick="history.back()" type="button" class="btn btn-warning">Annuleer</a>
                     </div>
                     <div class="col d-flex justify-content-start">
-                        <a type="button" class="btn btn-warning" id="submitOrg" asp-area="" asp-controller="Organisatie" asp-action="Add" >Maak organisatie</a>
+                        <a type="button" class="btn btn-warning" id="submitOrg" asp-area="" asp-controller="Organisatie" asp-action="Index">Maak organisatie</a>
                     </div>
                 </div>
             </div>
