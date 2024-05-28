@@ -128,6 +128,11 @@ public class FlowElementManager : IFlowElementManager
         _flowElementRepository.CreateImage(image);
     }
 
+    public void UpdateActive(long questionId)
+    {
+        _flowElementRepository.UpdateActive(questionId);
+    }
+
     public void AddMultipleChoiceQuestion(MultipleChoice multipleChoiceQuestion)
     {
         _flowElementRepository.CreateMultipleChoiceQuestion(multipleChoiceQuestion);

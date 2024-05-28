@@ -72,4 +72,19 @@ public class QuestionController : Controller
         }
         return RedirectToAction("Index", "Flow");
     }
+    
+    [HttpPost]
+    public IActionResult UpdateActive(long questionId, string questionType, long flowId)
+    {
+        switch (questionType)
+        {
+            case "Open":
+                _uow.BeginTransaction();
+                _flowElementManager.UpdateActive(questionId);
+                _uow.Commit();
+                break;
+        }
+        // todo flowid bestaat en heeft een value in de pagina, maar hij geeft altijd 0 hier?
+        return RedirectToAction("Edit", "Question", flowId);
+    }
 }
