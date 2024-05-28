@@ -50,7 +50,6 @@ public class FlowElementsController : Controller
     [HttpPost]
     public IActionResult AddImage(ImageDto image)
     {
-        // todo flowid toevoegen, url staat p test omdat het crasht, ookal is het niet required
         
         Image imageToAdd = new Image
         {
@@ -71,7 +70,6 @@ public class FlowElementsController : Controller
     [HttpPost]
     public IActionResult AddText(TextDto text)
     {
-        // Todo flow id
         Text textToAdd = new Text
         {
             Title = text.Title,
@@ -90,7 +88,6 @@ public class FlowElementsController : Controller
     [HttpPost]
     public IActionResult AddVideo(VideoDto video)
     {
-        // Todo flow id
         Video videoToAdd = new Video
         {
             Title = video.Title,

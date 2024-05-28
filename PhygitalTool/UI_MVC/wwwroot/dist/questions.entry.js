@@ -243,11 +243,21 @@ function addQuestionData() {
         const selectedThemeId = selectedTheme.options[selectedTheme.selectedIndex].value;
         const isActive = document.getElementById('ActiveCheckbox').checked;
         const selectedType = document.getElementById('TypeSelect').value;
+        const flowElement = document.getElementById('FlowId');
+        let flowid = 0; // Default value
+        if (flowElement) {
+            const textContent = flowElement.textContent;
+            if (textContent) {
+                // TODO wack manier maar werkt
+                flowid = parseInt(textContent, 10) + 1;
+            }
+        }
         const data = {
             Text: questionTitle,
             isActive: isActive,
             SubTheme: parseInt(selectedThemeId),
-            Type: selectedType
+            Type: selectedType,
+            FlowId: flowid
         };
         yield (0,_questionsRest__WEBPACK_IMPORTED_MODULE_0__.addQuestion)(data)
             .then(response => {

@@ -1,5 +1,6 @@
 ﻿@page
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Phygital.Domain.User
 @model Phygital.UI_MVC.Areas.Identity.Pages.Account.RegisterModel
 @{
     ViewData["Title"] = "Register";
@@ -12,7 +13,6 @@
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h2>Voeg je persoonlijke gegevens hier in</h2>
             <hr/>
-            <small class="text-muted">Beweeg doorheen de velden: Tab = volgende & Shift+Tab = vorige</small>
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com"/>
@@ -32,8 +32,7 @@
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
 
-            <small class="text-muted ">Druk op ENTER om een keuze te kunnen maken</small>
-            @if (User.Identity != null && !User.Identity.IsAuthenticated)
+            @if (User.Identity is { IsAuthenticated: false })
             {
                 <div class="form-floating mb-3">
                     <select asp-for="Input.Role" class="form-control">
@@ -44,16 +43,38 @@
                 </div>
             }
 
+            @if (User.IsInRole("Owner"))
+            {
+                <div class="form-floating mb-3">
+                    <select asp-for="Input.Role" class="form-control">
+                        <option value="Admin">Admin</option>
+                        <option value="Subadmin">Subadmin</option>
+                        <option value="Supervisor">Supervisor</option>
+                    </select>
+                    <label asp-for="Input.Role">Role</label>
+                    <span asp-validation-for="Input.Role" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <select asp-for="Input.OrganisationId" asp-items="@(ViewData["Organisations"] as SelectList)" class="form-control"></select>
+                    <label asp-for="Input.OrganisationId">Organisation</label>
+                    <span asp-validation-for="Input.OrganisationId" class="text-danger"></span>
+                </div>
+            }
+
             @if (User.IsInRole("Admin"))
             {
                 <div class="form-floating mb-3">
                     <select asp-for="Input.Role" class="form-control">
                         <option value="Subadmin">Subadmin</option>
+                        <option value="Supervisor">Supervisor</option>
+                        <option value="User">User</option>
                     </select>
                     <label asp-for="Input.Role">Role</label>
                     <span asp-validation-for="Input.Role" class="text-danger"></span>
                 </div>
             }
+
             @if (User.IsInRole("SubAdmin"))
             {
                 <div class="form-floating mb-3">
@@ -65,6 +86,7 @@
                     <span asp-validation-for="Input.Role" class="text-danger"></span>
                 </div>
             }
+
             @if (User.IsInRole("Supervisor"))
             {
                 <div class="form-floating mb-3">
@@ -93,5 +115,4 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial"/>
-    <script src="~/dist/register.entry.js" defer></script>
 }

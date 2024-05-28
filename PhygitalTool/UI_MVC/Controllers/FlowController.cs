@@ -109,7 +109,6 @@ public class FlowController : Controller
             _uow.Commit();
             return RedirectToAction("Index"); //, new { id = flow.Id }
         }
-        //TODO: exception niet hier in nrml gezien
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error updating flow with id {Id}", id);

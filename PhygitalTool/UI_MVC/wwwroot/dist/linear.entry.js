@@ -7438,6 +7438,7 @@ defineJQueryPlugin(Toast);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   commitAnswers: () => (/* binding */ commitAnswers),
+/* harmony export */   getAnswers: () => (/* binding */ getAnswers),
 /* harmony export */   getImageData: () => (/* binding */ getImageData),
 /* harmony export */   getMultipleChoiceQuestionsData: () => (/* binding */ getMultipleChoiceQuestionsData),
 /* harmony export */   getOpenQuestionsData: () => (/* binding */ getOpenQuestionsData),
@@ -7476,50 +7477,19 @@ window.totalQuestions = 0;
 let firstQuestion = true;
 let totalInformations = 0;
 window.currentQuestionNumber = 1;
-//typescript bs
-/*let totalQuestions: number = 0;
-let currentQuestion: number = 1;*/
-//Functies
-// export function setUpQrCode(): void {
-//     const uriElement = document.getElementById("qrCodeData");
-//     const uri: string | null = uriElement ? uriElement.getAttribute('data-url') : null;
-//     const qrCode = new QRCodeStyling({
-//         width: 400,
-//         height: 400,
-//         type: "svg",
-//         data: uri,
-//         dotsOptions: {
-//             color: "#000000",
-//             type: "rounded"
-//         },
-//         backgroundOptions: {
-//             color: "#e9ebee",
-//         },
-//         imageOptions: {
-//             crossOrigin: "anonymous",
-//             imageSize: 1,
-//             hideBackgroundDots: false,
-//             margin: 2
-//         }
-//     });
-//
-//     const qrCodeElement = document.getElementById("qrCode");
-//     if (qrCodeElement) {
-//         qrCode.append(qrCodeElement);
-//     }
-// }
-function getSingleChoiceQuestionData() {
+function getSingleChoiceQuestionData(numberOfPeople) {
     return __awaiter(this, void 0, void 0, function* () {
         yield (0,_detailsRest__WEBPACK_IMPORTED_MODULE_0__.readSingleChoiceQuestionData)(flowId)
             .then(singleChoiceQuestions => {
             let bodyData = ``;
-            for (let i = 0; i < singleChoiceQuestions.length; i++) {
-                const singleChoiceQuestion = singleChoiceQuestions[i];
-                window.totalQuestions += 1;
-                const isActive = firstQuestion ? 'active' : '';
-                if (firstQuestion)
-                    firstQuestion = false;
-                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${singleChoiceQuestion.sequenceNumber}" data-card-id="${singleChoiceQuestion.id}">
+            for (let i = 0; i < numberOfPeople; i++) {
+                for (let j = 0; j < singleChoiceQuestions.length; j++) {
+                    const singleChoiceQuestion = singleChoiceQuestions[j];
+                    window.totalQuestions += 1;
+                    const isActive = firstQuestion ? 'active' : '';
+                    if (firstQuestion)
+                        firstQuestion = false;
+                    bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${singleChoiceQuestion.sequenceNumber}" data-card-id="${singleChoiceQuestion.id}">
             <div class="card-body">
                 <h5 class="card-title">${singleChoiceQuestion.text}</h5>
                 ${singleChoiceQuestion.options.map((option, index) => `<div class="form-check">
@@ -7530,6 +7500,7 @@ function getSingleChoiceQuestionData() {
                 </div>`).join('')}
             </div>
         </div>`;
+                }
             }
             if (questionsElement) {
                 questionsElement.innerHTML += bodyData;
@@ -7542,25 +7513,27 @@ function getSingleChoiceQuestionData() {
         });
     });
 }
-function getOpenQuestionsData() {
+function getOpenQuestionsData(numberOfPeople) {
     return __awaiter(this, void 0, void 0, function* () {
         yield (0,_detailsRest__WEBPACK_IMPORTED_MODULE_0__.readOpenQuestionsData)(flowId)
             .then(openQuestions => {
             let bodyData = ``;
-            for (let i = 0; i < openQuestions.length; i++) {
-                const openQuestion = openQuestions[i];
-                window.totalQuestions += 1;
-                const isActive = firstQuestion ? 'active' : '';
-                if (firstQuestion)
-                    firstQuestion = false;
-                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${openQuestion.sequenceNumber}" data-card-id="${openQuestion.id}">
-            <div class="card-body">
-                <h5 class="card-title">${openQuestion.text}</h5>
-                <div class="form-group">
-                    <textarea class="form-control" id="openQuestion${openQuestion.text}" rows="3"></textarea>
-                </div>
-            </div>
-        </div>`;
+            for (let i = 0; i < numberOfPeople; i++) {
+                for (let j = 0; j < openQuestions.length; j++) {
+                    const openQuestion = openQuestions[j];
+                    window.totalQuestions += 1;
+                    const isActive = firstQuestion ? 'active' : '';
+                    if (firstQuestion)
+                        firstQuestion = false;
+                    bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${openQuestion.sequenceNumber}" data-card-id="${openQuestion.id}">
+                        <div class="card-body">
+                            <h5 class="card-title">${openQuestion.text}</h5>
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" id="openQuestion${openQuestion.text}" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>`;
+                }
             }
             if (questionsElement) {
                 questionsElement.innerHTML += bodyData;
@@ -7573,28 +7546,30 @@ function getOpenQuestionsData() {
         });
     });
 }
-function getRangeQuestionsData() {
+function getRangeQuestionsData(numberOfPeople) {
     return __awaiter(this, void 0, void 0, function* () {
         yield (0,_detailsRest__WEBPACK_IMPORTED_MODULE_0__.readRangeQuestionsData)(flowId)
             .then(rangeQuestions => {
             let bodyData = ``;
-            for (let i = 0; i < rangeQuestions.length; i++) {
-                const rangeQuestion = rangeQuestions[i];
-                window.totalQuestions += 1;
-                const isActive = firstQuestion ? 'active' : '';
-                if (firstQuestion)
-                    firstQuestion = false;
-                let options = rangeQuestion.options.map((option, index) => `data-option-${index}="${option}"`).join('');
-                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${rangeQuestion.sequenceNumber}" data-card-id="${rangeQuestion.id}">
-            <div class="card-body">
-                <h5 class="card-title">${rangeQuestion.text}</h5>
-                <div class="form-group">
-                    <input type="range" class="form-control-range" id="formControlRange${i}" min="0" max="${rangeQuestion.options.length - 1}" 
-                            ${options} oninput="updateLabel(this, 'rangeLabel${i}')"> <!--oninput="updateLabel(this, 'rangeLabel${i}')"-->
-                    <label id="rangeLabel${i}" for="formControlRange${i}"></label>
-                </div>
-            </div>
-        </div>`;
+            for (let i = 0; i < numberOfPeople; i++) {
+                for (let i = 0; i < rangeQuestions.length; i++) {
+                    const rangeQuestion = rangeQuestions[i];
+                    window.totalQuestions += 1;
+                    const isActive = firstQuestion ? 'active' : '';
+                    if (firstQuestion)
+                        firstQuestion = false;
+                    let options = rangeQuestion.options.map((option, index) => `data-option-${index}="${option}"`).join('');
+                    bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${rangeQuestion.sequenceNumber}" data-card-id="${rangeQuestion.id}">
+                        <div class="card-body">
+                            <h5 class="card-title">${rangeQuestion.text}</h5>
+                            <div class="form-group">
+                                <input type="range" class="form-control-range" id="formControlRange${i}" min="0" max="${rangeQuestion.options.length - 1}" 
+                                        ${options} oninput="updateLabel(this, 'rangeLabel${i}')"> <!--oninput="updateLabel(this, 'rangeLabel${i}')"-->
+                                <label id="rangeLabel${i}" for="formControlRange${i}"></label>
+                            </div>
+                        </div>
+                    </div>`;
+                }
             }
             if (questionsElement) {
                 questionsElement.innerHTML += bodyData;
@@ -7608,27 +7583,29 @@ function getRangeQuestionsData() {
         });
     });
 }
-function getMultipleChoiceQuestionsData() {
+function getMultipleChoiceQuestionsData(numberOfPeople) {
     return __awaiter(this, void 0, void 0, function* () {
         yield (0,_detailsRest__WEBPACK_IMPORTED_MODULE_0__.readMultipleChoiceQuestionsData)(flowId)
             .then(multipleChoiceQuestions => {
             let bodyData = ``;
-            for (const multipleChoiceQuestion of multipleChoiceQuestions) {
-                window.totalQuestions += 1;
-                const isActive = firstQuestion ? 'active' : '';
-                if (firstQuestion)
-                    firstQuestion = false;
-                bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${multipleChoiceQuestion.sequenceNumber}" data-card-id="${multipleChoiceQuestion.id}">
-            <div class="card-body">
-                <h5 class="card-title">${multipleChoiceQuestion.text}</h5>
-                ${multipleChoiceQuestion.options.map((option, index) => `<div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="${multipleChoiceQuestion.text}" id="${option}" data-key-index="${keys[index]}">
-                    <label class="form-check-label" for="${option}" data-key-index="${keys[index]}">
-                        ${option}
-                    </label>
-                </div>`).join('')}
-            </div>
-        </div>`;
+            for (let i = 0; i < numberOfPeople; i++) {
+                for (const multipleChoiceQuestion of multipleChoiceQuestions) {
+                    window.totalQuestions += 1;
+                    const isActive = firstQuestion ? 'active' : '';
+                    if (firstQuestion)
+                        firstQuestion = false;
+                    bodyData += `<div class="carousel-item ${isActive}" data-sequence-number="${multipleChoiceQuestion.sequenceNumber}" data-card-id="${multipleChoiceQuestion.id}">
+                        <div class="card-body">
+                            <h5 class="card-title">${multipleChoiceQuestion.text}</h5>
+                            ${multipleChoiceQuestion.options.map((option, index) => `<div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="${multipleChoiceQuestion.text}" id="${option}" data-key-index="${keys[index]}">
+                                <label class="form-check-label" for="${option}" data-key-index="${keys[index]}">
+                                    ${option}
+                                </label>
+                            </div>`).join('')}
+                        </div>
+                    </div>`;
+                }
             }
             if (questionsElement) {
                 questionsElement.innerHTML += bodyData;
@@ -7744,45 +7721,6 @@ function getVideoData() {
         });
     });
 }
-/*export function getAnswers(): Answer[] {
-    const answers: Answer[] = [];
-    const carouselItems = document.querySelectorAll('.carousel-item');
- 
-        carouselItems.forEach((item, index) => {
-            const questionText = item.querySelector('.card-title')?.textContent || '';
-            const questionId: number = Number(item.getAttribute('data-card-id') || '');
-
-            const answer: Answer = {question: questionText, chosenOptions: [], openAnswer: '', id: questionId};
-
-            const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
-            checkboxes.forEach(checkbox => {
-                answer.chosenOptions.push(checkbox.id);
-            });
-
-            const textarea = item.querySelector('textarea');
-            if (textarea) {
-                answer.openAnswer = textarea.value;
-            }
-
-            const radioButtons = item.querySelectorAll('input[type="radio"]:checked');
-            radioButtons.forEach(radioButton => {
-                if ((radioButton as HTMLInputElement).checked) {
-                    answer.chosenOptions.push((radioButton as HTMLInputElement).value);
-                }
-            });
-
-            const rangeInput = item.querySelector('input[type="range"]');
-            if (rangeInput) {
-                let optionText = rangeInput.getAttribute(`data-option-${(rangeInput as HTMLInputElement).value}`);
-                if (optionText) {
-                    answer.chosenOptions.push(optionText);
-                }
-            }
-
-            answers.push(answer);
-        });
-    return answers;
-}*/
 function getAnswers() {
     const answers = [];
     const carouselItems = document.querySelectorAll('.carousel-item');
@@ -7813,7 +7751,6 @@ function getAnswers() {
             }
         }
         answers.push(answer);
-        console.log(answers);
     });
     return answers;
 }
@@ -7841,6 +7778,7 @@ function updatePorgressBar() {
     progressBar.setAttribute("aria-valuenow", progressPerc.toString());
     console.log("progressbarPerc: ", progressPerc);
 }
+//Werkt nog niet, mag eventueel weg maar dan hebben we geen manier om video te spelen 🥲
 function handleScrollForVideoPlayback() {
     let videos = document.querySelectorAll("iframe[id^='video']");
     videos.forEach((video) => {
@@ -7966,8 +7904,6 @@ function sendAnswers(flowId, answerObject) {
         if (!response.ok) {
             throw new Error("Error committing answers");
         }
-        console.log("Answers submitted:" + JSON.stringify(answerObject));
-        alert("Answers submitted:" + JSON.stringify(answerObject));
         return yield response.json();
     });
 }
@@ -8040,15 +7976,27 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
 /* harmony import */ var _details__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./details */ "./src/ts/Flow/Details/details.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 
 
+const userCountModalElement = document.getElementById('userCountModal');
+const submitButtonElement = userCountModalElement === null || userCountModalElement === void 0 ? void 0 : userCountModalElement.querySelector('.btn-warning');
+const userCountDisplayElement = document.getElementById('userCountDisplay');
 const addButton = document.getElementById("answerFlow");
 const btnNext = document.getElementById("nextBtn");
 const btnPrev = document.getElementById("prevBtn");
+let numberOfPeople = 1;
+const personAnsweringElement = document.getElementById("personAnswering");
 if (btnPrev)
     btnPrev.disabled = true;
-let checkboxToToggle = null;
-let radiobuttonToToggle = null;
 function updateButton() {
     if (window.currentQuestionNumber < 2) {
         btnPrev.disabled = true;
@@ -8063,103 +8011,162 @@ function updateButton() {
         btnNext.disabled = false;
     }
 }
-// TODO: visible & invisible van antwoorden voor kiezen gebruikers
-// Dit was test code voor het verbergen van de userCountSection en het tonen van de linearFlowSection maar voorlopig niet werkend
-function visibleF() {
-    const submitUserCount = document.getElementById('submitUserCount');
-    const userCountSection = document.getElementById('userCountSection');
-    const linearFlowSection = document.getElementById('linearFlow');
-    if (submitUserCount) {
-        submitUserCount.addEventListener('click', function () {
-            if (userCountSection && linearFlowSection) {
-                // Use Bootstrap classes to hide and show elements
-                userCountSection.classList.remove('visible ');
-                userCountSection.classList.add('invisible');
-                linearFlowSection.classList.remove('invisible');
-                linearFlowSection.classList.add('visible');
+// Get the modal, submit button elements
+if (userCountModalElement && submitButtonElement) {
+    const userCountModal = new bootstrap__WEBPACK_IMPORTED_MODULE_0__.Modal(userCountModalElement, {
+        backdrop: 'static'
+    });
+    submitButtonElement.addEventListener('click', function (e) {
+        e.stopPropagation(); // zodat die nie zomaar dicht gaat
+        //om nummer in een variable te steken
+        const userCountRange = document.getElementById('userCountRange');
+        numberOfPeople = parseInt(userCountRange.value);
+        userCountModal.hide();
+    });
+    //ooke effe async
+    userCountModalElement.addEventListener('hidden.bs.modal', function () {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userCountRange = document.getElementById('userCountRange');
+            console.log(userCountRange.value); //checken of de waarde goed is
+            yield InitializeFlow();
+            const modalBackdrop = document.querySelector('.modal-backdrop');
+            if (modalBackdrop) {
+                modalBackdrop.remove();
             }
         });
-    }
+    });
+    userCountModal.show();
 }
-function InitializeFlow() {
-    Promise.all([
-        (0,_details__WEBPACK_IMPORTED_MODULE_1__.getSingleChoiceQuestionData)(),
-        (0,_details__WEBPACK_IMPORTED_MODULE_1__.getOpenQuestionsData)(),
-        (0,_details__WEBPACK_IMPORTED_MODULE_1__.getRangeQuestionsData)(),
-        (0,_details__WEBPACK_IMPORTED_MODULE_1__.getMultipleChoiceQuestionsData)(),
-    ]).then(() => {
-        let carousel = new bootstrap__WEBPACK_IMPORTED_MODULE_0__.Carousel(document.getElementById('linearFlow'), {
-            interval: false,
-            wrap: true
-        });
+// Display the modal when the Linear page is loaded
+window.addEventListener('DOMContentLoaded', (event) => {
+    const userCountModalElement = document.getElementById('userCountModal');
+    if (userCountModalElement) {
+        const userCountModal = new bootstrap__WEBPACK_IMPORTED_MODULE_0__.Modal(userCountModalElement);
+        userCountModal.show();
         window.addEventListener("keydown", function (e) {
-            let checkboxToToggle;
-            let radiobuttonToToggle;
-            let activeCarouselItem = document.querySelector('.carousel-item.active');
-            let rangeInput = activeCarouselItem.querySelector('input[type="range"]');
+            let rangeInput = userCountModalElement.querySelector('input[type="range"]');
             switch (e.code) {
-                case 'KeyD':
-                    btnNext.click();
-                    if (window.currentQuestionNumber < window.totalQuestions) {
-                        window.currentQuestionNumber++;
-                        updateButton();
-                    }
-                    (0,_details__WEBPACK_IMPORTED_MODULE_1__.updatePorgressBar)();
-                    break;
                 case 'KeyA':
-                    btnPrev.click();
-                    if (window.currentQuestionNumber > 1) {
-                        window.currentQuestionNumber--;
-                        updateButton();
-                    }
-                    (0,_details__WEBPACK_IMPORTED_MODULE_1__.updatePorgressBar)();
-                    break;
-                case 'KeyW':
-                    checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key1"]');
-                    radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key1"]');
-                    rangeInput = activeCarouselItem.querySelector('input[type="range"]');
-                    if (rangeInput) {
-                        rangeInput.value = (parseInt(rangeInput.value) + 1).toString();
-                        rangeInput.dispatchEvent(new Event('input'));
-                    }
-                    break;
-                case 'KeyS':
-                    checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key2"]');
-                    radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key2"]');
-                    rangeInput = activeCarouselItem.querySelector('input[type="range"]');
+                    rangeInput = userCountModalElement.querySelector('input[type="range"]');
                     if (rangeInput) {
                         rangeInput.value = (parseInt(rangeInput.value) - 1).toString();
                         rangeInput.dispatchEvent(new Event('input'));
+                        userCountDisplayElement.textContent = rangeInput.value;
                     }
                     break;
-                case 'KeyF':
-                    checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key3"]');
-                    radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key3"]');
+                case 'KeyS':
+                    rangeInput = userCountModalElement.querySelector('input[type="range"]');
+                    if (rangeInput) {
+                        rangeInput.value = (parseInt(rangeInput.value) + 1).toString();
+                        rangeInput.dispatchEvent(new Event('input'));
+                        userCountDisplayElement.textContent = rangeInput.value;
+                    }
                     break;
-                case 'KeyG':
-                    checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key4"]');
-                    radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key4"]');
-                    break;
-                case 'Space':
-                    addButton.click();
+                case 'ArrowRight':
+                    submitButtonElement.click();
                     break;
                 default:
                     break;
             }
-            // @ts-ignore
-            if (checkboxToToggle) {
-                checkboxToToggle.checked = !checkboxToToggle.checked;
-            }
-            // @ts-ignore
-            if (radiobuttonToToggle) {
-                radiobuttonToToggle.checked = !radiobuttonToToggle.checked;
-            }
+            //??? why is this here
             console.log(window.currentQuestionNumber);
+        });
+    }
+});
+function InitializeFlow() {
+    return __awaiter(this, void 0, void 0, function* () {
+        Promise.all([
+            yield (0,_details__WEBPACK_IMPORTED_MODULE_1__.getSingleChoiceQuestionData)(numberOfPeople),
+            yield (0,_details__WEBPACK_IMPORTED_MODULE_1__.getRangeQuestionsData)(numberOfPeople),
+            yield (0,_details__WEBPACK_IMPORTED_MODULE_1__.getMultipleChoiceQuestionsData)(numberOfPeople),
+            yield (0,_details__WEBPACK_IMPORTED_MODULE_1__.getOpenQuestionsData)(numberOfPeople)
+        ]).then(() => {
+            let carouselElement = document.getElementById('linearFlow');
+            let carousel = new bootstrap__WEBPACK_IMPORTED_MODULE_0__.Carousel(carouselElement, {
+                interval: false,
+                wrap: true
+            });
+            carouselElement.addEventListener('slid.bs.carousel', function () {
+                let carouselItems = document.querySelectorAll('.carousel-item');
+                let currentIndex = Array.from(carouselItems).findIndex(item => item.classList.contains('active'));
+                const questionsPerPerson = window.totalQuestions / numberOfPeople;
+                const currentPerson = Math.floor((currentIndex) / questionsPerPerson) + 1;
+                personAnsweringElement.innerText = `Person ${currentPerson} : `;
+            });
+            window.addEventListener("keydown", function (e) {
+                let checkboxToToggle;
+                let radiobuttonToToggle;
+                let activeCarouselItem = document.querySelector('.carousel-item.active');
+                let rangeInput = activeCarouselItem.querySelector('input[type="range"]');
+                let openInput;
+                openInput = activeCarouselItem.querySelector('textarea[type="text"]');
+                if (openInput) {
+                    openInput.focus();
+                }
+                switch (e.code) {
+                    case 'ArrowRight':
+                        if (window.currentQuestionNumber < window.totalQuestions) {
+                            window.currentQuestionNumber++;
+                            updateButton();
+                            carousel.next();
+                        }
+                        (0,_details__WEBPACK_IMPORTED_MODULE_1__.updatePorgressBar)();
+                        break;
+                    case 'ArrowLeft':
+                        if (window.currentQuestionNumber > 1) {
+                            window.currentQuestionNumber--;
+                            updateButton();
+                            carousel.prev();
+                        }
+                        (0,_details__WEBPACK_IMPORTED_MODULE_1__.updatePorgressBar)();
+                        break;
+                    case 'KeyA':
+                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key1"]');
+                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key1"]');
+                        rangeInput = activeCarouselItem.querySelector('input[type="range"]');
+                        if (rangeInput) {
+                            rangeInput.value = (parseInt(rangeInput.value) - 1).toString();
+                            rangeInput.dispatchEvent(new Event('input'));
+                        }
+                        break;
+                    case 'KeyS':
+                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key2"]');
+                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key2"]');
+                        rangeInput = activeCarouselItem.querySelector('input[type="range"]');
+                        if (rangeInput) {
+                            rangeInput.value = (parseInt(rangeInput.value) + 1).toString();
+                            rangeInput.dispatchEvent(new Event('input'));
+                        }
+                        break;
+                    case 'KeyD':
+                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key3"]');
+                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key3"]');
+                        break;
+                    case 'KeyF':
+                        checkboxToToggle = activeCarouselItem.querySelector('input[type="checkbox"][data-key-index="Key4"]');
+                        radiobuttonToToggle = activeCarouselItem.querySelector('input[type="radio"][data-key-index="Key4"]');
+                        break;
+                    default:
+                        break;
+                }
+                // @ts-ignore
+                if (checkboxToToggle) {
+                    checkboxToToggle.checked = !checkboxToToggle.checked;
+                }
+                // @ts-ignore
+                if (radiobuttonToToggle) {
+                    radiobuttonToToggle.checked = !radiobuttonToToggle.checked;
+                }
+                console.log(window.currentQuestionNumber);
+            });
+            document.addEventListener('click', function (e) {
+                if (e.button === 0) {
+                    addButton.click();
+                }
+            });
         });
     });
 }
-visibleF();
-InitializeFlow();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getTextData)();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getImageData)();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getVideoData)();

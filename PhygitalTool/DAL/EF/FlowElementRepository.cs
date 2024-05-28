@@ -198,6 +198,11 @@ public class FlowElementRepository : IFlowElementRepository
         return _dbContext.OpenQuestions.Where(q => q.Flow.Id == flowId).Include(q => q.SubTheme);
     }
 
+    public IEnumerable<Question> ReadAllQuestionsByFlowId(long flowId)
+    {
+        return _dbContext.Questions.Where(q => q.Flow.Id == flowId).Include(q => q.SubTheme);
+    }
+
     public IEnumerable<MultipleChoice> ReadAllMultipleChoiceQuestionByFlowId(long flowId)
     {
         return _dbContext.MultipleChoices.Where(q => q.Flow.Id == flowId);
@@ -213,14 +218,15 @@ public class FlowElementRepository : IFlowElementRepository
         return _dbContext.RangeQuestions.Where(q => q.Flow.Id == flowId);
     }
 
-    // todo Testing met openquestion
     public void UpdateActive(long questionId)
     {
-        var question = _dbContext.OpenQuestions.SingleOrDefault(q => q.Id == questionId);
+        var question = _dbContext.Questions.SingleOrDefault(q => q.Id == questionId);
 
         if (question != null)
         {
+            /*
             question.Active = !question.Active;
+            */
             _dbContext.SaveChanges();
         }
         else
@@ -237,25 +243,8 @@ public class FlowElementRepository : IFlowElementRepository
         if( flowElement!= null)
         {
             flowElement.Flow = null;
-            //flowElement.Active = false;
-            /*flowElement.Flow = null;
-            flowElement.SubTheme = null;
-            flowElement.Questions = null;
-            flowElement.Infos = null;*/
-            //_dbContext.FlowElements.Remove(flowElement);
+   
         }
     }
 
-    /*public IEnumerable<OpenQuestion> ReadAllOpenQuestionsByTheme(Theme subTheme)
-    {
-        // Todo aan het debuggen hier
-        /*var th1 = new Theme { Title = "Politiek", Description = "Simpele vragen rond politiek" };
-        var test = _dbContext.OpenQuestions.Include(q => q.SubTheme).Where(q => q.SubTheme.Title.Equals(th1.Title)).ToList();
-        long id = 3;
-        var openQuestion = _dbContext.OpenQuestions.Include(q => q.SubTheme).FirstOrDefault(q => q.Id == id);
-        return test;#1#
-        var result = _dbContext.OpenQuestions.Select(o => o);
-        return result;
-
-    }*/
 }
