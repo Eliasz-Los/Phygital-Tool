@@ -49,7 +49,13 @@ public class FlowRepository : IFlowRepository
             answer.Flow = null;
         }
         
-        _dbContext.Flows.Remove(flowToDelete);
+        var relatedParticipations = _dbContext.Participations.Where(p => p.Flow.Id == id);
+        foreach (var participation in relatedParticipations)
+        {
+            participation.Flow = null;
+        }
+        
+        _dbContext.Flows.Remove(flowToDelete!);
     }
 
     public void CreateFlow(Flow flow)
