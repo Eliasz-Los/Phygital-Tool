@@ -296,6 +296,7 @@ function sendReaction(postId) {
         yield getReactionsOfPost(postId);
     });
 }
+//TODO: error met het verwijderen van een reactie bij andere personen
 function removeReaction(postId, reactions) {
     return __awaiter(this, void 0, void 0, function* () {
         reactions.forEach(reaction => {

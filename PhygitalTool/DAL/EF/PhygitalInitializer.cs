@@ -478,8 +478,8 @@ public class PhygitalInitializer
         // Create some Posts
         var post1 = new Post
         {
-            Title = "Nieuwe thema: Sport",
-            Text = "Ik denk dat thema rond sport een interessante onderwerp zou maken om aan jongeren te vragen.",
+            Title = "Partijen",
+            Text = "Zullen partijen uit Wallonië ook toegevoegd worden in de toekomst?",
             Theme = th1,
             Account = eliasz
         };
@@ -491,7 +491,7 @@ public class PhygitalInitializer
         };
 
         // Create some Reactions
-        var reaction1 = new Reaction { Content = "Klinkt als een goed idee eigenlijk!" , Account = arthur};
+        var reaction1 = new Reaction { Content = "Ik denk dat de focus voornamelijk op partijen uit Vlaanderen ligt." , Account = arthur};
         var reaction2 = new Reaction { Content = "Waarschijnlijk eind juli", Account = jonas};
 
         // Create some Likes

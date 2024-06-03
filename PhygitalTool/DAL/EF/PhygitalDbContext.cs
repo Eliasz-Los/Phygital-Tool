@@ -50,14 +50,12 @@ public class PhygitalDbContext : IdentityDbContext<Account>
     public DbSet<PostReaction> PostReactions { get; set; }
     public DbSet<PostLike> PostLikes { get; set; }
     public DbSet<ReactionLike> ReactionLikes { get; set; }
-    //om connection string uit te halen
     private readonly IConfiguration _configuration;
     public PhygitalDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
     {
         _configuration = configuration;
     }
     
-    //Nieuwe constructor voor identity migration, miss niet de beste oplossing
     public PhygitalDbContext() : this(new DbContextOptionsBuilder<PhygitalDbContext>()
             .UseNpgsql("Host=localhost;Database=Phygital.db;Port=5001;Username=postgres;Password=postgres").Options,
         null)
@@ -326,6 +324,14 @@ public class PhygitalDbContext : IdentityDbContext<Account>
         modelBuilder.Entity<PostReaction>()
             .HasOne(pr => pr.Reaction)
             .WithMany(r => r.PostReactions);
+
+        modelBuilder.Entity<Reaction>()
+            .HasMany(r => r.ReactionLikes)
+            .WithOne(rl => rl.Reaction)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<ReactionLike>()
+            .HasOne(rl => rl.Reaction)
+            .WithMany(r => r.ReactionLikes);
 
         modelBuilder.Entity<Like>()
             .HasMany(l => l.PostLikes)

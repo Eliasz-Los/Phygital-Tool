@@ -55,8 +55,11 @@ public class FeedbackRepository : IFeedbackRepository
 
     private async Task<Post> UploadFile(Post post)
     {
-        string fileNameForStorage =  $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}-{new Random().Next()}.{Path.GetExtension(post.ImageFile.FileName)}";
-        post.ImageUrl = await _cloudStorageService.UploadFileToBucket(post.ImageFile, fileNameForStorage);
+        if(post.ImageFile != null)
+        {
+            string fileNameForStorage =  $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}-{new Random().Next()}.{Path.GetExtension(post.ImageFile.FileName)}";
+            post.ImageUrl = await _cloudStorageService.UploadFileToBucket(post.ImageFile, fileNameForStorage);
+        }
         return post;
     }
     public void UpdatePost(Post post)
