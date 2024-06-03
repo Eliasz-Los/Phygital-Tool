@@ -5,7 +5,6 @@ var __webpack_exports__ = {};
   !*** ./src/ts/Account/register.ts ***!
   \************************************/
 
-// Purpose: Contains functions for the end page.
 const registerSubmit = document.getElementById("registerSubmit");
 function InitializeRegister() {
     let formElement = document.getElementById("registerForm");

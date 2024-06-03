@@ -5,7 +5,7 @@ import {
 } from "./details";
 
 const userCountModalElement = document.getElementById('userCountModal');
-const submitButtonElement= document.getElementById('confirmUserCount'); 
+const submitButtonElement= document.getElementById('confirmUserCount') as HTMLButtonElement; 
 const userCountDisplayElement = document.getElementById('userCountDisplay');
 
 const addButton: HTMLElement | null = document.getElementById("answerFlow") as HTMLButtonElement;
@@ -38,10 +38,11 @@ if (userCountModalElement && submitButtonElement) {
     submitButtonElement.addEventListener('click', function () {
         const userCountRange = document.getElementById('userCountRange') as HTMLInputElement;
         numberOfPeople = parseInt(userCountRange.value);
-        console.log("number of people chosen: ", numberOfPeople); 
         userCountModal.hide();
     });
     userCountModalElement.addEventListener('hidden.bs.modal', async function () {
+        const userCountRange = document.getElementById('userCountRange') as HTMLInputElement;
+        numberOfPeople = parseInt(userCountRange.value);
         await InitializeFlow();
         const modalBackdrop = document.querySelector('.modal-backdrop');
         if (modalBackdrop) {
@@ -76,8 +77,8 @@ window.addEventListener('DOMContentLoaded', () => {
                         userCountDisplayElement!.textContent = rangeInput.value;
                     }
                     break;
-                case 'click':
-                    (submitButtonElement as HTMLButtonElement).click();
+                case 'click': //ArrowRight
+                    submitButtonElement.click();
                     break;
                 default:
                     break;
@@ -103,11 +104,6 @@ async function  InitializeFlow(): Promise<void> {
         carouselElement.addEventListener('slid.bs.carousel', function () {
             const questionsPerPerson = Math.round(window.totalQuestions / numberOfPeople);
             let currentPerson = Math.ceil(window.currentQuestionNumber / questionsPerPerson);
-          /*  if(currentPerson === 0 ){
-                currentPerson = numberOfPeople;
-            }else{
-                currentPerson = Math.ceil(currentPerson / questionsPerPerson);
-            }*/
             personAnsweringElement!.innerText = `Person ${currentPerson} : `;
         });
 
@@ -183,7 +179,7 @@ async function  InitializeFlow(): Promise<void> {
         document.addEventListener('click', function (e) {
             if (e.button === 0) {
                 if(!userCountModalElement?.classList.contains('show')){
-                    (addButton as HTMLInputElement).click();
+                    (addButton as HTMLButtonElement).click();
                 }
             }
         });

@@ -1,4 +1,3 @@
-//Importeren van de functies
 import {
     readImageData,
     readMultipleChoiceQuestionsData,
@@ -11,14 +10,12 @@ import {
 } from './detailsRest';
 
 
-// elementen ophalen
 const flowIdElement: HTMLElement | null = document.getElementById("flowId");
 const flowId: number = flowIdElement ? parseInt(flowIdElement.innerText) : 0;
 const questionsElement: HTMLElement | null = document.getElementById("questions");
 const infoElements: HTMLElement | null = document.getElementById("infoAccordion");
-const keys: string[] = ['Key1', 'Key2', 'Key3', 'Key4']; // voor keydown event
+const keys: string[] = ['Key1', 'Key2', 'Key3', 'Key4']; 
 
-//Globale functies
 declare global {
     interface Window {
         totalQuestions: number;
@@ -339,7 +336,6 @@ export function updatePorgressBar() {
 
     (progressBar as HTMLInputElement).style.width = progressPerc + "%";
     (progressBar as HTMLInputElement).setAttribute("aria-valuenow", progressPerc.toString());
-    console.log("progressbarPerc: ", progressPerc);
 }
 
 

@@ -1,5 +1,4 @@
-﻿// Purpose: Contains functions for the end page.
-const registerSubmit: HTMLElement | null = document.getElementById("registerSubmit");
+﻿const registerSubmit: HTMLElement | null = document.getElementById("registerSubmit");
 
 function InitializeRegister(): void {
 

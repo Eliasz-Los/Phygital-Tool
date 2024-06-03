@@ -7459,14 +7459,12 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-//Importeren van de functies
 
-// elementen ophalen
 const flowIdElement = document.getElementById("flowId");
 const flowId = flowIdElement ? parseInt(flowIdElement.innerText) : 0;
 const questionsElement = document.getElementById("questions");
 const infoElements = document.getElementById("infoAccordion");
-const keys = ['Key1', 'Key2', 'Key3', 'Key4']; // voor keydown event
+const keys = ['Key1', 'Key2', 'Key3', 'Key4'];
 window.updateLabel = function (input, labelId) {
     let label = document.getElementById(labelId);
     if (label) {
@@ -8018,11 +8016,12 @@ if (userCountModalElement && submitButtonElement) {
     submitButtonElement.addEventListener('click', function () {
         const userCountRange = document.getElementById('userCountRange');
         numberOfPeople = parseInt(userCountRange.value);
-        console.log("number of people chosen: ", numberOfPeople);
         userCountModal.hide();
     });
     userCountModalElement.addEventListener('hidden.bs.modal', function () {
         return __awaiter(this, void 0, void 0, function* () {
+            const userCountRange = document.getElementById('userCountRange');
+            numberOfPeople = parseInt(userCountRange.value);
             yield InitializeFlow();
             const modalBackdrop = document.querySelector('.modal-backdrop');
             if (modalBackdrop) {
@@ -8056,7 +8055,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         userCountDisplayElement.textContent = rangeInput.value;
                     }
                     break;
-                case 'click':
+                case 'click': //ArrowRight
                     submitButtonElement.click();
                     break;
                 default:
@@ -8081,11 +8080,6 @@ function InitializeFlow() {
             carouselElement.addEventListener('slid.bs.carousel', function () {
                 const questionsPerPerson = Math.round(window.totalQuestions / numberOfPeople);
                 let currentPerson = Math.ceil(window.currentQuestionNumber / questionsPerPerson);
-                /*  if(currentPerson === 0 ){
-                      currentPerson = numberOfPeople;
-                  }else{
-                      currentPerson = Math.ceil(currentPerson / questionsPerPerson);
-                  }*/
                 personAnsweringElement.innerText = `Person ${currentPerson} : `;
             });
             window.addEventListener("keydown", function (e) {

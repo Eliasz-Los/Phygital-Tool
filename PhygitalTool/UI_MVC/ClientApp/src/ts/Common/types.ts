@@ -1,4 +1,3 @@
-//details.ts
 type Keys = 'Key1' | 'Key2' | 'Key3' | 'Key4';
 
 interface SingleChoiceQuestion {
@@ -71,8 +70,6 @@ interface AnswerObject {
     chosenAnswer: string;
     questionId: number;
 }
-
-//feedback.ts
 
 interface ReactionRead {
     id: number;

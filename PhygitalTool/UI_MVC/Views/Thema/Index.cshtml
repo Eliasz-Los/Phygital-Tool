@@ -5,15 +5,6 @@
     Layout = "_Layout";
 }
 
-@if (TempData["ErrorMessage"] != null)
-{
-<script type="text/javascript">
-    window.onload = function() {
-        alert("@TempData["ErrorMessage"].ToString()");
-    }
-</script>
-}
-
 
 @if (User.IsInRole("Admin") || User.IsInRole("SubAdmin"))
 {

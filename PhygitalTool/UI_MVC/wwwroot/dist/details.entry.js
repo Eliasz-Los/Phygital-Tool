@@ -198,14 +198,12 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-//Importeren van de functies
 
-// elementen ophalen
 const flowIdElement = document.getElementById("flowId");
 const flowId = flowIdElement ? parseInt(flowIdElement.innerText) : 0;
 const questionsElement = document.getElementById("questions");
 const infoElements = document.getElementById("infoAccordion");
-const keys = ['Key1', 'Key2', 'Key3', 'Key4']; // voor keydown event
+const keys = ['Key1', 'Key2', 'Key3', 'Key4'];
 window.updateLabel = function (input, labelId) {
     let label = document.getElementById(labelId);
     if (label) {
