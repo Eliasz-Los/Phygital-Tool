@@ -4,7 +4,7 @@ import {
     getTextData, getImageData, getVideoData,  commitAnswers, updatePorgressBar
 } from './details';
 
-const addButton: HTMLElement | null = document.getElementById("answerFlow");
+const addButton: HTMLElement | null = document.getElementById("answerFlow") as HTMLButtonElement;
 const endbox: HTMLElement | null = document.getElementById('end-box');
 
 let numberOfPeople: number = 1;
@@ -70,8 +70,6 @@ function startTimer(): void {
                 timeLeftInSeconds = 20;
                 startTimer();
                 setTimeout(resetCarouselInputs, timeLeftInSeconds * 1000);
-                
-                //updateButton();
             } else {
                 if (endbox) {
                     endbox.innerText = "";
@@ -85,7 +83,7 @@ function startTimer(): void {
     }, 1000);
 }
 
-function InitializeFlow(): void {
+ function InitializeFlow(): void{
     Promise.all([
         getSingleChoiceQuestionData(numberOfPeople),
         getRangeQuestionsData(numberOfPeople),
@@ -144,7 +142,7 @@ function InitializeFlow(): void {
         });
         document.addEventListener('click', function (e) {
             if (e.button === 0) {
-                (addButton as HTMLInputElement).click();
+                (addButton as HTMLButtonElement).click();
             }
         });
         startTimer();
@@ -156,6 +154,5 @@ getTextData();
 getImageData();
 getVideoData();
 
-if (addButton) {
-    addButton.addEventListener("click", commitAnswers);
-}
+
+addButton.addEventListener("click", commitAnswers);
