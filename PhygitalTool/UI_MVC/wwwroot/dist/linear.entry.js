@@ -7988,7 +7988,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 const userCountModalElement = document.getElementById('userCountModal');
-const submitButtonElement = userCountModalElement === null || userCountModalElement === void 0 ? void 0 : userCountModalElement.querySelector('.btn-warning');
+const submitButtonElement = document.getElementById('confirmUserCount');
 const userCountDisplayElement = document.getElementById('userCountDisplay');
 const addButton = document.getElementById("answerFlow");
 const btnNext = document.getElementById("nextBtn");
@@ -8011,23 +8011,18 @@ function updateButton() {
         btnNext.disabled = false;
     }
 }
-// Get the modal, submit button elements
 if (userCountModalElement && submitButtonElement) {
     const userCountModal = new bootstrap__WEBPACK_IMPORTED_MODULE_0__.Modal(userCountModalElement, {
         backdrop: 'static'
     });
-    submitButtonElement.addEventListener('click', function (e) {
-        e.stopPropagation(); // zodat die nie zomaar dicht gaat
-        //om nummer in een variable te steken
+    submitButtonElement.addEventListener('click', function () {
         const userCountRange = document.getElementById('userCountRange');
         numberOfPeople = parseInt(userCountRange.value);
+        console.log("number of people chosen: ", numberOfPeople);
         userCountModal.hide();
     });
-    //ooke effe async
     userCountModalElement.addEventListener('hidden.bs.modal', function () {
         return __awaiter(this, void 0, void 0, function* () {
-            const userCountRange = document.getElementById('userCountRange');
-            console.log(userCountRange.value); //checken of de waarde goed is
             yield InitializeFlow();
             const modalBackdrop = document.querySelector('.modal-backdrop');
             if (modalBackdrop) {
@@ -8037,8 +8032,7 @@ if (userCountModalElement && submitButtonElement) {
     });
     userCountModal.show();
 }
-// Display the modal when the Linear page is loaded
-window.addEventListener('DOMContentLoaded', (event) => {
+window.addEventListener('DOMContentLoaded', () => {
     const userCountModalElement = document.getElementById('userCountModal');
     if (userCountModalElement) {
         const userCountModal = new bootstrap__WEBPACK_IMPORTED_MODULE_0__.Modal(userCountModalElement);
@@ -8062,14 +8056,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         userCountDisplayElement.textContent = rangeInput.value;
                     }
                     break;
-                case 'ArrowRight':
+                case 'click':
                     submitButtonElement.click();
                     break;
                 default:
                     break;
             }
-            //??? why is this here
-            console.log(window.currentQuestionNumber);
         });
     }
 });
@@ -8087,10 +8079,13 @@ function InitializeFlow() {
                 wrap: true
             });
             carouselElement.addEventListener('slid.bs.carousel', function () {
-                let carouselItems = document.querySelectorAll('.carousel-item');
-                let currentIndex = Array.from(carouselItems).findIndex(item => item.classList.contains('active'));
-                const questionsPerPerson = window.totalQuestions / numberOfPeople;
-                const currentPerson = Math.floor((currentIndex) / questionsPerPerson) + 1;
+                const questionsPerPerson = Math.round(window.totalQuestions / numberOfPeople);
+                let currentPerson = Math.ceil(window.currentQuestionNumber / questionsPerPerson);
+                /*  if(currentPerson === 0 ){
+                      currentPerson = numberOfPeople;
+                  }else{
+                      currentPerson = Math.ceil(currentPerson / questionsPerPerson);
+                  }*/
                 personAnsweringElement.innerText = `Person ${currentPerson} : `;
             });
             window.addEventListener("keydown", function (e) {
@@ -8157,11 +8152,12 @@ function InitializeFlow() {
                 if (radiobuttonToToggle) {
                     radiobuttonToToggle.checked = !radiobuttonToToggle.checked;
                 }
-                console.log(window.currentQuestionNumber);
             });
             document.addEventListener('click', function (e) {
                 if (e.button === 0) {
-                    addButton.click();
+                    if (!(userCountModalElement === null || userCountModalElement === void 0 ? void 0 : userCountModalElement.classList.contains('show'))) {
+                        addButton.click();
+                    }
                 }
             });
         });

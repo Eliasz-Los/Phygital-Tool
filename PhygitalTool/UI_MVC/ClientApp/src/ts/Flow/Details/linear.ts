@@ -1,13 +1,11 @@
 import {Carousel, Modal} from "bootstrap";
-
-
 import {
     getSingleChoiceQuestionData, getOpenQuestionsData, getRangeQuestionsData, getMultipleChoiceQuestionsData,
     getTextData, getImageData, getVideoData, commitAnswers, updatePorgressBar
 } from "./details";
 
 const userCountModalElement = document.getElementById('userCountModal');
-const submitButtonElement= userCountModalElement?.querySelector('.btn-warning');
+const submitButtonElement= document.getElementById('confirmUserCount'); 
 const userCountDisplayElement = document.getElementById('userCountDisplay');
 
 const addButton: HTMLElement | null = document.getElementById("answerFlow") as HTMLButtonElement;
@@ -33,22 +31,17 @@ function updateButton(): void {
 }
 
 
-// Get the modal, submit button elements
 if (userCountModalElement && submitButtonElement) {
     const userCountModal = new Modal(userCountModalElement, {
         backdrop: 'static'
     });
-    submitButtonElement.addEventListener('click', function (e) {
-        e.stopPropagation() // zodat die nie zomaar dicht gaat
-        //om nummer in een variable te steken
+    submitButtonElement.addEventListener('click', function () {
         const userCountRange = document.getElementById('userCountRange') as HTMLInputElement;
         numberOfPeople = parseInt(userCountRange.value);
+        console.log("number of people chosen: ", numberOfPeople); 
         userCountModal.hide();
     });
-//ooke effe async
     userCountModalElement.addEventListener('hidden.bs.modal', async function () {
-        const userCountRange = document.getElementById('userCountRange') as HTMLInputElement;
-       console.log(userCountRange.value);   //checken of de waarde goed is
         await InitializeFlow();
         const modalBackdrop = document.querySelector('.modal-backdrop');
         if (modalBackdrop) {
@@ -59,8 +52,7 @@ if (userCountModalElement && submitButtonElement) {
 }
 
 
-// Display the modal when the Linear page is loaded
-window.addEventListener('DOMContentLoaded', (event) => {
+window.addEventListener('DOMContentLoaded', () => {
     const userCountModalElement = document.getElementById('userCountModal');
     if (userCountModalElement) {
         const userCountModal = new Modal(userCountModalElement);
@@ -84,14 +76,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         userCountDisplayElement!.textContent = rangeInput.value;
                     }
                     break;
-                case 'ArrowRight':
-                    (submitButtonElement as HTMLInputElement).click();
+                case 'click':
+                    (submitButtonElement as HTMLButtonElement).click();
                     break;
                 default:
                     break;
             }
-            //??? why is this here
-            console.log(window.currentQuestionNumber)
         });
     }
 });
@@ -105,16 +95,19 @@ async function  InitializeFlow(): Promise<void> {
     ]).then(() => {
 
         let carouselElement: HTMLElement = document.getElementById('linearFlow') as HTMLElement;
-        let carousel: bootstrap.Carousel = new Carousel(carouselElement, {
+        let carousel: Carousel = new Carousel(carouselElement, {
             interval: false,
             wrap: true
         });
 
         carouselElement.addEventListener('slid.bs.carousel', function () {
-            let carouselItems = document.querySelectorAll('.carousel-item');
-            let currentIndex = Array.from(carouselItems).findIndex(item => item.classList.contains('active'));
-            const questionsPerPerson = window.totalQuestions / numberOfPeople;
-            const currentPerson = Math.floor((currentIndex)/questionsPerPerson) + 1;
+            const questionsPerPerson = Math.round(window.totalQuestions / numberOfPeople);
+            let currentPerson = Math.ceil(window.currentQuestionNumber / questionsPerPerson);
+          /*  if(currentPerson === 0 ){
+                currentPerson = numberOfPeople;
+            }else{
+                currentPerson = Math.ceil(currentPerson / questionsPerPerson);
+            }*/
             personAnsweringElement!.innerText = `Person ${currentPerson} : `;
         });
 
@@ -185,21 +178,17 @@ async function  InitializeFlow(): Promise<void> {
             if (radiobuttonToToggle) {
                 radiobuttonToToggle.checked = !radiobuttonToToggle.checked;
             }
-            console.log(window.currentQuestionNumber)
         });
 
         document.addEventListener('click', function (e) {
             if (e.button === 0) {
-                (addButton as HTMLInputElement).click();
+                if(!userCountModalElement?.classList.contains('show')){
+                    (addButton as HTMLInputElement).click();
+                }
             }
         });
         
     });
-        
-
-         
-          
-      
 }
 
 
