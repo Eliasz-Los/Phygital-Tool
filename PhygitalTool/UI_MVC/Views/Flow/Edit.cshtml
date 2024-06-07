@@ -12,8 +12,6 @@
 <div>
     <h2>Edit flow</h2>
     <form asp-controller="Flow" asp-action="Edit" method="post">
-        @* asp-route-id="@Model.Id"*@
-        @*<input type="hidden" name="_method" value="put" />*@
         <div class="form-group">
             <label asp-for="Id">Id</label>
             <input asp-for="Id" class="form-control" readonly/>
@@ -37,10 +35,6 @@
         <div class="form-group">
             <label asp-for="ThemeId">Thema</label>
             <select asp-for="ThemeId" asp-items="@(new SelectList(ViewBag.Themes, "Id", "Title"))" class="form-control">
-                @*@foreach (var theme in (IEnumerable<Theme>)ViewBag.Themes)
-                {
-                    <option value="@theme.Id">@theme.Title</option>
-                }*@
             </select>
             <span asp-validation-for="ThemeId" class="text-danger"></span>
         </div>
