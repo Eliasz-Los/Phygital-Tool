@@ -38,6 +38,7 @@ builder.Services.AddScoped<IFlowRepository, FlowRepository>();
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IThemeRepository, ThemeRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IStatisticsRepository, StatisticsRepository>();
 // managers
 builder.Services.AddScoped<IAnswerManager, AnswerManager>();
 builder.Services.AddScoped<IFeedbackManager, FeedbackManager>();
@@ -46,7 +47,6 @@ builder.Services.AddScoped<IFlowManager, FlowManager>();
 builder.Services.AddScoped<ISessionManager, SessionManager>();
 builder.Services.AddScoped<IThemeManager, ThemeManager>();
 builder.Services.AddScoped<UnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IStatisticsRepository, StatisticsRepository>();
 builder.Services.AddScoped<IStatisticsManager, StatisticsManager>();
 builder.Services.AddScoped<IUserManager, UserManager>();
 

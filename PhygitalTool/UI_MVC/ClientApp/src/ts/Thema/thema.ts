@@ -1,4 +1,5 @@
 import {addThemaData} from "./themaRest";
+import {fillSubthemesTable} from "./themaList";
 
 const addButton: HTMLElement | null = document.getElementById("submitThema");
 
@@ -27,6 +28,7 @@ async function addThema(): Promise<void> {
             .catch(error => {
                 console.error(error);
             });
+        fillSubthemesTable();
     }
 }
 

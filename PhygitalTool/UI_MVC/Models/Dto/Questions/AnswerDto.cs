@@ -11,7 +11,5 @@ public class AnswerDto
 {
     public List<Option> ChosenOptions { get; set; }
     public string ChosenAnswer { get; set; }
-    /*public long SubThemeId { get; set; }
-    public long  FlowId { get; set; }*/
     public long QuestionId { get; set; }
 }

@@ -56,11 +56,6 @@ public class PhygitalDbContext : IdentityDbContext<Account>
         _configuration = configuration;
     }
     
-    public PhygitalDbContext() : this(new DbContextOptionsBuilder<PhygitalDbContext>()
-            .UseNpgsql("Host=localhost;Database=Phygital.db;Port=5001;Username=postgres;Password=postgres").Options,
-        null)
-    {
-    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

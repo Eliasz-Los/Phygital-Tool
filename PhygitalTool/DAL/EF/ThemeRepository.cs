@@ -43,6 +43,18 @@ public class ThemeRepository : IThemeRepository
 
     public void DeleteTheme(long id)
     {
+        var relatedFlows = _dbContext.Flows.Where(f => f.Theme.Id == id);
+        foreach (var flow in relatedFlows)
+        {
+            flow.Theme = null;
+        }
+        
+        var relatedPosts = _dbContext.Posts.Where(p => p.Theme.Id == id);
+        foreach (var post in relatedPosts)
+        {
+            post.Theme = null;
+        }
+        
         var themaToDelete = _dbContext.Themas.Find(id);
         _dbContext.Themas.Remove(themaToDelete!);    
     }

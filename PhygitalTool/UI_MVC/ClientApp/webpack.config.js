@@ -11,7 +11,6 @@ module.exports = {
         details: './src/ts/Flow/Details/details.ts',
         linear: './src/ts/Flow/Details/linear.ts',
         circular: './src/ts/Flow/Details/circular.ts',
-        flowQuestions: './src/ts/Flow/Creation/flowquestions.ts',
         flowThemeAndType: './src/ts/Flow/Creation/flowThemeAndType.ts',
         endpage: './src/ts/Endpage/endpage.ts',
         questions: './src/ts/Questions/questions.ts',
