@@ -122,6 +122,26 @@ namespace Phygital.UI_MVC.Areas.Identity.Pages.Account
                 };
                 
                 var currentUser = await _userManager.GetUserAsync(User);
+                if (User.IsInRole("Owner"))
+                {
+                    if (currentUser?.Organisation != null)
+                    {
+                        _logger.LogInformation("Current user has an organisation, setting to current user's organisation");
+                        user.Organisation.Id = currentUser.Organisation.Id;
+                    }
+                    else if (Input.OrganisationId.HasValue)
+                    {
+                        _logger.LogInformation("Organisation found, setting to organisation");
+                        user.Organisation = _userManagerService.GetOrganisationById(Input.OrganisationId.Value);
+                    }
+                    else
+                    {
+                        _logger.LogError("No organisation found, setting to default organisation");
+                        user.Organisation = _userManagerService.GetOrganisationById(1);
+                    }
+                }
+                
+                
                 if (User.IsInRole("Admin") || User.IsInRole("SubAdmin"))
                 {
                     if (currentUser?.Organisation != null)
