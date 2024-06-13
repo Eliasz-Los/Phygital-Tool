@@ -4,7 +4,7 @@ type SubTheme = {
     title: string;
     id: string;
 };
-async function fillSubthemesTable(): Promise<void> {
+export async function fillSubthemesTable(): Promise<void> {
     try {
         const subThemas: SubTheme[] = await tableData();
 

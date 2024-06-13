@@ -513,7 +513,6 @@ function updatePorgressBar() {
     let progressBar = document.getElementById("progressBar");
     progressBar.style.width = progressPerc + "%";
     progressBar.setAttribute("aria-valuenow", progressPerc.toString());
-    console.log("progressbarPerc: ", progressPerc);
 }
 //Werkt nog niet, mag eventueel weg maar dan hebben we geen manier om video te spelen 🥲
 function handleScrollForVideoPlayback() {

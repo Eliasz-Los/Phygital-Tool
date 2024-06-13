@@ -11,10 +11,7 @@ public interface IFlowElementRepository
     IEnumerable<MultipleChoice> ReadMultipleChoiceQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<RangeQuestion> ReadRangeQuestionsWithOptionsOfFlowById(long flowId);
     IEnumerable<OpenQuestion> ReadOpenQuestionsWithAnswerOfFlowById(long flowId);
-    IEnumerable<OpenQuestion> ReadAllOpenQuestionsByTheme(Theme subTheme);
-    IEnumerable<SingleChoiceQuestion> ReadAllSingleChoiceQuestionsByTheme(Theme subTheme);
-    IEnumerable<RangeQuestion> ReadAllRangeQuestionsByTheme(Theme subTheme);
-
+    
     OpenQuestion ReadOpenQuestionById(long id);
     SingleChoiceQuestion ReadSingleQuestionById(long id);
     MultipleChoice ReadMultipleChoiceQuestionById(long id);

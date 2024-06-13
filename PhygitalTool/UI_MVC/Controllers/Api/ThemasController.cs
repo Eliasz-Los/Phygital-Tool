@@ -40,11 +40,6 @@ public class ThemasController : ControllerBase
     [HttpPost("AddSubThemas")]
     public ActionResult CreateSubThema([FromBody] SubThemasDto newSubThema)
     {
-        if (string.IsNullOrEmpty(newSubThema.Title) || string.IsNullOrEmpty(newSubThema.Description))
-        {
-            return BadRequest("Titel en beschrijving zijn verplicht.");
-        }
-
         var subThema = new Theme()
         {
             Title = newSubThema.Title,
@@ -53,6 +48,6 @@ public class ThemasController : ControllerBase
         _unitOfWork.BeginTransaction();
         _themeManager.AddSubThema(subThema);
         _unitOfWork.Commit();
-        return Ok(subThema);
+        return Redirect("Thema/Index");
     }
 }

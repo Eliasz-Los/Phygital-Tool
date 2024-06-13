@@ -7774,7 +7774,6 @@ function updatePorgressBar() {
     let progressBar = document.getElementById("progressBar");
     progressBar.style.width = progressPerc + "%";
     progressBar.setAttribute("aria-valuenow", progressPerc.toString());
-    console.log("progressbarPerc: ", progressPerc);
 }
 //Werkt nog niet, mag eventueel weg maar dan hebben we geen manier om video te spelen 🥲
 function handleScrollForVideoPlayback() {
@@ -8031,7 +8030,6 @@ function startTimer() {
                 timeLeftInSeconds = 20;
                 startTimer();
                 setTimeout(resetCarouselInputs, timeLeftInSeconds * 1000);
-                //updateButton();
             }
             else {
                 if (endbox) {
@@ -8113,9 +8111,7 @@ InitializeFlow();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getTextData)();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getImageData)();
 (0,_details__WEBPACK_IMPORTED_MODULE_1__.getVideoData)();
-if (addButton) {
-    addButton.addEventListener("click", _details__WEBPACK_IMPORTED_MODULE_1__.commitAnswers);
-}
+addButton.addEventListener("click", _details__WEBPACK_IMPORTED_MODULE_1__.commitAnswers);
 
 })();
 

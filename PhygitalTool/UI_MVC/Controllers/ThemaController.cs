@@ -90,7 +90,6 @@ public class ThemaController : Controller
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error deleting theme with id {Id}", id);
-            TempData["ErrorMessage"] = "Dit thema kan niet verwijderd worden want er is nog minstens 1 Flow aan gekoppeld. Verwijder of verander eerst de flow.";
             return RedirectToAction("Index");
         }
     }

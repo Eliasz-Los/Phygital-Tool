@@ -11,9 +11,6 @@
         <form class="row">
             <div class="col-12 d-flex justify-content-center">
                 <div>
-                    @*<label asp-for="FlowId">Flow waar het toebehoort</label>
-                    <select asp-for="FlowId" asp-items="@(ViewBag.highest)" class="form-control"></select>
-                    <span asp-validation-for="FlowId" class="text-danger"></span>*@
                     <div class="invisible"  id="FlowId">@(Model.Id)</div>
                 </div>
 
@@ -48,7 +45,6 @@
                 </button>
             </div>
 
-            @* hidden options todo fix dat enkel showed als openquestions niet geselect is *@
             <section class="collapse" id="collapse">
                 <div class="card card-body spacing-top">
                     <button id="OptionButton" type="button" class="btn btn-primary">Voeg option toe</button>

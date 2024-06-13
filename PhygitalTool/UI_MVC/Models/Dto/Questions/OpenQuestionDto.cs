@@ -10,6 +10,5 @@ public class OpenQuestionDto
     public string Text { get; set; }
     public bool Active { get; set; }
     public int SequenceNumber { get; set; }
-    //verandert van Answer naar string
     public string Answer { get; set; }
 }

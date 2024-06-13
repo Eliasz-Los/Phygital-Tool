@@ -1,6 +1,5 @@
 ﻿using Phygital.BL;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Phygital.BL.Managers;
 using Phygital.Domain.Datatypes;
 using Phygital.Domain.Questionsprocess;
@@ -146,9 +145,7 @@ public class FlowsController : ControllerBase
         }));
     }
     
-    // TODO eerste kker adden werkt niet
     [HttpPost("AddFlow")]
-    // Post method to add a flow to the database with elements retrieved from the page
     public ActionResult PostFlow([FromBody] FlowCreationModel flowModel)
     {
         Flowtype hulp = Flowtype.circular;
@@ -167,7 +164,6 @@ public class FlowsController : ControllerBase
             Theme = _themeManager.GetThemeById(flowModel.ThemeId)
         };
 
-        // Add flow to database
         _unitOfWork.BeginTransaction();
         _flowManager.AddFlow(flowToAdd);
         _unitOfWork.Commit();
@@ -249,7 +245,6 @@ public class FlowsController : ControllerBase
            
             Answer answer = new Answer
             {
-                //kan nog aangepast worden
                 Flow = flow,
                 SubTheme = theme.Single(),
                 ChosenOptions = answerDto.ChosenOptions,

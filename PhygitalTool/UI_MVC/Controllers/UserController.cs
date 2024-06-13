@@ -38,7 +38,6 @@ public class UserController : Controller
         
         var users = _userManager.GetUsersByOrganisationId(loggedInUserOrganisationId);
         return View(users);
-        // return View();
     }
     
     [HttpPost]
