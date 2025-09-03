@@ -59,6 +59,5 @@
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
-      <Content Remove="bucket-credential-key.json" />
     </ItemGroup>
 </Project>
