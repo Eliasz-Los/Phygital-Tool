@@ -51,8 +51,10 @@ builder.Services.AddScoped<IStatisticsManager, StatisticsManager>();
 builder.Services.AddScoped<IUserManager, UserManager>();
 
 builder.Services.AddSingleton<ICloudStorage, CloudStorageService>();
-
+//message service
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+
 
 var app = builder.Build();
 

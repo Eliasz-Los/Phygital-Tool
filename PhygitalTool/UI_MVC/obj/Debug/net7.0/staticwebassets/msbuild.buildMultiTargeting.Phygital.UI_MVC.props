@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Phygital.UI_MVC.props" />
+</Project>

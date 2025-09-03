@@ -1,0 +1,15 @@
+C:\Users\peril\Documents\KDG3\IP1\project\dotnet\PhygitalTool\Domain\bin\Debug\net8.0\Phygital.Domain.deps.json
+C:\Users\peril\Documents\KDG3\IP1\project\dotnet\PhygitalTool\Domain\bin\Debug\net8.0\Phygital.Domain.runtimeconfig.json
+C:\Users\peril\Documents\KDG3\IP1\project\dotnet\PhygitalTool\Domain\bin\Debug\net8.0\Phygital.Domain.dll
+C:\Users\peril\Documents\KDG3\IP1\project\dotnet\PhygitalTool\Domain\bin\Debug\net8.0\Phygital.Domain.pdb
+C:\Users\peril\Documents\KDG3\IP1\project\dotnet\PhygitalTool\Domain\obj\Debug\net8.0\Domain.csproj.AssemblyReference.cache
+C:\Users\peril\Documents\KDG3\IP1\project\dotnet\PhygitalTool\Domain\obj\Debug\net8.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\peril\Documents\KDG3\IP1\project\dotnet\PhygitalTool\Domain\obj\Debug\net8.0\Domain.AssemblyInfoInputs.cache
+C:\Users\peril\Documents\KDG3\IP1\project\dotnet\PhygitalTool\Domain\obj\Debug\net8.0\Domain.AssemblyInfo.cs
+C:\Users\peril\Documents\KDG3\IP1\project\dotnet\PhygitalTool\Domain\obj\Debug\net8.0\Domain.csproj.CoreCompileInputs.cache
+C:\Users\peril\Documents\KDG3\IP1\project\dotnet\PhygitalTool\Domain\obj\Debug\net8.0\Domain.sourcelink.json
+C:\Users\peril\Documents\KDG3\IP1\project\dotnet\PhygitalTool\Domain\obj\Debug\net8.0\Phygital.Domain.dll
+C:\Users\peril\Documents\KDG3\IP1\project\dotnet\PhygitalTool\Domain\obj\Debug\net8.0\refint\Phygital.Domain.dll
+C:\Users\peril\Documents\KDG3\IP1\project\dotnet\PhygitalTool\Domain\obj\Debug\net8.0\Phygital.Domain.pdb
+C:\Users\peril\Documents\KDG3\IP1\project\dotnet\PhygitalTool\Domain\obj\Debug\net8.0\Domain.genruntimeconfig.cache
+C:\Users\peril\Documents\KDG3\IP1\project\dotnet\PhygitalTool\Domain\obj\Debug\net8.0\ref\Phygital.Domain.dll
